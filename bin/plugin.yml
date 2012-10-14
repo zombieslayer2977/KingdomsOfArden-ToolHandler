@@ -1,0 +1,6 @@
+name: Swagserv-HeroesEnchants
+version: 1.0.0
+description: Enchant Handler for Heroes
+author: Andrew2060
+website: http://www.swagserv.net/
+main: net.swagserv.andrew2060.heroesenchants.HeroesEnchants
