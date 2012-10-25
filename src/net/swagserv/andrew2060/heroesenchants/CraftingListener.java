@@ -25,8 +25,8 @@ public class CraftingListener implements Listener {
 		case DIAMOND_HELMET: case DIAMOND_CHESTPLATE: case DIAMOND_LEGGINGS: case DIAMOND_BOOTS: case IRON_HELMET: case IRON_CHESTPLATE: case IRON_LEGGINGS: case IRON_BOOTS: case GOLD_HELMET: case GOLD_CHESTPLATE: case GOLD_LEGGINGS: case GOLD_BOOTS: case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: case LEATHER_HELMET: case LEATHER_CHESTPLATE: case LEATHER_LEGGINGS: case LEATHER_BOOTS:
 			((Player)event.getWhoClicked()).sendMessage(ChatColor.GRAY + "Your armor provides decent protection, but the skill of a blacksmith could massively improve it.");
 			break;
-		case DIAMOND_PICKAXE: case IRON_PICKAXE: case GOLD_PICKAXE: case STONE_PICKAXE: case WOOD_PICKAXE: 
-			((Player)event.getWhoClicked()).sendMessage(ChatColor.GRAY + "Your pick works quite well, but a blacksmith could increase its mining efficiency, thus allowing it to mine blocks faster.");
+		case DIAMOND_PICKAXE: case DIAMOND_AXE: case DIAMOND_HOE: case DIAMOND_SPADE: case IRON_PICKAXE: case IRON_AXE: case IRON_HOE: case IRON_SPADE: case GOLD_PICKAXE: case GOLD_AXE: case GOLD_HOE: case GOLD_SPADE: case STONE_PICKAXE: case STONE_AXE: case STONE_HOE: case STONE_SPADE: case WOOD_PICKAXE: case WOOD_AXE: case WOOD_HOE: case WOOD_SPADE: 
+			((Player)event.getWhoClicked()).sendMessage(ChatColor.GRAY + "Your newly created tool works quite well, but a blacksmith could increase its mining efficiency, thus allowing it to mine blocks faster.");
 			break;
 		default:
 			break;
