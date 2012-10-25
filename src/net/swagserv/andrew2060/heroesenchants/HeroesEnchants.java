@@ -9,13 +9,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class HeroesEnchants extends JavaPlugin{
 	
 	public void onEnable() {
-		/*Bukkit.getPluginManager().registerEvents(new EnchantSoulGemListener(this), this);*/
-		/*Bukkit.getPluginManager().registerEvents(new ShiftClickListener(this), this);*/
-		/*Bukkit.getPluginManager().registerEvents(new SoulgemIdentifyListener(), this);*/
 		Bukkit.getPluginManager().registerEvents(new CraftingListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ArmorProtListener(), this);
+		Bukkit.getPluginManager().registerEvents(new ArmorEnchantsListener(), this);
 		Bukkit.getPluginManager().registerEvents(new WeaponSharpnessListener(), this);
-		Bukkit.getPluginManager().registerEvents(new PickaxeEfficiencyListener(), this);
+		Bukkit.getPluginManager().registerEvents(new ToolEfficiencyListener(), this);
+		//Register Chain Mail Recipes and Effect Listeners
+		Bukkit.getPluginManager().registerEvents(new ChainMailEffectsListener(), this);
 		ShapedRecipe chainHelm = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_HELMET, 1));
         chainHelm.shape("III", "L L", "   ")
         .setIngredient('I', Material.IRON_INGOT)
