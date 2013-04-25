@@ -34,7 +34,6 @@ public class ToolEfficiencyListener implements Listener{
 		default: 
 			return;			
 		}
-		return;
 	}
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onToolUse(BlockBreakEvent event) {
