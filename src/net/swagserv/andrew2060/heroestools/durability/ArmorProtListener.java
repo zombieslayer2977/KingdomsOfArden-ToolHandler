@@ -1,4 +1,6 @@
-package net.swagserv.andrew2060.heroesenchants;
+package net.swagserv.andrew2060.heroestools.durability;
+
+import net.swagserv.andrew2060.heroestools.util.Util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
@@ -45,48 +47,29 @@ public class ArmorProtListener implements Listener{
 		//Helmet durability and protection scaling check
 		if(helmetcheck) {
 			if(helmet.containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
-				int maxDurability = 0;
-				switch(helmet.getType()) {
-				case DIAMOND_HELMET: 
-					maxDurability = 364;
-					break;
-				case IRON_HELMET: 
-					maxDurability = 166;
-					break;
-				case GOLD_HELMET: 
-					maxDurability = 78;
-					break;
-				case CHAINMAIL_HELMET:
-					maxDurability = 166;
-					break;
-				case LEATHER_HELMET:
-					maxDurability = 56;
-					break;
-				default:
-					Bukkit.getServer().broadcastMessage("Swagserv Heroes Armor Enchantment Handler: something is wrong, please contact andrew2060");
-				}
+				int maxDurability = Util.getArmorMaxDurability(helmet.getType());
 				int durability = maxDurability - helmet.getDurability();
-				if( durability > maxDurability * 1.68) {
+				if( durability > maxDurability * 0.84) {
 					helmet.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					helmet.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
 				}
-				if(maxDurability * 1.68 > durability && durability > maxDurability * 1.51) {
+				if(maxDurability * 0.84 > durability && durability > maxDurability * 0.68) {
 					helmet.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					helmet.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
 				}
-				if(maxDurability * 1.51 > durability && durability > maxDurability * 1.34) {
+				if(maxDurability * 0.68 > durability && durability > maxDurability * 0.53) {
 					helmet.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					helmet.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
 				}
-				if(maxDurability * 1.34 > durability && durability > maxDurability * 1.17) {
+				if(maxDurability * 0.53 > durability && durability > maxDurability * 0.37) {
 					helmet.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					helmet.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
 				}
-				if(maxDurability * 1.17 > durability && durability > maxDurability*0.5) {
+				if(maxDurability * 0.37 > durability && durability > maxDurability*0.16) {
 					helmet.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					helmet.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
 				}
-	            if(durability < maxDurability*1.0) {
+	            if(maxDurability * 0.16 > durability) {
 					helmet.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 	            }
 			}
@@ -94,48 +77,29 @@ public class ArmorProtListener implements Listener{
 		//ChestPlate Protection Handling
 		if(chestcheck) {
 			if(chest.containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
-				int maxDurability = 0;
-				switch(chest.getType()) {
-				case DIAMOND_CHESTPLATE: 
-					maxDurability = 529;
-					break;
-				case IRON_CHESTPLATE: 
-					maxDurability = 242;
-					break;
-				case GOLD_CHESTPLATE: 
-					maxDurability = 114;
-					break;
-				case CHAINMAIL_CHESTPLATE: 
-					maxDurability = 242;
-					break;
-				case LEATHER_CHESTPLATE:
-					maxDurability = 82;
-					break;
-				default:
-					Bukkit.getServer().broadcastMessage("Swagserv Heroes Armor Enchantment Handler: something is wrong, please contact andrew2060");
-				}
+				int maxDurability = Util.getArmorMaxDurability(chest.getType());
 				int durability = maxDurability - chest.getDurability();
-				if( durability > maxDurability * 1.68) {
+				if( durability > maxDurability * 0.84) {
 					chest.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					chest.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
 				}
-				if(maxDurability * 1.68 > durability && durability > maxDurability * 1.51) {
+				if(maxDurability * 0.84 > durability && durability > maxDurability * 0.68) {
 					chest.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					chest.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
 				}
-				if(maxDurability * 1.51 > durability && durability > maxDurability * 1.34) {
+				if(maxDurability * 0.68 > durability && durability > maxDurability * 0.53) {
 					chest.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					chest.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
 				}
-				if(maxDurability * 1.34 > durability && durability > maxDurability * 1.17) {
+				if(maxDurability * 0.53 > durability && durability > maxDurability * 0.37) {
 					chest.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					chest.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
 				}
-				if(maxDurability * 1.17 > durability && durability > maxDurability*1.0) {
+				if(maxDurability * 0.37 > durability && durability > maxDurability * 0.16) {
 					chest.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					chest.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
 				}
-	            if(durability < maxDurability*1.0) {
+	            if(maxDurability * 0.16 > durability) {
 					chest.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 	            }
 			}
@@ -143,123 +107,61 @@ public class ArmorProtListener implements Listener{
 		//Leggings Protection Handling
 		if(legscheck) {
 			if(legs.containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
-				int maxDurability = 0;
-				switch(legs.getType()) {
-				case DIAMOND_LEGGINGS: 
-					maxDurability = 496;
-					break;
-				case IRON_LEGGINGS: 
-					maxDurability = 226;
-					break;
-				case GOLD_LEGGINGS: 
-					maxDurability = 106;
-					break;
-				case CHAINMAIL_LEGGINGS:
-					maxDurability = 226;
-					break;
-				case LEATHER_LEGGINGS:
-					maxDurability = 76;
-					break;
-				default:
-					Bukkit.getServer().broadcastMessage("Swagserv Heroes Armor Enchantment Handler: something is wrong, please contact andrew2060");
-				}
+				int maxDurability = Util.getArmorMaxDurability(legs.getType());
 				int durability = maxDurability - legs.getDurability();
-				if( durability > maxDurability * 1.68) {
+				if( durability > maxDurability * 0.84) {
 					legs.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					legs.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
 				}
-				if(maxDurability * 1.68 > durability && durability > maxDurability * 1.51) {
+				if(maxDurability * 0.84 > durability && durability > maxDurability * 0.68) {
 					legs.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					legs.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
 				}
-				if(maxDurability * 1.51 > durability && durability > maxDurability * 1.34) {
+				if(maxDurability * 0.68 > durability && durability > maxDurability * 0.53) {
 					legs.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					legs.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
 				}
-				if(maxDurability * 1.34 > durability && durability > maxDurability * 1.17) {
+				if(maxDurability * 0.53 > durability && durability > maxDurability * 0.37) {
 					legs.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					legs.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
 				}
-				if(maxDurability * 1.17 > durability && durability > maxDurability*1.0) {
+				if(maxDurability * 0.37 > durability && durability > maxDurability * 0.16) {
 					legs.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					legs.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
 				}
-	            if(durability < maxDurability*1.0) {
+	            if(maxDurability * 0.16 > durability) {
 					legs.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 	            }
 			}
 		}
-		//Boots Protection Handling
 		if(bootscheck) {
 			if(boots.containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
-				int maxDurability = 0;
-				switch(boots.getType()) {
-				case DIAMOND_BOOTS: 
-					maxDurability = 430;
-					break;
-				case IRON_BOOTS: 
-					maxDurability = 196;
-					break;
-				case GOLD_BOOTS: 
-					maxDurability = 92;
-					break;
-				case CHAINMAIL_BOOTS: 
-					maxDurability = 196;
-					break;
-				case LEATHER_BOOTS:
-					maxDurability = 66;
-					break;
-				default:
-					Bukkit.getServer().broadcastMessage("Swagserv Heroes Armor Enchantment Handler: something is wrong, please contact andrew2060");
-				}
+				int maxDurability = Util.getArmorMaxDurability(boots.getType());
 				int durability = maxDurability - boots.getDurability();
-				if( durability > maxDurability * 1.68) {
+				if( durability > maxDurability * 0.84) {
 					boots.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					boots.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
 				}
-				if(maxDurability * 1.68 > durability && durability > maxDurability * 1.51) {
+				if(maxDurability * 0.84 > durability && durability > maxDurability * 0.68) {
 					boots.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					boots.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4);
 				}
-				if(maxDurability * 1.51 > durability && durability > maxDurability * 1.34) {
+				if(maxDurability * 0.68 > durability && durability > maxDurability * 0.53) {
 					boots.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					boots.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
 				}
-				if(maxDurability * 1.34 > durability && durability > maxDurability * 1.17) {
+				if(maxDurability * 0.53 > durability && durability > maxDurability * 0.37) {
 					boots.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					boots.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
 				}
-				if(maxDurability * 1.17 > durability && durability > maxDurability*1.0) {
+				if(maxDurability * 0.37 > durability && durability > maxDurability * 0.16 ) {
 					boots.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					boots.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
 				}
-	            if(durability < maxDurability) {
+	            if(maxDurability * 0.16 > durability) {
 					boots.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 	            }
 			}
 		}
-		int protNumber = 0;
-		if(helmetcheck) {
-			if(helmet.containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
-				protNumber = protNumber + helmet.getEnchantmentLevel(Enchantment.PROTECTION_ENVIRONMENTAL);
-			}
-		}
-		if(chestcheck) {
-			if(chest.containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
-				protNumber = protNumber + chest.getEnchantmentLevel(Enchantment.PROTECTION_ENVIRONMENTAL);
-			}
-		}
-		if(legscheck) {
-			if(legs.containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
-				protNumber = protNumber + legs.getEnchantmentLevel(Enchantment.PROTECTION_ENVIRONMENTAL);
-			}
-		}
-		if(bootscheck) {
-			if(boots.containsEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL)) {
-				protNumber = protNumber + boots.getEnchantmentLevel(Enchantment.PROTECTION_ENVIRONMENTAL);
-			}
-		}
-		event.setDamage((int) (event.getDamage()*(1-0.01*protNumber)));
-		heroes.getCharacterManager().getHero(p).syncHealth();
 	}
 }

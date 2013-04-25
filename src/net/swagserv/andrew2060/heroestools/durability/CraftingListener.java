@@ -1,4 +1,4 @@
-package net.swagserv.andrew2060.heroesenchants;
+package net.swagserv.andrew2060.heroestools.durability;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class CraftingListener implements Listener {
 	@EventHandler(priority=EventPriority.MONITOR) 
@@ -14,7 +15,8 @@ public class CraftingListener implements Listener {
 		if(event.isCancelled()) {
 			return;
 		}
-		Material type = event.getCurrentItem().getType();
+		ItemStack created = event.getCurrentItem();
+		Material type = created.getType();
 		switch(type) {
 		case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD:
 			((Player)event.getWhoClicked()).sendMessage(ChatColor.GRAY + "Your newly forged sword is not very sharp...you should take the sword to a blacksmith to sharpen it.");

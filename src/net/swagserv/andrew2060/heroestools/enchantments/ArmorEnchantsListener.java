@@ -1,20 +1,24 @@
-package net.swagserv.andrew2060.heroesenchants;
+package net.swagserv.andrew2060.heroestools.enchantments;
 
 import java.util.Random;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.herocraftonline.heroes.api.events.HeroRegainHealthEvent;
 import com.herocraftonline.heroes.api.events.SkillDamageEvent;
+import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 import com.herocraftonline.heroes.characters.Hero;
+import com.herocraftonline.heroes.characters.skill.Skill;
 
 public class ArmorEnchantsListener implements Listener {
 	//Silk Touch Armor Handling
@@ -165,5 +169,22 @@ public class ArmorEnchantsListener implements Listener {
 		}
 		double multiplier = 1 - damagereduction*0.01;
 		event.setDamage((int) (event.getDamage() * multiplier));
+	}
+	//Armor thorn enchantment handling
+	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled = true)
+	public void onWeaponDamageIncoming(WeaponDamageEvent event) {
+		if(!(event.getEntity() instanceof Player)) {
+			return;
+		}
+		PlayerInventory pI = ((Player)event.getEntity()).getInventory();
+		ItemStack chest = pI.getChestplate();
+		if( chest == null) {
+			return;
+		}
+		if(chest.containsEnchantment(Enchantment.THORNS)) {
+			double multiplier = chest.getEnchantmentLevel(Enchantment.THORNS) * 0.5 * 0.01;
+			Skill.damageEntity(event.getDamager().getEntity(), ((LivingEntity)event.getEntity()), (int) (event.getDamage()*multiplier), DamageCause.MAGIC);
+		}
+		
 	}
 }

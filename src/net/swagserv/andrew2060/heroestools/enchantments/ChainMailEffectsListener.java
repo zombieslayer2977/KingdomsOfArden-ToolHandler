@@ -1,4 +1,4 @@
-package net.swagserv.andrew2060.heroesenchants;
+package net.swagserv.andrew2060.heroestools.enchantments;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -25,9 +25,13 @@ public class ChainMailEffectsListener implements Listener {
 		ItemStack chest = pInv.getChestplate();
 		ItemStack legs = pInv.getLeggings();
 		ItemStack boots = pInv.getBoots();
-		if(helmet.getType() != Material.CHAINMAIL_HELMET 
+		if(helmet == null 
+				|| helmet.getType() != Material.CHAINMAIL_HELMET 
+				|| chest == null 
 				|| chest.getType() != Material.CHAINMAIL_CHESTPLATE 
+				|| legs == null
 				|| legs.getType() != Material.CHAINMAIL_LEGGINGS
+				|| boots == null
 				|| boots.getType() != Material.CHAINMAIL_BOOTS) {
 			return;
 		}

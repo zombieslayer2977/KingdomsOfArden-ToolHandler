@@ -1,6 +1,6 @@
-name: Swagserv-HeroesEnchants
-version: 1.0.0
-description: Enchant Handler for Heroes
+name: Swagserv-ToolEnchantHandler
+version: 1.5.0
+description: Handles durability based enchantments such as prot and sharpness, as well as custom enchants
 author: Andrew2060
 website: http://www.swagserv.net/
-main: net.swagserv.andrew2060.heroesenchants.HeroesEnchants
+main: net.swagserv.andrew2060.heroestools.Plugin

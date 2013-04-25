@@ -1,4 +1,11 @@
-package net.swagserv.andrew2060.heroesenchants;
+package net.swagserv.andrew2060.heroestools;
+
+import net.swagserv.andrew2060.heroestools.durability.ArmorProtListener;
+import net.swagserv.andrew2060.heroestools.durability.CraftingListener;
+import net.swagserv.andrew2060.heroestools.durability.ToolEfficiencyListener;
+import net.swagserv.andrew2060.heroestools.durability.WeaponSharpnessListener;
+import net.swagserv.andrew2060.heroestools.enchantments.ArmorEnchantsListener;
+import net.swagserv.andrew2060.heroestools.enchantments.ChainMailEffectsListener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -6,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class HeroesEnchants extends JavaPlugin{
+public class Plugin extends JavaPlugin{
 	
 	public void onEnable() {
 		Bukkit.getPluginManager().registerEvents(new CraftingListener(), this);
@@ -14,7 +21,6 @@ public class HeroesEnchants extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new ArmorEnchantsListener(), this);
 		Bukkit.getPluginManager().registerEvents(new WeaponSharpnessListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ToolEfficiencyListener(), this);
-		//Register Chain Mail Recipes and Effect Listeners
 		Bukkit.getPluginManager().registerEvents(new ChainMailEffectsListener(), this);
 		ShapedRecipe chainHelm = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_HELMET, 1));
         chainHelm.shape("III", "L L", "   ")

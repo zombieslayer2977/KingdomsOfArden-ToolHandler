@@ -1,4 +1,4 @@
-package net.swagserv.andrew2060.heroesenchants;
+package net.swagserv.andrew2060.heroestools.durability;
 
 import java.util.Map;
 
@@ -22,6 +22,9 @@ public class WeaponSharpnessListener implements Listener{
 	//Handle Durability Based Change of Enchantment Levels
 	@EventHandler(priority=EventPriority.MONITOR)
 	public void onWeaponDamageToUser(WeaponDamageEvent event) {
+		if(event.isCancelled()) {
+			return;
+		}
 		if(!(event.getDamager() instanceof Hero)) {
 			return;
 		}
@@ -116,7 +119,7 @@ public class WeaponSharpnessListener implements Listener{
 			if(appliedEnchantments.containsKey(Enchantment.FIRE_ASPECT)) {
 				int enchLevel = appliedEnchantments.get(Enchantment.FIRE_ASPECT);
 				event.getEntity().setFireTicks(15*enchLevel);
-				
+
 			}
 			//Smite Handling
 			if(appliedEnchantments.containsKey(Enchantment.DAMAGE_UNDEAD)) {
@@ -138,9 +141,5 @@ public class WeaponSharpnessListener implements Listener{
 			dmg = (dmg*(1+powerMultiplier*4*0.01));
 		}
 		event.setDamage((int) dmg);
-		if(event.getEntity() instanceof Player) {
-			Heroes heroes = (Heroes)Bukkit.getPluginManager().getPlugin("Heroes");
-			heroes.getCharacterManager().getHero((Player)event.getEntity()).syncHealth();
-		}
 	}
 }	
