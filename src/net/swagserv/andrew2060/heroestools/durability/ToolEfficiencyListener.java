@@ -30,9 +30,9 @@ public class ToolEfficiencyListener implements Listener{
 		case STONE_HOE:
 		case WOOD_HOE:
 			hand.setDurability((short) (hand.getDurability() + 1));
-			break;
+			return;
 		default: 
-			break;			
+			return;			
 		}
 		return;
 	}
@@ -67,12 +67,12 @@ public class ToolEfficiencyListener implements Listener{
 			hand.addUnsafeEnchantment(Enchantment.DIG_SPEED, 2);
 			return;
 		}
-		if(maxDurability * 0.36 > durability && durability > maxDurability*0.16) {
+		if(maxDurability * 0.36 > durability && durability > maxDurability*0.20) {
 			hand.removeEnchantment(Enchantment.DIG_SPEED);
 			hand.addUnsafeEnchantment(Enchantment.DIG_SPEED, 1);
 			return;
 		}
-        if(durability < maxDurability*0.16) {
+        if(durability < maxDurability*0.20) {
 			hand.removeEnchantment(Enchantment.DIG_SPEED);
 			return;
         }

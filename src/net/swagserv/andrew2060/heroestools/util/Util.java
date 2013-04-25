@@ -81,8 +81,17 @@ public class Util {
 		case WOOD_SPADE: 
 		case WOOD_SWORD:
 			return 60;
+		case BOW: 
+			return 385;
 		default: 
 			return -1;
 		}
+	}
+	public static int getMaxDurability(Material type) {
+		int max = getToolMaxDurability(type);
+		if(max == -1) {
+			max = getArmorMaxDurability(type);
+		}
+		return max;
 	}
 }

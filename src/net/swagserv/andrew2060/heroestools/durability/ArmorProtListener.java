@@ -65,11 +65,11 @@ public class ArmorProtListener implements Listener{
 					helmet.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					helmet.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
 				}
-				if(maxDurability * 0.37 > durability && durability > maxDurability*0.16) {
+				if(maxDurability * 0.37 > durability && durability > maxDurability * 0.20) {
 					helmet.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					helmet.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
 				}
-	            if(maxDurability * 0.16 > durability) {
+	            if(maxDurability * 0.20 > durability) {
 					helmet.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 	            }
 			}
@@ -95,11 +95,11 @@ public class ArmorProtListener implements Listener{
 					chest.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					chest.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
 				}
-				if(maxDurability * 0.37 > durability && durability > maxDurability * 0.16) {
+				if(maxDurability * 0.37 > durability && durability > maxDurability * 0.20) {
 					chest.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					chest.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
 				}
-	            if(maxDurability * 0.16 > durability) {
+	            if(maxDurability * 0.20 > durability) {
 					chest.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 	            }
 			}
@@ -154,11 +154,11 @@ public class ArmorProtListener implements Listener{
 					boots.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					boots.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
 				}
-				if(maxDurability * 0.37 > durability && durability > maxDurability * 0.16 ) {
+				if(maxDurability * 0.37 > durability && durability > maxDurability * 0.20 ) {
 					boots.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 					boots.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
 				}
-	            if(maxDurability * 0.16 > durability) {
+	            if(maxDurability * 0.20 > durability) {
 					boots.removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
 	            }
 			}
