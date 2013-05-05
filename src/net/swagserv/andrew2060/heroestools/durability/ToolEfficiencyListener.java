@@ -41,6 +41,16 @@ public class ToolEfficiencyListener implements Listener{
 			return;
 		}
 		ItemStack hand = event.getPlayer().getInventory().getItemInHand();
+		switch(hand.getType()) {
+		case DIAMOND_SWORD: 
+		case GOLD_SWORD: 
+		case IRON_SWORD: 
+		case STONE_SWORD:
+		case WOOD_SWORD:
+			break;
+		default:
+			return;
+		}
 		int maxDurability = Util.getToolMaxDurability(hand.getType());
 		if(maxDurability == -1) {
 			return;
