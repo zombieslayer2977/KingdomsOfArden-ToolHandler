@@ -56,17 +56,17 @@ public class ToolEfficiencyListener implements Listener{
 			hand.addUnsafeEnchantment(Enchantment.DIG_SPEED, 4);
 			return;
 		}
-		if(maxDurability * 0.68 > durability && durability > maxDurability * 0.52) {
+		if(maxDurability * 0.68 > durability && durability > maxDurability * 0.53) {
 			hand.removeEnchantment(Enchantment.DIG_SPEED);
 			hand.addUnsafeEnchantment(Enchantment.DIG_SPEED, 3);
 			return;
 		}
-		if(maxDurability * 0.52 > durability && durability > maxDurability * 0.36) {
+		if(maxDurability * 0.53 > durability && durability > maxDurability * 0.37) {
 			hand.removeEnchantment(Enchantment.DIG_SPEED);
 			hand.addUnsafeEnchantment(Enchantment.DIG_SPEED, 2);
 			return;
 		}
-		if(maxDurability * 0.36 > durability && durability > maxDurability*0.20) {
+		if(maxDurability * 0.37 > durability && durability > maxDurability*0.20) {
 			hand.removeEnchantment(Enchantment.DIG_SPEED);
 			hand.addUnsafeEnchantment(Enchantment.DIG_SPEED, 1);
 			return;

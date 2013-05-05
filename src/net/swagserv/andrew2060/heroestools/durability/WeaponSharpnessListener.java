@@ -37,15 +37,15 @@ public class WeaponSharpnessListener implements Listener{
 				i.removeEnchantment(Enchantment.DAMAGE_ALL);
 				i.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 4);
 			}
-			if(maxDurability * 0.68 > durability && durability > maxDurability * 0.52) {
+			if(maxDurability * 0.68 > durability && durability > maxDurability * 0.53) {
 				i.removeEnchantment(Enchantment.DAMAGE_ALL);
 				i.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 3);
 			}
-			if(maxDurability * 0.52 > durability && durability > maxDurability * 0.36) {
+			if(maxDurability * 0.53 > durability && durability > maxDurability * 0.37) {
 				i.removeEnchantment(Enchantment.DAMAGE_ALL);
 				i.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2);
 			}
-			if(maxDurability * 0.36 > durability && durability > maxDurability*0.20) {
+			if(maxDurability * 0.37 > durability && durability > maxDurability*0.20) {
 				i.removeEnchantment(Enchantment.DAMAGE_ALL);
 				i.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 1);
 			}
@@ -63,15 +63,15 @@ public class WeaponSharpnessListener implements Listener{
 				i.removeEnchantment(Enchantment.ARROW_DAMAGE);
 				i.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 4);
 			}
-			if(maxDurability * 0.68 > durability && durability > maxDurability * 0.52) {
+			if(maxDurability * 0.68 > durability && durability > maxDurability * 0.53) {
 				i.removeEnchantment(Enchantment.ARROW_DAMAGE);
 				i.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 3);
 			}
-			if(maxDurability * 0.52 > durability && durability > maxDurability * 0.36) {
+			if(maxDurability * 0.53 > durability && durability > maxDurability * 0.37) {
 				i.removeEnchantment(Enchantment.ARROW_DAMAGE);
 				i.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 2);
 			}
-			if(maxDurability * 0.36 > durability && durability > maxDurability*0.20) {
+			if(maxDurability * 0.37 > durability && durability > maxDurability*0.20) {
 				i.removeEnchantment(Enchantment.ARROW_DAMAGE);
 				i.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 1);
 			}

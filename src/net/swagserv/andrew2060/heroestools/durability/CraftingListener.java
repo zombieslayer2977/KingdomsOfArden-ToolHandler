@@ -36,7 +36,7 @@ public class CraftingListener implements Listener {
 		default:
 			return;
 		}
-		created.setDurability((short) (maxDurability * 0.20));
+		created.setDurability((short) (maxDurability - maxDurability * 0.20));
 		return;		
 	}
 
