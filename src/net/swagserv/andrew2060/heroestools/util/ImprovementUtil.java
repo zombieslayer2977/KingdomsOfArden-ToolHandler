@@ -3,6 +3,7 @@ package net.swagserv.andrew2060.heroestools.util;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -70,7 +71,7 @@ public class ImprovementUtil {
 			GeneralLoreUtil.populateLore(item);
 		}
 		List<String> lore = meta.getLore();
-		String toAdd = "Improvement Quality: " + dF.format(quality) + "%";
+		String toAdd = ChatColor.GRAY + "Improvement Quality: " + dF.format(quality) + "%";
 		lore.remove(0);
 		lore.add(0, toAdd);
 		meta.setLore(lore);
@@ -89,12 +90,10 @@ public class ImprovementUtil {
 			GeneralLoreUtil.populateLore(item);
 		}
 		if(lore.isEmpty()) {
-			lore.add("Improvement Quality: 0.00%");
-			meta.setLore(lore);
-			item.setItemMeta(meta);
+			GeneralLoreUtil.populateLore(item);
 			return 0;
 		} else {
-			String toAdd = lore.get(0);
+			String toAdd = ChatColor.stripColor(lore.get(0));
 			toAdd = toAdd.replace("Improvement Quality: ", "")
 				.replace("%", "");
 			double quality = Double.parseDouble(toAdd);
@@ -125,7 +124,7 @@ public class ImprovementUtil {
 			if(quality < 0) {
 				quality = 0;
 			}
-			toAdd = "Improvement Quality: " + dF.format(quality) + "%";
+			toAdd = ChatColor.GRAY + "Improvement Quality: " + dF.format(quality) + "%";
 			lore.remove(0);
 			lore.add(0, toAdd);
 			meta.setLore(lore);
@@ -141,7 +140,7 @@ public class ImprovementUtil {
 		}
 		List<String> lore = meta.getLore();
 		if(!lore.isEmpty()) {
-			String toAdd = lore.get(0);
+			String toAdd = ChatColor.stripColor(lore.get(0));
 			toAdd = toAdd.replace("Improvement Quality: ", "")
 				.replace("%", "");
 			double quality = Double.parseDouble(toAdd);
@@ -170,7 +169,7 @@ public class ImprovementUtil {
 		}
 		List<String> lore = meta.getLore();
 		if(!lore.isEmpty()) {
-			String quality = lore.get(0);
+			String quality = ChatColor.stripColor(lore.get(0));
 			quality = quality.replace("Improvement Quality: ", "")
 				.replace("%", "");
 			return Double.parseDouble(quality);

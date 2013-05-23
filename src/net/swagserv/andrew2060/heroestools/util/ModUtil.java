@@ -65,6 +65,8 @@ public class ModUtil {
 				lore.remove(i);
 				lore.add(i, ChatColor.GOLD + mod.getName() + ChatColor.WHITE + " - " + ChatColor.GRAY + mod.getDescription());
 				mod.applyToWeapon(weapon);
+				meta.setLore(lore);
+				weapon.setItemMeta(meta);
 				return 1;
 			} else {
 				continue;

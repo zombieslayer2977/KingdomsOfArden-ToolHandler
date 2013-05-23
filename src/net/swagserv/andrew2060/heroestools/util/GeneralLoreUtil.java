@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -11,33 +12,32 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class GeneralLoreUtil {
 	static DecimalFormat dF = new DecimalFormat("###.##");
 	private static void populateTool(List<String> templateLoreTool) {
-		templateLoreTool.add(0,"Improvement Quality: 0.00%");
-		templateLoreTool.add(1,"========Modifications========");
-		templateLoreTool.add(2,"[Empty Slot]");
-		templateLoreTool.add(3,"[Empty Slot]");
+		templateLoreTool.add(0,ChatColor.GRAY + "Improvement Quality: 0.00%");
+		templateLoreTool.add(1,ChatColor.WHITE + "========Modifications========");
+		templateLoreTool.add(2,ChatColor.DARK_GRAY + "[Empty Slot]");
+		templateLoreTool.add(3,ChatColor.DARK_GRAY + "[Empty Slot]");
 
 	}
 
 	private static void populateArmor(List<String> templateLoreArmor) {
-		templateLoreArmor.add(0,"Improvement Quality: 0.00%");
-		templateLoreArmor.add(1,"========Statistics========");
-		templateLoreArmor.add(2,"Magical Resistance Rating: 0.00%");
-		templateLoreArmor.add(3,"Healing Bonus: 0.00%");
-		templateLoreArmor.add(4,"Additional Protection: 0 Damage/Hit");
-		templateLoreArmor.add(5,"========Modifications========");
-		templateLoreArmor.add(6,"[Empty Slot]");
-		templateLoreArmor.add(7,"[Empty Slot]");
+		templateLoreArmor.add(0,ChatColor.GRAY + "Improvement Quality: 0.00%");
+		templateLoreArmor.add(1,ChatColor.WHITE + "========Statistics========");
+		templateLoreArmor.add(2,ChatColor.GRAY + "Magical Resistance Rating: 0.00%");
+		templateLoreArmor.add(3,ChatColor.GRAY + "Healing Bonus: 0.00%");
+		templateLoreArmor.add(4,ChatColor.GRAY + "Additional Protection: 0 Damage/Hit");
+		templateLoreArmor.add(5,ChatColor.WHITE + "========Modifications========");
+		templateLoreArmor.add(6,ChatColor.DARK_GRAY + "[Empty Slot]");
+		templateLoreArmor.add(7,ChatColor.DARK_GRAY + "[Empty Slot]");
 	}
 	private static void populateWeapon(List<String> templateLoreWeapon) {
-		templateLoreWeapon.add(0,"Improvement Quality: 0.00%");
-		templateLoreWeapon.add(1,"========Statistics========");
-		templateLoreWeapon.add(2,"Bonus Damage: 0");
-		templateLoreWeapon.add(3,"Life Steal: 0 Health/Hit");
-		templateLoreWeapon.add(4,"Critical Strike Chance: 0.00%");
-		templateLoreWeapon.add(5,"========Modifications========");
-		templateLoreWeapon.add(6,"[Empty Slot]");
-		templateLoreWeapon.add(7,"[Empty Slot]");
-
+		templateLoreWeapon.add(0,ChatColor.GRAY + "Improvement Quality: 0.00%");
+		templateLoreWeapon.add(1,ChatColor.WHITE + "========Statistics========");
+		templateLoreWeapon.add(2,ChatColor.GRAY + "Bonus Damage: 0");
+		templateLoreWeapon.add(3,ChatColor.GRAY + "Life Steal: 0 Health/Hit");
+		templateLoreWeapon.add(4,ChatColor.GRAY + "Critical Strike Chance: 0.00%");
+		templateLoreWeapon.add(5,ChatColor.WHITE + "========Modifications========");
+		templateLoreWeapon.add(6,ChatColor.DARK_GRAY + "[Empty Slot]");
+		templateLoreWeapon.add(7,ChatColor.DARK_GRAY + "[Empty Slot]");
 	}
 	private static List<String> getToolDefault(ItemStack tool) {
 		if(!com.herocraftonline.heroes.util.Util.isWeapon(tool.getType())) {
@@ -56,7 +56,7 @@ public class GeneralLoreUtil {
 		switch(armor.getType()) {
 		case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: {
 			defaultLoreArmor.remove(2);
-			defaultLoreArmor.add(2,"Magical Resistance Rating: 10.00%");
+			defaultLoreArmor.add(2,ChatColor.GRAY + "Magical Resistance Rating: 10.00%");
 			break;
 		}
 		default:

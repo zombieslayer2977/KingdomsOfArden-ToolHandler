@@ -2,6 +2,7 @@ package net.swagserv.andrew2060.heroestools.util;
 
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -13,7 +14,7 @@ public class ArmorLoreUtil {
 		}
 		ItemMeta meta = armor.getItemMeta();
 		List<String> lore = meta.getLore();
-		String doubleParse = lore.get(2).replace("Magical Resistance Rating:", "").replace("%", "").replace(" ","");
+		String doubleParse = ChatColor.stripColor(lore.get(2)).replace("Magical Resistance Rating:", "").replace("%", "").replace(" ","");
 		Double magicalRating = Double.parseDouble(doubleParse)*0.01;
 		return magicalRating;
 	}
@@ -24,7 +25,7 @@ public class ArmorLoreUtil {
 		}
 		ItemMeta meta = armor.getItemMeta();
 		List<String> lore = meta.getLore();
-		String doubleParse = lore.get(3).replace("Healing Bonus:", "").replace("%", "").replace(" ","");
+		String doubleParse = ChatColor.stripColor(lore.get(3)).replace("Healing Bonus:", "").replace("%", "").replace(" ","");
 		Double healBonus = Double.parseDouble(doubleParse)*0.01;
 		return healBonus;
 	}
@@ -35,7 +36,7 @@ public class ArmorLoreUtil {
 		}
 		ItemMeta meta = armor.getItemMeta();
 		List<String> lore = meta.getLore();
-		String intParse = lore.get(4).replace("Additional Protection:", "").replace("Damage/Hit", "").replace(" ","");
+		String intParse = ChatColor.stripColor(lore.get(4)).replace("Additional Protection:", "").replace("Damage/Hit", "").replace(" ","");
 		int protBonus = Integer.parseInt(intParse);
 		return protBonus;
 	}
