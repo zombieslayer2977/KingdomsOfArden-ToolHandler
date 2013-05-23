@@ -1,24 +1,20 @@
 package net.swagserv.andrew2060.heroestools.mods;
-/**
- * Abstract class defining a basic ArmorMod: individual mods will not be included with the plugin
- * but will rather be loaded in via. the ModLoader  
- * @author Andrew
- *
- */
-import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
+
+import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 
 public abstract class ArmorMod {
 	private String desc;
 	private String name;
 	private int weight;
-	public ArmorMod(String name, String desc, int weight) {
+	private boolean requiresSlot;
+	public ArmorMod(String name, String desc, int weight, boolean requiresSlot) {
 		this.name = name;
 		this.desc = desc;
 		this.weight = weight;
+		this.requiresSlot = requiresSlot;
 	}
 	public abstract void applyToArmor(ItemStack armor);
-	public abstract void execute(Event event);
 	public String getName() {
 		return name;
 	}
@@ -28,4 +24,8 @@ public abstract class ArmorMod {
 	public int getWeight() {
 		return weight;
 	}
+	public boolean isSlotRequired() {
+		return requiresSlot;
+	}
+	public abstract void executeOnArmorDamage(WeaponDamageEvent event);
 }

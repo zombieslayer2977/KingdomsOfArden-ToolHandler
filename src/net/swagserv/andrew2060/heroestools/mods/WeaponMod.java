@@ -7,11 +7,13 @@ public abstract class WeaponMod {
 	private String desc;
 	private String name;
 	private int weight;
+	private boolean requiresSlot;
 
-	public WeaponMod(String name, String desc, int weight) {
+	public WeaponMod(String name, String desc, int weight, boolean requiresSlot) {
 		this.name = name;
 		this.desc = desc;
 		this.weight = weight;
+		this.requiresSlot = requiresSlot;
 	}
 	public abstract void applyToWeapon(ItemStack weapon);
 	public abstract void executeOnWeaponDamage(WeaponDamageEvent event);
@@ -24,4 +26,8 @@ public abstract class WeaponMod {
 	public int getWeight() {
 		return weight;
 	}
+	public boolean isSlotRequired() {
+		return requiresSlot;
+	}
+	
 }

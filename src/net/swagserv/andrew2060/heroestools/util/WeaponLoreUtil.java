@@ -48,11 +48,11 @@ public class WeaponLoreUtil {
 		weapon.setItemMeta(meta);
 		return;
 	}
-	public static void setCritChance(double currentCrit, ItemStack weapon) {
+	public static void setCritChance(double bonusCrit, ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
 		lore.remove(4);
-		lore.add(4, ChatColor.GRAY + "Critical Strike Chance: " + dF.format(currentCrit) + "%");
+		lore.add(4, ChatColor.GRAY + "Critical Strike Chance: " + dF.format(bonusCrit) + "%");
 		meta.setLore(lore);
 		weapon.setItemMeta(meta);
 		return;

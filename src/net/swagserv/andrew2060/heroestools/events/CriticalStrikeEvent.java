@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
 
 import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 
@@ -12,17 +13,20 @@ public class CriticalStrikeEvent extends Event {
 	private int dmg;
 	private WeaponDamageEvent event;
 	private Player player;
+	private boolean cancelled;
 	/**
 	 * This event is to be thrown whenever a critical strike is made. 
 	 * 
 	 * @param damage   Represents the damage dealt post-critical strike
 	 * @param event    WeaponDamageEvent associated with the critical strike
 	 * @param attacker The attacker that dealt the critical strike
+	 * @param weapon   ItemStack representing the weapon used to deal said critical strike
 	 */
-	public CriticalStrikeEvent(int damage, WeaponDamageEvent event, Player attacker) {
+	public CriticalStrikeEvent(int damage, WeaponDamageEvent event, Player attacker, ItemStack weapon) {
 		this.dmg = damage;
 		this.event = event;
 		this.player = attacker;
+		this.cancelled = false;
 	}
 
 	@Override
@@ -63,5 +67,21 @@ public class CriticalStrikeEvent extends Event {
 	 */
 	public void setDamage(int damage) {
 		this.dmg = damage;
+	}
+	/**
+	 * Set event cancellation state
+	 * 
+	 * @param cancel  Boolean true/false 
+	 */
+	public void setCancelled(boolean cancel) {
+		this.cancelled = cancel;
+	}
+	/**
+	 * Get event cancellation state
+	 * 
+	 * @return Whether event is cancelled 
+	 */
+	public boolean isCancelled() {
+		return cancelled;
 	}
 }
