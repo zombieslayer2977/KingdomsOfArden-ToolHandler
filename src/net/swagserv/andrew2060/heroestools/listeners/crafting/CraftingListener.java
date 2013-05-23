@@ -1,6 +1,6 @@
-package net.swagserv.andrew2060.heroestools.durability;
+package net.swagserv.andrew2060.heroestools.listeners.crafting;
 
-import net.swagserv.andrew2060.heroestools.util.Util;
+import net.swagserv.andrew2060.heroestools.util.GeneralLoreUtil;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,7 +19,6 @@ public class CraftingListener implements Listener {
 		}
 		ItemStack created = event.getCurrentItem();
 		Material type = created.getType();
-		int maxDurability = Util.getMaxDurability(type);
 		switch(type) {
 		case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD:
 			((Player)event.getWhoClicked()).sendMessage(ChatColor.GRAY + "Your newly forged sword is not very sharp...you should take the sword to a blacksmith to sharpen it.");
@@ -36,7 +35,7 @@ public class CraftingListener implements Listener {
 		default:
 			return;
 		}
-		created.setDurability((short) (maxDurability - maxDurability * 0.20));
+		GeneralLoreUtil.populateLore(event.getCurrentItem());
 		return;		
 	}
 
