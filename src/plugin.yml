@@ -1,4 +1,4 @@
-name: Swagserv-ToolEnchantHandler
+name: Swagserv-ToolHandler
 version: 1.5.0
 description: Handles durability based enchantments such as prot and sharpness, as well as custom enchants
 author: Andrew2060
