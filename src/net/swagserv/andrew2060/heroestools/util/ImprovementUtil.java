@@ -85,6 +85,9 @@ public class ImprovementUtil {
 			GeneralLoreUtil.populateLore(item);
 		}
 		List<String> lore = meta.getLore();
+		if(lore == null) {
+			GeneralLoreUtil.populateLore(item);
+		}
 		if(lore.isEmpty()) {
 			lore.add("Improvement Quality: 0.00%");
 			meta.setLore(lore);

@@ -12,7 +12,7 @@ import net.swagserv.andrew2060.heroestools.mods.ModManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Plugin extends JavaPlugin{
+public class ToolHandlerPlugin extends JavaPlugin{
 	
 	private ModManager modManager;
 	

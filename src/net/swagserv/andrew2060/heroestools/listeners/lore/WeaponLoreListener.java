@@ -80,7 +80,7 @@ public class WeaponLoreListener implements Listener {
 		if(!(event.getDamager() instanceof Hero)) {
 			return;
 		}
-		Player p = (Player) event.getDamager();
+		Player p = ((Hero)event.getDamager()).getPlayer();
 		ItemStack i = p.getItemInHand();
 		switch(i.getType()) {
 			case DIAMOND_SWORD:	case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {

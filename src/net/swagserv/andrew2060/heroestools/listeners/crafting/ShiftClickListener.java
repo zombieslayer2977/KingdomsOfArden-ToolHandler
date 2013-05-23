@@ -2,7 +2,7 @@ package net.swagserv.andrew2060.heroestools.listeners.crafting;
 
 import java.util.Objects;
 
-import net.swagserv.andrew2060.heroestools.Plugin;
+import net.swagserv.andrew2060.heroestools.ToolHandlerPlugin;
 import net.swagserv.andrew2060.heroestools.util.GeneralLoreUtil;
 
 import org.bukkit.Bukkit;
@@ -15,9 +15,9 @@ import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.ItemStack;
 
 public class ShiftClickListener implements Listener{
-	private Plugin plugin;
+	private ToolHandlerPlugin plugin;
 
-	public ShiftClickListener(Plugin plugin) {
+	public ShiftClickListener(ToolHandlerPlugin plugin) {
 		this.plugin = plugin;
 	}
 	private boolean hasItems(ItemStack stack) {

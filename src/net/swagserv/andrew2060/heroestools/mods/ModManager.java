@@ -16,11 +16,11 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 
-import net.swagserv.andrew2060.heroestools.Plugin;
+import net.swagserv.andrew2060.heroestools.ToolHandlerPlugin;
 
 import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.plugin.java.PluginClassLoader;
-
+@SuppressWarnings("rawtypes")
 public class ModManager {
 	private final PluginClassLoader classLoader;
 
@@ -36,17 +36,17 @@ public class ModManager {
 	private final Map<String,WeaponMod> weaponMods;
 	private final Map<String,ArmorMod> armorMods;
 	private final Map<String,ToolMod> toolMods;
-	
+
 	//Lists containing multiple instances of the mod depending on its given weight
 	private final List<WeaponMod> weaponModList;
 	private final List<ArmorMod> armorModList;
 	private final List<ToolMod> toolModList;
 
-	private Plugin plugin;
+	private ToolHandlerPlugin plugin;
 	@SuppressWarnings("deprecation")
-	public ModManager(Plugin plugin) {
+	public ModManager(ToolHandlerPlugin plugin) {
 		this.plugin = plugin;
-		
+
 		this.weaponModFiles = new HashMap<String, File>();
 		this.armorModFiles = new HashMap<String, File>();
 		this.toolModFiles = new HashMap<String, File>();	
@@ -63,23 +63,23 @@ public class ModManager {
 		this.armorModDir.mkdirs();
 		this.toolModDir = new File(modDir,"ToolMods");
 		this.toolModDir.mkdirs();
-		
+
 		this.weaponModList = new ArrayList<WeaponMod>();
 		this.armorModList = new ArrayList<ArmorMod>();
 		this.toolModList = new ArrayList<ToolMod>();
 
-		
+
 		PluginClassLoader classLoader = (PluginClassLoader)plugin.getClass().getClassLoader();
-	    if (classLoader.getClass().getConstructors().length > 1) {
-	      this.classLoader = null;
-	      return;
-	    }
+		if (classLoader.getClass().getConstructors().length > 1) {
+			this.classLoader = null;
+			return;
+		}
 		this.classLoader = new PluginClassLoader((JavaPluginLoader)plugin.getPluginLoader(),classLoader.getURLs(),classLoader);
-		
+
 		loadWeaponModFiles();
 		loadArmorModFiles();
 		loadToolModFiles();
-		
+
 		loadArmorMods();
 		loadToolMods();
 		loadWeaponMods();
@@ -138,6 +138,7 @@ public class ModManager {
 			}
 		}
 	}
+	@SuppressWarnings({ "unchecked" })
 	private WeaponMod loadWeaponMod(File file) {
 		try {
 			JarFile jarFile = new JarFile(file);
@@ -152,20 +153,21 @@ public class ModManager {
 				}
 			}
 			if (mainClass != null) {
-		        Class<?> weaponModClass = Class.forName(mainClass, true, this.classLoader);
-		        Class<? extends WeaponMod> modClass = weaponModClass.asSubclass(WeaponMod.class);
-		        Constructor<? extends WeaponMod> ctor = modClass.getConstructor(new Class[] { this.plugin.getClass() });
-		        WeaponMod mod = (WeaponMod)ctor.newInstance();
-		        jarFile.close(); 
-		        return mod;
+				Class weaponModClass = Class.forName(mainClass, true, this.classLoader);
+				Class modClass = weaponModClass.asSubclass(WeaponMod.class);
+				Constructor ctor = modClass.getConstructor(new Class[] {});
+				WeaponMod mod = (WeaponMod)ctor.newInstance(new Object[] {});
+				jarFile.close(); 
+				return mod;
 			}
 			jarFile.close();
 		} catch (Exception e) {
-		      plugin.getLogger().log(Level.INFO, "The mod " + file.getName() + " failed to load.");
-		      e.printStackTrace();
-	    }
+			plugin.getLogger().log(Level.INFO, "The mod " + file.getName() + " failed to load.");
+			e.printStackTrace();
+		}
 		return null;
 	}
+	@SuppressWarnings({ "unchecked" })
 	private ArmorMod loadArmorMod(File file) {
 		try {
 			JarFile jarFile = new JarFile(file);
@@ -180,20 +182,22 @@ public class ModManager {
 				}
 			}
 			if (mainClass != null) {
-		        Class<?> armorModClass = Class.forName(mainClass, true, this.classLoader);
-		        Class<? extends ArmorMod> modClass = armorModClass.asSubclass(ArmorMod.class);
-		        Constructor<? extends ArmorMod> ctor = modClass.getConstructor(new Class[] { this.plugin.getClass() });
-		        ArmorMod mod = (ArmorMod)ctor.newInstance();
-		        jarFile.close();
-		        return mod;
+				Class armorModClass = Class.forName(mainClass, true, this.classLoader);
+				Class modClass = armorModClass.asSubclass(ArmorMod.class);
+				Constructor ctor = modClass.getConstructor(new Class[] {});
+				ArmorMod mod = (ArmorMod)ctor.newInstance(new Object[] {});
+				jarFile.close();
+				return mod;
 			}
 			jarFile.close();
 		} catch (Exception e) {
-		      plugin.getLogger().log(Level.INFO, "The mod " + file.getName() + " failed to load.");
-		      e.printStackTrace();
-	    }
+			plugin.getLogger().log(Level.INFO, "The mod " + file.getName() + " failed to load.");
+			e.printStackTrace();
+		}
 		return null;
 	}
+	@SuppressWarnings({ "unchecked" })
+
 	private ToolMod loadToolMod(File file) {
 		try {
 			JarFile jarFile = new JarFile(file);
@@ -208,21 +212,20 @@ public class ModManager {
 				}
 			}
 			if (mainClass != null) {
-		        Class<?> toolModClass = Class.forName(mainClass, true, this.classLoader);
-		        Class<? extends ToolMod> modClass = toolModClass.asSubclass(ToolMod.class);
-		        Constructor<? extends ToolMod> ctor = modClass.getConstructor(new Class[] { this.plugin.getClass() });
-		        ToolMod mod = (ToolMod)ctor.newInstance();
-		        jarFile.close();
-		        return mod;
+				Class toolModClass = Class.forName(mainClass, true, this.classLoader);
+				Class modClass = toolModClass.asSubclass(ToolMod.class);
+				Constructor ctor = modClass.getConstructor(new Class[] {});
+				ToolMod mod = (ToolMod)ctor.newInstance(new Object[] {});
+				jarFile.close();
+				return mod;
 			}
 			jarFile.close();
 		} catch (Exception e) {
-		      plugin.getLogger().log(Level.INFO, "The mod " + file.getName() + " failed to load.");
-		      e.printStackTrace();
-	    }
+			plugin.getLogger().log(Level.INFO, "The mod " + file.getName() + " failed to load.");
+			e.printStackTrace();
+		}
 		return null;
 	}
-	@SuppressWarnings("rawtypes")
 	public void loadWeaponMods() {
 		for (Map.Entry entry : this.weaponModFiles.entrySet()) {
 			if (!isWeaponLoaded((String)entry.getKey())) {
@@ -234,8 +237,7 @@ public class ModManager {
 			}
 		}
 	}
-	
-	@SuppressWarnings("rawtypes")
+
 	public void loadArmorMods() {
 		for (Map.Entry entry : this.armorModFiles.entrySet()) {
 			if (!isArmorLoaded((String)entry.getKey())) {
@@ -245,10 +247,9 @@ public class ModManager {
 					plugin.getLogger().log(Level.INFO, "Mod " + armorMod.getName() + " Loaded");
 				}
 			}
-	    }
+		}
 	}
-	
-	@SuppressWarnings("rawtypes")
+
 	public void loadToolMods() {
 		for (Map.Entry entry : this.armorModFiles.entrySet()) {
 			if (!isToolLoaded((String)entry.getKey())) {
@@ -258,35 +259,35 @@ public class ModManager {
 					plugin.getLogger().log(Level.INFO, "Mod " + toolMod.getName() + " Loaded");
 				}
 			}
-	    }
+		}
 	}
-	
+
 	private void addToolMod(ToolMod mod) {
 		this.toolMods.put(mod.getName().toLowerCase(), mod);	
 		for(int i = 0; i < mod.getWeight(); i++) {
-        	toolModList.add(mod);
-        }
+			toolModList.add(mod);
+		}
 	} 
 	private void addArmorMod(ArmorMod mod) {
 		this.armorMods.put(mod.getName().toLowerCase(), mod);	
 		for(int i = 0; i < mod.getWeight(); i++) {
-        	armorModList.add(mod);
-        }
+			armorModList.add(mod);
+		}
 	}
 	private void addWeaponMod(WeaponMod mod) {
 		this.weaponMods.put(mod.getName().toLowerCase(), mod);
-        for(int i = 0; i < mod.getWeight(); i++) {
-        	weaponModList.add(mod);
-        }
+		for(int i = 0; i < mod.getWeight(); i++) {
+			weaponModList.add(mod);
+		}
 	}
 	private boolean isWeaponLoaded(String key) {
-	    return this.weaponMods.containsKey(key.toLowerCase());
+		return this.weaponMods.containsKey(key.toLowerCase());
 	}
 	private boolean isArmorLoaded(String key) {
-	    return this.armorMods.containsKey(key.toLowerCase());
+		return this.armorMods.containsKey(key.toLowerCase());
 	}
 	private boolean isToolLoaded(String key) {
-	    return this.toolMods.containsKey(key.toLowerCase());
+		return this.toolMods.containsKey(key.toLowerCase());
 	}
 	public PluginClassLoader getClassLoader() {
 		return classLoader;
@@ -296,7 +297,16 @@ public class ModManager {
 		Random rand = new Random();
 		int size = weaponModList.size();
 		if(size > 0) {
-			return weaponModList.get(rand.nextInt(size));
+			WeaponMod mod = weaponModList.get(rand.nextInt(size));
+			if(mod.getWeight() >= 5) {
+				return mod;
+			} else {
+				if(weight > 1) {
+					return getRandomWeaponMod(weight - 1);
+				} else {
+					return mod;
+				}
+			}
 		} else {
 			return null;
 		}
@@ -306,7 +316,16 @@ public class ModManager {
 		Random rand = new Random();
 		int size = armorModList.size();
 		if(size > 0) {
-			return armorModList.get(rand.nextInt(size));
+			ArmorMod mod = armorModList.get(rand.nextInt(size));
+			if(mod.getWeight() >= 5) {
+				return mod;
+			} else {
+				if(weight > 1) {
+					return getRandomArmorMod(weight - 1);
+				} else {
+					return mod;
+				}
+			}
 		} else {
 			return null;
 		}	
@@ -316,9 +335,30 @@ public class ModManager {
 		Random rand = new Random();
 		int size = toolModList.size();
 		if(size > 0) {
-			return toolModList.get(rand.nextInt(size));
+			ToolMod mod = toolModList.get(rand.nextInt(size));
+			if(mod.getWeight() >= 5) {
+				return mod;
+			} else {
+				if(weight > 1) {
+					return getRandomToolMod(weight - 1);
+				} else {
+					return mod;
+				}
+			}
 		} else {
 			return null;
 		}	
+	}
+	public WeaponMod getWeaponMod(String name) {
+		name = name.toLowerCase();
+		return weaponMods.get(name);
+	}
+	public ArmorMod getArmorMod(String name) {
+		name = name.toLowerCase();
+		return armorMods.get(name);
+	}
+	public ToolMod getToolMod(String name) {
+		name = name.toLowerCase();
+		return toolMods.get(name); 
 	}
 }

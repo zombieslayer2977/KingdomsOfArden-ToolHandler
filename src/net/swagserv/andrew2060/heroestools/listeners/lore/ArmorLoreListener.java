@@ -151,18 +151,34 @@ public class ArmorLoreListener implements Listener {
 			}
 		} catch (NumberFormatException | IndexOutOfBoundsException e) {
 			p.sendMessage("Your weapon's statistics are from an old version and have been updated");
-			double helmetQuality = ImprovementUtil.getQuality(helmet);
-			GeneralLoreUtil.populateLore(helmet);
-			ImprovementUtil.setQuality(helmet, helmetQuality);
-			double chestQuality = ImprovementUtil.getQuality(chest);
-			GeneralLoreUtil.populateLore(chest);
-			ImprovementUtil.setQuality(chest, chestQuality);
-			double legsQuality = ImprovementUtil.getQuality(legs);
-			GeneralLoreUtil.populateLore(legs);
-			ImprovementUtil.setQuality(legs, legsQuality);
-			double bootsQuality = ImprovementUtil.getQuality(boots);
-			GeneralLoreUtil.populateLore(boots);
-			ImprovementUtil.setQuality(boots, bootsQuality);
+			try {
+				double helmetQuality = ImprovementUtil.getQuality(helmet);
+				GeneralLoreUtil.populateLore(helmet);
+				ImprovementUtil.setQuality(helmet, helmetQuality);
+			} catch (NullPointerException nE){
+				GeneralLoreUtil.populateLore(helmet);
+			}
+			try {
+				double chestQuality = ImprovementUtil.getQuality(chest);
+				GeneralLoreUtil.populateLore(chest);
+				ImprovementUtil.setQuality(chest, chestQuality);
+			} catch (NullPointerException nE) {
+				GeneralLoreUtil.populateLore(chest);
+			}
+			try {
+				double legsQuality = ImprovementUtil.getQuality(legs);
+				GeneralLoreUtil.populateLore(legs);
+				ImprovementUtil.setQuality(legs, legsQuality);
+			} catch (NullPointerException nE) {
+				GeneralLoreUtil.populateLore(legs);
+			}
+			try {
+				double bootsQuality = ImprovementUtil.getQuality(boots);
+				GeneralLoreUtil.populateLore(boots);
+				ImprovementUtil.setQuality(boots, bootsQuality);
+			} catch (NullPointerException nE) {
+				GeneralLoreUtil.populateLore(boots);
+			}
 		}
 		event.setDamage(event.getDamage()-protBonus);
 	}
