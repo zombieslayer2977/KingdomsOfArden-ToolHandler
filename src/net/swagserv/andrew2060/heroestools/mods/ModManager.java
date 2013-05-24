@@ -8,7 +8,9 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -88,9 +90,9 @@ public class ModManager {
 		for(String modFileName : this.weaponModDir.list()) {
 			if(modFileName.contains(".jar")) {
 				File modFile = new File(weaponModDir, modFileName);
-				String name = modFileName.toLowerCase().replace(".jar", "").replace("mod", "");
+				String name = modFileName.toLowerCase().replace(".jar", "");
 				if(weaponModFiles.containsKey(name)) {
-					plugin.getLogger().log(Level.SEVERE, "A seperate weapon mod file with mod name " + name + " was already loaded!");
+					plugin.getLogger().log(Level.SEVERE, "A seperate weapon mod pack with pack name " + name + " was already loaded!");
 				} else {
 					this.weaponModFiles.put(name, modFile);
 					try {
@@ -106,9 +108,9 @@ public class ModManager {
 		for(String modFileName : this.armorModDir.list()) {
 			if(modFileName.contains(".jar")) {
 				File modFile = new File(armorModDir, modFileName);
-				String name = modFileName.toLowerCase().replace(".jar", "").replace("mod", "");
+				String name = modFileName.toLowerCase().replace(".jar", "");
 				if(armorModFiles.containsKey(name)) {
-					plugin.getLogger().log(Level.SEVERE, "A seperate armor mod file with mod name " + name + " was already loaded!");
+					plugin.getLogger().log(Level.SEVERE, "A seperate armor mod pack with pack name " + name + " was already loaded!");
 				} else {
 					this.armorModFiles.put(name, modFile);
 					try {
@@ -124,9 +126,9 @@ public class ModManager {
 		for(String modFileName : this.toolModDir.list()) {
 			if(modFileName.contains(".jar")) {
 				File modFile = new File(toolModDir, modFileName);
-				String name = modFileName.toLowerCase().replace(".jar", "").replace("mod", "");
+				String name = modFileName.toLowerCase().replace(".jar", "");
 				if(toolModFiles.containsKey(name)) {
-					plugin.getLogger().log(Level.SEVERE, "A seperate tool mod file with mod name " + name + " was already loaded!");
+					plugin.getLogger().log(Level.SEVERE, "A seperate tool mod pack with pack name " + name + " was already loaded!");
 				} else {
 					this.toolModFiles.put(name, modFile);
 					try {
@@ -139,89 +141,131 @@ public class ModManager {
 		}
 	}
 	@SuppressWarnings({ "unchecked" })
-	private WeaponMod loadWeaponMod(File file) {
+	private List<WeaponMod> loadWeaponMods(File file) {
 		try {
 			JarFile jarFile = new JarFile(file);
 			Enumeration<JarEntry> entries = jarFile.entries();
-			String mainClass = null;
+			List<String> mainClasses = null;
 			while (entries.hasMoreElements()) {
 				JarEntry element = entries.nextElement();
 				if (element.getName().equalsIgnoreCase("mod.info")) {
 					BufferedReader reader = new BufferedReader(new InputStreamReader(jarFile.getInputStream(element)));
-					mainClass = reader.readLine().substring(12);
-					break;
+					mainClasses = new LinkedList<String>();
+					String next = reader.readLine();
+					while(next != null) {
+						mainClasses.add(next);
+						try {
+							next = reader.readLine();
+							continue;
+						} catch(NullPointerException e) {
+							break;
+						}
+					}
 				}
 			}
-			if (mainClass != null) {
-				Class weaponModClass = Class.forName(mainClass, true, this.classLoader);
-				Class modClass = weaponModClass.asSubclass(WeaponMod.class);
-				Constructor ctor = modClass.getConstructor(new Class[] {});
-				WeaponMod mod = (WeaponMod)ctor.newInstance(new Object[] {});
+			if (mainClasses != null) {
+				List<WeaponMod> mods = new LinkedList<WeaponMod>();
+				Iterator<String> classIterator = mainClasses.iterator();
+				while(classIterator.hasNext()) {
+					Class weaponModClass = Class.forName(classIterator.next(), true, this.classLoader);
+					Class modClass = weaponModClass.asSubclass(WeaponMod.class);
+					Constructor ctor = modClass.getConstructor(new Class[] {});
+					WeaponMod mod = (WeaponMod)ctor.newInstance(new Object[] {});
+					mods.add(mod);
+				}
 				jarFile.close(); 
-				return mod;
+				return mods;
 			}
 			jarFile.close();
 		} catch (Exception e) {
-			plugin.getLogger().log(Level.INFO, "The mod " + file.getName() + " failed to load.");
+			plugin.getLogger().log(Level.INFO, "The mod pack " + file.getName() + " failed to load.");
 			e.printStackTrace();
 		}
 		return null;
 	}
 	@SuppressWarnings({ "unchecked" })
-	private ArmorMod loadArmorMod(File file) {
+	private List<ArmorMod> loadArmorMods(File file) {
 		try {
 			JarFile jarFile = new JarFile(file);
 			Enumeration<JarEntry> entries = jarFile.entries();
-			String mainClass = null;
+			List<String> mainClasses = null;
 			while (entries.hasMoreElements()) {
 				JarEntry element = entries.nextElement();
 				if (element.getName().equalsIgnoreCase("mod.info")) {
 					BufferedReader reader = new BufferedReader(new InputStreamReader(jarFile.getInputStream(element)));
-					mainClass = reader.readLine().substring(12);
-					break;
+					mainClasses = new LinkedList<String>();
+					String next = reader.readLine();
+					while(next != null) {
+						mainClasses.add(next);
+						try {
+							next = reader.readLine();
+							continue;
+						} catch(NullPointerException e) {
+							break;
+						}
+					}
 				}
 			}
-			if (mainClass != null) {
-				Class armorModClass = Class.forName(mainClass, true, this.classLoader);
-				Class modClass = armorModClass.asSubclass(ArmorMod.class);
-				Constructor ctor = modClass.getConstructor(new Class[] {});
-				ArmorMod mod = (ArmorMod)ctor.newInstance(new Object[] {});
-				jarFile.close();
-				return mod;
+			if (mainClasses != null) {
+				List<ArmorMod> mods = new LinkedList<ArmorMod>();
+				Iterator<String> classIterator = mainClasses.iterator();
+				while(classIterator.hasNext()) {
+					Class armorModClass = Class.forName(classIterator.next(), true, this.classLoader);
+					Class modClass = armorModClass.asSubclass(ArmorMod.class);
+					Constructor ctor = modClass.getConstructor(new Class[] {});
+					ArmorMod mod = (ArmorMod)ctor.newInstance(new Object[] {});
+					mods.add(mod);
+				}
+				jarFile.close(); 
+				return mods;
 			}
 			jarFile.close();
 		} catch (Exception e) {
-			plugin.getLogger().log(Level.INFO, "The mod " + file.getName() + " failed to load.");
+			plugin.getLogger().log(Level.INFO, "The mod pack " + file.getName() + " failed to load.");
 			e.printStackTrace();
 		}
 		return null;
 	}
 	@SuppressWarnings({ "unchecked" })
 
-	private ToolMod loadToolMod(File file) {
+	private List<ToolMod> loadToolMods(File file) {
 		try {
 			JarFile jarFile = new JarFile(file);
 			Enumeration<JarEntry> entries = jarFile.entries();
-			String mainClass = null;
+			List<String> mainClasses = null;
 			while (entries.hasMoreElements()) {
 				JarEntry element = entries.nextElement();
 				if (element.getName().equalsIgnoreCase("mod.info")) {
 					BufferedReader reader = new BufferedReader(new InputStreamReader(jarFile.getInputStream(element)));
-					mainClass = reader.readLine().substring(12);
-					break;
+					mainClasses = new LinkedList<String>();
+					String next = reader.readLine();
+					while(next != null) {
+						mainClasses.add(next);
+						try {
+							next = reader.readLine();
+							continue;
+						} catch(NullPointerException e) {
+							break;
+						}
+					}
 				}
 			}
-			if (mainClass != null) {
-				Class toolModClass = Class.forName(mainClass, true, this.classLoader);
-				Class modClass = toolModClass.asSubclass(ToolMod.class);
-				Constructor ctor = modClass.getConstructor(new Class[] {});
-				ToolMod mod = (ToolMod)ctor.newInstance(new Object[] {});
-				jarFile.close();
-				return mod;
+			if (mainClasses != null) {
+				List<ToolMod> mods = new LinkedList<ToolMod>();
+				Iterator<String> classIterator = mainClasses.iterator();
+				while(classIterator.hasNext()) {
+					Class toolModClass = Class.forName(classIterator.next(), true, this.classLoader);
+					Class modClass = toolModClass.asSubclass(ToolMod.class);
+					Constructor ctor = modClass.getConstructor(new Class[] {});
+					ToolMod mod = (ToolMod)ctor.newInstance(new Object[] {});
+					mods.add(mod);
+				}
+				jarFile.close(); 
+				return mods;
 			}
 			jarFile.close();
 		} catch (Exception e) {
-			plugin.getLogger().log(Level.INFO, "The mod " + file.getName() + " failed to load.");
+			plugin.getLogger().log(Level.INFO, "The mod pack " + file.getName() + " failed to load.");
 			e.printStackTrace();
 		}
 		return null;
@@ -229,11 +273,13 @@ public class ModManager {
 	public void loadWeaponMods() {
 		for (Map.Entry entry : this.weaponModFiles.entrySet()) {
 			if (!isWeaponLoaded((String)entry.getKey())) {
-				WeaponMod weaponMod = loadWeaponMod((File)entry.getValue());
-				if (weaponMod != null) {
+				Iterator<WeaponMod> loadModsFromFile = loadWeaponMods((File)entry.getValue()).iterator();
+				while(loadModsFromFile.hasNext()) {
+					WeaponMod weaponMod = loadModsFromFile.next();
 					addWeaponMod(weaponMod);
-					plugin.getLogger().log(Level.INFO, "Mod " + weaponMod.getName() + " Loaded");
+					plugin.getLogger().log(Level.INFO, "Mod " + weaponMod.getName() + "(Weapon) Loaded");
 				}
+				
 			}
 		}
 	}
@@ -241,10 +287,11 @@ public class ModManager {
 	public void loadArmorMods() {
 		for (Map.Entry entry : this.armorModFiles.entrySet()) {
 			if (!isArmorLoaded((String)entry.getKey())) {
-				ArmorMod armorMod = loadArmorMod((File)entry.getValue());
-				if (armorMod != null) {
+				Iterator<ArmorMod> loadModsFromFile = loadArmorMods((File)entry.getValue()).iterator();
+				while(loadModsFromFile.hasNext()) {
+					ArmorMod armorMod = loadModsFromFile.next();
 					addArmorMod(armorMod);
-					plugin.getLogger().log(Level.INFO, "Mod " + armorMod.getName() + " Loaded");
+					plugin.getLogger().log(Level.INFO, "Mod " + armorMod.getName() + "(Armor) Loaded");
 				}
 			}
 		}
@@ -253,10 +300,11 @@ public class ModManager {
 	public void loadToolMods() {
 		for (Map.Entry entry : this.armorModFiles.entrySet()) {
 			if (!isToolLoaded((String)entry.getKey())) {
-				ToolMod toolMod = loadToolMod((File)entry.getValue());
-				if (toolMod != null) {
+				Iterator<ToolMod> loadModsFromFile = loadToolMods((File)entry.getValue()).iterator();
+				while(loadModsFromFile.hasNext()) {
+					ToolMod toolMod = loadModsFromFile.next();
 					addToolMod(toolMod);
-					plugin.getLogger().log(Level.INFO, "Mod " + toolMod.getName() + " Loaded");
+					plugin.getLogger().log(Level.INFO, "Mod " + toolMod.getName() + "(Tool) Loaded");
 				}
 			}
 		}
