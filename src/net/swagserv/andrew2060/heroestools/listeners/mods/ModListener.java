@@ -3,10 +3,10 @@ package net.swagserv.andrew2060.heroestools.listeners.mods;
 import java.util.List;
 
 import net.swagserv.andrew2060.heroestools.ToolHandlerPlugin;
-import net.swagserv.andrew2060.heroestools.mods.ArmorMod;
 import net.swagserv.andrew2060.heroestools.mods.ModManager;
-import net.swagserv.andrew2060.heroestools.mods.ToolMod;
-import net.swagserv.andrew2060.heroestools.mods.WeaponMod;
+import net.swagserv.andrew2060.heroestools.mods.typedefs.ArmorMod;
+import net.swagserv.andrew2060.heroestools.mods.typedefs.ToolMod;
+import net.swagserv.andrew2060.heroestools.mods.typedefs.WeaponMod;
 import net.swagserv.andrew2060.heroestools.util.ModUtil;
 
 import org.bukkit.entity.Player;

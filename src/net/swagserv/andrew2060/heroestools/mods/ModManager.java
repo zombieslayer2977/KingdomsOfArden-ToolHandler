@@ -19,9 +19,16 @@ import java.util.jar.JarFile;
 import java.util.logging.Level;
 
 import net.swagserv.andrew2060.heroestools.ToolHandlerPlugin;
+import net.swagserv.andrew2060.heroestools.mods.typedefs.ArmorMod;
+import net.swagserv.andrew2060.heroestools.mods.typedefs.ToolMod;
+import net.swagserv.andrew2060.heroestools.mods.typedefs.WeaponMod;
+import net.swagserv.andrew2060.heroestools.util.ModUtil;
 
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.plugin.java.PluginClassLoader;
+
+import com.herocraftonline.heroes.util.Util;
 @SuppressWarnings("rawtypes")
 public class ModManager {
 	private final PluginClassLoader classLoader;
@@ -340,17 +347,16 @@ public class ModManager {
 	public PluginClassLoader getClassLoader() {
 		return classLoader;
 	}
-	public WeaponMod getRandomWeaponMod(int weight) {
-		//Assume Legendary for now
+	public WeaponMod getRandomWeaponMod(int seed) {
 		Random rand = new Random();
 		int size = weaponModList.size();
 		if(size > 0) {
 			WeaponMod mod = weaponModList.get(rand.nextInt(size));
-			if(mod.getWeight() >= 5) {
+			if(mod.getWeight() >= 20) {
 				return mod;
 			} else {
-				if(weight > 1) {
-					return getRandomWeaponMod(weight - 1);
+				if(seed < 7) {
+					return getRandomWeaponMod(seed + 1);
 				} else {
 					return mod;
 				}
@@ -359,17 +365,16 @@ public class ModManager {
 			return null;
 		}
 	}
-	public ArmorMod getRandomArmorMod(int weight) {
-		//Assume Legendary for now
+	public ArmorMod getRandomArmorMod(int seed) {
 		Random rand = new Random();
 		int size = armorModList.size();
 		if(size > 0) {
 			ArmorMod mod = armorModList.get(rand.nextInt(size));
-			if(mod.getWeight() >= 5) {
+			if(mod.getWeight() >= 20) {
 				return mod;
 			} else {
-				if(weight > 1) {
-					return getRandomArmorMod(weight - 1);
+				if(seed < 7) {
+					return getRandomArmorMod(seed + 1);
 				} else {
 					return mod;
 				}
@@ -378,17 +383,16 @@ public class ModManager {
 			return null;
 		}	
 	}
-	public ToolMod getRandomToolMod(int weight) {
-		//Assume Legendary for now
+	public ToolMod getRandomToolMod(int seed) {
 		Random rand = new Random();
 		int size = toolModList.size();
 		if(size > 0) {
 			ToolMod mod = toolModList.get(rand.nextInt(size));
-			if(mod.getWeight() >= 5) {
+			if(mod.getWeight() >= 20) {
 				return mod;
 			} else {
-				if(weight > 1) {
-					return getRandomToolMod(weight - 1);
+				if(seed < 7) {
+					return getRandomToolMod(seed + 1);
 				} else {
 					return mod;
 				}
@@ -408,5 +412,31 @@ public class ModManager {
 	public ToolMod getToolMod(String name) {
 		name = name.toLowerCase();
 		return toolMods.get(name); 
+	}
+	/**
+	 * Determines whether itemstack is a weapon/tool/armor, and adds a mod to it
+	 * 
+	 * @param itemstack Itemstack to add mod to
+	 * @return -2 if invalid size input, -1 if not a valid tool type, 0 for all mod slots full, 1 for normal operation
+	 */
+	public int addMod(ItemStack itemstack,int weight) {
+		if(itemstack.getAmount() > 1) {
+			return -2;
+		} else {
+			if(Util.isArmor(itemstack.getType())) {
+				return ModUtil.addArmorMod(itemstack, getRandomArmorMod(weight));
+			} else if(Util.isWeapon(itemstack.getType())) {
+				switch(itemstack.getType()) {
+				case DIAMOND_SWORD:	case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
+						return ModUtil.addWeaponMod(itemstack, getRandomWeaponMod(weight));
+					}
+					default: {
+						return ModUtil.addToolMod(itemstack, getRandomToolMod(weight));
+					}
+				}
+			} else {
+				return -1;
+			}
+		}
 	}
 }

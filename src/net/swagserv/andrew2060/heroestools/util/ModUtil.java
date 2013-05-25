@@ -3,9 +3,9 @@ package net.swagserv.andrew2060.heroestools.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.swagserv.andrew2060.heroestools.mods.ArmorMod;
-import net.swagserv.andrew2060.heroestools.mods.ToolMod;
-import net.swagserv.andrew2060.heroestools.mods.WeaponMod;
+import net.swagserv.andrew2060.heroestools.mods.typedefs.ArmorMod;
+import net.swagserv.andrew2060.heroestools.mods.typedefs.ToolMod;
+import net.swagserv.andrew2060.heroestools.mods.typedefs.WeaponMod;
 
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -35,12 +35,11 @@ public class ModUtil {
 		List<String> mods = new ArrayList<String>();
 		for(int i = 6; i < lore.size(); i++) {
 			String mod = lore.get(i);
-			if(mod.contains("Empty")) {
+			if(!mod.contains(ChatColor.GOLD +"")) {
 				continue;
 			} else {
 				mod = ChatColor.stripColor(mod);
-				int endName = mod.indexOf(" ");
-				String modName = mod.substring(0, endName).replace(" ", "");
+				String modName = mod.replace(" ", "");
 				mods.add(modName);
 			}
 		}
@@ -66,12 +65,11 @@ public class ModUtil {
 		List<String> mods = new ArrayList<String>();
 		for(int i = 6; i < lore.size(); i++) {
 			String mod = lore.get(i);
-			if(mod.contains("Empty")) {
+			if(!mod.contains(ChatColor.GOLD +"")) {
 				continue;
 			} else {
 				mod = ChatColor.stripColor(mod);
-				int endName = mod.indexOf(" ");
-				String modName = mod.substring(0, endName).replace(" ", "");
+				String modName = mod.replace(" ", "");
 				mods.add(modName);
 			}
 		}
@@ -97,12 +95,11 @@ public class ModUtil {
 		List<String> mods = new ArrayList<String>();
 		for(int i = 2; i < lore.size(); i++) {
 			String mod = lore.get(i);
-			if(mod.contains("Empty")) {
+			if(!mod.contains(ChatColor.GOLD +"")) {
 				continue;
 			} else {
 				mod = ChatColor.stripColor(mod);
-				int endName = mod.indexOf(" ");
-				String modName = mod.substring(0, endName).replace(" ", "");
+				String modName = mod.replace(" ", "");
 				mods.add(modName);
 			}
 		}		
@@ -115,7 +112,7 @@ public class ModUtil {
 	 * @param mod - WeaponMod to Add
 	 * @return -1 for invalid input weapon, 0 for all mod slots full, 1 for normal operation
 	 */
-	public int addWeaponMod(ItemStack weapon, WeaponMod mod) {
+	public static int addWeaponMod(ItemStack weapon, WeaponMod mod) {
 		switch(weapon.getType()) {
 			case DIAMOND_SWORD:	case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
 				break;
@@ -136,11 +133,14 @@ public class ModUtil {
 			if(lore.get(i).contains("[Empty Slot]")) {
 				lore.remove(i);
 				if(mod.isSlotRequired()) {
-					lore.add(i, ChatColor.GOLD + mod.getName() + ChatColor.WHITE + " - " + ChatColor.GRAY + mod.getDescription());
+					lore.add(i, ChatColor.GOLD + mod.getName());	
+					for(int x = 0; x < mod.getDescription().length; x++) {
+						lore.add(i+x+1,ChatColor.GRAY + "- " + mod.getDescription()[x]);
+					}
 				}
-				mod.applyToWeapon(weapon);
 				meta.setLore(lore);
 				weapon.setItemMeta(meta);
+				mod.applyToWeapon(weapon);
 				return 1;
 			} else {
 				continue;
@@ -155,7 +155,7 @@ public class ModUtil {
 	 * @param mod - ArmorMod to Add
 	 * @return -1 for invalid input armor, 0 for all mod slots full, 1 for normal operation
 	 */
-	public int addArmorMod(ItemStack armor, ArmorMod mod) {
+	public static int addArmorMod(ItemStack armor, ArmorMod mod) {
 		switch(armor.getType()) {
 			case DIAMOND_SWORD:	case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
 				break;
@@ -175,11 +175,15 @@ public class ModUtil {
 		for(int i = 6; i < lore.size(); i++) {
 			if(lore.get(i).contains("[Empty Slot]")) {
 				lore.remove(i);
-				
-				lore.add(i, ChatColor.GOLD + mod.getName() + ChatColor.WHITE + " - " + ChatColor.GRAY + mod.getDescription());
-				mod.applyToArmor(armor);
+				if(mod.isSlotRequired()) {
+					lore.add(i, ChatColor.GOLD + mod.getName());	
+					for(int x = 0; x < mod.getDescription().length; x++) {
+						lore.add(i+x+1+1,ChatColor.GRAY + "- " + mod.getDescription()[x]);
+					}			
+				}				
 				meta.setLore(lore);
 				armor.setItemMeta(meta);
+				mod.applyToArmor(armor);
 				return 1;
 			} else {
 				continue;
@@ -194,7 +198,7 @@ public class ModUtil {
 	 * @param mod - ToolMod to Add
 	 * @return -1 for invalid input tool, 0 for all mod slots full, 1 for normal operation
 	 */
-	public int addToolMod(ItemStack tool, ToolMod mod) {
+	public static int addToolMod(ItemStack tool, ToolMod mod) {
 		switch(tool.getType()) {
 			case DIAMOND_SWORD:	case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
 				break;
@@ -214,10 +218,15 @@ public class ModUtil {
 		for(int i = 6; i < lore.size(); i++) {
 			if(lore.get(i).contains("[Empty Slot]")) {
 				lore.remove(i);
-				lore.add(i, ChatColor.GOLD + mod.getName() + ChatColor.WHITE + " - " + ChatColor.GRAY + mod.getDescription());
-				mod.applyToTool(tool);
+				if(mod.isSlotRequired()) {
+					lore.add(i, ChatColor.GOLD + mod.getName());	
+					for(int x = 0; x < mod.getDescription().length; x++) {
+						lore.add(i+x+1,ChatColor.GRAY + "- " + mod.getDescription()[x]);
+					}				
+				}				
 				meta.setLore(lore);
 				tool.setItemMeta(meta);
+				mod.applyToTool(tool);
 				return 1;
 			} else {
 				continue;
@@ -247,6 +256,7 @@ public class ModUtil {
 		lore.add(size,ChatColor.DARK_GRAY + "[Empty Slot]");
 		return true;
 	}
+	
 
 
 }

@@ -7,6 +7,8 @@ import net.swagserv.andrew2060.heroestools.listeners.durability.ToolDurabilityCh
 import net.swagserv.andrew2060.heroestools.listeners.durability.WeaponDurabilityChangeListener;
 import net.swagserv.andrew2060.heroestools.listeners.lore.ArmorLoreListener;
 import net.swagserv.andrew2060.heroestools.listeners.lore.WeaponLoreListener;
+import net.swagserv.andrew2060.heroestools.listeners.mods.ModListener;
+import net.swagserv.andrew2060.heroestools.listeners.mods.ModCraftingListener;
 import net.swagserv.andrew2060.heroestools.mods.ModManager;
 
 import org.bukkit.Bukkit;
@@ -38,6 +40,11 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		//Lore Listeners
 		Bukkit.getPluginManager().registerEvents(new ArmorLoreListener(), this);
 		Bukkit.getPluginManager().registerEvents(new WeaponLoreListener(), this);		
+		
+		//Modification Listeners
+		Bukkit.getPluginManager().registerEvents(new ModListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new ModCraftingListener(this), this);
+
 	}
 
 	/**
