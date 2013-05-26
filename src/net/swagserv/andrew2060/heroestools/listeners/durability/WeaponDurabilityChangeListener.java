@@ -1,5 +1,6 @@
 package net.swagserv.andrew2060.heroestools.listeners.durability;
 
+import net.swagserv.andrew2060.heroestools.util.GeneralLoreUtil;
 import net.swagserv.andrew2060.heroestools.util.ImprovementUtil;
 
 import org.bukkit.enchantments.Enchantment;
@@ -29,13 +30,25 @@ public class WeaponDurabilityChangeListener implements Listener{
 		case GOLD_SWORD: 
 		case STONE_SWORD: 
 		case WOOD_SWORD: {
-			double quality = ImprovementUtil.reduceQuality(i, ImprovementUtil.getItemType(i));
-			ImprovementUtil.applyEnchantmentLevel(i, Enchantment.DAMAGE_ALL,quality);
+			try {
+				double quality = ImprovementUtil.reduceQuality(i, ImprovementUtil.getItemType(i));
+				ImprovementUtil.applyEnchantmentLevel(i, Enchantment.DAMAGE_ALL,quality);
+			} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+				double quality = ImprovementUtil.getQuality(i);
+				GeneralLoreUtil.populateLore(i);
+				ImprovementUtil.setQuality(i, quality);
+			}
 			return;
 		}
 		case BOW: {
-			double quality = ImprovementUtil.reduceQuality(i, ImprovementUtil.getItemType(i));
-			ImprovementUtil.applyEnchantmentLevel(i, Enchantment.ARROW_DAMAGE,quality);
+			try {
+				double quality = ImprovementUtil.reduceQuality(i, ImprovementUtil.getItemType(i));
+				ImprovementUtil.applyEnchantmentLevel(i, Enchantment.ARROW_DAMAGE,quality);
+			} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+				double quality = ImprovementUtil.getQuality(i);
+				GeneralLoreUtil.populateLore(i);
+				ImprovementUtil.setQuality(i, quality);
+			}
 			return;
 		}
 		default:

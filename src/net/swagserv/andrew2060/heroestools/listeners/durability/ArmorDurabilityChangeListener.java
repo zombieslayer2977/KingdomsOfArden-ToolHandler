@@ -1,5 +1,6 @@
 package net.swagserv.andrew2060.heroestools.listeners.durability;
 
+import net.swagserv.andrew2060.heroestools.util.GeneralLoreUtil;
 import net.swagserv.andrew2060.heroestools.util.ImprovementUtil;
 
 import org.bukkit.Bukkit;
@@ -46,22 +47,46 @@ public class ArmorDurabilityChangeListener implements Listener{
 		}
 		//Helmet durability and protection scaling check
 		if(helmetcheck) {
-			double quality = ImprovementUtil.reduceQuality(helmet, ImprovementUtil.getItemType(helmet));
-			ImprovementUtil.applyEnchantmentLevel(helmet, Enchantment.PROTECTION_ENVIRONMENTAL, quality);
+			try {
+				double quality = ImprovementUtil.reduceQuality(helmet, ImprovementUtil.getItemType(helmet));
+				ImprovementUtil.applyEnchantmentLevel(helmet, Enchantment.PROTECTION_ENVIRONMENTAL, quality);
+			} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+				double quality = ImprovementUtil.getQuality(helmet);
+				GeneralLoreUtil.populateLore(helmet);
+				ImprovementUtil.setQuality(helmet, quality);
+			}
 		}
 		//ChestPlate Protection Handling
 		if(chestcheck) {
-			double quality = ImprovementUtil.reduceQuality(chest, ImprovementUtil.getItemType(chest));
-			ImprovementUtil.applyEnchantmentLevel(chest, Enchantment.PROTECTION_ENVIRONMENTAL, quality);
+			try {
+				double quality = ImprovementUtil.reduceQuality(chest, ImprovementUtil.getItemType(chest));
+				ImprovementUtil.applyEnchantmentLevel(chest, Enchantment.PROTECTION_ENVIRONMENTAL, quality);
+			} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+				double quality = ImprovementUtil.getQuality(chest);
+				GeneralLoreUtil.populateLore(chest);
+				ImprovementUtil.setQuality(chest, quality);
+			}
 		}
 		//Leggings Protection Handling
 		if(legscheck) {
-			double quality = ImprovementUtil.reduceQuality(legs, ImprovementUtil.getItemType(legs));
-			ImprovementUtil.applyEnchantmentLevel(legs, Enchantment.PROTECTION_ENVIRONMENTAL, quality);
+			try {
+				double quality = ImprovementUtil.reduceQuality(legs, ImprovementUtil.getItemType(legs));
+				ImprovementUtil.applyEnchantmentLevel(legs, Enchantment.PROTECTION_ENVIRONMENTAL, quality); 
+			} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+				double quality = ImprovementUtil.getQuality(legs);
+				GeneralLoreUtil.populateLore(legs);
+				ImprovementUtil.setQuality(legs, quality);
+			}
 		}
 		if(bootscheck) {
-			double quality = ImprovementUtil.reduceQuality(boots, ImprovementUtil.getItemType(boots));
-			ImprovementUtil.applyEnchantmentLevel(boots, Enchantment.PROTECTION_ENVIRONMENTAL, quality);
+			try {
+				double quality = ImprovementUtil.reduceQuality(boots, ImprovementUtil.getItemType(boots));
+				ImprovementUtil.applyEnchantmentLevel(boots, Enchantment.PROTECTION_ENVIRONMENTAL, quality);
+			} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+				double quality = ImprovementUtil.getQuality(boots);
+				GeneralLoreUtil.populateLore(boots);
+				ImprovementUtil.setQuality(boots, quality);
+			}
 		}
 	}
 }

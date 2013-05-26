@@ -1,5 +1,6 @@
 package net.swagserv.andrew2060.heroestools.listeners.durability;
 
+import net.swagserv.andrew2060.heroestools.util.GeneralLoreUtil;
 import net.swagserv.andrew2060.heroestools.util.ImprovementUtil;
 
 import org.bukkit.enchantments.Enchantment;
@@ -30,8 +31,14 @@ public class ToolDurabilityChangeListener implements Listener{
 		case STONE_HOE:
 		case WOOD_HOE:
 			hand.setDurability((short) (hand.getDurability() + 1));
-			double quality = ImprovementUtil.reduceQuality(hand, ImprovementUtil.getItemType(hand));
-			ImprovementUtil.applyEnchantmentLevel(hand, Enchantment.DIG_SPEED, quality);
+			try {
+				double quality = ImprovementUtil.reduceQuality(hand, ImprovementUtil.getItemType(hand));
+				ImprovementUtil.applyEnchantmentLevel(hand, Enchantment.DIG_SPEED, quality);
+			} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+				double quality = ImprovementUtil.getQuality(hand);
+				GeneralLoreUtil.populateLore(hand);
+				ImprovementUtil.setQuality(hand, quality);
+			}
 			return;
 		default: 
 			return;			
@@ -59,8 +66,14 @@ public class ToolDurabilityChangeListener implements Listener{
 		case WOOD_AXE:
 		case WOOD_PICKAXE:
 		case WOOD_HOE:
-			double quality = ImprovementUtil.reduceQuality(hand, ImprovementUtil.getItemType(hand));
-			ImprovementUtil.applyEnchantmentLevel(hand, Enchantment.DIG_SPEED, quality);
+			try {
+				double quality = ImprovementUtil.reduceQuality(hand, ImprovementUtil.getItemType(hand));
+				ImprovementUtil.applyEnchantmentLevel(hand, Enchantment.DIG_SPEED, quality);
+			} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+				double quality = ImprovementUtil.getQuality(hand);
+				GeneralLoreUtil.populateLore(hand);
+				ImprovementUtil.setQuality(hand, quality);
+			}
 			return;
 		default:
 			return;

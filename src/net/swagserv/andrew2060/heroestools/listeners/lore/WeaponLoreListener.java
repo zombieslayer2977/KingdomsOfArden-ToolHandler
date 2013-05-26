@@ -35,7 +35,14 @@ public class WeaponLoreListener implements Listener {
 				return;
 			}
 		}
-		int bonusDamage = WeaponLoreUtil.getBonusDamage(i);
+		int bonusDamage = 0;
+		try {
+			bonusDamage = WeaponLoreUtil.getBonusDamage(i);
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+			double quality = ImprovementUtil.getQuality(i);
+			GeneralLoreUtil.populateLore(i);
+			ImprovementUtil.setQuality(i, quality);
+		}
 		event.setDamage(event.getDamage() + bonusDamage);
 	}
 	//Life Steal Handler
@@ -59,8 +66,7 @@ public class WeaponLoreListener implements Listener {
 		//TODO: Remove in future for performance reasons
 		try {
 			ls = WeaponLoreUtil.getLifeSteal(i);
-		} catch (NumberFormatException | IndexOutOfBoundsException e) {
-			p.sendMessage("Your weapon's statistics are from an old version and have been updated");
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			double quality = ImprovementUtil.getQuality(i);
 			GeneralLoreUtil.populateLore(i);
 			ImprovementUtil.setQuality(i, quality);
@@ -95,8 +101,7 @@ public class WeaponLoreListener implements Listener {
 		//TODO: Remove in future for performance reasons
 		try {
 			critchance = WeaponLoreUtil.getCritChance(i);
-		} catch (NumberFormatException | IndexOutOfBoundsException e) {
-			p.sendMessage("Your weapon's statistics are from an old version and have been updated");
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			double quality = ImprovementUtil.getQuality(i);
 			GeneralLoreUtil.populateLore(i);
 			ImprovementUtil.setQuality(i, quality);

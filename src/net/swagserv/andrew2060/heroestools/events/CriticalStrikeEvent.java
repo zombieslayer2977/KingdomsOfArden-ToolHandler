@@ -33,6 +33,9 @@ public class CriticalStrikeEvent extends Event {
 	public HandlerList getHandlers() {
 		return handlers;
 	}
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 	/**
 	 * Calls the event (included mainly for simplicity purposes)
 	 */

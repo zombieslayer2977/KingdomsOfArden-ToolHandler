@@ -69,6 +69,7 @@ public class ImprovementUtil {
 		ItemMeta meta = item.getItemMeta();
 		if(!meta.hasLore()) {
 			GeneralLoreUtil.populateLore(item);
+			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
 		String toAdd = ChatColor.GRAY + "Improvement Quality: " + dF.format(quality) + "%";
@@ -84,11 +85,9 @@ public class ImprovementUtil {
 		ItemMeta meta = item.getItemMeta();
 		if(!meta.hasLore()) {
 			GeneralLoreUtil.populateLore(item);
+			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
-		if(lore == null) {
-			GeneralLoreUtil.populateLore(item);
-		}
 		if(lore.isEmpty()) {
 			GeneralLoreUtil.populateLore(item);
 			return 0;
@@ -137,6 +136,7 @@ public class ImprovementUtil {
 		ItemMeta meta = item.getItemMeta();
 		if(!meta.hasLore()) {
 			GeneralLoreUtil.populateLore(item);
+			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
 		if(!lore.isEmpty()) {

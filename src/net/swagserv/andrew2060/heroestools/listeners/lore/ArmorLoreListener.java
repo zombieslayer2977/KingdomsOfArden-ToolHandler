@@ -91,17 +91,57 @@ public class ArmorLoreListener implements Listener {
 			bootscheck = false;
 		}
 		double healBonus = 0;
-		if(helmetcheck) {
-			healBonus += ArmorLoreUtil.getHealingBonus(helmet);
+		try {
+			if(helmetcheck) {
+				healBonus += ArmorLoreUtil.getHealingBonus(helmet);
+			}
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+			try {
+				double helmetQuality = ImprovementUtil.getQuality(helmet);
+				GeneralLoreUtil.populateLore(helmet);
+				ImprovementUtil.setQuality(helmet, helmetQuality);
+			} catch (NullPointerException nE){
+				GeneralLoreUtil.populateLore(helmet);
+			}
 		}
-		if(chestcheck) {
-			healBonus += ArmorLoreUtil.getHealingBonus(chest);
+		try {
+			if(chestcheck) {
+				healBonus += ArmorLoreUtil.getHealingBonus(chest);
+			}
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+			try {
+				double chestQuality = ImprovementUtil.getQuality(chest);
+				GeneralLoreUtil.populateLore(chest);
+				ImprovementUtil.setQuality(chest, chestQuality);
+			} catch (NullPointerException nE) {
+				GeneralLoreUtil.populateLore(chest);
+			}
 		}
-		if(legscheck) {
-			healBonus += ArmorLoreUtil.getHealingBonus(legs);
+		try {
+			if(legscheck) {
+				healBonus += ArmorLoreUtil.getHealingBonus(legs);
+			}
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+			try {
+				double legsQuality = ImprovementUtil.getQuality(legs);
+				GeneralLoreUtil.populateLore(legs);
+				ImprovementUtil.setQuality(legs, legsQuality);
+			} catch (NullPointerException nE) {
+				GeneralLoreUtil.populateLore(legs);
+			}
 		}
-		if(bootscheck) {
-			healBonus += ArmorLoreUtil.getHealingBonus(boots);
+		try {
+			if(bootscheck) {
+				healBonus += ArmorLoreUtil.getHealingBonus(boots);
+			} 
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+				try {
+					double bootsQuality = ImprovementUtil.getQuality(boots);
+					GeneralLoreUtil.populateLore(boots);
+					ImprovementUtil.setQuality(boots, bootsQuality);
+				} catch (NullPointerException nE) {
+					GeneralLoreUtil.populateLore(boots);
+				}
 		}
 		double multiplier = 1 + healBonus;
 		event.setAmount((int) (event.getAmount()*multiplier));
@@ -135,22 +175,11 @@ public class ArmorLoreListener implements Listener {
 			bootscheck = false;
 		}
 		int protBonus = 0;
-		//TODO: Update Case - Remove try/catch in future
 		try {
 			if(helmetcheck) {
 				protBonus += ArmorLoreUtil.getProtBonus(helmet);
 			}
-			if(chestcheck) {
-				protBonus += ArmorLoreUtil.getProtBonus(chest);
-			}
-			if(legscheck) {
-				protBonus += ArmorLoreUtil.getProtBonus(legs);
-			}
-			if(bootscheck) {
-				protBonus += ArmorLoreUtil.getProtBonus(boots);
-			}
-		} catch (NumberFormatException | IndexOutOfBoundsException e) {
-			p.sendMessage("Your weapon's statistics are from an old version and have been updated");
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			try {
 				double helmetQuality = ImprovementUtil.getQuality(helmet);
 				GeneralLoreUtil.populateLore(helmet);
@@ -158,6 +187,12 @@ public class ArmorLoreListener implements Listener {
 			} catch (NullPointerException nE){
 				GeneralLoreUtil.populateLore(helmet);
 			}
+		}
+		try {
+			if(chestcheck) {
+				protBonus += ArmorLoreUtil.getProtBonus(chest);
+			}
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			try {
 				double chestQuality = ImprovementUtil.getQuality(chest);
 				GeneralLoreUtil.populateLore(chest);
@@ -165,6 +200,12 @@ public class ArmorLoreListener implements Listener {
 			} catch (NullPointerException nE) {
 				GeneralLoreUtil.populateLore(chest);
 			}
+		}
+		try {
+			if(legscheck) {
+				protBonus += ArmorLoreUtil.getProtBonus(legs);
+			}
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			try {
 				double legsQuality = ImprovementUtil.getQuality(legs);
 				GeneralLoreUtil.populateLore(legs);
@@ -172,13 +213,19 @@ public class ArmorLoreListener implements Listener {
 			} catch (NullPointerException nE) {
 				GeneralLoreUtil.populateLore(legs);
 			}
-			try {
-				double bootsQuality = ImprovementUtil.getQuality(boots);
-				GeneralLoreUtil.populateLore(boots);
-				ImprovementUtil.setQuality(boots, bootsQuality);
-			} catch (NullPointerException nE) {
-				GeneralLoreUtil.populateLore(boots);
-			}
+		}
+		try {
+			if(bootscheck) {
+				protBonus += ArmorLoreUtil.getProtBonus(boots);
+			} 
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
+				try {
+					double bootsQuality = ImprovementUtil.getQuality(boots);
+					GeneralLoreUtil.populateLore(boots);
+					ImprovementUtil.setQuality(boots, bootsQuality);
+				} catch (NullPointerException nE) {
+					GeneralLoreUtil.populateLore(boots);
+				}
 		}
 		event.setDamage(event.getDamage()-protBonus);
 	}

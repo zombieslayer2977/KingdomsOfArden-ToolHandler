@@ -16,7 +16,6 @@ public class GeneralLoreUtil {
 		templateLoreTool.add(1,ChatColor.WHITE + "========Modifications========");
 		templateLoreTool.add(2,ChatColor.DARK_GRAY + "[Empty Slot]");
 		templateLoreTool.add(3,ChatColor.DARK_GRAY + "[Empty Slot]");
-
 	}
 
 	private static void populateArmor(List<String> templateLoreArmor) {
@@ -65,9 +64,6 @@ public class GeneralLoreUtil {
 		return defaultLoreArmor;
 	}
 	private static List<String> getWeaponDefault(ItemStack weapon) {
-		if(!com.herocraftonline.heroes.util.Util.isWeapon(weapon.getType())) {
-			return null;
-		}
 		List<String> defaultLoreWeapon = new ArrayList<String>();
 		populateWeapon(defaultLoreWeapon);
 		return defaultLoreWeapon;

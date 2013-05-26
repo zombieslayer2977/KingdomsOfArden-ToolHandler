@@ -28,10 +28,6 @@ public class ModUtil {
 			return null;
 		}
 		List<String> lore = meta.getLore();
-		if(lore == null) {
-			GeneralLoreUtil.populateLore(weapon);
-			return null;
-		}
 		List<String> mods = new ArrayList<String>();
 		for(int i = 6; i < lore.size(); i++) {
 			String mod = lore.get(i);
@@ -58,10 +54,6 @@ public class ModUtil {
 			return null;
 		}
 		List<String> lore = meta.getLore();
-		if(lore == null) {
-			GeneralLoreUtil.populateLore(armor);
-			return null;
-		}
 		List<String> mods = new ArrayList<String>();
 		for(int i = 6; i < lore.size(); i++) {
 			String mod = lore.get(i);
@@ -88,10 +80,6 @@ public class ModUtil {
 			return null;
 		}
 		List<String> lore = meta.getLore();
-		if(lore == null) {
-			GeneralLoreUtil.populateLore(tool);
-			return null;
-		}
 		List<String> mods = new ArrayList<String>();
 		for(int i = 2; i < lore.size(); i++) {
 			String mod = lore.get(i);
@@ -124,15 +112,13 @@ public class ModUtil {
 		ItemMeta meta = weapon.getItemMeta();
 		if(!meta.hasLore()) {
 			GeneralLoreUtil.populateLore(weapon);
+			meta = weapon.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
-		if(lore == null) {
-			GeneralLoreUtil.populateLore(weapon);
-		}
 		for(int i = 6; i < lore.size(); i++) {
 			if(lore.get(i).contains("[Empty Slot]")) {
-				lore.remove(i);
 				if(mod.isSlotRequired()) {
+					lore.remove(i);
 					lore.add(i, ChatColor.GOLD + mod.getName());	
 					for(int x = 0; x < mod.getDescription().length; x++) {
 						lore.add(i+x+1,ChatColor.GRAY + "- " + mod.getDescription()[x]);
@@ -167,11 +153,9 @@ public class ModUtil {
 		ItemMeta meta = armor.getItemMeta();
 		if(!meta.hasLore()) {
 			GeneralLoreUtil.populateLore(armor);
+			meta = armor.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
-		if(lore == null) {
-			GeneralLoreUtil.populateLore(armor);
-		}
 		for(int i = 6; i < lore.size(); i++) {
 			if(lore.get(i).contains("[Empty Slot]")) {
 				lore.remove(i);
@@ -246,11 +230,9 @@ public class ModUtil {
 		ItemMeta meta = item.getItemMeta();
 		if(!meta.hasLore()) {
 			GeneralLoreUtil.populateLore(item);
+			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
-		if(lore == null) {
-			GeneralLoreUtil.populateLore(item);
-		}
 		//Get the current size of the lore list -> we add a mod slot at the end
 		int size = lore.size();
 		lore.add(size,ChatColor.DARK_GRAY + "[Empty Slot]");
