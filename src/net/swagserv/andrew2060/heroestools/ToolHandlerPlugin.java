@@ -58,7 +58,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	/**
 	 * @param modManager the modManager to set
 	 */
-	public void setModManager(ModManager modManager) {
+	private void setModManager(ModManager modManager) {
 		this.modManager = modManager;
 	}
 	
