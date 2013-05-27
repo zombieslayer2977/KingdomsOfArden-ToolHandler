@@ -2,21 +2,22 @@ package net.swagserv.andrew2060.toolhandler.mods.typedefs;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-public abstract class ToolUtilMod {
+import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
+
+public abstract class ToolMod {
 	private String[] desc;
 	private String name;
 	private int weight;
 	private boolean requiresSlot;
-	public ToolUtilMod(String name, String[] desc, int weight, boolean requiresSlot) {
+	public ToolMod(String name, String[] desc, int weight, boolean requiresSlot) {
 		this.name = name;
 		this.desc = desc;
 		this.weight = weight;
 		this.requiresSlot = requiresSlot;
 	}
-	public ToolUtilMod(String name, String desc, int weight, boolean requiresSlot) {
+	public ToolMod(String name, String desc, int weight, boolean requiresSlot) {
 		this(name, new String[] {desc}, weight, requiresSlot);
 	}
-	public abstract void applyToTool(ItemStack tool);
 	public String getName() {
 		return name;
 	}
@@ -30,4 +31,6 @@ public abstract class ToolUtilMod {
 		return requiresSlot;
 	}
 	public abstract void executeOnBlockBreak(BlockBreakEvent event);
+	public abstract void applyToTool(ItemStack tool);
+	public abstract void executeOnWeaponDamage(WeaponDamageEvent event);
 }

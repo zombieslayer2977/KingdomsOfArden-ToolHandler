@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,14 +13,14 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 
 import net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.swagserv.andrew2060.toolhandler.mods.typedefs.ArmorMod;
-import net.swagserv.andrew2060.toolhandler.mods.typedefs.ToolUtilMod;
+import net.swagserv.andrew2060.toolhandler.mods.typedefs.ScytheMod;
+import net.swagserv.andrew2060.toolhandler.mods.typedefs.ToolMod;
 import net.swagserv.andrew2060.toolhandler.mods.typedefs.WeaponMod;
 import net.swagserv.andrew2060.toolhandler.util.ModUtil;
 
@@ -36,23 +36,27 @@ public class ModManager {
 	private final File weaponModDir;
 	private final File armorModDir;
 	private final File toolModDir;
+	private final File scytheModDir;
 
 	private final Map<String,File> weaponModFiles;
 	private final Map<String,File> armorModFiles;
 	private final Map<String,File> toolModFiles;
+	private final Map<String,File> scytheModFiles;
 
 	//Map of mod name along with its associated mod data file
 	private final Map<String,WeaponMod> weaponMods;
 	private final Map<String,ArmorMod> armorMods;
-	private final Map<String,ToolUtilMod> toolMods;
+	private final Map<String,ToolMod> toolMods;
+	private final Map<String,ScytheMod> scytheMods;
 
-	//Lists containing multiple instances of the mod depending on its given weight
-	private final List<WeaponMod> weaponModList;
-	private final List<ArmorMod> armorModList;
-	private final List<ToolUtilMod> toolModList;
-
+	//Used to calculate random chances
+	private int weaponModWeightTotal;
+	private int armorModWeightTotal;
+	private int toolModWeightTotal;
+	private int scytheModWeightTotal;
 
 	private ToolHandlerPlugin plugin;
+
 	@SuppressWarnings("deprecation")
 	public ModManager(ToolHandlerPlugin plugin) {
 		this.plugin = plugin;
@@ -60,10 +64,12 @@ public class ModManager {
 		this.weaponModFiles = new HashMap<String, File>();
 		this.armorModFiles = new HashMap<String, File>();
 		this.toolModFiles = new HashMap<String, File>();	
+		this.scytheModFiles = new HashMap<String, File>();	
 
 		this.weaponMods = new LinkedHashMap<String, WeaponMod>();
 		this.armorMods = new LinkedHashMap<String, ArmorMod>();
-		this.toolMods = new LinkedHashMap<String, ToolUtilMod>();
+		this.toolMods = new LinkedHashMap<String, ToolMod>();
+		this.scytheMods = new LinkedHashMap<String, ScytheMod>();
 
 		File modDir = new File(plugin.getDataFolder(),"Mods");
 		modDir.mkdirs();
@@ -73,11 +79,14 @@ public class ModManager {
 		this.armorModDir.mkdirs();
 		this.toolModDir = new File(modDir,"ToolMods");
 		this.toolModDir.mkdirs();
+		this.scytheModDir = new File(modDir,"ScytheMods");
+		this.scytheModDir.mkdirs();
 
-		this.weaponModList = new ArrayList<WeaponMod>();
-		this.armorModList = new ArrayList<ArmorMod>();
-		this.toolModList = new ArrayList<ToolUtilMod>();
-
+		this.armorModWeightTotal = 0;
+		this.toolModWeightTotal = 0;
+		this.weaponModWeightTotal = 0;
+		this.scytheModWeightTotal = 0;
+		
 		PluginClassLoader classLoader = (PluginClassLoader)plugin.getClass().getClassLoader();
 		if (classLoader.getClass().getConstructors().length > 1) {
 			this.classLoader = null;
@@ -234,8 +243,7 @@ public class ModManager {
 		return null;
 	}
 	@SuppressWarnings({ "unchecked" })
-
-	private List<ToolUtilMod> loadToolMods(File file) {
+	private List<ToolMod> loadToolMods(File file) {
 		try {
 			JarFile jarFile = new JarFile(file);
 			Enumeration<JarEntry> entries = jarFile.entries();
@@ -258,13 +266,56 @@ public class ModManager {
 				}
 			}
 			if (mainClasses != null) {
-				List<ToolUtilMod> mods = new LinkedList<ToolUtilMod>();
+				List<ToolMod> mods = new LinkedList<ToolMod>();
 				Iterator<String> classIterator = mainClasses.iterator();
 				while(classIterator.hasNext()) {
 					Class toolModClass = Class.forName(classIterator.next(), true, this.classLoader);
-					Class modClass = toolModClass.asSubclass(ToolUtilMod.class);
+					Class modClass = toolModClass.asSubclass(ToolMod.class);
 					Constructor ctor = modClass.getConstructor(new Class[] {});
-					ToolUtilMod mod = (ToolUtilMod)ctor.newInstance(new Object[] {});
+					ToolMod mod = (ToolMod)ctor.newInstance(new Object[] {});
+					mods.add(mod);
+				}
+				jarFile.close(); 
+				return mods;
+			}
+			jarFile.close();
+		} catch (Exception e) {
+			plugin.getLogger().log(Level.INFO, "The mod pack " + file.getName() + " failed to load.");
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@SuppressWarnings({ "unchecked" })
+	private List<ScytheMod> loadScytheMods(File file) {
+		try {
+			JarFile jarFile = new JarFile(file);
+			Enumeration<JarEntry> entries = jarFile.entries();
+			List<String> mainClasses = null;
+			while (entries.hasMoreElements()) {
+				JarEntry element = entries.nextElement();
+				if (element.getName().equalsIgnoreCase("mod.info")) {
+					BufferedReader reader = new BufferedReader(new InputStreamReader(jarFile.getInputStream(element)));
+					mainClasses = new LinkedList<String>();
+					String next = reader.readLine();
+					while(next != null) {
+						mainClasses.add(next);
+						try {
+							next = reader.readLine();
+							continue;
+						} catch(NullPointerException e) {
+							break;
+						}
+					}
+				}
+			}
+			if (mainClasses != null) {
+				List<ScytheMod> mods = new LinkedList<ScytheMod>();
+				Iterator<String> classIterator = mainClasses.iterator();
+				while(classIterator.hasNext()) {
+					Class toolModClass = Class.forName(classIterator.next(), true, this.classLoader);
+					Class modClass = toolModClass.asSubclass(ScytheMod.class);
+					Constructor ctor = modClass.getConstructor(new Class[] {});
+					ScytheMod mod = (ScytheMod)ctor.newInstance(new Object[] {});
 					mods.add(mod);
 				}
 				jarFile.close(); 
@@ -279,7 +330,7 @@ public class ModManager {
 	}
 	public void loadWeaponMods() {
 		for (Map.Entry entry : this.weaponModFiles.entrySet()) {
-			if (!isWeaponLoaded((String)entry.getKey())) {
+			if (!isWeaponModLoaded((String)entry.getKey())) {
 				Iterator<WeaponMod> loadModsFromFile = loadWeaponMods((File)entry.getValue()).iterator();
 				while(loadModsFromFile.hasNext()) {
 					WeaponMod weaponMod = loadModsFromFile.next();
@@ -293,7 +344,7 @@ public class ModManager {
 
 	public void loadArmorMods() {
 		for (Map.Entry entry : this.armorModFiles.entrySet()) {
-			if (!isArmorLoaded((String)entry.getKey())) {
+			if (!isArmorModLoaded((String)entry.getKey())) {
 				Iterator<ArmorMod> loadModsFromFile = loadArmorMods((File)entry.getValue()).iterator();
 				while(loadModsFromFile.hasNext()) {
 					ArmorMod armorMod = loadModsFromFile.next();
@@ -305,52 +356,72 @@ public class ModManager {
 	}
 
 	public void loadToolMods() {
-		for (Map.Entry entry : this.armorModFiles.entrySet()) {
-			if (!isToolLoaded((String)entry.getKey())) {
-				Iterator<ToolUtilMod> loadModsFromFile = loadToolMods((File)entry.getValue()).iterator();
+		for (Map.Entry entry : this.toolModFiles.entrySet()) {
+			if (!isToolModLoaded((String)entry.getKey())) {
+				Iterator<ToolMod> loadModsFromFile = loadToolMods((File)entry.getValue()).iterator();
 				while(loadModsFromFile.hasNext()) {
-					ToolUtilMod toolMod = loadModsFromFile.next();
+					ToolMod toolMod = loadModsFromFile.next();
 					addToolMod(toolMod);
 					plugin.getLogger().log(Level.INFO, "Mod " + toolMod.getName() + "(Tool) Loaded");
 				}
 			}
 		}
 	}
-
-	private void addToolMod(ToolUtilMod mod) {
-		this.toolMods.put(mod.getName().toLowerCase(), mod);	
-		for(int i = 0; i < mod.getWeight(); i++) {
-			toolModList.add(mod);
+	public void loadScytheMods() {
+		for (Map.Entry entry : this.scytheModFiles.entrySet()) {
+			if (!isScytheModLoaded((String)entry.getKey())) {
+				Iterator<ScytheMod> loadModsFromFile = loadScytheMods((File)entry.getValue()).iterator();
+				while(loadModsFromFile.hasNext()) {
+					ScytheMod scytheMod = loadModsFromFile.next();
+					addScytheMod(scytheMod);
+					plugin.getLogger().log(Level.INFO, "Mod " + scytheMod.getName() + "(Tool) Loaded");
+				}
+			}
 		}
+	}
+	private void addScytheMod(ScytheMod mod) {
+		this.scytheMods.put(mod.getName().toLowerCase(), mod);	
+		this.scytheModWeightTotal += mod.getWeight();
+	}
+	private void addToolMod(ToolMod mod) {
+		this.toolMods.put(mod.getName().toLowerCase(), mod);	
+		this.toolModWeightTotal +=mod.getWeight();
+
 	} 
 	private void addArmorMod(ArmorMod mod) {
 		this.armorMods.put(mod.getName().toLowerCase(), mod);	
-		for(int i = 0; i < mod.getWeight(); i++) {
-			armorModList.add(mod);
-		}
+		this.armorModWeightTotal += mod.getWeight();
 	}
 	private void addWeaponMod(WeaponMod mod) {
 		this.weaponMods.put(mod.getName().toLowerCase(), mod);
-		for(int i = 0; i < mod.getWeight(); i++) {
-			weaponModList.add(mod);
-		}
+		this.weaponModWeightTotal += mod.getWeight();
 	}
-	private boolean isWeaponLoaded(String key) {
+	private boolean isWeaponModLoaded(String key) {
 		return this.weaponMods.containsKey(key.toLowerCase());
 	}
-	private boolean isArmorLoaded(String key) {
+	private boolean isArmorModLoaded(String key) {
 		return this.armorMods.containsKey(key.toLowerCase());
 	}
-	private boolean isToolLoaded(String key) {
+	private boolean isToolModLoaded(String key) {
 		return this.toolMods.containsKey(key.toLowerCase());
+	}
+	private boolean isScytheModLoaded(String key) {
+		return this.scytheMods.containsKey(key.toLowerCase());
 	}
 	public PluginClassLoader getClassLoader() {
 		return classLoader;
 	}
 	public WeaponMod getRandomWeaponMod(int seed) {
-		int size = weaponModList.size();
-		if(size > 0) {
-			WeaponMod mod = weaponModList.get(plugin.getRand().nextInt(size));
+		Collection<String> mods = weaponMods.keySet();
+		Iterator<String> modIt = mods.iterator();
+		if(mods.size() > 0) {
+			int rand = plugin.getRand().nextInt(this.weaponModWeightTotal+1);
+			WeaponMod mod = null;
+			while(rand > 0 && modIt.hasNext()) {
+				String next = modIt.next();
+				mod = weaponMods.get(next);
+				rand -= mod.getWeight();
+			}
 			if(mod.getWeight() >= 20) {
 				return mod;
 			} else {
@@ -365,9 +436,16 @@ public class ModManager {
 		}
 	}
 	public ArmorMod getRandomArmorMod(int seed) {
-		int size = armorModList.size();
-		if(size > 0) {
-			ArmorMod mod = armorModList.get(plugin.getRand().nextInt(size));
+		Collection<String> mods = armorMods.keySet();
+		Iterator<String> modIt = mods.iterator();
+		if(mods.size() > 0) {
+			int rand = plugin.getRand().nextInt(this.armorModWeightTotal+1);
+			ArmorMod mod = null;
+			while(rand > 0 && modIt.hasNext()) {
+				String next = modIt.next();
+				mod = armorMods.get(next);
+				rand -= mod.getWeight();
+			}
 			if(mod.getWeight() >= 20) {
 				return mod;
 			} else {
@@ -381,11 +459,17 @@ public class ModManager {
 			return null;
 		}	
 	}
-	public ToolUtilMod getRandomToolMod(int seed) {
-		Random rand = new Random();
-		int size = toolModList.size();
-		if(size > 0) {
-			ToolUtilMod mod = toolModList.get(rand.nextInt(size));
+	public ToolMod getRandomToolMod(int seed) {
+		Collection<String> mods = toolMods.keySet();
+		Iterator<String> modIt = mods.iterator();
+		if(mods.size() > 0) {
+			int rand = plugin.getRand().nextInt(this.toolModWeightTotal+1);
+			ToolMod mod = null;
+			while(rand > 0 && modIt.hasNext()) {
+				String next = modIt.next();
+				mod = toolMods.get(next);
+				rand -= mod.getWeight();
+			}
 			if(mod.getWeight() >= 20) {
 				return mod;
 			} else {
@@ -399,15 +483,43 @@ public class ModManager {
 			return null;
 		}	
 	}
+	public ScytheMod getRandomScytheMod(int seed) {
+		Collection<String> mods = scytheMods.keySet();
+		Iterator<String> modIt = mods.iterator();
+		if(mods.size() > 0) {
+			int rand = plugin.getRand().nextInt(this.scytheModWeightTotal+1);
+			ScytheMod mod = null;
+			while(rand > 0 && modIt.hasNext()) {
+				String next = modIt.next();
+				mod = scytheMods.get(next);
+				rand -= mod.getWeight();
+			}
+			if(mod.getWeight() >= 20) {
+				return mod;
+			} else {
+				if(seed < 7) {
+					return getRandomScytheMod(seed + 1);
+				} else {
+					return mod;
+				}
+			}
+		} else {
+			return null;
+		}	
+	}
 	public WeaponMod getWeaponMod(String name) {
 		name = name.toLowerCase();
 		return weaponMods.get(name);
+	}
+	public ScytheMod getScytheMod(String name) {
+		name = name.toLowerCase();
+		return scytheMods.get(name);
 	}
 	public ArmorMod getArmorMod(String name) {
 		name = name.toLowerCase();
 		return armorMods.get(name);
 	}
-	public ToolUtilMod getToolMod(String name) {
+	public ToolMod getToolMod(String name) {
 		name = name.toLowerCase();
 		return toolMods.get(name); 
 	}
@@ -425,11 +537,20 @@ public class ModManager {
 				return ModUtil.addArmorMod(itemstack, getRandomArmorMod(weight));
 			} else if(Util.isWeapon(itemstack.getType())) {
 				switch(itemstack.getType()) {
-				case DIAMOND_SWORD:	case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
+					case DIAMOND_SWORD:	case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
 						return ModUtil.addWeaponMod(itemstack, getRandomWeaponMod(weight));
 					}
-					default: {
+					case DIAMOND_PICKAXE: case DIAMOND_AXE: case DIAMOND_SPADE: 
+					case IRON_PICKAXE: case IRON_AXE: case IRON_SPADE: 
+					case GOLD_PICKAXE: case GOLD_AXE: case GOLD_SPADE: 
+				    case STONE_PICKAXE: case STONE_AXE: case STONE_SPADE: 
+					case WOOD_PICKAXE: case WOOD_AXE: case WOOD_SPADE: { 
 						return ModUtil.addToolMod(itemstack, getRandomToolMod(weight));
+					}
+					case DIAMOND_HOE: case IRON_HOE: case GOLD_HOE: case STONE_HOE: case WOOD_HOE:
+						return ModUtil.addScytheMod(itemstack, getRandomScytheMod(weight));
+					default: {
+						return -1;
 					}
 				}
 			} else {
@@ -437,4 +558,5 @@ public class ModManager {
 			}
 		}
 	}
+	
 }

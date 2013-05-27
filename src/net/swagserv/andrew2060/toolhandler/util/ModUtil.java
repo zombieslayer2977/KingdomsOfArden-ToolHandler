@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.swagserv.andrew2060.toolhandler.mods.typedefs.ArmorMod;
-import net.swagserv.andrew2060.toolhandler.mods.typedefs.ToolUtilMod;
+import net.swagserv.andrew2060.toolhandler.mods.typedefs.ScytheMod;
+import net.swagserv.andrew2060.toolhandler.mods.typedefs.ToolMod;
 import net.swagserv.andrew2060.toolhandler.mods.typedefs.WeaponMod;
 
 import org.bukkit.ChatColor;
@@ -81,7 +82,33 @@ public class ModUtil {
 		}
 		List<String> lore = meta.getLore();
 		List<String> mods = new ArrayList<String>();
-		for(int i = 2; i < lore.size(); i++) {
+		for(int i = 6; i < lore.size(); i++) {
+			String mod = lore.get(i);
+			if(!mod.contains(ChatColor.GOLD +"")) {
+				continue;
+			} else {
+				mod = ChatColor.stripColor(mod);
+				String modName = mod.replace(" ", "");
+				mods.add(modName);
+			}
+		}		
+		return mods;
+	}
+	/**
+	 * Gets a list of scythe mods on a scythe
+	 * 
+	 * @param scythe The ItemStack associated with a tool
+	 * @return null for no mods, otherwise an ArrayList of strings containing mod names
+	 */
+	public static List<String> getScytheMods(ItemStack scythe) {
+		ItemMeta meta = scythe.getItemMeta();
+		if(!meta.hasLore()) {
+			GeneralLoreUtil.populateLore(scythe);
+			return new ArrayList<String>();
+		}
+		List<String> lore = meta.getLore();
+		List<String> mods = new ArrayList<String>();
+		for(int i = 6; i < lore.size(); i++) {
 			String mod = lore.get(i);
 			if(!mod.contains(ChatColor.GOLD +"")) {
 				continue;
@@ -127,6 +154,47 @@ public class ModUtil {
 				meta.setLore(lore);
 				weapon.setItemMeta(meta);
 				mod.applyToWeapon(weapon);
+				return 1;
+			} else {
+				continue;
+			}
+		}
+		return 0;
+	}
+	/**
+	 * Adds a specified scythe mod to a scythe itemstack
+	 * 
+	 * @param scythe - ItemStack representing the scythe to add a mod to 
+	 * @param mod - ScytheMod to Add
+	 * @return -1 for invalid input scythe, 0 for all mod slots full, 1 for normal operation
+	 */
+	public static int addScytheMod(ItemStack scythe, ScytheMod mod) {
+		switch(scythe.getType()) {
+			case DIAMOND_SWORD:	case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
+				break;
+			}
+			default: {
+				return -1;
+			}
+		}
+		ItemMeta meta = scythe.getItemMeta();
+		if(!meta.hasLore()) {
+			GeneralLoreUtil.populateLore(scythe);
+			meta = scythe.getItemMeta();
+		}
+		List<String> lore = meta.getLore();
+		for(int i = 6; i < lore.size(); i++) {
+			if(lore.get(i).contains("[Empty Slot]")) {
+				lore.remove(i);
+				if(mod.isSlotRequired()) {
+					lore.add(i, ChatColor.GOLD + mod.getName());	
+					for(int x = 0; x < mod.getDescription().length; x++) {
+						lore.add(i+x+1+1,ChatColor.GRAY + "- " + mod.getDescription()[x]);
+					}			
+				}				
+				meta.setLore(lore);
+				scythe.setItemMeta(meta);
+				mod.applyToScythe(scythe);
 				return 1;
 			} else {
 				continue;
@@ -182,7 +250,7 @@ public class ModUtil {
 	 * @param mod - ToolMod to Add
 	 * @return -1 for invalid input tool, 0 for all mod slots full, 1 for normal operation
 	 */
-	public static int addToolMod(ItemStack tool, ToolUtilMod mod) {
+	public static int addToolMod(ItemStack tool, ToolMod mod) {
 		switch(tool.getType()) {
 			case DIAMOND_SWORD:	case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
 				break;

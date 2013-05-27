@@ -151,7 +151,7 @@ public class ImprovementUtil {
 			if(quality >= 100) {
 				quality = 100;
 			}
-			toAdd = "Improvement Quality: " + dF.format(quality) + "%";
+			toAdd = ChatColor.GRAY + "Improvement Quality: " + dF.format(quality) + "%";
 			lore.remove(0);
 			lore.add(0, toAdd);
 			meta.setLore(lore);
@@ -166,6 +166,7 @@ public class ImprovementUtil {
 		ItemMeta meta = item.getItemMeta();
 		if(!meta.hasLore()) {
 			GeneralLoreUtil.populateLore(item);
+			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
 		if(!lore.isEmpty()) {
