@@ -85,14 +85,19 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	}
 	@Override
 	public void onDisable() {
+		//Prevent contents of item mod combiners from disappearing on server restart
 		HashMap<Block, Inventory> modChests = modCraftListener.getActiveModChests();
 		Iterator<Block> entryIterator = modChests.keySet().iterator();
 		while(entryIterator.hasNext()) {
 			Block b = entryIterator.next();
 			Inventory inv = modChests.get(b);
 			Location loc = b.getLocation();
-			loc.getWorld().dropItemNaturally(loc, inv.getItem(1));
-			loc.getWorld().dropItemNaturally(loc, inv.getItem(2));
+			if(inv.getItem(1) != null) {
+				loc.getWorld().dropItemNaturally(loc, inv.getItem(1));
+			}
+			if(inv.getItem(0) != null) {
+				loc.getWorld().dropItemNaturally(loc, inv.getItem(2));
+			}
 		}
 	}
 	
