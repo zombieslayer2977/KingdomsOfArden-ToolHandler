@@ -5,6 +5,7 @@ import java.util.Random;
 import net.swagserv.andrew2060.toolhandler.events.CriticalStrikeEvent;
 import net.swagserv.andrew2060.toolhandler.util.GeneralLoreUtil;
 import net.swagserv.andrew2060.toolhandler.util.ImprovementUtil;
+import net.swagserv.andrew2060.toolhandler.util.ModUtil;
 import net.swagserv.andrew2060.toolhandler.util.WeaponLoreUtil;
 
 import org.bukkit.Bukkit;
@@ -110,7 +111,7 @@ public class WeaponLoreListener implements Listener {
 		double rand = randGen.nextInt(10000)*0.01;
 		if(rand <= critchance) {
 			//Fire a CriticalStrikeEvent
-			CriticalStrikeEvent cEvent = new CriticalStrikeEvent((int) (event.getDamage()*1.2), event, p,i);
+			CriticalStrikeEvent cEvent = new CriticalStrikeEvent((int) (event.getDamage()*1.2), event, p,i,ModUtil.getWeaponMods(i));
 			cEvent.callEvent();
 			if(!cEvent.isCancelled()) {
 				event.setDamage(cEvent.getDamage());

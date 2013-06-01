@@ -1,5 +1,7 @@
 package net.swagserv.andrew2060.toolhandler.events;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -14,6 +16,7 @@ public class CriticalStrikeEvent extends Event {
 	private WeaponDamageEvent event;
 	private Player player;
 	private boolean cancelled;
+	private List<String> mods;
 	/**
 	 * This event is to be thrown whenever a critical strike is made. 
 	 * 
@@ -22,11 +25,12 @@ public class CriticalStrikeEvent extends Event {
 	 * @param attacker The attacker that dealt the critical strike
 	 * @param weapon   ItemStack representing the weapon used to deal said critical strike
 	 */
-	public CriticalStrikeEvent(int damage, WeaponDamageEvent event, Player attacker, ItemStack weapon) {
+	public CriticalStrikeEvent(int damage, WeaponDamageEvent event, Player attacker, ItemStack weapon, List<String> weaponModsAttacker) {
 		this.dmg = damage;
 		this.event = event;
 		this.player = attacker;
 		this.cancelled = false;
+		this.mods = weaponModsAttacker;
 	}
 
 	@Override
@@ -86,5 +90,12 @@ public class CriticalStrikeEvent extends Event {
 	 */
 	public boolean isCancelled() {
 		return cancelled;
+	}
+
+	/**
+	 * @return the mods
+	 */
+	public List<String> getMods() {
+		return mods;
 	}
 }

@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class CraftingListener implements Listener {
 	@EventHandler(priority=EventPriority.MONITOR) 
@@ -20,20 +21,54 @@ public class CraftingListener implements Listener {
 		ItemStack created = event.getCurrentItem();
 		Material type = created.getType();
 		switch(type) {
-		case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD:
-			((Player)event.getWhoClicked()).sendMessage(ChatColor.GRAY + "Your newly forged sword is not very sharp...you should take the sword to a blacksmith to sharpen it.");
-			break;
-		case BOW:
-			((Player)event.getWhoClicked()).sendMessage(ChatColor.GRAY + "Your newly strung bow is not as taut as it could be...you should take the bow to a blacksmith to tighten it.");
-			break;
-		case DIAMOND_HELMET: case DIAMOND_CHESTPLATE: case DIAMOND_LEGGINGS: case DIAMOND_BOOTS: case IRON_HELMET: case IRON_CHESTPLATE: case IRON_LEGGINGS: case IRON_BOOTS: case GOLD_HELMET: case GOLD_CHESTPLATE: case GOLD_LEGGINGS: case GOLD_BOOTS: case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: case LEATHER_HELMET: case LEATHER_CHESTPLATE: case LEATHER_LEGGINGS: case LEATHER_BOOTS:
-			((Player)event.getWhoClicked()).sendMessage(ChatColor.GRAY + "Your armor provides decent protection, but the skill of a blacksmith could massively improve it.");
-			break;
-		case DIAMOND_PICKAXE: case DIAMOND_AXE: case DIAMOND_HOE: case DIAMOND_SPADE: case IRON_PICKAXE: case IRON_AXE: case IRON_HOE: case IRON_SPADE: case GOLD_PICKAXE: case GOLD_AXE: case GOLD_HOE: case GOLD_SPADE: case STONE_PICKAXE: case STONE_AXE: case STONE_HOE: case STONE_SPADE: case WOOD_PICKAXE: case WOOD_AXE: case WOOD_HOE: case WOOD_SPADE: 
-			((Player)event.getWhoClicked()).sendMessage(ChatColor.GRAY + "Your newly created tool works quite well, but a blacksmith could increase its mining efficiency, thus allowing it to mine blocks faster.");
-			break;
-		default:
-			return;
+			case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD:
+				((Player)event.getWhoClicked()).sendMessage(ChatColor.GRAY + "Your newly forged sword is not very sharp...you should take the sword to a blacksmith to sharpen it.");
+				break;
+			case BOW:
+				((Player)event.getWhoClicked()).sendMessage(ChatColor.GRAY + "Your newly strung bow is not as taut as it could be...you should take the bow to a blacksmith to tighten it.");
+				break;
+			case DIAMOND_HELMET: case DIAMOND_CHESTPLATE: case DIAMOND_LEGGINGS: case DIAMOND_BOOTS: case IRON_HELMET: case IRON_CHESTPLATE: case IRON_LEGGINGS: case IRON_BOOTS: case GOLD_HELMET: case GOLD_CHESTPLATE: case GOLD_LEGGINGS: case GOLD_BOOTS: case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: case LEATHER_HELMET: case LEATHER_CHESTPLATE: case LEATHER_LEGGINGS: case LEATHER_BOOTS:
+				((Player)event.getWhoClicked()).sendMessage(ChatColor.GRAY + "Your armor provides decent protection, but the skill of a blacksmith could massively improve it.");
+				break;
+			case DIAMOND_PICKAXE: case DIAMOND_AXE: case DIAMOND_HOE: case DIAMOND_SPADE: case IRON_PICKAXE: case IRON_AXE: case IRON_HOE: case IRON_SPADE: case GOLD_PICKAXE: case GOLD_AXE: case GOLD_HOE: case GOLD_SPADE: case STONE_PICKAXE: case STONE_AXE: case STONE_HOE: case STONE_SPADE: case WOOD_PICKAXE: case WOOD_AXE: case WOOD_HOE: case WOOD_SPADE: 
+				((Player)event.getWhoClicked()).sendMessage(ChatColor.GRAY + "Your newly created tool works quite well, but a blacksmith could increase its mining efficiency, thus allowing it to mine blocks faster.");
+				break;
+			default:
+				return;
+		}
+		switch(type) {
+	        case DIAMOND_HOE: {
+	        	ItemMeta meta = created.getItemMeta();
+	        	meta.setDisplayName("Diamond Scythe");
+	        	created.setItemMeta(meta);
+	        	break;
+	        }
+	        case IRON_HOE: {
+	        	ItemMeta meta = created.getItemMeta();
+	        	meta.setDisplayName("Iron Scythe");
+	        	created.setItemMeta(meta);
+	        	break;
+	        }
+	        case GOLD_HOE: {
+	        	ItemMeta meta = created.getItemMeta();
+	        	meta.setDisplayName("Gold Scythe");
+	        	created.setItemMeta(meta);
+	        	break;
+	        }
+	        case STONE_HOE: {
+	        	ItemMeta meta = created.getItemMeta();
+	        	meta.setDisplayName("Stone Scythe");
+	        	created.setItemMeta(meta);
+	        	break;
+	        }
+	        case WOOD_HOE: {
+	        	ItemMeta meta = created.getItemMeta();
+	        	meta.setDisplayName("Wood Scythe");
+	        	created.setItemMeta(meta);
+	        	break;
+	        }
+	    	default:
+	    		return;
 		}
 		GeneralLoreUtil.populateLore(event.getCurrentItem());
 		return;		

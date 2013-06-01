@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class ShiftClickListener implements Listener{
 	private ToolHandlerPlugin plugin;
@@ -23,7 +24,7 @@ public class ShiftClickListener implements Listener{
 	private boolean hasItems(ItemStack stack) {
         return stack != null && stack.getAmount() > 0;
     }
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onInventoryClickEvent(InventoryClickEvent event) {
 	 
 	    if (event.getInventory() != null &&
@@ -31,8 +32,6 @@ public class ShiftClickListener implements Listener{
 	   
 	        switch (event.getInventory().getType()) {
 	        case CRAFTING:
-	            handleCrafting(event);
-	            break;
 	        case WORKBENCH:
 	            handleCrafting(event);
 	            break;
@@ -79,6 +78,40 @@ public class ShiftClickListener implements Listener{
 	                // We're only interested in filled slots that are different
 	                if (hasSameItem(compareItem, post) && (hasSameItem(compareItem, pre) || pre == null)) {
 	                    GeneralLoreUtil.populateLore(post);
+	                    switch(post.getType()) {
+		                    case DIAMOND_HOE: {
+		                    	ItemMeta meta = post.getItemMeta();
+		                    	meta.setDisplayName("Diamond Scythe");
+		                    	post.setItemMeta(meta);
+		                    	break;
+		                    }
+		                    case IRON_HOE: {
+		                    	ItemMeta meta = post.getItemMeta();
+		                    	meta.setDisplayName("Iron Scythe");
+		                    	post.setItemMeta(meta);
+		                    	break;
+		                    }
+		                    case GOLD_HOE: {
+		                    	ItemMeta meta = post.getItemMeta();
+		                    	meta.setDisplayName("Gold Scythe");
+		                    	post.setItemMeta(meta);
+		                    	break;
+		                    }
+		                    case STONE_HOE: {
+		                    	ItemMeta meta = post.getItemMeta();
+		                    	meta.setDisplayName("Stone Scythe");
+		                    	post.setItemMeta(meta);
+		                    	break;
+		                    }
+		                    case WOOD_HOE: {
+		                    	ItemMeta meta = post.getItemMeta();
+		                    	meta.setDisplayName("Wood Scythe");
+		                    	post.setItemMeta(meta);
+		                    	break;
+		                    }
+	                    	default:
+	                    		return;
+	                    }
 	                }
 	            }
 	       
