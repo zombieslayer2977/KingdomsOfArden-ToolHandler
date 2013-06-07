@@ -11,7 +11,7 @@ import net.swagserv.andrew2060.toolhandler.listeners.durability.ToolDurabilityCh
 import net.swagserv.andrew2060.toolhandler.listeners.durability.WeaponDurabilityChangeListener;
 import net.swagserv.andrew2060.toolhandler.listeners.lore.ArmorLoreListener;
 import net.swagserv.andrew2060.toolhandler.listeners.lore.WeaponLoreListener;
-import net.swagserv.andrew2060.toolhandler.listeners.mods.ModCraftingListener;
+import net.swagserv.andrew2060.toolhandler.listeners.mods.ModCombinerListener;
 import net.swagserv.andrew2060.toolhandler.listeners.mods.ModListener;
 import net.swagserv.andrew2060.toolhandler.mods.ModManager;
 
@@ -35,7 +35,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	private WeaponLoreListener weapLoreListener;
 	
 	private ModListener modListener;
-	private ModCraftingListener modCraftListener;
+	private ModCombinerListener modCraftListener;
 	
 	private Random rand;
 
@@ -52,7 +52,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		this.weapLoreListener = new WeaponLoreListener();
 		
 		this.modListener = new ModListener(this);
-		this.modCraftListener = new ModCraftingListener(this);
+		this.modCraftListener = new ModCombinerListener(this);
 		
 		this.rand = new Random();
 		

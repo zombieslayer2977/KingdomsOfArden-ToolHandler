@@ -21,12 +21,12 @@ import org.bukkit.inventory.ItemStack;
 
 import net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin;
 
-public class ModCraftingListener implements Listener {
+public class ModCombinerListener implements Listener {
 
 	private ToolHandlerPlugin plugin;
 	private HashMap<Block, Inventory> activeModChests;
 	
-	public ModCraftingListener(ToolHandlerPlugin toolHandlerPlugin) {
+	public ModCombinerListener(ToolHandlerPlugin toolHandlerPlugin) {
 		this.plugin = toolHandlerPlugin;
 		this.activeModChests = new HashMap<Block,Inventory>();
 	}

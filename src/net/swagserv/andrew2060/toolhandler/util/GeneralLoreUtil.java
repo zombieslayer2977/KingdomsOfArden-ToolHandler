@@ -64,9 +64,11 @@ public class GeneralLoreUtil {
 			case STONE_HOE:
 			case WOOD_HOE: {
 				populateMagicTool(defaultLoreTool);
+				break;
 			}
 			default: {
 				populateWeaponTool(defaultLoreTool);
+				break;
 			}
 		}
 		return defaultLoreTool;

@@ -57,7 +57,6 @@ public class ModManager {
 
 	private ToolHandlerPlugin plugin;
 
-	@SuppressWarnings("deprecation")
 	public ModManager(ToolHandlerPlugin plugin) {
 		this.plugin = plugin;
 
