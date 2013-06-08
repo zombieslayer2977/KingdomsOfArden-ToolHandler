@@ -18,7 +18,13 @@ import com.herocraftonline.heroes.api.events.HeroRegainHealthEvent;
 public class HealingEffectListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onHeroRegainHealth(HeroRegainHealthEvent event) {
+		if(!(event.getAmount() > 0)) {
+			return;
+		}
 		LivingEntity lE = event.getHero().getEntity();
+		if(lE.getHealth() == lE.getMaxHealth()) {
+			return;
+		}
 		Wolf w = (Wolf) lE.getWorld().spawnEntity(lE.getLocation(), EntityType.WOLF);
 		w.playEffect(EntityEffect.WOLF_HEARTS);
 		w.remove();

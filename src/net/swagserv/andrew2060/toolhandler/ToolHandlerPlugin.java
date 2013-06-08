@@ -9,6 +9,7 @@ import net.swagserv.andrew2060.toolhandler.listeners.crafting.ShiftClickListener
 import net.swagserv.andrew2060.toolhandler.listeners.durability.ArmorDurabilityChangeListener;
 import net.swagserv.andrew2060.toolhandler.listeners.durability.ToolDurabilityChangeListener;
 import net.swagserv.andrew2060.toolhandler.listeners.durability.WeaponDurabilityChangeListener;
+import net.swagserv.andrew2060.toolhandler.listeners.effects.HealingEffectListener;
 import net.swagserv.andrew2060.toolhandler.listeners.lore.ArmorLoreListener;
 import net.swagserv.andrew2060.toolhandler.listeners.lore.WeaponLoreListener;
 import net.swagserv.andrew2060.toolhandler.listeners.mods.ModCombinerListener;
@@ -38,6 +39,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	private ModCombinerListener modCraftListener;
 	
 	private Random rand;
+	private HealingEffectListener healingEffectListener;
 
 	public void onEnable() {
 		//Initialize Listeners
@@ -53,6 +55,8 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		
 		this.modListener = new ModListener(this);
 		this.modCraftListener = new ModCombinerListener(this);
+		
+		this.healingEffectListener = new HealingEffectListener();
 		
 		this.rand = new Random();
 		
@@ -81,6 +85,9 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		//Modification Listeners
 		Bukkit.getPluginManager().registerEvents(this.modListener, this);
 		Bukkit.getPluginManager().registerEvents(this.modCraftListener, this);
+		
+		//Effect Listeners
+		Bukkit.getPluginManager().registerEvents(this.healingEffectListener, this);
 
 	}
 	@Override
