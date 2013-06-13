@@ -41,7 +41,7 @@ public class WeaponLoreListener implements Listener {
 			bonusDamage = WeaponLoreUtil.getBonusDamage(i);
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			double quality = ImprovementUtil.getQuality(i);
-			GeneralLoreUtil.populateLore(i);
+			GeneralLoreUtil.populateLoreDefaults(i);
 			ImprovementUtil.setQuality(i, quality);
 		}
 		event.setDamage(event.getDamage() + bonusDamage);
@@ -69,7 +69,7 @@ public class WeaponLoreListener implements Listener {
 			ls = WeaponLoreUtil.getLifeSteal(i);
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			double quality = ImprovementUtil.getQuality(i);
-			GeneralLoreUtil.populateLore(i);
+			GeneralLoreUtil.populateLoreDefaults(i);
 			ImprovementUtil.setQuality(i, quality);
 		}
 		HeroRegainHealthEvent healingEvent = new HeroRegainHealthEvent((Hero) event.getDamager(), ls, null);
@@ -104,7 +104,7 @@ public class WeaponLoreListener implements Listener {
 			critchance = WeaponLoreUtil.getCritChance(i);
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			double quality = ImprovementUtil.getQuality(i);
-			GeneralLoreUtil.populateLore(i);
+			GeneralLoreUtil.populateLoreDefaults(i);
 			ImprovementUtil.setQuality(i, quality);
 		}
 		Random randGen = new Random();

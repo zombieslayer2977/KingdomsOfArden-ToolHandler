@@ -47,8 +47,6 @@ public class ModCombinerListener implements Listener {
 		}
 		event.setCancelled(true);
 		Player p = event.getPlayer();
-		//TODO: Warning: UNSAFE: stuff inside disappears on server shutdown
-		//TODO: perhaps have server shutdown iterate through the list of activeHiddenChests and spawn the contents on the ground
 		if(activeModChests.containsKey(b)) {
 			p.openInventory(activeModChests.get(b));
 		} else {

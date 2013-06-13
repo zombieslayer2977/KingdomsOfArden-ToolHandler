@@ -77,7 +77,7 @@ public class ShiftClickListener implements Listener{
 	 
 	                // We're only interested in filled slots that are different
 	                if (hasSameItem(compareItem, post) && (hasSameItem(compareItem, pre) || pre == null)) {
-	                    GeneralLoreUtil.populateLore(post);
+	                    GeneralLoreUtil.populateLoreDefaults(post);
 	                    switch(post.getType()) {
 		                    case DIAMOND_HOE: {
 		                    	ItemMeta meta = post.getItemMeta();

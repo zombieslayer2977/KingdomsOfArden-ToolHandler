@@ -25,7 +25,7 @@ public class ModUtil {
 	public static List<String> getWeaponMods(ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLore(weapon);
+			GeneralLoreUtil.populateLoreDefaults(weapon);
 			return new ArrayList<String>();
 		}
 		List<String> lore = meta.getLore();
@@ -51,7 +51,7 @@ public class ModUtil {
 	public static List<String> getArmorMods(ItemStack armor) {
 		ItemMeta meta = armor.getItemMeta();
 		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLore(armor);
+			GeneralLoreUtil.populateLoreDefaults(armor);
 			return new ArrayList<String>();
 		}
 		List<String> lore = meta.getLore();
@@ -77,7 +77,7 @@ public class ModUtil {
 	public static List<String> getToolMods(ItemStack tool) {
 		ItemMeta meta = tool.getItemMeta();
 		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLore(tool);
+			GeneralLoreUtil.populateLoreDefaults(tool);
 			return new ArrayList<String>();
 		}
 		List<String> lore = meta.getLore();
@@ -103,7 +103,7 @@ public class ModUtil {
 	public static List<String> getScytheMods(ItemStack scythe) {
 		ItemMeta meta = scythe.getItemMeta();
 		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLore(scythe);
+			GeneralLoreUtil.populateLoreDefaults(scythe);
 			return new ArrayList<String>();
 		}
 		List<String> lore = meta.getLore();
@@ -138,7 +138,7 @@ public class ModUtil {
 		}
 		ItemMeta meta = weapon.getItemMeta();
 		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLore(weapon);
+			GeneralLoreUtil.populateLoreDefaults(weapon);
 			meta = weapon.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
@@ -179,7 +179,7 @@ public class ModUtil {
 		}
 		ItemMeta meta = scythe.getItemMeta();
 		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLore(scythe);
+			GeneralLoreUtil.populateLoreDefaults(scythe);
 			meta = scythe.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
@@ -220,7 +220,7 @@ public class ModUtil {
 		}
 		ItemMeta meta = armor.getItemMeta();
 		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLore(armor);
+			GeneralLoreUtil.populateLoreDefaults(armor);
 			meta = armor.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
@@ -261,11 +261,11 @@ public class ModUtil {
 		}
 		ItemMeta meta = tool.getItemMeta();
 		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLore(tool);
+			GeneralLoreUtil.populateLoreDefaults(tool);
 		}
 		List<String> lore = meta.getLore();
 		if(lore == null) {
-			GeneralLoreUtil.populateLore(tool);
+			GeneralLoreUtil.populateLoreDefaults(tool);
 		}
 		for(int i = 6; i < lore.size(); i++) {
 			if(lore.get(i).contains("[Empty Slot]")) {
@@ -297,7 +297,7 @@ public class ModUtil {
 		}
 		ItemMeta meta = item.getItemMeta();
 		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLore(item);
+			GeneralLoreUtil.populateLoreDefaults(item);
 			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();

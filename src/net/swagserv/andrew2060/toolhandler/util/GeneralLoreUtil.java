@@ -14,7 +14,7 @@ public class GeneralLoreUtil {
 	//For Spades, Picks, and Axes
 	private static void populateWeaponTool(List<String> templateLoreWeaponTool) {
 		templateLoreWeaponTool.add(0,ChatColor.GRAY + "Improvement Quality: 0.00%");
-		templateLoreWeaponTool.add(1,ChatColor.WHITE + "========Statistics========");
+		templateLoreWeaponTool.add(1,ChatColor.WHITE + "=========Statistics==========");
 		templateLoreWeaponTool.add(2,ChatColor.GRAY + "Bonus True Damage: 0");
 		templateLoreWeaponTool.add(3,ChatColor.GRAY + "Bash Attack Chance: 0.00%");
 		templateLoreWeaponTool.add(4,ChatColor.GRAY + "Decapitation Chance: 0.00%");
@@ -25,7 +25,7 @@ public class GeneralLoreUtil {
 	//For Hoes
 	private static void populateMagicTool(List<String> templateLoreMagicTool) {
 		templateLoreMagicTool.add(0,ChatColor.GRAY + "Improvement Quality: 0.00%");
-		templateLoreMagicTool.add(1,ChatColor.WHITE + "========Statistics========");
+		templateLoreMagicTool.add(1,ChatColor.WHITE + "=========Statistics==========");
 		templateLoreMagicTool.add(2,ChatColor.GRAY + "Damage Boost Rating: 0.00%");
 		templateLoreMagicTool.add(3,ChatColor.GRAY + "Mana Restoration: 0 Mana/Hit");
 		templateLoreMagicTool.add(4,ChatColor.GRAY + "Spell Leech: 0.00%");
@@ -36,7 +36,7 @@ public class GeneralLoreUtil {
 	//For all Armor Types
 	private static void populateArmor(List<String> templateLoreArmor) {
 		templateLoreArmor.add(0,ChatColor.GRAY + "Improvement Quality: 0.00%");
-		templateLoreArmor.add(1,ChatColor.WHITE + "========Statistics========");
+		templateLoreArmor.add(1,ChatColor.WHITE + "=========Statistics==========");
 		templateLoreArmor.add(2,ChatColor.GRAY + "Magical Resistance Rating: 0.00%");
 		templateLoreArmor.add(3,ChatColor.GRAY + "Healing Bonus: 0.00%");
 		templateLoreArmor.add(4,ChatColor.GRAY + "Additional Protection: 0 Damage/Hit");
@@ -47,7 +47,7 @@ public class GeneralLoreUtil {
 	//For Swords and Axes
 	private static void populateWeapon(List<String> templateLoreWeapon) {
 		templateLoreWeapon.add(0,ChatColor.GRAY + "Improvement Quality: 0.00%");
-		templateLoreWeapon.add(1,ChatColor.WHITE + "========Statistics========");
+		templateLoreWeapon.add(1,ChatColor.WHITE + "=========Statistics==========");
 		templateLoreWeapon.add(2,ChatColor.GRAY + "Bonus Damage: 0");
 		templateLoreWeapon.add(3,ChatColor.GRAY + "Life Steal: 0 Health/Hit");
 		templateLoreWeapon.add(4,ChatColor.GRAY + "Critical Strike Chance: 0.00%");
@@ -92,7 +92,7 @@ public class GeneralLoreUtil {
 		populateWeapon(defaultLoreWeapon);
 		return defaultLoreWeapon;
 	}
-	public static void populateLore(ItemStack item) {
+	public static void populateLoreDefaults(ItemStack item) {
 		Material mat = item.getType();
 		switch(mat) {
 			case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD:	case WOOD_SWORD: case BOW: {

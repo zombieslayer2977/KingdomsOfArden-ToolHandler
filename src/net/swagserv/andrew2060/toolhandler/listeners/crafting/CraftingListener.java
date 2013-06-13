@@ -70,7 +70,7 @@ public class CraftingListener implements Listener {
 	    	default:
 	    		break;
 		}
-		GeneralLoreUtil.populateLore(event.getCurrentItem());
+		GeneralLoreUtil.populateLoreDefaults(event.getCurrentItem());
 		return;		
 	}
 

@@ -98,10 +98,10 @@ public class ArmorLoreListener implements Listener {
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			try {
 				double helmetQuality = ImprovementUtil.getQuality(helmet);
-				GeneralLoreUtil.populateLore(helmet);
+				GeneralLoreUtil.populateLoreDefaults(helmet);
 				ImprovementUtil.setQuality(helmet, helmetQuality);
 			} catch (NullPointerException nE){
-				GeneralLoreUtil.populateLore(helmet);
+				GeneralLoreUtil.populateLoreDefaults(helmet);
 			}
 		}
 		try {
@@ -111,10 +111,10 @@ public class ArmorLoreListener implements Listener {
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			try {
 				double chestQuality = ImprovementUtil.getQuality(chest);
-				GeneralLoreUtil.populateLore(chest);
+				GeneralLoreUtil.populateLoreDefaults(chest);
 				ImprovementUtil.setQuality(chest, chestQuality);
 			} catch (NullPointerException nE) {
-				GeneralLoreUtil.populateLore(chest);
+				GeneralLoreUtil.populateLoreDefaults(chest);
 			}
 		}
 		try {
@@ -124,10 +124,10 @@ public class ArmorLoreListener implements Listener {
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			try {
 				double legsQuality = ImprovementUtil.getQuality(legs);
-				GeneralLoreUtil.populateLore(legs);
+				GeneralLoreUtil.populateLoreDefaults(legs);
 				ImprovementUtil.setQuality(legs, legsQuality);
 			} catch (NullPointerException nE) {
-				GeneralLoreUtil.populateLore(legs);
+				GeneralLoreUtil.populateLoreDefaults(legs);
 			}
 		}
 		try {
@@ -137,10 +137,10 @@ public class ArmorLoreListener implements Listener {
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 				try {
 					double bootsQuality = ImprovementUtil.getQuality(boots);
-					GeneralLoreUtil.populateLore(boots);
+					GeneralLoreUtil.populateLoreDefaults(boots);
 					ImprovementUtil.setQuality(boots, bootsQuality);
 				} catch (NullPointerException nE) {
-					GeneralLoreUtil.populateLore(boots);
+					GeneralLoreUtil.populateLoreDefaults(boots);
 				}
 		}
 		double multiplier = 1 + healBonus;
@@ -182,10 +182,10 @@ public class ArmorLoreListener implements Listener {
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			try {
 				double helmetQuality = ImprovementUtil.getQuality(helmet);
-				GeneralLoreUtil.populateLore(helmet);
+				GeneralLoreUtil.populateLoreDefaults(helmet);
 				ImprovementUtil.setQuality(helmet, helmetQuality);
 			} catch (NullPointerException nE){
-				GeneralLoreUtil.populateLore(helmet);
+				GeneralLoreUtil.populateLoreDefaults(helmet);
 			}
 		}
 		try {
@@ -195,10 +195,10 @@ public class ArmorLoreListener implements Listener {
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			try {
 				double chestQuality = ImprovementUtil.getQuality(chest);
-				GeneralLoreUtil.populateLore(chest);
+				GeneralLoreUtil.populateLoreDefaults(chest);
 				ImprovementUtil.setQuality(chest, chestQuality);
 			} catch (NullPointerException nE) {
-				GeneralLoreUtil.populateLore(chest);
+				GeneralLoreUtil.populateLoreDefaults(chest);
 			}
 		}
 		try {
@@ -208,10 +208,10 @@ public class ArmorLoreListener implements Listener {
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			try {
 				double legsQuality = ImprovementUtil.getQuality(legs);
-				GeneralLoreUtil.populateLore(legs);
+				GeneralLoreUtil.populateLoreDefaults(legs);
 				ImprovementUtil.setQuality(legs, legsQuality);
 			} catch (NullPointerException nE) {
-				GeneralLoreUtil.populateLore(legs);
+				GeneralLoreUtil.populateLoreDefaults(legs);
 			}
 		}
 		try {
@@ -221,10 +221,10 @@ public class ArmorLoreListener implements Listener {
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 				try {
 					double bootsQuality = ImprovementUtil.getQuality(boots);
-					GeneralLoreUtil.populateLore(boots);
+					GeneralLoreUtil.populateLoreDefaults(boots);
 					ImprovementUtil.setQuality(boots, bootsQuality);
 				} catch (NullPointerException nE) {
-					GeneralLoreUtil.populateLore(boots);
+					GeneralLoreUtil.populateLoreDefaults(boots);
 				}
 		}
 		event.setDamage(event.getDamage()-protBonus);

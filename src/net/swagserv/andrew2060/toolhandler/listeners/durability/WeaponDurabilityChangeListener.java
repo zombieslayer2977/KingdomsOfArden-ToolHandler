@@ -1,7 +1,7 @@
 package net.swagserv.andrew2060.toolhandler.listeners.durability;
 
-import net.swagserv.andrew2060.toolhandler.util.GeneralLoreUtil;
 import net.swagserv.andrew2060.toolhandler.util.ImprovementUtil;
+import net.swagserv.andrew2060.toolhandler.util.WeaponLoreUtil;
 
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -34,9 +34,7 @@ public class WeaponDurabilityChangeListener implements Listener{
 				double quality = ImprovementUtil.reduceQuality(i, ImprovementUtil.getItemType(i));
 				ImprovementUtil.applyEnchantmentLevel(i, Enchantment.DAMAGE_ALL,quality);
 			} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
-				double quality = ImprovementUtil.getQuality(i);
-				GeneralLoreUtil.populateLore(i);
-				ImprovementUtil.setQuality(i, quality);
+				WeaponLoreUtil.updateWeaponLore(i);
 			}
 			return;
 		}
@@ -45,9 +43,7 @@ public class WeaponDurabilityChangeListener implements Listener{
 				double quality = ImprovementUtil.reduceQuality(i, ImprovementUtil.getItemType(i));
 				ImprovementUtil.applyEnchantmentLevel(i, Enchantment.ARROW_DAMAGE,quality);
 			} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
-				double quality = ImprovementUtil.getQuality(i);
-				GeneralLoreUtil.populateLore(i);
-				ImprovementUtil.setQuality(i, quality);
+				WeaponLoreUtil.updateWeaponLore(i);
 			}
 			return;
 		}

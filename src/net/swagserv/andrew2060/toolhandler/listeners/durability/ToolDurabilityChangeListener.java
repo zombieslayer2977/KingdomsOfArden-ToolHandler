@@ -36,7 +36,7 @@ public class ToolDurabilityChangeListener implements Listener{
 				ImprovementUtil.applyEnchantmentLevel(hand, Enchantment.DIG_SPEED, quality);
 			} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 				double quality = ImprovementUtil.getQuality(hand);
-				GeneralLoreUtil.populateLore(hand);
+				GeneralLoreUtil.populateLoreDefaults(hand);
 				ImprovementUtil.setQuality(hand, quality);
 			}
 			return;
@@ -71,7 +71,7 @@ public class ToolDurabilityChangeListener implements Listener{
 				ImprovementUtil.applyEnchantmentLevel(hand, Enchantment.DIG_SPEED, quality);
 			} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 				double quality = ImprovementUtil.getQuality(hand);
-				GeneralLoreUtil.populateLore(hand);
+				GeneralLoreUtil.populateLoreDefaults(hand);
 				ImprovementUtil.setQuality(hand, quality);
 			}
 			return;

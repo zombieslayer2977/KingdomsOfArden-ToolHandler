@@ -68,11 +68,11 @@ public class ImprovementUtil {
 		}
 		ItemMeta meta = item.getItemMeta();
 		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLore(item);
+			GeneralLoreUtil.populateLoreDefaults(item);
 			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
-		String toAdd = ChatColor.GRAY + "Improvement Quality: " + dF.format(quality) + "%";
+		String toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + dF.format(quality) + ChatColor.GRAY + "%";
 		lore.remove(0);
 		lore.add(0, toAdd);
 		meta.setLore(lore);
@@ -84,12 +84,12 @@ public class ImprovementUtil {
 		}
 		ItemMeta meta = item.getItemMeta();
 		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLore(item);
+			GeneralLoreUtil.populateLoreDefaults(item);
 			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
 		if(lore.isEmpty()) {
-			GeneralLoreUtil.populateLore(item);
+			GeneralLoreUtil.populateLoreDefaults(item);
 			return 0;
 		} else {
 			String toAdd = ChatColor.stripColor(lore.get(0));
@@ -123,7 +123,7 @@ public class ImprovementUtil {
 			if(quality < 0) {
 				quality = 0;
 			}
-			toAdd = ChatColor.GRAY + "Improvement Quality: " + dF.format(quality) + "%";
+			toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + dF.format(quality) + ChatColor.GRAY + "%";
 			lore.remove(0);
 			lore.add(0, toAdd);
 			meta.setLore(lore);
@@ -135,7 +135,7 @@ public class ImprovementUtil {
 	public static double improveQuality(ItemStack item) {
 		ItemMeta meta = item.getItemMeta();
 		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLore(item);
+			GeneralLoreUtil.populateLoreDefaults(item);
 			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
@@ -151,21 +151,21 @@ public class ImprovementUtil {
 			if(quality >= 100) {
 				quality = 100;
 			}
-			toAdd = ChatColor.GRAY + "Improvement Quality: " + dF.format(quality) + "%";
+			toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + dF.format(quality) + ChatColor.GRAY + "%";
 			lore.remove(0);
 			lore.add(0, toAdd);
 			meta.setLore(lore);
 			item.setItemMeta(meta);
 			return quality;
 		} else {
-			GeneralLoreUtil.populateLore(item);
+			GeneralLoreUtil.populateLoreDefaults(item);
 			return 0;
 		}
 	}
 	public static double getQuality(ItemStack item) {
 		ItemMeta meta = item.getItemMeta();
 		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLore(item);
+			GeneralLoreUtil.populateLoreDefaults(item);
 			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
@@ -175,7 +175,7 @@ public class ImprovementUtil {
 				.replace("%", "");
 			return Double.parseDouble(quality);
 		} else {
-			GeneralLoreUtil.populateLore(item);
+			GeneralLoreUtil.populateLoreDefaults(item);
 			return 0;
 		}
 	}
