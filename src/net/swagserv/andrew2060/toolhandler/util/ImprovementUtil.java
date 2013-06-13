@@ -99,26 +99,30 @@ public class ImprovementUtil {
 			if(quality == 0) {
 				return 0;
 			}
+			int unbreakinglevel = item.getEnchantmentLevel(Enchantment.DURABILITY)+1;
 			switch(mat) {
 			case DIAMOND: 
-				quality -= 0.1;
+				quality -= 0.1/unbreakinglevel;
 				break;
 			case IRON_INGOT:
-				quality -= 0.2;
+				quality -= 0.2/unbreakinglevel;
 				break;
 			case GOLD_INGOT:
-				quality -= 1.0;
+				quality -= 1.0/unbreakinglevel;
 				break;
 			case LEATHER: 
-				quality -= 0.8;
+				quality -= 0.8/unbreakinglevel;
 				break;
 			case STONE: 
-				quality -= 0.5;
+				quality -= 0.5/unbreakinglevel;
 				break;
 			case BOW:
-				quality -= 0.5;
+				quality -= 0.5/unbreakinglevel;
+				break;
 			default: 
-				System.err.println("Material Sent to Blacksmith is Invalid");
+				System.err.println("Material Sent to Reduce Quality is Invalid");
+				System.err.println("-" + mat.toString());
+				return 0;
 			}
 			if(quality < 0) {
 				quality = 0;
