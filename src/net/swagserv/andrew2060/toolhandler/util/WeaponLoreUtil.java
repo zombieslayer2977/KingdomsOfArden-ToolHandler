@@ -36,7 +36,7 @@ public class WeaponLoreUtil {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
 		lore.remove(2);
-		lore.add(2, ChatColor.GRAY + "Bonus Damage: " + bonus);
+		lore.add(2, ChatColor.GRAY + "Bonus Damage: " + FormattingUtil.getAttributeColor(bonus) + bonus);
 		meta.setLore(lore);
 		weapon.setItemMeta(meta);
 		return;
@@ -45,7 +45,7 @@ public class WeaponLoreUtil {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
 		lore.remove(3);
-		lore.add(3,ChatColor.GRAY + "Life Steal: " + amount + " Health/Hit");
+		lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttributeColor(amount) + amount + ChatColor.GRAY + " Health/Hit");
 		meta.setLore(lore);
 		weapon.setItemMeta(meta);
 		return;
@@ -54,7 +54,7 @@ public class WeaponLoreUtil {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
 		lore.remove(4);
-		lore.add(4, ChatColor.GRAY + "Critical Strike Chance: " + dF.format(bonusCrit) + "%");
+		lore.add(4, ChatColor.GRAY + "Critical Strike Chance: " + FormattingUtil.getAttributeColor(bonusCrit) + dF.format(bonusCrit) + ChatColor.GRAY + "%");
 		meta.setLore(lore);
 		weapon.setItemMeta(meta);
 		return;
@@ -117,7 +117,7 @@ public class WeaponLoreUtil {
 		String lifestealtext =  FormattingUtil.getAttributeColor(lifesteal) + lifesteal + ChatColor.GRAY;
 		lifestealtext = ChatColor.GRAY + "Life Steal: " + lifestealtext + " Health/Hit";
 		String crittext = FormattingUtil.getAttributeColor(critchance) + dF.format(critchance) + ChatColor.GRAY;
-		crittext = "Critical Strike Chance: " + crittext + "%";
+		crittext = ChatColor.GRAY + "Critical Strike Chance: " + crittext + "%";
 		List<String> loreUpdated = new ArrayList<String>();
 		loreUpdated.add(improvementtext);
 		loreUpdated.add(ChatColor.WHITE + "=========Statistics==========");
