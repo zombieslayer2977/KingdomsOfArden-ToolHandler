@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
+import net.milkbowl.vault.permission.Permission;
+import net.swagserv.andrew2060.toolhandler.commands.ModCommandExecutor;
+import net.swagserv.andrew2060.toolhandler.commands.RefreshLoreCommandExecutor;
+import net.swagserv.andrew2060.toolhandler.commands.ReloadCommandExecutor;
 import net.swagserv.andrew2060.toolhandler.listeners.crafting.CraftingListener;
 import net.swagserv.andrew2060.toolhandler.listeners.crafting.ShiftClickListener;
 import net.swagserv.andrew2060.toolhandler.listeners.durability.ArmorDurabilityChangeListener;
@@ -20,9 +24,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ToolHandlerPlugin extends JavaPlugin{
+	
+	//Vault
+	public Permission permission;
 	
 	private ModManager modManager;
 	private ArmorDurabilityChangeListener armorQualityListener;
@@ -40,7 +48,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	
 	private Random rand;
 	private HealingEffectListener healingEffectListener;
-
+	
 	public void onEnable() {
 		//Initialize Listeners
 		this.armorQualityListener = new ArmorDurabilityChangeListener();
@@ -66,7 +74,21 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		//Initialize Mod Manager 
 		setModManager(new ModManager(this));
 		
+		setupPermissions();
+		
+		getCommand("toolhandler").setExecutor(new ReloadCommandExecutor(this));
+		getCommand("modtool").setExecutor(new ModCommandExecutor(this));
+		getCommand("refreshtoollore").setExecutor(new RefreshLoreCommandExecutor(this));
+		
 	}
+	
+	private Boolean setupPermissions() {
+        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+        if (permissionProvider != null) {
+            permission = permissionProvider.getProvider();
+        }
+        return (permission != null);
+    }
 
 	private void registerListeners() {
 		//Durability Based Prot/Sharpness/Efficiency Listeners
@@ -119,7 +141,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	/**
 	 * @param modManager the modManager to set
 	 */
-	private void setModManager(ModManager modManager) {
+	public void setModManager(ModManager modManager) {
 		this.modManager = modManager;
 	}
 

@@ -4,3 +4,16 @@ description: Handles durability based enchantments such as prot and sharpness, a
 author: Andrew2060
 website: http://www.swagserv.net/
 main: net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin
+commands:
+    toolhandler: 
+        description: Reloads configs and reloads all mods from disk
+        usage: /<command>
+        permission: toolhandler.root
+    modtool:
+        description: Applies the selected mod to the tool
+        usage: /<command> modname
+        permission: toolhandler.mod
+    refreshtoollore:
+        description: Refreshes the lore on a tool in hand to bring it up to date
+        usage: /<command>
+        permission: toolhandler.refresh
