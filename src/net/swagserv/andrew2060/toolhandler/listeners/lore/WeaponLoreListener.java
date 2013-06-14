@@ -40,9 +40,7 @@ public class WeaponLoreListener implements Listener {
 		try {
 			bonusDamage = WeaponLoreUtil.getBonusDamage(i);
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
-			double quality = ImprovementUtil.getQuality(i);
-			GeneralLoreUtil.populateLoreDefaults(i);
-			ImprovementUtil.setQuality(i, quality);
+			WeaponLoreUtil.updateWeaponLore(i);
 		}
 		event.setDamage(event.getDamage() + bonusDamage);
 	}
@@ -63,14 +61,10 @@ public class WeaponLoreListener implements Listener {
 			}
 		}
 		int ls = 0;
-		//Update Code
-		//TODO: Remove in future for performance reasons
 		try {
 			ls = WeaponLoreUtil.getLifeSteal(i);
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
-			double quality = ImprovementUtil.getQuality(i);
-			GeneralLoreUtil.populateLoreDefaults(i);
-			ImprovementUtil.setQuality(i, quality);
+			WeaponLoreUtil.updateWeaponLore(i);
 		}
 		HeroRegainHealthEvent healingEvent = new HeroRegainHealthEvent((Hero) event.getDamager(), ls, null);
 		Bukkit.getPluginManager().callEvent(healingEvent);
@@ -98,14 +92,10 @@ public class WeaponLoreListener implements Listener {
 			}
 		}
 		double critchance = 0;
-		//Update Code
-		//TODO: Remove in future for performance reasons
 		try {
 			critchance = WeaponLoreUtil.getCritChance(i);
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
-			double quality = ImprovementUtil.getQuality(i);
-			GeneralLoreUtil.populateLoreDefaults(i);
-			ImprovementUtil.setQuality(i, quality);
+			WeaponLoreUtil.updateWeaponLore(i);
 		}
 		Random randGen = new Random();
 		double rand = randGen.nextInt(10000)*0.01;
