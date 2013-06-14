@@ -10,8 +10,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 
-import com.herocraftonline.heroes.api.events.HeroRegainHealthEvent;
-
 /**
  * Simple listener to play wolf hearts on heal for the sake of visibility
  * @author Andrew
