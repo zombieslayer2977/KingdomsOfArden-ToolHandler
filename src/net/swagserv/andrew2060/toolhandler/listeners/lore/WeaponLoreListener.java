@@ -3,12 +3,11 @@ package net.swagserv.andrew2060.toolhandler.listeners.lore;
 import java.util.Random;
 
 import net.swagserv.andrew2060.toolhandler.events.CriticalStrikeEvent;
-import net.swagserv.andrew2060.toolhandler.util.GeneralLoreUtil;
-import net.swagserv.andrew2060.toolhandler.util.ImprovementUtil;
 import net.swagserv.andrew2060.toolhandler.util.ModUtil;
 import net.swagserv.andrew2060.toolhandler.util.WeaponLoreUtil;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -105,6 +104,8 @@ public class WeaponLoreListener implements Listener {
 			cEvent.callEvent();
 			if(!cEvent.isCancelled()) {
 				event.setDamage(cEvent.getDamage());
+				//Play an iron door bashing sound
+				event.getAttackerEntity().getLocation().getWorld().playEffect(event.getEntity().getLocation(), Effect.ZOMBIE_CHEW_IRON_DOOR, null);
 			}
 		}
 	}
