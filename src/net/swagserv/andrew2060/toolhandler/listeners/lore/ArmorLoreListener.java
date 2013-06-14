@@ -229,21 +229,4 @@ public class ArmorLoreListener implements Listener {
 		}
 		event.setDamage(event.getDamage()-protBonus);
 	}
-	//Armor Thorn Enchantment handling
-	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled = true)
-	public void onWeaponDamageIncoming2(WeaponDamageEvent event) {
-		if(!(event.getEntity() instanceof Player)) {
-			return;
-		}
-		PlayerInventory pI = ((Player)event.getEntity()).getInventory();
-		ItemStack chest = pI.getChestplate();
-		if( chest == null) {
-			return;
-		}
-		if(chest.containsEnchantment(Enchantment.THORNS)) {
-			double multiplier = chest.getEnchantmentLevel(Enchantment.THORNS) * 0.5 * 0.01;
-			Skill.damageEntity(event.getDamager().getEntity(), ((LivingEntity)event.getEntity()), (int) (event.getDamage()*multiplier), DamageCause.MAGIC);
-		}
-		
-	}
 }
