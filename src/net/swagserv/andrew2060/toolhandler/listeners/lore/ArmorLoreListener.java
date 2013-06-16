@@ -54,28 +54,28 @@ public class ArmorLoreListener implements Listener {
 			if(helmetcheck) {
 				damagereduction += ArmorLoreUtil.getMagicResistRating(helmet);
 			}
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			ArmorLoreUtil.updateArmorLore(helmet);
 		}
 		try {
 			if(chestcheck) {
 				damagereduction += ArmorLoreUtil.getMagicResistRating(chest);
 			}
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			ArmorLoreUtil.updateArmorLore(chest);
 		}
 		try {
 			if(legscheck) {
 				damagereduction += ArmorLoreUtil.getMagicResistRating(legs);
 			} 
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			ArmorLoreUtil.updateArmorLore(legs);
 		}
 		try {
 			if(bootscheck) {
 				damagereduction += ArmorLoreUtil.getMagicResistRating(boots);
 			}
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			ArmorLoreUtil.updateArmorLore(boots);
 		}
 		double multiplier = 1 - damagereduction;
