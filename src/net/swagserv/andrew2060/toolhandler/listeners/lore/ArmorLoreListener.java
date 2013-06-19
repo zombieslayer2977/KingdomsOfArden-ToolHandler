@@ -1,16 +1,10 @@
 package net.swagserv.andrew2060.toolhandler.listeners.lore;
 
 import net.swagserv.andrew2060.toolhandler.util.ArmorLoreUtil;
-import net.swagserv.andrew2060.toolhandler.util.GeneralLoreUtil;
-import net.swagserv.andrew2060.toolhandler.util.ImprovementUtil;
-
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -18,7 +12,6 @@ import com.herocraftonline.heroes.api.events.HeroRegainHealthEvent;
 import com.herocraftonline.heroes.api.events.SkillDamageEvent;
 import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 import com.herocraftonline.heroes.characters.Hero;
-import com.herocraftonline.heroes.characters.skill.Skill;
 
 public class ArmorLoreListener implements Listener {
 	//Armor Magic Protection Handling
