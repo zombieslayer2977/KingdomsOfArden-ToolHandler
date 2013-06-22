@@ -19,6 +19,7 @@ import net.swagserv.andrew2060.toolhandler.listeners.lore.WeaponLoreListener;
 import net.swagserv.andrew2060.toolhandler.listeners.mods.ModCombinerListener;
 import net.swagserv.andrew2060.toolhandler.listeners.mods.ModListener;
 import net.swagserv.andrew2060.toolhandler.mods.ModManager;
+import net.swagserv.andrew2060.toolhandler.tasks.ArmorPassiveTask;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -74,12 +75,16 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		//Initialize Mod Manager 
 		setModManager(new ModManager(this));
 		
+		//Set Up Permissions
 		setupPermissions();
 		
+		//Set up Commands
 		getCommand("toolhandler").setExecutor(new ReloadCommandExecutor(this));
 		getCommand("modtool").setExecutor(new ModCommandExecutor(this));
 		getCommand("refreshtoollore").setExecutor(new RefreshLoreCommandExecutor(this));
 		
+		//Schedule Tasks
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new ArmorPassiveTask(modManager), 0, 20);   //Armor Passives Task
 	}
 	
 	private Boolean setupPermissions() {

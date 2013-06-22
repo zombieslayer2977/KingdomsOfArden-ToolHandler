@@ -1,4 +1,5 @@
 package net.swagserv.andrew2060.toolhandler.mods.typedefs;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
@@ -31,4 +32,6 @@ public abstract class ArmorMod {
 		return requiresSlot;
 	}
 	public abstract void executeOnArmorDamage(WeaponDamageEvent event);
+   
+	public abstract void applyOnTick(Player p);
 }
