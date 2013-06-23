@@ -40,9 +40,11 @@ public class ArmorPassiveTask implements Runnable {
                            mod.applyOnTick(p);
                        }
                    }
+                   mods = null;
                 }
             } 
         }
+        players = null;
     }
 
 }

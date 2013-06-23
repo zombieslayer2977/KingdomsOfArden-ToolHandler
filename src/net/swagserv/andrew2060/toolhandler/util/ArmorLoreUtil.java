@@ -47,7 +47,7 @@ public class ArmorLoreUtil {
 		lore.remove(2);
 		lore.add(2, ChatColor.GRAY + "Magical Resistance Rating: " + FormattingUtil.getAttributeColor(rating) + GeneralLoreUtil.dF.format(rating) + ChatColor.GRAY + "%");
 		meta.setLore(lore);
-		armor.setItemMeta(meta);
+		armor.setItemMeta(meta); 
 		return;
 	}
 	public static void setHealingBonus(double amount, ItemStack armor) {
@@ -141,4 +141,16 @@ public class ArmorLoreUtil {
 		armor.setItemMeta(meta);
 		return;
 	}
+
+    public static void addMagicResistRating(int i, ItemStack armor) {
+        setMagicResistRating(getMagicResistRating(armor) + i, armor);
+    }
+
+    public static void addHealingBonus(int i, ItemStack armor) {
+        setHealingBonus(getHealingBonus(armor) + i,armor);
+    }
+    
+    public static void addProtBonus(int i, ItemStack armor) {
+        setProtBonus(getProtBonus(armor) + i,armor);
+    }
 }
