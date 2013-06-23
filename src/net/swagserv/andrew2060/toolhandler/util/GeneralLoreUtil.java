@@ -42,7 +42,6 @@ public class GeneralLoreUtil {
 		templateLoreArmor.add(4,ChatColor.GRAY + "Additional Protection: 0 Damage/Hit");
 		templateLoreArmor.add(5,ChatColor.WHITE + "========Modifications========");
 		templateLoreArmor.add(6,ChatColor.DARK_GRAY + "[Empty Slot]");
-		templateLoreArmor.add(7,ChatColor.DARK_GRAY + "[Empty Slot]");
 	}
 	//For Swords and Axes
 	private static void populateWeapon(List<String> templateLoreWeapon) {
