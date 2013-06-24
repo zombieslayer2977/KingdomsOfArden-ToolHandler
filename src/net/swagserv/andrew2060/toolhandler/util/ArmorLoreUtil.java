@@ -142,11 +142,11 @@ public class ArmorLoreUtil {
 		return;
 	}
 
-    public static void addMagicResistRating(int i, ItemStack armor) {
-        setMagicResistRating(getMagicResistRating(armor) + i, armor);
+    public static void addMagicResistRating(double d, ItemStack armor) {
+        setMagicResistRating(getMagicResistRating(armor) + d, armor);
     }
 
-    public static void addHealingBonus(int i, ItemStack armor) {
+    public static void addHealingBonus(double i, ItemStack armor) {
         setHealingBonus(getHealingBonus(armor) + i,armor);
     }
     
