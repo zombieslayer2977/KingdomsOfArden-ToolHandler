@@ -9,6 +9,7 @@ import net.swagserv.andrew2060.toolhandler.commands.ModCommandExecutor;
 import net.swagserv.andrew2060.toolhandler.commands.RefreshLoreCommandExecutor;
 import net.swagserv.andrew2060.toolhandler.commands.ReloadCommandExecutor;
 import net.swagserv.andrew2060.toolhandler.listeners.crafting.CraftingListener;
+import net.swagserv.andrew2060.toolhandler.listeners.crafting.ItemStackListener;
 import net.swagserv.andrew2060.toolhandler.listeners.crafting.ShiftClickListener;
 import net.swagserv.andrew2060.toolhandler.listeners.durability.ArmorDurabilityChangeListener;
 import net.swagserv.andrew2060.toolhandler.listeners.durability.ToolDurabilityChangeListener;
@@ -40,7 +41,8 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	
 	private CraftingListener craftingListener;
 	private ShiftClickListener craftingShiftClickListener;
-	
+    private ItemStackListener itemstackUpdateListener;
+
 	private ArmorLoreListener armorLoreListener;
 	private WeaponLoreListener weapLoreListener;
 	
@@ -49,6 +51,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	
 	private Random rand;
 	private HealingEffectListener healingEffectListener;
+
 	
 	public void onEnable() {
 		//Initialize Listeners
@@ -58,6 +61,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		
 		this.craftingListener = new CraftingListener();
 		this.craftingShiftClickListener = new ShiftClickListener(this);
+		this.itemstackUpdateListener = new ItemStackListener();
 		
 		this.armorLoreListener = new ArmorLoreListener();
 		this.weapLoreListener = new WeaponLoreListener();
@@ -105,6 +109,9 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(this.craftingListener, this);
 		Bukkit.getPluginManager().registerEvents(this.craftingShiftClickListener, this);
 		
+		//ItemStack Listeners
+		Bukkit.getPluginManager().registerEvents(this.itemstackUpdateListener, this);
+
 		//Lore Listeners
 		Bukkit.getPluginManager().registerEvents(this.armorLoreListener, this);
 		Bukkit.getPluginManager().registerEvents(this.weapLoreListener, this);		

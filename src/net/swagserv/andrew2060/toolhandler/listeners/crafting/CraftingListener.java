@@ -9,10 +9,57 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class CraftingListener implements Listener {
+    @EventHandler(priority=EventPriority.MONITOR,ignoreCancelled = true) 
+    public void onItemPreCraft(PrepareItemCraftEvent event) {
+        if(event.isRepair()) {
+            event.getInventory().setResult(null);
+        } else {
+            ItemStack result = event.getInventory().getResult();
+            Material type = result.getType();
+            GeneralLoreUtil.populateLoreDefaults(result);
+            switch(type) {
+                case DIAMOND_HOE: {
+                    ItemMeta meta = result.getItemMeta();
+                    meta.setDisplayName("Diamond Scythe");
+                    result.setItemMeta(meta);
+                    break;
+                }
+                case IRON_HOE: {
+                    ItemMeta meta = result.getItemMeta();
+                    meta.setDisplayName("Iron Scythe");
+                    result.setItemMeta(meta);
+                    break;
+                }
+                case GOLD_HOE: {
+                    ItemMeta meta = result.getItemMeta();
+                    meta.setDisplayName("Gold Scythe");
+                    result.setItemMeta(meta);
+                    break;
+                }
+                case STONE_HOE: {
+                    ItemMeta meta = result.getItemMeta();
+                    meta.setDisplayName("Stone Scythe");
+                    result.setItemMeta(meta);
+                    break;
+                }
+                case WOOD_HOE: {
+                    ItemMeta meta = result.getItemMeta();
+                    meta.setDisplayName("Wood Scythe");
+                    result.setItemMeta(meta);
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+            event.getInventory().setResult(result);
+        }            
+    }
 	@EventHandler(priority=EventPriority.MONITOR) 
 	public void onItemCraft(CraftItemEvent event){
 		if(event.isCancelled()) {
@@ -35,40 +82,6 @@ public class CraftingListener implements Listener {
 				break;
 			default:
 				return;
-		}
-		switch(type) {
-	        case DIAMOND_HOE: {
-	        	ItemMeta meta = created.getItemMeta();
-	        	meta.setDisplayName("Diamond Scythe");
-	        	created.setItemMeta(meta);
-	        	break;
-	        }
-	        case IRON_HOE: {
-	        	ItemMeta meta = created.getItemMeta();
-	        	meta.setDisplayName("Iron Scythe");
-	        	created.setItemMeta(meta);
-	        	break;
-	        }
-	        case GOLD_HOE: {
-	        	ItemMeta meta = created.getItemMeta();
-	        	meta.setDisplayName("Gold Scythe");
-	        	created.setItemMeta(meta);
-	        	break;
-	        }
-	        case STONE_HOE: {
-	        	ItemMeta meta = created.getItemMeta();
-	        	meta.setDisplayName("Stone Scythe");
-	        	created.setItemMeta(meta);
-	        	break;
-	        }
-	        case WOOD_HOE: {
-	        	ItemMeta meta = created.getItemMeta();
-	        	meta.setDisplayName("Wood Scythe");
-	        	created.setItemMeta(meta);
-	        	break;
-	        }
-	    	default:
-	    		break;
 		}
 		GeneralLoreUtil.populateLoreDefaults(event.getCurrentItem());
 		return;		
