@@ -43,7 +43,7 @@ public class GeneralLoreUtil {
 		templateLoreArmor.add(5,ChatColor.WHITE + "========Modifications========");
 		templateLoreArmor.add(6,ChatColor.DARK_GRAY + "[Empty Slot]");
 	}
-	//For Swords and Axes
+	//For Swords
 	private static void populateWeapon(List<String> templateLoreWeapon) {
 		templateLoreWeapon.add(0,ChatColor.GRAY + "Improvement Quality: 0.00%");
 		templateLoreWeapon.add(1,ChatColor.WHITE + "=========Statistics==========");
