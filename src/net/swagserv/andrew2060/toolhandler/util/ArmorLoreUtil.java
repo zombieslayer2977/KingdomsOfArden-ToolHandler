@@ -5,7 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.swagserv.andrew2060.toolhandler.mods.ModManager;
+import net.swagserv.andrew2060.toolhandler.mods.typedefs.ArmorMod;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -190,9 +193,23 @@ public class ArmorLoreUtil {
 		loreUpdated.add(healingBonusText);
 		loreUpdated.add(additionalProtText);
 		loreUpdated.add(ChatColor.WHITE + "========Modifications========");
+		ModManager modMan = ((ToolHandlerPlugin) Bukkit.getPluginManager().getPlugin("Swagserv-ToolHandler")).getModManager();
 		for(String toAdd : modifications ) {
-			loreUpdated.add(toAdd);
-		}
+            if(!toAdd.contains(ChatColor.GOLD +"")) {
+                if(toAdd.contains(ChatColor.DARK_GRAY + "")) {
+                    loreUpdated.add(toAdd);
+                }
+                continue;
+            } else {
+                loreUpdated.add(toAdd);
+                toAdd = ChatColor.stripColor(toAdd);
+                String modName = toAdd.replace(" ", "");
+                ArmorMod mod = modMan.getArmorMod(modName);
+                for(String desc : mod.getDescription()) {
+                    loreUpdated.add(ChatColor.GRAY + "- " + desc);
+                }
+            }
+        }
 		meta.setLore(loreUpdated);
 		armor.setItemMeta(meta);
 		return;
