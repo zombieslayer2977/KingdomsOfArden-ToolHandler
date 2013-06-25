@@ -29,7 +29,7 @@ public class ArmorLoreUtil {
             meta = armor.getItemMeta();
             lore = meta.getLore();
         }
-		String doubleParse = lore.get(2).replaceAll("[^.0-9]","");
+		String doubleParse = ChatColor.stripColor(lore.get(2)).replaceAll("[^.0-9]","");
 		Double magicalRating = Double.parseDouble(doubleParse)*0.01;
 		return magicalRating;
 	}
@@ -49,7 +49,7 @@ public class ArmorLoreUtil {
             meta = armor.getItemMeta();
             lore = meta.getLore();
         }
-		String doubleParse = lore.get(3).replaceAll("[^.0-9]","");
+		String doubleParse = ChatColor.stripColor(lore.get(3)).replaceAll("[^.0-9]","");
 		Double healBonus = Double.parseDouble(doubleParse)*0.01;
 		return healBonus;
 	}
@@ -69,7 +69,7 @@ public class ArmorLoreUtil {
             meta = armor.getItemMeta();
             lore = meta.getLore();
         }
-		String intParse = lore.get(4).replaceAll("[^.0-9]","");;
+		String intParse = ChatColor.stripColor(lore.get(4)).replaceAll("[^.0-9]","");;
 		int protBonus = Integer.parseInt(intParse);
 		return protBonus;
 	}
@@ -153,6 +153,7 @@ public class ArmorLoreUtil {
 			if(reachedmodifications) {
 				modifications.add(line);
 			}
+	        line = ChatColor.stripColor(line);
 			if(line.contains("Quality")) {
 				try {
 					improvementQuality = Double.parseDouble(line.replaceAll("[^.0-9]",""));

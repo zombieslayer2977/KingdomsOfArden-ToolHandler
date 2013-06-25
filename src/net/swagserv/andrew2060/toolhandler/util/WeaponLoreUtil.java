@@ -26,7 +26,7 @@ public class WeaponLoreUtil {
             meta = weapon.getItemMeta();
             lore = meta.getLore();
         }
-		String intParse = lore.get(2).replaceAll("[^.0-9]","");
+		String intParse = ChatColor.stripColor(lore.get(2)).replaceAll("[^.0-9]","");
 		int bonus = Integer.parseInt(intParse);
 		return bonus;
 	}
@@ -42,7 +42,7 @@ public class WeaponLoreUtil {
             meta = weapon.getItemMeta();
             lore = meta.getLore();
         }
-		String doubleParse = lore.get(3).replaceAll("[^.0-9]","");
+		String doubleParse = ChatColor.stripColor(lore.get(3)).replaceAll("[^.0-9]","");
 		double ls = Double.parseDouble(doubleParse);
 		return ls;
 	}
@@ -56,7 +56,7 @@ public class WeaponLoreUtil {
         if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(weapon);
         }
-		String doubleParse = lore.get(4).replaceAll("[^.0-9]","");
+		String doubleParse = ChatColor.stripColor(lore.get(4)).replaceAll("[^.0-9]","");
 		double crit = Double.parseDouble(doubleParse);
 		return crit;
 	}
@@ -140,6 +140,7 @@ public class WeaponLoreUtil {
 			if(reachedmodifications) {
 				modifications.add(line);
 			}
+			line = ChatColor.stripColor(line);
 			if(line.contains("Quality")) {
 				try {
 					improvementQuality = Double.parseDouble(line.replaceAll("[^.0-9]",""));

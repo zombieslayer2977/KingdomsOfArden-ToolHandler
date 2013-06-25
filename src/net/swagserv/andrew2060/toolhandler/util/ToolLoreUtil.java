@@ -26,7 +26,7 @@ public class ToolLoreUtil {
             meta = tool.getItemMeta();
             lore = meta.getLore();
         }
-        String intParse = lore.get(2).replaceAll("[^.0-9]", "");
+        String intParse = ChatColor.stripColor(lore.get(2)).replaceAll("[^.0-9]", "");
         int bonus = Integer.parseInt(intParse);
         return bonus;
     }
