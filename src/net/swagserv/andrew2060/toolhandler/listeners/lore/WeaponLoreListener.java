@@ -59,14 +59,15 @@ public class WeaponLoreListener implements Listener {
 				return;
 			}
 		}
-		int ls = 0;
+		double ls = 0;
 		try {
 			ls = WeaponLoreUtil.getLifeSteal(i);
 		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
 			WeaponLoreUtil.updateWeaponLore(i);
 		}
-		HeroRegainHealthEvent healingEvent = new HeroRegainHealthEvent((Hero) event.getDamager(), ls, null);
+		HeroRegainHealthEvent healingEvent = new HeroRegainHealthEvent((Hero) event.getDamager(), (int) (event.getDamage()*ls*0.01), null);
 		Bukkit.getPluginManager().callEvent(healingEvent);
+		p.setHealth(p.getHealth()+healingEvent.getAmount());
 		try {
 			p.setHealth(p.getHealth() + healingEvent.getAmount());
 		} catch (IllegalArgumentException e) {
