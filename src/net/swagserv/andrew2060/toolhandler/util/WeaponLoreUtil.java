@@ -14,41 +14,41 @@ public class WeaponLoreUtil {
 	public static int getBonusDamage(ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+		if(!(meta.hasLore() && lore.get(0).contains(ToolHandlerPlugin.versionIdentifier))) {
             GeneralLoreUtil.updateLore(weapon);
             meta = weapon.getItemMeta();
             lore = meta.getLore();
         }
-		String intParse = ChatColor.stripColor(lore.get(2)).replace("Bonus Damage:", "").replace(" ","");
+		String intParse = lore.get(2).replaceAll("[^.0-9]","");
 		int bonus = Integer.parseInt(intParse);
 		return bonus;
 	}
 	public static int getLifeSteal(ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+        if(!(meta.hasLore() && lore.get(0).contains(ToolHandlerPlugin.versionIdentifier))) {
             GeneralLoreUtil.updateLore(weapon);
             meta = weapon.getItemMeta();
             lore = meta.getLore();
         }
-		String intParse = ChatColor.stripColor(lore.get(3)).replace("Life Steal:", "").replace("Health/Hit","").replace(" ","");
+		String intParse = lore.get(3).replaceAll("[^.0-9]","");
 		int ls = Integer.parseInt(intParse);
 		return ls;
 	}
 	public static double getCritChance(ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+        if(!(meta.hasLore() && lore.get(0).contains(ToolHandlerPlugin.versionIdentifier))) {
             GeneralLoreUtil.updateLore(weapon);
         }
-		String doubleParse = ChatColor.stripColor(lore.get(4)).replace("Critical Strike Chance:", "").replace("%","").replace(" ","");
+		String doubleParse = lore.get(4).replaceAll("[^.0-9]","");
 		double crit = Double.parseDouble(doubleParse);
 		return crit;
 	}
 	public static void setBonusDamage(int bonus, ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+        if(!(meta.hasLore() && lore.get(0).contains(ToolHandlerPlugin.versionIdentifier))) {
             GeneralLoreUtil.updateLore(weapon);
             meta = weapon.getItemMeta();
             lore = meta.getLore();
@@ -62,13 +62,13 @@ public class WeaponLoreUtil {
 	public static void setLifeSteal(int amount, ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+        if(!(meta.hasLore() && lore.get(0).contains(ToolHandlerPlugin.versionIdentifier))) {
             GeneralLoreUtil.updateLore(weapon);
             meta = weapon.getItemMeta();
             lore = meta.getLore();
         }
 		lore.remove(3);
-		lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttributeColor(amount) + amount + ChatColor.GRAY + " Health/Hit");
+		lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttributeColor(amount) + amount + ChatColor.GRAY + " %");
 		meta.setLore(lore);
 		weapon.setItemMeta(meta);
 		return;
@@ -76,7 +76,7 @@ public class WeaponLoreUtil {
 	public static void setCritChance(double bonusCrit, ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+        if(!(meta.hasLore() && lore.get(0).contains(ToolHandlerPlugin.versionIdentifier))) {
             GeneralLoreUtil.updateLore(weapon);
             meta = weapon.getItemMeta();
             lore = meta.getLore();
@@ -112,25 +112,25 @@ public class WeaponLoreUtil {
 			}
 			if(line.contains("Quality")) {
 				try {
-					improvementQuality = Double.parseDouble(ChatColor.stripColor(line).replace("Improvement Quality: ", "").replace("%", ""));
+					improvementQuality = Double.parseDouble(line.replaceAll("[^.0-9]",""));
 				} catch (NumberFormatException e) {
 				}
 			}
 			if(line.contains("Damage")) {
 				try {
-					bonusdmg = Integer.parseInt(ChatColor.stripColor(line).replace("Bonus Damage: ", ""));
+					bonusdmg = Integer.parseInt(line.replaceAll("[^.0-9]",""));
 				} catch (NumberFormatException e) {
 				}
 			}
 			if(line.contains("Life Steal")) {
 				try {
-					lifesteal = Integer.parseInt(ChatColor.stripColor(line).replace("Life Steal: ", "").replace(" Health/Hit", ""));
+					lifesteal = Integer.parseInt(line.replaceAll("[^.0-9]",""));
 				} catch (NumberFormatException e) {
 				}
 			}
 			if(line.contains("Critical")) {
 				try {
-					critchance = Double.parseDouble(ChatColor.stripColor(line).replace("Critical Strike Chance: ", "").replace("%", ""));
+					critchance = Double.parseDouble(line.replaceAll("[^.0-9]",""));
 				} catch (NumberFormatException e) {
 				}
 			}
