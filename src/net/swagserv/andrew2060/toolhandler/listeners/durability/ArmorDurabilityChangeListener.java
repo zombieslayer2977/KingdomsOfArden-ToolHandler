@@ -31,13 +31,14 @@ public class ArmorDurabilityChangeListener implements Listener{
         ItemStack helmet = inv.getHelmet();
         if(helmet == null) {
             helmetcheck = false;
-        }
-        switch(helmet.getType()) {
-            case DIAMOND_HELMET: case IRON_HELMET: case CHAINMAIL_HELMET: case GOLD_HELMET: case LEATHER_HELMET: {
-                break;
-            }
-            default: {
-                helmetcheck = false;
+        } else {
+            switch(helmet.getType()) {
+                case DIAMOND_HELMET: case IRON_HELMET: case CHAINMAIL_HELMET: case GOLD_HELMET: case LEATHER_HELMET: {
+                    break;
+                }
+                default: {
+                    helmetcheck = false;
+                }
             }
         }
         
