@@ -17,7 +17,7 @@ public class GeneralLoreUtil {
 	private static void populateWeaponTool(List<String> templateLoreWeaponTool) {
 	    templateLoreWeaponTool.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
 		templateLoreWeaponTool.add(1,ChatColor.GRAY + "Improvement Quality: 0.00%");
-		templateLoreWeaponTool.add(2,ChatColor.GRAY + "Bonus True Damage: 0");
+		templateLoreWeaponTool.add(2,ChatColor.GRAY + "True Damage: 0");
 		templateLoreWeaponTool.add(3,ChatColor.GRAY + "Bash Attack Chance: 0.00%");
 		templateLoreWeaponTool.add(4,ChatColor.GRAY + "Decimating Strike Chance: 0.00%");
 		templateLoreWeaponTool.add(5,ChatColor.WHITE + "========Modifications========");
