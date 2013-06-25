@@ -83,7 +83,6 @@ public class CraftingListener implements Listener {
 			default:
 				return;
 		}
-		GeneralLoreUtil.populateLoreDefaults(event.getCurrentItem());
 		return;		
 	}
 
