@@ -17,7 +17,6 @@ import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 public class ArmorDurabilityChangeListener implements Listener{
     Heroes heroes = (Heroes) Bukkit.getPluginManager().getPlugin("Heroes");
     //Armor Handling
-    @SuppressWarnings("unused") //Because it actually is used and eclipse is wrong
     @EventHandler(priority=EventPriority.HIGH)
     public void onIncomingDamage(WeaponDamageEvent event) {
         if(!(event.getEntity() instanceof Player)) {
@@ -30,6 +29,9 @@ public class ArmorDurabilityChangeListener implements Listener{
         Player p = (Player)event.getEntity();
         PlayerInventory inv = p.getInventory();
         ItemStack helmet = inv.getHelmet();
+        if(helmet == null) {
+            helmetcheck = false;
+        }
         switch(helmet.getType()) {
             case DIAMOND_HELMET: case IRON_HELMET: case CHAINMAIL_HELMET: case GOLD_HELMET: case LEATHER_HELMET: {
                 break;
@@ -38,9 +40,7 @@ public class ArmorDurabilityChangeListener implements Listener{
                 helmetcheck = false;
             }
         }
-        if(helmet == null) {
-            helmetcheck = false;
-        }
+        
         ItemStack chest = inv.getChestplate();
         if(chest == null) {
             chestcheck = false;
