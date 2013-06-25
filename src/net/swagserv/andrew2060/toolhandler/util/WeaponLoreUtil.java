@@ -75,7 +75,7 @@ public class WeaponLoreUtil {
 		weapon.setItemMeta(meta);
 		return;
 	}
-	public static void setLifeSteal(int amount, ItemStack weapon) {
+	public static void setLifeSteal(double d, ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		if(!meta.hasLore()) {
             GeneralLoreUtil.populateLoreDefaults(weapon);
@@ -88,7 +88,7 @@ public class WeaponLoreUtil {
             lore = meta.getLore();
         }
 		lore.remove(3);
-		lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttributeColor(amount) + amount + ChatColor.GRAY + " %");
+		lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttributeColor(d) + d + ChatColor.GRAY + " %");
 		meta.setLore(lore);
 		weapon.setItemMeta(meta);
 		return;
