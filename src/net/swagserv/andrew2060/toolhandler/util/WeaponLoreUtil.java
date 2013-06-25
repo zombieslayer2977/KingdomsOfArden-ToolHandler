@@ -1,19 +1,24 @@
 package net.swagserv.andrew2060.toolhandler.util;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin;
 
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class WeaponLoreUtil {
-	static DecimalFormat dF = new DecimalFormat("###.##");
 	public static int getBonusDamage(ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(weapon);
+            meta = weapon.getItemMeta();
+            lore = meta.getLore();
+        }
 		String intParse = ChatColor.stripColor(lore.get(2)).replace("Bonus Damage:", "").replace(" ","");
 		int bonus = Integer.parseInt(intParse);
 		return bonus;
@@ -21,6 +26,11 @@ public class WeaponLoreUtil {
 	public static int getLifeSteal(ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(weapon);
+            meta = weapon.getItemMeta();
+            lore = meta.getLore();
+        }
 		String intParse = ChatColor.stripColor(lore.get(3)).replace("Life Steal:", "").replace("Health/Hit","").replace(" ","");
 		int ls = Integer.parseInt(intParse);
 		return ls;
@@ -28,6 +38,9 @@ public class WeaponLoreUtil {
 	public static double getCritChance(ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(weapon);
+        }
 		String doubleParse = ChatColor.stripColor(lore.get(4)).replace("Critical Strike Chance:", "").replace("%","").replace(" ","");
 		double crit = Double.parseDouble(doubleParse);
 		return crit;
@@ -35,6 +48,11 @@ public class WeaponLoreUtil {
 	public static void setBonusDamage(int bonus, ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(weapon);
+            meta = weapon.getItemMeta();
+            lore = meta.getLore();
+        }
 		lore.remove(2);
 		lore.add(2, ChatColor.GRAY + "Bonus Damage: " + FormattingUtil.getAttributeColor(bonus) + bonus);
 		meta.setLore(lore);
@@ -44,6 +62,11 @@ public class WeaponLoreUtil {
 	public static void setLifeSteal(int amount, ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(weapon);
+            meta = weapon.getItemMeta();
+            lore = meta.getLore();
+        }
 		lore.remove(3);
 		lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttributeColor(amount) + amount + ChatColor.GRAY + " Health/Hit");
 		meta.setLore(lore);
@@ -53,8 +76,13 @@ public class WeaponLoreUtil {
 	public static void setCritChance(double bonusCrit, ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(weapon);
+            meta = weapon.getItemMeta();
+            lore = meta.getLore();
+        }
 		lore.remove(4);
-		lore.add(4, ChatColor.GRAY + "Critical Strike Chance: " + FormattingUtil.getAttributeColor(bonusCrit) + dF.format(bonusCrit) + ChatColor.GRAY + "%");
+		lore.add(4, ChatColor.GRAY + "Critical Strike Chance: " + FormattingUtil.getAttributeColor(bonusCrit) + FormattingUtil.dF.format(bonusCrit) + ChatColor.GRAY + "%");
 		meta.setLore(lore);
 		weapon.setItemMeta(meta);
 		return;
@@ -110,17 +138,17 @@ public class WeaponLoreUtil {
 				reachedmodifications = true;
 			}
 		}
-		String improvementtext = FormattingUtil.getQualityColor(improvementQuality) + dF.format(improvementQuality) + ChatColor.GRAY;
+		String improvementtext = FormattingUtil.getQualityColor(improvementQuality) + FormattingUtil.dF.format(improvementQuality) + ChatColor.GRAY;
 		improvementtext = ChatColor.GRAY + "Improvement Quality: " + improvementQuality + "%";
 		String bonusdmgtext = FormattingUtil.getAttributeColor(bonusdmg) + bonusdmg + ChatColor.GRAY;
 		bonusdmgtext = ChatColor.GRAY + "Bonus Damage: " + bonusdmgtext;
 		String lifestealtext =  FormattingUtil.getAttributeColor(lifesteal) + lifesteal + ChatColor.GRAY;
 		lifestealtext = ChatColor.GRAY + "Life Steal: " + lifestealtext + " Health/Hit";
-		String crittext = FormattingUtil.getAttributeColor(critchance) + dF.format(critchance) + ChatColor.GRAY;
+		String crittext = FormattingUtil.getAttributeColor(critchance) + FormattingUtil.dF.format(critchance) + ChatColor.GRAY;
 		crittext = ChatColor.GRAY + "Critical Strike Chance: " + crittext + "%";
 		List<String> loreUpdated = new ArrayList<String>();
-		loreUpdated.add(improvementtext);
-		loreUpdated.add(ChatColor.WHITE + "=========Statistics==========");
+		loreUpdated.add(ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
+	    loreUpdated.add(improvementtext);
 		loreUpdated.add(bonusdmgtext);
 		loreUpdated.add(lifestealtext);
 		loreUpdated.add(crittext);

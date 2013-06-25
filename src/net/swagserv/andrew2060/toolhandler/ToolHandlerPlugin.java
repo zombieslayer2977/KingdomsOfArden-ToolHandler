@@ -23,6 +23,7 @@ import net.swagserv.andrew2060.toolhandler.mods.ModManager;
 import net.swagserv.andrew2060.toolhandler.tasks.ArmorPassiveTask;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
@@ -52,8 +53,12 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	private Random rand;
 	private HealingEffectListener healingEffectListener;
 
+    // Gets the 4 character version identifier associated with this version of tool lore to determine if an update is needed.
+    public static String versionIdentifier = ChatColor.AQUA + "" + ChatColor.AQUA + "" + ChatColor.RESET + "";
+
 	
 	public void onEnable() {
+
 		//Initialize Listeners
 		this.armorQualityListener = new ArmorDurabilityChangeListener();
 		this.weaponQualityListener = new WeaponDurabilityChangeListener();

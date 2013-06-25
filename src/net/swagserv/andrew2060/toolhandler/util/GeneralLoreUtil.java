@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -13,8 +15,8 @@ public class GeneralLoreUtil {
 	static DecimalFormat dF = new DecimalFormat("###.##");
 	//For Spades, Picks, and Axes
 	private static void populateWeaponTool(List<String> templateLoreWeaponTool) {
-		templateLoreWeaponTool.add(0,ChatColor.GRAY + "Improvement Quality: 0.00%");
-		templateLoreWeaponTool.add(1,ChatColor.WHITE + "=========Statistics==========");
+	    templateLoreWeaponTool.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
+		templateLoreWeaponTool.add(1,ChatColor.GRAY + "Improvement Quality: 0.00%");
 		templateLoreWeaponTool.add(2,ChatColor.GRAY + "Bonus True Damage: 0");
 		templateLoreWeaponTool.add(3,ChatColor.GRAY + "Bash Attack Chance: 0.00%");
 		templateLoreWeaponTool.add(4,ChatColor.GRAY + "Decimating Strike Chance: 0.00%");
@@ -24,8 +26,8 @@ public class GeneralLoreUtil {
 	}
 	//For Hoes
 	private static void populateMagicTool(List<String> templateLoreMagicTool) {
-		templateLoreMagicTool.add(0,ChatColor.GRAY + "Improvement Quality: 0.00%");
-		templateLoreMagicTool.add(1,ChatColor.WHITE + "=========Statistics==========");
+        templateLoreMagicTool.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
+        templateLoreMagicTool.add(1,ChatColor.GRAY + "Improvement Quality: 0.00%");
 		templateLoreMagicTool.add(2,ChatColor.GRAY + "Damage Boost Rating: 0.00%");
 		templateLoreMagicTool.add(3,ChatColor.GRAY + "Mana Restoration: 0 Mana/Hit");
 		templateLoreMagicTool.add(4,ChatColor.GRAY + "Spell Leech: 0.00%");
@@ -35,8 +37,8 @@ public class GeneralLoreUtil {
 	}
 	//For all Armor Types
 	private static void populateArmor(List<String> templateLoreArmor) {
-		templateLoreArmor.add(0,ChatColor.GRAY + "Improvement Quality: 0.00%");
-		templateLoreArmor.add(1,ChatColor.WHITE + "=========Statistics==========");
+        templateLoreArmor.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
+        templateLoreArmor.add(1,ChatColor.GRAY + "Improvement Quality: 0.00%");
 		templateLoreArmor.add(2,ChatColor.GRAY + "Magical Resistance Rating: 0.00%");
 		templateLoreArmor.add(3,ChatColor.GRAY + "Healing Bonus: 0.00%");
 		templateLoreArmor.add(4,ChatColor.GRAY + "Additional Protection: 0 Damage/Hit");
@@ -45,8 +47,8 @@ public class GeneralLoreUtil {
 	}
 	//For Swords
 	private static void populateWeapon(List<String> templateLoreWeapon) {
-		templateLoreWeapon.add(0,ChatColor.GRAY + "Improvement Quality: 0.00%");
-		templateLoreWeapon.add(1,ChatColor.WHITE + "=========Statistics==========");
+		templateLoreWeapon.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
+	    templateLoreWeapon.add(1,ChatColor.GRAY + "Improvement Quality: 0.00%");
 		templateLoreWeapon.add(2,ChatColor.GRAY + "Bonus Damage: 0");
 		templateLoreWeapon.add(3,ChatColor.GRAY + "Life Steal: 0 Health/Hit");
 		templateLoreWeapon.add(4,ChatColor.GRAY + "Critical Strike Chance: 0.00%");

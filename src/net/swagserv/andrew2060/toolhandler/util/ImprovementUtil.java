@@ -1,7 +1,8 @@
 package net.swagserv.andrew2060.toolhandler.util;
 
-import java.text.DecimalFormat;
 import java.util.List;
+
+import net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,7 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.herocraftonline.heroes.util.Util;
 
 public class ImprovementUtil {
-	static DecimalFormat dF = new DecimalFormat("###.##");
 	public static Material getItemType(ItemStack item) {
 		switch(item.getType()) {
 		case DIAMOND_SWORD:
@@ -72,9 +72,14 @@ public class ImprovementUtil {
 			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
-		String toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + dF.format(quality) + ChatColor.GRAY + "%";
-		lore.remove(0);
-		lore.add(0, toAdd);
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(item);
+            meta = item.getItemMeta();
+            lore = meta.getLore();
+        }
+		String toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.dF.format(quality) + ChatColor.GRAY + "%";
+		lore.remove(1);
+		lore.add(1, toAdd);
 		meta.setLore(lore);
 		item.setItemMeta(meta);
 	}
@@ -92,7 +97,12 @@ public class ImprovementUtil {
 			GeneralLoreUtil.populateLoreDefaults(item);
 			return 0;
 		} else {
-			String toAdd = ChatColor.stripColor(lore.get(0));
+		    if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+                GeneralLoreUtil.updateLore(item);
+                meta = item.getItemMeta();
+                lore = meta.getLore();
+            }
+		    String toAdd = ChatColor.stripColor(lore.get(1));
 			toAdd = toAdd.replace("Improvement Quality: ", "")
 				.replace("%", "");
 			double quality = Double.parseDouble(toAdd);
@@ -127,9 +137,9 @@ public class ImprovementUtil {
 			if(quality < 0) {
 				quality = 0;
 			}
-			toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + dF.format(quality) + ChatColor.GRAY + "%";
-			lore.remove(0);
-			lore.add(0, toAdd);
+			toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.dF.format(quality) + ChatColor.GRAY + "%";
+			lore.remove(1);
+			lore.add(1, toAdd);
 			meta.setLore(lore);
 			item.setItemMeta(meta);
 			return quality;
@@ -144,7 +154,12 @@ public class ImprovementUtil {
 		}
 		List<String> lore = meta.getLore();
 		if(!lore.isEmpty()) {
-			String toAdd = ChatColor.stripColor(lore.get(0));
+		    if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+	            GeneralLoreUtil.updateLore(item);
+	            meta = item.getItemMeta();
+	            lore = meta.getLore();
+	        }
+			String toAdd = ChatColor.stripColor(lore.get(1));
 			toAdd = toAdd.replace("Improvement Quality: ", "")
 				.replace("%", "");
 			double quality = Double.parseDouble(toAdd);
@@ -155,9 +170,9 @@ public class ImprovementUtil {
 			if(quality >= 100) {
 				quality = 100;
 			}
-			toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + dF.format(quality) + ChatColor.GRAY + "%";
-			lore.remove(0);
-			lore.add(0, toAdd);
+			toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.dF.format(quality) + ChatColor.GRAY + "%";
+			lore.remove(1);
+			lore.add(1, toAdd);
 			meta.setLore(lore);
 			item.setItemMeta(meta);
 			return quality;
@@ -174,7 +189,12 @@ public class ImprovementUtil {
 		}
 		List<String> lore = meta.getLore();
 		if(!lore.isEmpty()) {
-			String quality = ChatColor.stripColor(lore.get(0));
+		    if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+                GeneralLoreUtil.updateLore(item);
+                meta = item.getItemMeta();
+                lore = meta.getLore();
+            }
+		    String quality = ChatColor.stripColor(lore.get(1));
 			quality = quality.replace("Improvement Quality: ", "")
 				.replace("%", "");
 			return Double.parseDouble(quality);

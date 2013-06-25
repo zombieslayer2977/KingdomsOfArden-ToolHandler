@@ -3,6 +3,7 @@ package net.swagserv.andrew2060.toolhandler.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.swagserv.andrew2060.toolhandler.mods.typedefs.ArmorMod;
 import net.swagserv.andrew2060.toolhandler.mods.typedefs.ScytheMod;
 import net.swagserv.andrew2060.toolhandler.mods.typedefs.ToolMod;
@@ -29,6 +30,11 @@ public class ModUtil {
 			return new ArrayList<String>();
 		}
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(weapon);
+            meta = weapon.getItemMeta();
+            lore = meta.getLore();
+        }
 		List<String> mods = new ArrayList<String>();
 		for(int i = 6; i < lore.size(); i++) {
 			String mod = lore.get(i);
@@ -55,6 +61,11 @@ public class ModUtil {
 			return new ArrayList<String>();
 		}
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(armor);
+            meta = armor.getItemMeta();
+            lore = meta.getLore();
+        }
 		List<String> mods = new ArrayList<String>();
 		for(int i = 6; i < lore.size(); i++) {
 			String mod = lore.get(i);
@@ -81,6 +92,11 @@ public class ModUtil {
 			return new ArrayList<String>();
 		}
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(tool);
+            meta = tool.getItemMeta();
+            lore = meta.getLore();
+        }
 		List<String> mods = new ArrayList<String>();
 		for(int i = 6; i < lore.size(); i++) {
 			String mod = lore.get(i);
@@ -107,6 +123,11 @@ public class ModUtil {
 			return new ArrayList<String>();
 		}
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(scythe);
+            meta = scythe.getItemMeta();
+            lore = meta.getLore();
+        }
 		List<String> mods = new ArrayList<String>();
 		for(int i = 6; i < lore.size(); i++) {
 			String mod = lore.get(i);
@@ -142,6 +163,11 @@ public class ModUtil {
 			meta = weapon.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(weapon);
+            meta = weapon.getItemMeta();
+            lore = meta.getLore();
+        }
 		for(int i = 6; i < lore.size(); i++) {
 			if(lore.get(i).contains("[Empty Slot]")) {
 				if(mod.isSlotRequired()) {
@@ -183,6 +209,11 @@ public class ModUtil {
 			meta = scythe.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(scythe);
+            meta = scythe.getItemMeta();
+            lore = meta.getLore();
+        }
 		for(int i = 6; i < lore.size(); i++) {
 			if(lore.get(i).contains("[Empty Slot]")) {
 				lore.remove(i);
@@ -224,6 +255,11 @@ public class ModUtil {
 			meta = armor.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(armor);
+            meta = armor.getItemMeta();
+            lore = meta.getLore();
+        }
 		for(int i = 6; i < lore.size(); i++) {
 			if(lore.get(i).contains("[Empty Slot]")) {
 				lore.remove(i);
@@ -262,11 +298,14 @@ public class ModUtil {
 		ItemMeta meta = tool.getItemMeta();
 		if(!meta.hasLore()) {
 			GeneralLoreUtil.populateLoreDefaults(tool);
+			meta = tool.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
-		if(lore == null) {
-			GeneralLoreUtil.populateLoreDefaults(tool);
-		}
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(tool);
+            meta = tool.getItemMeta();
+            lore = meta.getLore();
+        }
 		for(int i = 6; i < lore.size(); i++) {
 			if(lore.get(i).contains("[Empty Slot]")) {
 				lore.remove(i);
@@ -301,6 +340,11 @@ public class ModUtil {
 			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(item);
+            meta = item.getItemMeta();
+            lore = meta.getLore();
+        }
 		//Get the current size of the lore list -> we add a mod slot at the end
 		int size = lore.size();
 		lore.add(size,ChatColor.DARK_GRAY + "[Empty Slot]");

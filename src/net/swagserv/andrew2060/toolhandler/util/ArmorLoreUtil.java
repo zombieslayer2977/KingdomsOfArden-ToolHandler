@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin;
+
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -15,6 +17,11 @@ public class ArmorLoreUtil {
 		}
 		ItemMeta meta = armor.getItemMeta();
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(armor);
+            meta = armor.getItemMeta();
+            lore = meta.getLore();
+        }
 		String doubleParse = ChatColor.stripColor(lore.get(2)).replace("Magical Resistance Rating:", "").replace("%", "").replace(" ","");
 		Double magicalRating = Double.parseDouble(doubleParse)*0.01;
 		return magicalRating;
@@ -26,6 +33,11 @@ public class ArmorLoreUtil {
 		}
 		ItemMeta meta = armor.getItemMeta();
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(armor);
+            meta = armor.getItemMeta();
+            lore = meta.getLore();
+        }
 		String doubleParse = ChatColor.stripColor(lore.get(3)).replace("Healing Bonus:", "").replace("%", "").replace(" ","");
 		Double healBonus = Double.parseDouble(doubleParse)*0.01;
 		return healBonus;
@@ -37,6 +49,11 @@ public class ArmorLoreUtil {
 		}
 		ItemMeta meta = armor.getItemMeta();
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(armor);
+            meta = armor.getItemMeta();
+            lore = meta.getLore();
+        }
 		String intParse = ChatColor.stripColor(lore.get(4)).replace("Additional Protection:", "").replace("Damage/Hit", "").replace(" ","");
 		int protBonus = Integer.parseInt(intParse);
 		return protBonus;
@@ -44,6 +61,11 @@ public class ArmorLoreUtil {
 	public static void setMagicResistRating(double rating, ItemStack armor) {
 		ItemMeta meta = armor.getItemMeta();
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(armor);
+            meta = armor.getItemMeta();
+            lore = meta.getLore();
+        }
 		lore.remove(2);
 		lore.add(2, ChatColor.GRAY + "Magical Resistance Rating: " + FormattingUtil.getAttributeColor(rating) + GeneralLoreUtil.dF.format(rating) + ChatColor.GRAY + "%");
 		meta.setLore(lore);
@@ -53,6 +75,11 @@ public class ArmorLoreUtil {
 	public static void setHealingBonus(double amount, ItemStack armor) {
 		ItemMeta meta = armor.getItemMeta();
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(armor);
+            meta = armor.getItemMeta();
+            lore = meta.getLore();
+        }
 		lore.remove(3);
 		lore.add(3,ChatColor.GRAY + "Healing Bonus: " + FormattingUtil.getAttributeColor(amount) + GeneralLoreUtil.dF.format(amount) + ChatColor.GRAY + "%");
 		meta.setLore(lore);
@@ -62,6 +89,11 @@ public class ArmorLoreUtil {
 	public static void setProtBonus(int bonusProt, ItemStack armor) {
 		ItemMeta meta = armor.getItemMeta();
 		List<String> lore = meta.getLore();
+		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(armor);
+            meta = armor.getItemMeta();
+            lore = meta.getLore();
+        }
 		lore.remove(4);
 		lore.add(4, ChatColor.GRAY + "Additional Protection: " + FormattingUtil.getAttributeColor(bonusProt) + bonusProt + ChatColor.GRAY + " Damage/Hit");
 		meta.setLore(lore);
@@ -128,8 +160,8 @@ public class ArmorLoreUtil {
 		String additionalProtText = FormattingUtil.getAttributeColor(additionalProt) + additionalProt + ChatColor.GRAY;
 		additionalProtText = "Additional Protection: " + additionalProtText + "Damage/Hit";
 		List<String> loreUpdated = new ArrayList<String>();
-		loreUpdated.add(improvementText);
-		loreUpdated.add(ChatColor.WHITE + "=========Statistics==========");
+		loreUpdated.add(ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
+	    loreUpdated.add(improvementText);
 		loreUpdated.add(magicResText);
 		loreUpdated.add(healingBonusText);
 		loreUpdated.add(additionalProtText);
