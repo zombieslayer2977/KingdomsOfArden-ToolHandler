@@ -16,8 +16,12 @@ public class ArmorLoreUtil {
 			return 0;
 		}
 		ItemMeta meta = armor.getItemMeta();
+		if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(armor);
+            meta = armor.getItemMeta();
+        }
 		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(armor);
             meta = armor.getItemMeta();
             lore = meta.getLore();
@@ -32,8 +36,12 @@ public class ArmorLoreUtil {
 			return 0;
 		}
 		ItemMeta meta = armor.getItemMeta();
+		if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(armor);
+            meta = armor.getItemMeta();
+        }
 		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(armor);
             meta = armor.getItemMeta();
             lore = meta.getLore();
@@ -48,8 +56,12 @@ public class ArmorLoreUtil {
 			return 0;
 		}
 		ItemMeta meta = armor.getItemMeta();
+		if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(armor);
+            meta = armor.getItemMeta();
+        }
 		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(armor);
             meta = armor.getItemMeta();
             lore = meta.getLore();
@@ -60,8 +72,12 @@ public class ArmorLoreUtil {
 	}
 	public static void setMagicResistRating(double rating, ItemStack armor) {
 		ItemMeta meta = armor.getItemMeta();
+		if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(armor);
+            meta = armor.getItemMeta();
+        }
 		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(armor);
             meta = armor.getItemMeta();
             lore = meta.getLore();
@@ -74,8 +90,12 @@ public class ArmorLoreUtil {
 	}
 	public static void setHealingBonus(double amount, ItemStack armor) {
 		ItemMeta meta = armor.getItemMeta();
+		if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(armor);
+            meta = armor.getItemMeta();
+        }
 		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(armor);
             meta = armor.getItemMeta();
             lore = meta.getLore();
@@ -88,8 +108,12 @@ public class ArmorLoreUtil {
 	}
 	public static void setProtBonus(int bonusProt, ItemStack armor) {
 		ItemMeta meta = armor.getItemMeta();
+		if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(armor);
+            meta = armor.getItemMeta();
+        }
 		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(armor);
             meta = armor.getItemMeta();
             lore = meta.getLore();

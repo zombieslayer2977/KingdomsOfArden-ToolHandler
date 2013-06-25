@@ -13,8 +13,12 @@ public class ToolLoreUtil {
 
     public static int getBonusTrueDamage(ItemStack tool) {
         ItemMeta meta = tool.getItemMeta();
+        if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(tool);
+            meta = tool.getItemMeta();
+        }
         List<String> lore = meta.getLore();
-        if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(tool);
             meta = tool.getItemMeta();
             lore = meta.getLore();

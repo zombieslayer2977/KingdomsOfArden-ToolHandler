@@ -13,8 +13,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class WeaponLoreUtil {
 	public static int getBonusDamage(ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
+		if(!meta.hasLore()) {
+		    GeneralLoreUtil.populateLoreDefaults(weapon);
+		    meta = weapon.getItemMeta();
+		}
 		List<String> lore = meta.getLore();
-		if(!(meta.hasLore() && lore.get(0).contains(ToolHandlerPlugin.versionIdentifier))) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(weapon);
             meta = weapon.getItemMeta();
             lore = meta.getLore();
@@ -25,8 +29,12 @@ public class WeaponLoreUtil {
 	}
 	public static double getLifeSteal(ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
+		if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(weapon);
+            meta = weapon.getItemMeta();
+        }
 		List<String> lore = meta.getLore();
-        if(!(meta.hasLore() && lore.get(0).contains(ToolHandlerPlugin.versionIdentifier))) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(weapon);
             meta = weapon.getItemMeta();
             lore = meta.getLore();
@@ -37,8 +45,12 @@ public class WeaponLoreUtil {
 	}
 	public static double getCritChance(ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
+		if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(weapon);
+            meta = weapon.getItemMeta();
+        }
 		List<String> lore = meta.getLore();
-        if(!(meta.hasLore() && lore.get(0).contains(ToolHandlerPlugin.versionIdentifier))) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(weapon);
         }
 		String doubleParse = lore.get(4).replaceAll("[^.0-9]","");
@@ -47,8 +59,12 @@ public class WeaponLoreUtil {
 	}
 	public static void setBonusDamage(int bonus, ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
+		if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(weapon);
+            meta = weapon.getItemMeta();
+        }
 		List<String> lore = meta.getLore();
-        if(!(meta.hasLore() && lore.get(0).contains(ToolHandlerPlugin.versionIdentifier))) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(weapon);
             meta = weapon.getItemMeta();
             lore = meta.getLore();
@@ -61,8 +77,12 @@ public class WeaponLoreUtil {
 	}
 	public static void setLifeSteal(int amount, ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
+		if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(weapon);
+            meta = weapon.getItemMeta();
+        }
 		List<String> lore = meta.getLore();
-        if(!(meta.hasLore() && lore.get(0).contains(ToolHandlerPlugin.versionIdentifier))) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(weapon);
             meta = weapon.getItemMeta();
             lore = meta.getLore();
@@ -75,8 +95,12 @@ public class WeaponLoreUtil {
 	}
 	public static void setCritChance(double bonusCrit, ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
+		if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(weapon);
+            meta = weapon.getItemMeta();
+        }
 		List<String> lore = meta.getLore();
-        if(!(meta.hasLore() && lore.get(0).contains(ToolHandlerPlugin.versionIdentifier))) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(weapon);
             meta = weapon.getItemMeta();
             lore = meta.getLore();

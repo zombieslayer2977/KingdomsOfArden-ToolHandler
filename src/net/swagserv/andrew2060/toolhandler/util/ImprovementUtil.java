@@ -72,7 +72,7 @@ public class ImprovementUtil {
 			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(item);
             meta = item.getItemMeta();
             lore = meta.getLore();
@@ -93,58 +93,52 @@ public class ImprovementUtil {
 			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
-		if(lore.isEmpty()) {
-			GeneralLoreUtil.populateLoreDefaults(item);
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(item);
+            meta = item.getItemMeta();
+            lore = meta.getLore();
+        }
+	    String toAdd = ChatColor.stripColor(lore.get(1));
+		toAdd = toAdd.replace("Improvement Quality: ", "")
+			.replace("%", "");
+		double quality = Double.parseDouble(toAdd);
+		if(quality == 0) {
 			return 0;
-		} else {
-		    if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
-                GeneralLoreUtil.updateLore(item);
-                meta = item.getItemMeta();
-                lore = meta.getLore();
-            }
-		    String toAdd = ChatColor.stripColor(lore.get(1));
-			toAdd = toAdd.replace("Improvement Quality: ", "")
-				.replace("%", "");
-			double quality = Double.parseDouble(toAdd);
-			if(quality == 0) {
-				return 0;
-			}
-			int unbreakinglevel = item.getEnchantmentLevel(Enchantment.DURABILITY)+1;
-			switch(mat) {
-			case DIAMOND: 
-				quality -= 0.1/unbreakinglevel;
-				break;
-			case IRON_INGOT:
-				quality -= 0.2/unbreakinglevel;
-				break;
-			case GOLD_INGOT:
-				quality -= 1.0/unbreakinglevel;
-				break;
-			case LEATHER: 
-				quality -= 0.8/unbreakinglevel;
-				break;
-			case STONE: 
-				quality -= 0.5/unbreakinglevel;
-				break;
-			case BOW:
-				quality -= 0.5/unbreakinglevel;
-				break;
-			default: 
-				System.err.println("Material Sent to Reduce Quality is Invalid");
-				System.err.println("-" + mat.toString());
-				return 0;
-			}
-			if(quality < 0) {
-				quality = 0;
-			}
-			toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.dF.format(quality) + ChatColor.GRAY + "%";
-			lore.remove(1);
-			lore.add(1, toAdd);
-			meta.setLore(lore);
-			item.setItemMeta(meta);
-			return quality;
 		}
-
+		int unbreakinglevel = item.getEnchantmentLevel(Enchantment.DURABILITY)+1;
+		switch(mat) {
+		case DIAMOND: 
+			quality -= 0.1/unbreakinglevel;
+			break;
+		case IRON_INGOT:
+			quality -= 0.2/unbreakinglevel;
+			break;
+		case GOLD_INGOT:
+			quality -= 1.0/unbreakinglevel;
+			break;
+		case LEATHER: 
+			quality -= 0.8/unbreakinglevel;
+			break;
+		case STONE: 
+			quality -= 0.5/unbreakinglevel;
+			break;
+		case BOW:
+			quality -= 0.5/unbreakinglevel;
+			break;
+		default: 
+			System.err.println("Material Sent to Reduce Quality is Invalid");
+			System.err.println("-" + mat.toString());
+			return 0;
+		}
+		if(quality < 0) {
+			quality = 0;
+		}
+		toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.dF.format(quality) + ChatColor.GRAY + "%";
+		lore.remove(1);
+		lore.add(1, toAdd);
+		meta.setLore(lore);
+		item.setItemMeta(meta);
+		return quality;
 	}
 	public static double improveQuality(ItemStack item) {
 		ItemMeta meta = item.getItemMeta();
@@ -153,33 +147,29 @@ public class ImprovementUtil {
 			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
-		if(!lore.isEmpty()) {
-		    if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
-	            GeneralLoreUtil.updateLore(item);
-	            meta = item.getItemMeta();
-	            lore = meta.getLore();
-	        }
-			String toAdd = ChatColor.stripColor(lore.get(1));
-			toAdd = toAdd.replace("Improvement Quality: ", "")
-				.replace("%", "");
-			double quality = Double.parseDouble(toAdd);
-			if(quality == 100) {
-				return -1;
-			}
-			quality += 4;
-			if(quality >= 100) {
-				quality = 100;
-			}
-			toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.dF.format(quality) + ChatColor.GRAY + "%";
-			lore.remove(1);
-			lore.add(1, toAdd);
-			meta.setLore(lore);
-			item.setItemMeta(meta);
-			return quality;
-		} else {
-			GeneralLoreUtil.populateLoreDefaults(item);
-			return 0;
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(item);
+            meta = item.getItemMeta();
+            lore = meta.getLore();
+        }
+		String toAdd = ChatColor.stripColor(lore.get(1));
+		toAdd = toAdd.replace("Improvement Quality: ", "")
+			.replace("%", "");
+		double quality = Double.parseDouble(toAdd);
+		if(quality == 100) {
+			return -1;
 		}
+		quality += 4;
+		if(quality >= 100) {
+			quality = 100;
+		}
+		toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.dF.format(quality) + ChatColor.GRAY + "%";
+		lore.remove(1);
+		lore.add(1, toAdd);
+		meta.setLore(lore);
+		item.setItemMeta(meta);
+		return quality;
+	
 	}
 	public static double getQuality(ItemStack item) {
 		ItemMeta meta = item.getItemMeta();
@@ -188,20 +178,16 @@ public class ImprovementUtil {
 			meta = item.getItemMeta();
 		}
 		List<String> lore = meta.getLore();
-		if(!lore.isEmpty()) {
-		    if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
-                GeneralLoreUtil.updateLore(item);
-                meta = item.getItemMeta();
-                lore = meta.getLore();
-            }
-		    String quality = ChatColor.stripColor(lore.get(1));
-			quality = quality.replace("Improvement Quality: ", "")
-				.replace("%", "");
-			return Double.parseDouble(quality);
-		} else {
-			GeneralLoreUtil.populateLoreDefaults(item);
-			return 0;
-		}
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(item);
+            meta = item.getItemMeta();
+            lore = meta.getLore();
+        }
+	    String quality = ChatColor.stripColor(lore.get(1));
+		quality = quality.replace("Improvement Quality: ", "")
+			.replace("%", "");
+		return Double.parseDouble(quality);
+
 	}
 	public static void applyEnchantmentLevel(ItemStack item, Enchantment ench) {
 		double quality = getQuality(item);
