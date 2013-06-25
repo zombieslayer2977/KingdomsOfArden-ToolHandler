@@ -88,7 +88,7 @@ public class WeaponLoreUtil {
             lore = meta.getLore();
         }
 		lore.remove(3);
-		lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttributeColor(d) + d + ChatColor.GRAY + " %");
+		lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttributeColor(d) + FormattingUtil.dF.format(d) + ChatColor.GRAY + " %");
 		meta.setLore(lore);
 		weapon.setItemMeta(meta);
 		return;
