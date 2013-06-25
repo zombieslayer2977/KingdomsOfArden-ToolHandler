@@ -59,7 +59,6 @@ public class WeaponLoreListener implements Listener {
 		ls = WeaponLoreUtil.getLifeSteal(i);
 		HeroRegainHealthEvent healingEvent = new HeroRegainHealthEvent((Hero) event.getDamager(), (int) (event.getDamage()*ls*0.01), null);
 		Bukkit.getPluginManager().callEvent(healingEvent);
-		p.setHealth(p.getHealth()+healingEvent.getAmount());
 		try {
 			p.setHealth(p.getHealth() + healingEvent.getAmount());
 		} catch (IllegalArgumentException e) {
