@@ -139,6 +139,9 @@ public class ArmorLoreUtil {
 			return;
 		}
 		List<String> lore = meta.getLore();
+		if(lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+		    return;
+		}
 		double improvementQuality = 0.00D;
 		double magicRes = 0;
 		double healingBonus = 0;

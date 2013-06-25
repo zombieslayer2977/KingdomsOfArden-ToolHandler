@@ -126,6 +126,9 @@ public class WeaponLoreUtil {
 			return;
 		}
 		List<String> lore = meta.getLore();
+		if(lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            return;
+        }
 		double improvementQuality = 0.00D;
 		int bonusdmg = 0;
 		int lifesteal = 0;

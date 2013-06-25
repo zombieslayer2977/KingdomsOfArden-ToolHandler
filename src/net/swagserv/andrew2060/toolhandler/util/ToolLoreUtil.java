@@ -38,6 +38,9 @@ public class ToolLoreUtil {
             return;
         }
         List<String> lore = meta.getLore();
+        if(lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            return;
+        }
         List<String> modifications = new LinkedList<String>();
         double improvementQuality = 0.00D;
         int bonusDamage = 0;
