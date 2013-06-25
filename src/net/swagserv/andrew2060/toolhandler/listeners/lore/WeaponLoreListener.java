@@ -36,11 +36,7 @@ public class WeaponLoreListener implements Listener {
 			}
 		}
 		int bonusDamage = 0;
-		try {
-			bonusDamage = WeaponLoreUtil.getBonusDamage(i);
-		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
-			WeaponLoreUtil.updateWeaponLore(i);
-		}
+		bonusDamage = WeaponLoreUtil.getBonusDamage(i);
 		event.setDamage(event.getDamage() + bonusDamage);
 	}
 	//Life Steal Handler
@@ -60,11 +56,7 @@ public class WeaponLoreListener implements Listener {
 			}
 		}
 		double ls = 0;
-		try {
-			ls = WeaponLoreUtil.getLifeSteal(i);
-		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
-			WeaponLoreUtil.updateWeaponLore(i);
-		}
+		ls = WeaponLoreUtil.getLifeSteal(i);
 		HeroRegainHealthEvent healingEvent = new HeroRegainHealthEvent((Hero) event.getDamager(), (int) (event.getDamage()*ls*0.01), null);
 		Bukkit.getPluginManager().callEvent(healingEvent);
 		p.setHealth(p.getHealth()+healingEvent.getAmount());
@@ -92,11 +84,7 @@ public class WeaponLoreListener implements Listener {
 			}
 		}
 		double critchance = 0;
-		try {
-			critchance = WeaponLoreUtil.getCritChance(i);
-		} catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
-			WeaponLoreUtil.updateWeaponLore(i);
-		}
+		critchance = WeaponLoreUtil.getCritChance(i);
 		Random randGen = new Random();
 		double rand = randGen.nextInt(10000)*0.01;
 		if(rand <= critchance) {
