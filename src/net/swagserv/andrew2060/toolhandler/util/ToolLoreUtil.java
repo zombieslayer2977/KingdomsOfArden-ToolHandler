@@ -52,6 +52,7 @@ public class ToolLoreUtil {
             if(reachedmodifications) {
                 modifications.add(line);
             }
+            line = ChatColor.stripColor(line);
             if(line.contains("Quality")) {
                 try {
                     improvementQuality = Double.parseDouble(line.replaceAll("[^.0-9]", ""));
