@@ -86,7 +86,7 @@ public class WeaponLoreListener implements Listener {
 		critchance = WeaponLoreUtil.getCritChance(i);
 		Random randGen = new Random();
 		double rand = randGen.nextInt(10000)*0.01;
-		if(rand <= critchance) {
+		if(rand < critchance) {
 			//Fire a CriticalStrikeEvent
 			CriticalStrikeEvent cEvent = new CriticalStrikeEvent((int) (event.getDamage()*1.5), event, p,i,ModUtil.getWeaponMods(i));
 			cEvent.callEvent();
