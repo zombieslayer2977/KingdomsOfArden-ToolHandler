@@ -22,7 +22,7 @@ public class ArmorLoreUtil {
             meta = armor.getItemMeta();
             lore = meta.getLore();
         }
-		String doubleParse = ChatColor.stripColor(lore.get(2)).replace("Magical Resistance Rating:", "").replace("%", "").replace(" ","");
+		String doubleParse = lore.get(2).replaceAll("[^.0-9]","");
 		Double magicalRating = Double.parseDouble(doubleParse)*0.01;
 		return magicalRating;
 	}
@@ -38,7 +38,7 @@ public class ArmorLoreUtil {
             meta = armor.getItemMeta();
             lore = meta.getLore();
         }
-		String doubleParse = ChatColor.stripColor(lore.get(3)).replace("Healing Bonus:", "").replace("%", "").replace(" ","");
+		String doubleParse = lore.get(3).replaceAll("[^.0-9]","");
 		Double healBonus = Double.parseDouble(doubleParse)*0.01;
 		return healBonus;
 	}
@@ -54,7 +54,7 @@ public class ArmorLoreUtil {
             meta = armor.getItemMeta();
             lore = meta.getLore();
         }
-		String intParse = ChatColor.stripColor(lore.get(4)).replace("Additional Protection:", "").replace("Damage/Hit", "").replace(" ","");
+		String intParse = lore.get(4).replaceAll("[^.0-9]","");;
 		int protBonus = Integer.parseInt(intParse);
 		return protBonus;
 	}
@@ -125,25 +125,25 @@ public class ArmorLoreUtil {
 			}
 			if(line.contains("Quality")) {
 				try {
-					improvementQuality = Double.parseDouble(ChatColor.stripColor(line).replace("Improvement Quality: ", "").replace("%", ""));
+					improvementQuality = Double.parseDouble(line.replaceAll("[^.0-9]",""));
 				} catch (NumberFormatException e) {
 				}
 			}
 			if(line.contains("Magical")) {
 				try {
-					magicRes = Double.parseDouble(ChatColor.stripColor(line).replace("Magical Resistance Rating: ", "").replace("%", ""));
+					magicRes = Double.parseDouble(line.replaceAll("[^.0-9]",""));
 				} catch (NumberFormatException e) {
 				}
 			}
 			if(line.contains("Healing")) {
 				try {
-					healingBonus = Double.parseDouble(ChatColor.stripColor(line).replace("Healing Bonus: ", "").replace("%", ""));
+					healingBonus = Double.parseDouble(line.replaceAll("[^.0-9]","")); 
 				} catch (NumberFormatException e) {
 				}
 			}
 			if(line.contains("Additional")) {
 				try {
-					additionalProt = Integer.parseInt(ChatColor.stripColor(line).replace("Additional Protection: ", "").replace(" Damage/Hit", ""));
+					additionalProt = Integer.parseInt(line.replaceAll("[^.0-9]",""));
 				} catch (NumberFormatException e) {
 				}
 			}
