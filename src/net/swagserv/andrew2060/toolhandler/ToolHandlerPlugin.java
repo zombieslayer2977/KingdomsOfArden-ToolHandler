@@ -10,10 +10,8 @@ import net.swagserv.andrew2060.toolhandler.commands.RefreshLoreCommandExecutor;
 import net.swagserv.andrew2060.toolhandler.commands.ReloadCommandExecutor;
 import net.swagserv.andrew2060.toolhandler.listeners.crafting.CraftingListener;
 import net.swagserv.andrew2060.toolhandler.listeners.crafting.ShiftClickListener;
-import net.swagserv.andrew2060.toolhandler.listeners.durability.ArmorDurabilityChangeListener;
 import net.swagserv.andrew2060.toolhandler.listeners.durability.ChainMailListener;
-import net.swagserv.andrew2060.toolhandler.listeners.durability.ToolDurabilityChangeListener;
-import net.swagserv.andrew2060.toolhandler.listeners.durability.WeaponDurabilityChangeListener;
+import net.swagserv.andrew2060.toolhandler.listeners.durability.DurabilityChangeListener;
 import net.swagserv.andrew2060.toolhandler.listeners.effects.HealingEffectListener;
 import net.swagserv.andrew2060.toolhandler.listeners.lore.ArmorLoreListener;
 import net.swagserv.andrew2060.toolhandler.listeners.lore.WeaponLoreListener;
@@ -36,9 +34,8 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	public Permission permission;
 	
 	private ModManager modManager;
-	private ArmorDurabilityChangeListener armorQualityListener;
-	private WeaponDurabilityChangeListener weaponQualityListener;
-	private ToolDurabilityChangeListener toolQualityListener;
+	
+	private DurabilityChangeListener qualityListener;
 	
 	private CraftingListener craftingListener;
 	private ShiftClickListener craftingShiftClickListener;
@@ -61,9 +58,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	public void onEnable() {
 
 		//Initialize Listeners
-		this.armorQualityListener = new ArmorDurabilityChangeListener();
-		this.weaponQualityListener = new WeaponDurabilityChangeListener();
-		this.toolQualityListener = new ToolDurabilityChangeListener();
+	    this.qualityListener = new DurabilityChangeListener();
 		
 		this.craftingListener = new CraftingListener();
 		this.craftingShiftClickListener = new ShiftClickListener(this);
@@ -108,9 +103,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 
 	private void registerListeners() {
 		//Durability Based Prot/Sharpness/Efficiency Listeners
-		Bukkit.getPluginManager().registerEvents(this.armorQualityListener, this);
-		Bukkit.getPluginManager().registerEvents(this.weaponQualityListener, this);
-		Bukkit.getPluginManager().registerEvents(this.toolQualityListener, this);
+		Bukkit.getPluginManager().registerEvents(this.qualityListener, this);
 		
 		//Crafting Listeners
 		Bukkit.getPluginManager().registerEvents(this.craftingListener, this);
