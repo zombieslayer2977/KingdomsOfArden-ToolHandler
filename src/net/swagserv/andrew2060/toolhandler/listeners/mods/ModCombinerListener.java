@@ -79,18 +79,18 @@ public class ModCombinerListener implements Listener {
 		event.setCancelled(true);
 		Player p = event.getPlayer();
 		if(!activeModChests.containsKey(b)) {
-			p.sendMessage("This item mod creator does not have anything in it!");
+			p.sendMessage(ChatColor.GRAY + "[" + ChatColor.YELLOW + "Artificer" + ChatColor.GRAY + "] This item mod creator does not have anything in it!");
 			return;
 		}
 		Inventory modInv = activeModChests.get(b);
 		if(!modInv.contains(Material.EMERALD)) {
-			p.sendMessage("This item mod creator does not have a soul gem to create a mod with!");
+			p.sendMessage(ChatColor.GRAY + "[" + ChatColor.YELLOW + "Artificer" + ChatColor.GRAY + "] This item mod creator does not have a soul gem to create a mod with!");
 			return;
 		}
 		int emeraldSlot = modInv.first(Material.EMERALD);
 		ItemStack soulGem = modInv.getItem(emeraldSlot);
 		if(!soulGem.getItemMeta().hasDisplayName()) {
-			p.sendMessage("This item mod creator does not have a soul gem to create a mod with!");
+			p.sendMessage(ChatColor.GRAY + "[" + ChatColor.YELLOW + "Artificer" + ChatColor.GRAY + "] This item mod creator does not have a soul gem to create a mod with!");
 			return;
 		}
 		ItemStack tool = null;
@@ -106,16 +106,16 @@ public class ModCombinerListener implements Listener {
 			} else {
 				modInv.setItem(emeraldSlot, new ItemStack(Material.AIR));
 			}
-			p.sendMessage("Item Modification Successful");
+			p.sendMessage(ChatColor.GRAY + "[" + ChatColor.YELLOW + "Artificer" + ChatColor.GRAY + "] Item Modification Successful");
 			return;
 		} else if(code == 0) {
-			p.sendMessage("There are no open mod slots on this tool");
+			p.sendMessage(ChatColor.GRAY + "[" + ChatColor.YELLOW + "Artificer" + ChatColor.GRAY + "] There are no open mod slots on this tool");
 			return;
 		} else if(code == -1) {
-			p.sendMessage("This is not a valid tool to apply a mod to!");
+			p.sendMessage(ChatColor.GRAY + "[" + ChatColor.YELLOW + "Artificer" + ChatColor.GRAY + "] This is not a valid tool to apply a mod to!");
 			return;
 		} else if(code == -2) {
-			p.sendMessage("There can only be one tool in the item mod creator!");
+			p.sendMessage(ChatColor.GRAY + "[" + ChatColor.YELLOW + "Artificer" + ChatColor.GRAY + "] There can only be one tool in the item mod creator!");
 			return;
 		}
 	}
