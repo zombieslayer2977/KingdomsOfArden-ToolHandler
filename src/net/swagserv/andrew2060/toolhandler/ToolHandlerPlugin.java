@@ -9,9 +9,9 @@ import net.swagserv.andrew2060.toolhandler.commands.ModCommandExecutor;
 import net.swagserv.andrew2060.toolhandler.commands.RefreshLoreCommandExecutor;
 import net.swagserv.andrew2060.toolhandler.commands.ReloadCommandExecutor;
 import net.swagserv.andrew2060.toolhandler.listeners.crafting.CraftingListener;
-import net.swagserv.andrew2060.toolhandler.listeners.crafting.ItemStackListener;
 import net.swagserv.andrew2060.toolhandler.listeners.crafting.ShiftClickListener;
 import net.swagserv.andrew2060.toolhandler.listeners.durability.ArmorDurabilityChangeListener;
+import net.swagserv.andrew2060.toolhandler.listeners.durability.ChainMailListener;
 import net.swagserv.andrew2060.toolhandler.listeners.durability.ToolDurabilityChangeListener;
 import net.swagserv.andrew2060.toolhandler.listeners.durability.WeaponDurabilityChangeListener;
 import net.swagserv.andrew2060.toolhandler.listeners.effects.HealingEffectListener;
@@ -42,7 +42,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	
 	private CraftingListener craftingListener;
 	private ShiftClickListener craftingShiftClickListener;
-    private ItemStackListener itemstackUpdateListener;
+    private ChainMailListener chainmailListener;
 
 	private ArmorLoreListener armorLoreListener;
 	private WeaponLoreListener weapLoreListener;
@@ -52,6 +52,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	
 	private Random rand;
 	private HealingEffectListener healingEffectListener;
+
 
     // Gets the 4 character version identifier associated with this version of tool lore to determine if an update is needed.
     public static String versionIdentifier = ChatColor.AQUA + "" + ChatColor.AQUA + "" + ChatColor.RESET + "";
@@ -66,7 +67,8 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		
 		this.craftingListener = new CraftingListener();
 		this.craftingShiftClickListener = new ShiftClickListener(this);
-		this.itemstackUpdateListener = new ItemStackListener();
+		
+		this.chainmailListener = new ChainMailListener();
 		
 		this.armorLoreListener = new ArmorLoreListener();
 		this.weapLoreListener = new WeaponLoreListener();
@@ -114,8 +116,8 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(this.craftingListener, this);
 		Bukkit.getPluginManager().registerEvents(this.craftingShiftClickListener, this);
 		
-		//ItemStack Listeners
-		Bukkit.getPluginManager().registerEvents(this.itemstackUpdateListener, this);
+		//Chainmail Durability Listener
+		Bukkit.getPluginManager().registerEvents(this.chainmailListener, this);
 
 		//Lore Listeners
 		Bukkit.getPluginManager().registerEvents(this.armorLoreListener, this);
