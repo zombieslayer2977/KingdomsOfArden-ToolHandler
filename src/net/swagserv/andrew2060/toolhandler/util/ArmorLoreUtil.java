@@ -189,7 +189,7 @@ public class ArmorLoreUtil {
 		String healingBonusText =  FormattingUtil.getAttributeColor(healingBonus) + GeneralLoreUtil.dF.format(healingBonus) + ChatColor.GRAY;
 		healingBonusText = ChatColor.GRAY + "Healing Bonus: " + healingBonusText + "%";
 		String additionalProtText = FormattingUtil.getAttributeColor(additionalProt) + additionalProt + ChatColor.GRAY;
-		additionalProtText = "Additional Protection: " + additionalProtText + "Damage/Hit";
+		additionalProtText = ChatColor.GRAY + "Additional Protection: " + additionalProtText + " Damage/Hit";
 		List<String> loreUpdated = new ArrayList<String>();
 		loreUpdated.add(ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
 	    loreUpdated.add(improvementText);
