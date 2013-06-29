@@ -2,6 +2,7 @@ package net.swagserv.andrew2060.toolhandler.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.swagserv.andrew2060.toolhandler.mods.typedefs.ArmorMod;
@@ -169,10 +170,18 @@ public class ModUtil {
             lore = meta.getLore();
         }
 		for(int i = 6; i < lore.size(); i++) {
-			if(lore.get(i).contains("[Empty Slot]")) {
-				if(mod.isSlotRequired()) {
-					lore.remove(i);
-					lore.add(i, ChatColor.GOLD + mod.getName());	
+            if(lore.get(i).contains("[Empty Slot]")) {
+                boolean addedModSlot = false;
+                if(lore.get(i).startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
+                    addedModSlot = true;
+                }
+                lore.remove(i);
+                if(mod.isSlotRequired()) {
+                    if(addedModSlot) {
+                        lore.add(i, ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
+                    } else {
+                        lore.add(i, ChatColor.GOLD + mod.getName());
+                    }
 					for(int x = 0; x < mod.getDescription().length; x++) {
 						lore.add(i+x+1,ChatColor.GRAY + "- " + mod.getDescription()[x]);
 					}
@@ -215,10 +224,18 @@ public class ModUtil {
             lore = meta.getLore();
         }
 		for(int i = 6; i < lore.size(); i++) {
-			if(lore.get(i).contains("[Empty Slot]")) {
-				lore.remove(i);
-				if(mod.isSlotRequired()) {
-					lore.add(i, ChatColor.GOLD + mod.getName());	
+            if(lore.get(i).contains("[Empty Slot]")) {
+                boolean addedModSlot = false;
+                if(lore.get(i).startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
+                    addedModSlot = true;
+                }
+                lore.remove(i);
+                if(mod.isSlotRequired()) {
+                    if(addedModSlot) {
+                        lore.add(i, ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
+                    } else {
+                        lore.add(i, ChatColor.GOLD + mod.getName());
+                    }
 					for(int x = 0; x < mod.getDescription().length; x++) {
 						lore.add(i+x+1+1,ChatColor.GRAY + "- " + mod.getDescription()[x]);
 					}			
@@ -261,10 +278,18 @@ public class ModUtil {
             lore = meta.getLore();
         }
 		for(int i = 6; i < lore.size(); i++) {
-			if(lore.get(i).contains("[Empty Slot]")) {
-				lore.remove(i);
-				if(mod.isSlotRequired()) {
-					lore.add(i, ChatColor.GOLD + mod.getName());	
+            if(lore.get(i).contains("[Empty Slot]")) {
+                boolean addedModSlot = false;
+                if(lore.get(i).startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
+                    addedModSlot = true;
+                }
+                lore.remove(i);
+                if(mod.isSlotRequired()) {
+                    if(addedModSlot) {
+                        lore.add(i, ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
+                    } else {
+                        lore.add(i, ChatColor.GOLD + mod.getName());
+                    }	
 					for(int x = 0; x < mod.getDescription().length; x++) {
 						lore.add(i+x+1+1,ChatColor.GRAY + "- " + mod.getDescription()[x]);
 					}			
@@ -308,9 +333,17 @@ public class ModUtil {
         }
 		for(int i = 6; i < lore.size(); i++) {
 			if(lore.get(i).contains("[Empty Slot]")) {
+			    boolean addedModSlot = false;
+			    if(lore.get(i).startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
+			        addedModSlot = true;
+			    }
 				lore.remove(i);
 				if(mod.isSlotRequired()) {
-					lore.add(i, ChatColor.GOLD + mod.getName());	
+				    if(addedModSlot) {
+				        lore.add(i, ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
+				    } else {
+                        lore.add(i, ChatColor.GOLD + mod.getName());
+				    }
 					for(int x = 0; x < mod.getDescription().length; x++) {
 						lore.add(i+x+1,ChatColor.GRAY + "- " + mod.getDescription()[x]);
 					}				
@@ -328,12 +361,10 @@ public class ModUtil {
 	/**
 	 * Adds a mod slot to the specified ItemStack
 	 * @param item Item to add a mod slot to.
-	 * @return false for invalid item, true for normal operation
+	 * @param multiplier multiplies success chance by this number to determine true success chance
+	 * @return false for breaking, true for success
 	 */
-	public boolean addModSlot(ItemStack item) {
-		if(!(Util.isArmor(item.getType()) || Util.isWeapon(item.getType()))) {
-			return false;
-		}
+	public static boolean addModSlot(ItemStack item, double multiplier) {
 		ItemMeta meta = item.getItemMeta();
 		if(!meta.hasLore()) {
 			GeneralLoreUtil.populateLoreDefaults(item);
@@ -345,9 +376,28 @@ public class ModUtil {
             meta = item.getItemMeta();
             lore = meta.getLore();
         }
+		//Gets number of currently added (not part of default lore) mod slots
+		int modSlotsAdditional = 0;
+		for(String s : lore) {
+		    if(s.startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
+		        modSlotsAdditional++;
+		    }
+		}
+		double successChance = 100/(Math.pow(2, modSlotsAdditional));
+		int powTen = 0;
+		while(successChance % 10 != 0) {
+		    powTen++;
+		    successChance *= 10;
+		}
+		Random rand = new Random();
+		if(rand.nextInt((int) (100*Math.pow(10, powTen))) < successChance) {
+		    return false;
+		}
 		//Get the current size of the lore list -> we add a mod slot at the end
 		int size = lore.size();
-		lore.add(size,ChatColor.DARK_GRAY + "[Empty Slot]");
+		lore.add(size,ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.DARK_GRAY + "[Empty Slot]");
+		meta.setLore(lore);
+		item.setItemMeta(meta);
 		return true;
 	}
 	

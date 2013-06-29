@@ -8,16 +8,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -26,6 +23,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.herocraftonline.heroes.util.Util;
 
 import net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.swagserv.andrew2060.toolhandler.util.ModUtil;
 
 public class ModCombinerListener implements Listener {
     //Define slots for individual features
@@ -143,19 +141,50 @@ public class ModCombinerListener implements Listener {
                                 p.sendMessage(ChatColor.GRAY + "Creating new mod slots require 64 essence of enchanting bottles!");
                                 break;
                             }
-                            break;
+                            inv.setItem(15, new ItemStack(Material.AIR));
+                            inv.setItem(17, new ItemStack(Material.AIR));
+                            if(!createNewModSlot(soulGem,item,essenceOfEnchanting)) {
+                                inv.setItem(16, new ItemStack(Material.AIR));
+                                p.sendMessage(ChatColor.GRAY + "Item upgrade unsuccessful, item broke!");
+                                break;
+                            } else {
+                                p.sendMessage(ChatColor.GRAY + "Item upgrade successful!");
+                                break;
+                            }
                         }
                         case 51: {  //Soul Gem Combiner
                             break;
                         }
-                        
                     }
+                    p.updateInventory();    //Prevent nasty dupes
                 }
+                
                 return;
             }
         }
     }
-	@EventHandler(priority=EventPriority.LOWEST, ignoreCancelled = true)
+	private boolean createNewModSlot(ItemStack soulGem, ItemStack item, ItemStack essenceOfEnchanting) {
+	    String name = ChatColor.stripColor(soulGem.getItemMeta().getDisplayName());
+        name = name.toLowerCase();
+        double modifier = 1D;
+        if(name.contains("weak")) {
+            modifier = 2D;
+        } else if(name.contains("common")) {
+            modifier = 3D;
+        } else if(name.contains("strong")) {
+            modifier = 4D;
+        } else if(name.contains("major")) {
+            modifier = 5D;
+        } else if(name.contains("master")) {
+            modifier = 6D;
+        } else if(name.contains("legendary")) {
+            modifier = 7D;
+        }
+        double multiply = modifier/7.0D;
+        return ModUtil.addModSlot(item,multiply);
+    }
+
+    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled = true)
 	public void onPlayerInteractModCombiner(PlayerInteractEvent event) {
 		if(!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			return;
