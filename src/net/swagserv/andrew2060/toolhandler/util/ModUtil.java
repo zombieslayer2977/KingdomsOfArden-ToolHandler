@@ -14,8 +14,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.herocraftonline.heroes.util.Util;
-
 public class ModUtil {
 	
 	/**
