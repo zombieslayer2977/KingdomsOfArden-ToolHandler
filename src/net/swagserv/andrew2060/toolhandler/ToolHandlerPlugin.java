@@ -91,6 +91,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		
 		//Schedule Tasks
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new ArmorPassiveTask(modManager), 0, 20);   //Armor Passives Task
+		
 	}
 	
 	private Boolean setupPermissions() {
@@ -164,5 +165,5 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		return rand;
 	}
 	
-
+	
 }
