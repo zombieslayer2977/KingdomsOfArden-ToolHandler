@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -46,23 +47,23 @@ public class ModCombinerListener implements Listener {
 	public ModCombinerListener(ToolHandlerPlugin toolHandlerPlugin) {
 		this.plugin = toolHandlerPlugin;
 		this.activeModChests = new HashMap<Block,Inventory>();
-		this.inputSlots = new int[] {11,12,15,16,17,38,39,42,43,44}; 
+		this.inputSlots = new int[] {10,11,14,15,16,37,38,41,42,43}; 
 		this.inputSlotList = new ArrayList<Integer>();
 		for(int i : inputSlots) {
 		    inputSlotList.add(i);
 		}
-		this.soulGemSlots = new int[] {2,6,33,34};
-		this.greenWoolSlots = new int[] {20,24,47,51};
-		this.redWoolSlots = new int[] {21,26,48,53};
-		this.whiteWoolSlots = new int[] {25,52};
-		this.expBottleSlots = new int[] {8,35};
-		this.toolSlots = new int[] {3,7};
-		this.scrollSlot = 29;
-		this.bookSlot = 30;
-		this.modSignSlot = 10;
-		this.modSlotSignSlot = 14;
-		this.scrollSignSlot = 37;
-		this.gemCombinerSignSlot = 41;
+		this.soulGemSlots = new int[] {1,5,32,33};
+		this.greenWoolSlots = new int[] {19,23,46,50};
+		this.redWoolSlots = new int[] {20,25,47,52};
+		this.whiteWoolSlots = new int[] {24,51};
+		this.expBottleSlots = new int[] {7,34};
+		this.toolSlots = new int[] {2,6};
+		this.scrollSlot = 28;
+		this.bookSlot = 29;
+		this.modSignSlot = 9;
+		this.modSlotSignSlot = 13;
+		this.scrollSignSlot = 36;
+		this.gemCombinerSignSlot = 40;
 	}
 	
 	@SuppressWarnings("deprecation")   //Not much we can do, Bukkit requires this
@@ -77,10 +78,18 @@ public class ModCombinerListener implements Listener {
                     ((Player)event.getWhoClicked()).updateInventory();
                     switch(event.getSlot()) {
                     
-                        case 20: {  //Mod Installer Slot
-                            ItemStack soulGem = inv.getItem(11);
-                            ItemStack item = inv.getItem(12);
+                        case 19: {  //Mod Installer Slot
+                            ItemStack soulGem = inv.getItem(10);
+                            ItemStack item = inv.getItem(11);
                             //Validate
+                            if(soulGem == null) {
+                                p.sendMessage(ChatColor.GRAY + "The soul gem slot is Empty!");
+                                break;
+                            }
+                            if(item == null) {
+                                p.sendMessage(ChatColor.GRAY + "The item slot is Empty!");
+                                break;
+                            }
                             if(!soulGem.getType().equals(Material.EMERALD)) {
                                 p.sendMessage(ChatColor.GRAY + "The item in the soul gem slot is not a soul gem!");
                                 break;
@@ -99,7 +108,7 @@ public class ModCombinerListener implements Listener {
                             if(soulGem.getAmount() > 1) {
                                 soulGem.setAmount(soulGem.getAmount()-1);
                             } else {
-                                inv.setItem(11, new ItemStack(Material.AIR));
+                                inv.setItem(10, new ItemStack(Material.AIR));
                             }
                             p.sendMessage(ChatColor.GRAY + "Item Modification Successful");
                             //Error Handling
@@ -115,12 +124,24 @@ public class ModCombinerListener implements Listener {
                             }
                             break;
                         }
-                        case 24: {  //Mod Slot Creator
-                            ItemStack soulGem = inv.getItem(15);
-                            ItemStack item = inv.getItem(16);
-                            ItemStack essenceOfEnchanting = inv.getItem(17);
+                        case 23: {  //Mod Slot Creator
+                            ItemStack soulGem = inv.getItem(14);
+                            ItemStack item = inv.getItem(15);
+                            ItemStack essenceOfEnchanting = inv.getItem(16);
                             
                             //Validate
+                            if(soulGem == null) {
+                                p.sendMessage(ChatColor.GRAY + "The soul gem slot is Empty!");
+                                break;
+                            }
+                            if(item == null) {
+                                p.sendMessage(ChatColor.GRAY + "The item slot is Empty!");
+                                break;
+                            }
+                            if(essenceOfEnchanting == null) {
+                                p.sendMessage(ChatColor.GRAY + "The essence of enchanting slot is Empty!");
+                                break;
+                            }
                             if(!soulGem.getType().equals(Material.EMERALD)) {
                                 p.sendMessage(ChatColor.GRAY + "The item in the soul gem slot is not a soul gem!");
                                 break;
@@ -141,10 +162,14 @@ public class ModCombinerListener implements Listener {
                                 p.sendMessage(ChatColor.GRAY + "Creating new mod slots require 64 essence of enchanting bottles!");
                                 break;
                             }
-                            inv.setItem(15, new ItemStack(Material.AIR));
-                            inv.setItem(17, new ItemStack(Material.AIR));
+                            if(soulGem.getAmount() > 1) {
+                                soulGem.setAmount(soulGem.getAmount()-1);
+                            } else {
+                                inv.setItem(14, new ItemStack(Material.AIR));
+                            }
+                            inv.setItem(16, new ItemStack(Material.AIR));
                             if(!createNewModSlot(soulGem,item,essenceOfEnchanting)) {
-                                inv.setItem(16, new ItemStack(Material.AIR));
+                                inv.setItem(15, new ItemStack(Material.AIR));
                                 p.sendMessage(ChatColor.GRAY + "Item upgrade unsuccessful, item broke!");
                                 break;
                             } else {
@@ -152,7 +177,7 @@ public class ModCombinerListener implements Listener {
                                 break;
                             }
                         }
-                        case 51: {  //Soul Gem Combiner
+                        case 50: {  //Soul Gem Combiner
                             break;
                         }
                     }
@@ -190,7 +215,7 @@ public class ModCombinerListener implements Listener {
 			return;
 		}
 		Block b = event.getClickedBlock();
-		if(!(b.getType().equals(Material.ENDER_CHEST))) {
+		if(!(b.getType().equals(Material.ENCHANTMENT_TABLE) && b.getRelative(BlockFace.DOWN).getType().equals(Material.ENDER_CHEST))) {
 			return;
 		}
 		event.setCancelled(true);
@@ -233,8 +258,8 @@ public class ModCombinerListener implements Listener {
         ItemStack stick = new ItemStack(Material.STICK);
         ItemMeta stickMeta = stick.getItemMeta();
         stickMeta.setDisplayName("");
-        stick.setItemMeta(stickMeta);
-        for(int i = 1; i<=inv.getSize() ; i++) {
+        stick.setItemMeta(stickMeta); 
+        for(int i = 0; i<inv.getSize() ; i++) {
             inv.setItem(i, stick);
         }
         //Insert Empty Spaces/Input Slots
@@ -281,6 +306,7 @@ public class ModCombinerListener implements Listener {
         LinkedList<String> expBottleLore = new LinkedList<String>();
         expBottleLore.add(ChatColor.GRAY + "Insert a stack of Essence of Enchantment Bottles below");
         expBottleMeta.setLore(expBottleLore);
+        expBottle.setItemMeta(expBottleMeta);
         for(int i : expBottleSlots) {
             inv.setItem(i, expBottle);
         }
@@ -289,8 +315,9 @@ public class ModCombinerListener implements Listener {
         ItemMeta toolMeta = tool.getItemMeta();
         toolMeta.setDisplayName("Tool/Armor Piece");
         LinkedList<String> toolLore = new LinkedList<String>();
-        toolLore.add(ChatColor.GRAY + "Insert a tool/armor piece below below");
+        toolLore.add(ChatColor.GRAY + "Insert a tool/armor piece below");
         toolMeta.setLore(toolLore);
+        tool.setItemMeta(toolMeta);
         for(int i : toolSlots) {
             inv.setItem(i, tool);
         }

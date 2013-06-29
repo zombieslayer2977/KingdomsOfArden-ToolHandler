@@ -375,20 +375,24 @@ public class ModUtil {
             lore = meta.getLore();
         }
 		//Gets number of currently added (not part of default lore) mod slots
-		int modSlotsAdditional = 0;
+		int modSlotsAdditional = 1;
 		for(String s : lore) {
 		    if(s.startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
 		        modSlotsAdditional++;
 		    }
 		}
 		double successChance = 100/(Math.pow(2, modSlotsAdditional));
+	    System.out.println(successChance);
 		int powTen = 0;
 		while(successChance % 10 != 0) {
 		    powTen++;
 		    successChance *= 10;
 		}
+		System.out.println(successChance);
 		Random rand = new Random();
-		if(rand.nextInt((int) (100*Math.pow(10, powTen))) < successChance) {
+		int roll = rand.nextInt((int) (100*Math.pow(10, powTen)));
+		if(!(roll < successChance)) {
+		    System.out.println(roll);
 		    return false;
 		}
 		//Get the current size of the lore list -> we add a mod slot at the end
