@@ -382,17 +382,14 @@ public class ModUtil {
 		    }
 		}
 		double successChance = 100/(Math.pow(2, modSlotsAdditional));
-	    System.out.println(successChance);
 		int powTen = 0;
 		while(successChance % 10 != 0) {
 		    powTen++;
 		    successChance *= 10;
 		}
-		System.out.println(successChance);
 		Random rand = new Random();
 		int roll = rand.nextInt((int) (100*Math.pow(10, powTen)));
 		if(!(roll < successChance)) {
-		    System.out.println(roll);
 		    return false;
 		}
 		//Get the current size of the lore list -> we add a mod slot at the end
