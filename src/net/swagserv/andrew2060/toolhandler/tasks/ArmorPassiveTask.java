@@ -9,10 +9,11 @@ import net.swagserv.andrew2060.toolhandler.util.ModUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.herocraftonline.heroes.util.Util;
 
-public class ArmorPassiveTask implements Runnable {
+public class ArmorPassiveTask extends BukkitRunnable {
     
     private ModManager modmanager;
 
