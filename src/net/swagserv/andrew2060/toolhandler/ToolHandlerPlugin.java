@@ -18,6 +18,7 @@ import net.swagserv.andrew2060.toolhandler.listeners.lore.WeaponLoreListener;
 import net.swagserv.andrew2060.toolhandler.listeners.mods.ModCombinerListener;
 import net.swagserv.andrew2060.toolhandler.listeners.mods.ModListener;
 import net.swagserv.andrew2060.toolhandler.mods.ModManager;
+import net.swagserv.andrew2060.toolhandler.potions.PotionEffectManager;
 import net.swagserv.andrew2060.toolhandler.tasks.ArmorPassiveTask;
 
 import org.bukkit.Bukkit;
@@ -50,6 +51,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	private Random rand;
 	private HealingEffectListener healingEffectListener;
 
+	private PotionEffectManager potionEffectManager;
 
     // Gets the 4 character version identifier associated with this version of tool lore to determine if an update is needed.
     public static String versionIdentifier = ChatColor.AQUA + "" + ChatColor.BLACK + "" + ChatColor.RESET + "";
@@ -90,8 +92,10 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		getCommand("refreshtoollore").setExecutor(new RefreshLoreCommandExecutor(this));
 		
 		//Schedule Tasks
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new ArmorPassiveTask(modManager), 0, 20);   //Armor Passives Task
+		new ArmorPassiveTask(modManager).runTaskTimer(this, 0, 20);   //Armor Passives Task
 		
+		//Load Potion Effect Manager
+		this.potionEffectManager = new PotionEffectManager(this);
 	}
 	
 	private Boolean setupPermissions() {
@@ -164,6 +168,10 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	public Random getRand() {
 		return rand;
 	}
+
+    public PotionEffectManager getPotionEffectHandler() {
+        return this.potionEffectManager;
+    }
 	
 	
 }
