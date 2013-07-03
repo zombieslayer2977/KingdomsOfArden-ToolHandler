@@ -1,7 +1,7 @@
 package net.swagserv.andrew2060.toolhandler.potions;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.swagserv.andrew2060.toolhandler.listeners.potions.PotionEffectManagerListener;
@@ -16,11 +16,11 @@ import org.bukkit.scheduler.BukkitTask;
 public class PotionEffectManager {
     
     private ToolHandlerPlugin plugin;
-    private HashMap<LivingEntity, PotionTaskWrapper> activeTasks;
+    private ConcurrentHashMap<LivingEntity, PotionTaskWrapper> activeTasks;
     
     public PotionEffectManager(ToolHandlerPlugin plugin) {
         this.plugin = plugin;
-        this.activeTasks = new HashMap<LivingEntity,PotionTaskWrapper>();
+        this.activeTasks = new ConcurrentHashMap<LivingEntity,PotionTaskWrapper>();
         //Remove invalid entities/despawned entities on a schedule 
         new InvalidEntityRemovalTask().runTaskTimer(plugin, 6000, 100);
         //Schedule Listener to remove Entities on Death
