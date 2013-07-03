@@ -38,7 +38,7 @@ public class ArmorPassiveTask extends BukkitRunnable {
                        if(mod == null) {
                            continue;
                        } else {
-                           mod.applyOnTick(p);
+                           mod.executeOnTick(p);
                        }
                    }
                    mods = null;
