@@ -51,7 +51,7 @@ public class ModListener implements Listener {
 					WeaponMod mod = modManager.getWeaponMod(mods.get(x));
 					if(mod != null) {
 						try {
-							mod.executeOnWeaponDamage(event);
+							mod.tickMod(event);
 						} catch (Exception e) {
 							System.out.println("Error in Weapon Mod " + mod.getName());
 							e.printStackTrace();

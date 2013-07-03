@@ -49,10 +49,20 @@ public class PotionEffectManager {
     }
     /**
      * Adds a potion effect to a player, or scheduling it appropriately in the event of a type conflict
+     * @param effects A collection of potion effects to add
+     * @param lE The Living Entity to remove the Potion Effect from
+     */
+    public void addPotionEffectStacking(Collection<PotionEffect> effects, LivingEntity lE) {
+        for(PotionEffect effect : effects) {
+            addPotionEffectStacking(effect,lE);
+        }
+    }
+    /**
+     * Adds a potion effect to a player, or scheduling it appropriately in the event of a type conflict
      * @param effect The PotionEffect to add
      * @param lE The Living Entity to remove the Potion Effect from
      */
-    public void addPotionEffectStacking(final PotionEffect effect, final LivingEntity lE) {
+    public void addPotionEffectStacking(PotionEffect effect, LivingEntity lE) {
         PotionEffectType searchType = effect.getType();
         Collection<PotionEffect> activeEffects = lE.getActivePotionEffects();
         PotionEffect search = null;
