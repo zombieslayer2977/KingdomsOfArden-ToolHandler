@@ -45,4 +45,14 @@ public class PotionTaskWrapper {
             }
         }
     }
+    public void removeTask(int taskId) {
+        for(PotionEffectType potionEffectType : potionTaskMap.keySet()) {
+            for(BukkitTask task : potionTaskMap.get(potionEffectType)) {
+                if(task.getTaskId() == taskId) {
+                    potionTaskMap.get(potionEffectType).remove(task);
+                    return;
+                }
+            }
+        }
+    }
 }

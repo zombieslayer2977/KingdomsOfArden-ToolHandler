@@ -19,7 +19,8 @@ public class PotionUpdateRunnable extends BukkitRunnable {
 
     @Override
     public void run() {
-        plugin.getPotionEffectHandler().addPotionEffectStacking(effect, lE);            
+        plugin.getPotionEffectHandler().addPotionEffectStacking(effect, lE);      
+        plugin.getPotionEffectHandler().removeTask(lE,this.getTaskId());
     }
 
     

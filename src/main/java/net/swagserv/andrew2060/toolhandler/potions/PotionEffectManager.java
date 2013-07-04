@@ -3,10 +3,12 @@ package net.swagserv.andrew2060.toolhandler.potions;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.minecraft.server.MobEffect;
 import net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.swagserv.andrew2060.toolhandler.listeners.potions.PotionEffectManagerListener;
 import net.swagserv.andrew2060.toolhandler.tasks.PotionUpdateRunnable;
 
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -25,6 +27,8 @@ public class PotionEffectManager {
         new InvalidEntityRemovalTask().runTaskTimer(plugin, 6000, 100);
         //Schedule Listener to remove Entities on Death
         plugin.getServer().getPluginManager().registerEvents(new PotionEffectManagerListener(this), plugin);
+        //Override CraftLivingEntity's existing methods
+        new PotionMethodInjector(this).createProxy();
     }
     /**
      * Processes all active potion effects for a LivingEntity in queue and removes scheduled future applications
@@ -37,6 +41,7 @@ public class PotionEffectManager {
             activeTasks.get(lE).removePotionEffect(type);
         }
     }
+
     /**
      * Untracks and cancels all pending potion application tasks (if any) for a given LivingEntity
      * @param lE The Living Entity to untrack.
@@ -90,7 +95,7 @@ public class PotionEffectManager {
                 //With equal or greater amplifier
                 //If the newly applied effect has a shorter length we must schedule reinstatement of the longer potion effect
                 if(effect.getDuration() >= search.getDuration()) {
-                    lE.addPotionEffect(effect,true);
+                    ((CraftLivingEntity)lE).getHandle().addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
                     return;
                 } else {
                     int remainingDuration = search.getDuration() - effect.getDuration();
@@ -152,5 +157,10 @@ public class PotionEffectManager {
             }
         }
         
+    }
+    public void removeTask(LivingEntity lE, int taskId) {
+        if(activeTasks.containsKey(lE)) {
+            activeTasks.get(lE).removeTask(taskId);
+        }
     }
 }
