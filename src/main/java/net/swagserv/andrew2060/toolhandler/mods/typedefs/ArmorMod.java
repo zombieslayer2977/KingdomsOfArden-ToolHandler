@@ -13,7 +13,7 @@ import org.bukkit.potion.PotionEffect;
 import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 
 public abstract class ArmorMod {
-    private PotionEffectManager pEMan;
+    protected PotionEffectManager pEMan;
 	private String[] desc;
 	private String name;
 	private int weight;
