@@ -57,7 +57,7 @@ public class WeaponLoreListener implements Listener {
 		}
 		double ls = 0;
 		ls = WeaponLoreUtil.getLifeSteal(i);
-		HeroRegainHealthEvent healingEvent = new HeroRegainHealthEvent((Hero) event.getDamager(), (int) (event.getDamage()*ls*0.01), null);
+		HeroRegainHealthEvent healingEvent = new HeroRegainHealthEvent((Hero) event.getDamager(), event.getDamage()*ls*0.01, null);
 		Bukkit.getPluginManager().callEvent(healingEvent);
 		try {
 			p.setHealth(p.getHealth() + healingEvent.getAmount());
@@ -88,7 +88,7 @@ public class WeaponLoreListener implements Listener {
 		double rand = randGen.nextInt(10000)*0.01;
 		if(rand < critchance) {
 			//Fire a CriticalStrikeEvent
-			CriticalStrikeEvent cEvent = new CriticalStrikeEvent((int) (event.getDamage()*1.5), event, p,i,ModUtil.getWeaponMods(i));
+			CriticalStrikeEvent cEvent = new CriticalStrikeEvent(event.getDamage()*1.5, event, p,i,ModUtil.getWeaponMods(i));
 			cEvent.callEvent();
 			if(!cEvent.isCancelled()) {
 				event.setDamage(cEvent.getDamage());

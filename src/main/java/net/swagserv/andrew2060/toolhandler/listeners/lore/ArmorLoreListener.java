@@ -57,7 +57,7 @@ public class ArmorLoreListener implements Listener {
         }
 
         double multiplier = 1 - damagereduction;
-        event.setDamage((int) (event.getDamage() * multiplier));
+        event.setDamage((int)event.getDamage() * multiplier);
     }
     //Armor Healing Bonus Handling
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
@@ -102,7 +102,7 @@ public class ArmorLoreListener implements Listener {
         } 
 
         double multiplier = 1 + healBonus;
-        event.setAmount((int) (event.getAmount()*multiplier));
+        event.setAmount((event.getAmount()*multiplier));
     }
     //Armor Bonus Damage Protection Handling
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

@@ -12,7 +12,7 @@ import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 
 public class CriticalStrikeEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();
-	private int dmg;
+	private double dmg;
 	private WeaponDamageEvent event;
 	private Player player;
 	private boolean cancelled;
@@ -25,7 +25,7 @@ public class CriticalStrikeEvent extends Event {
 	 * @param attacker The attacker that dealt the critical strike
 	 * @param weapon   ItemStack representing the weapon used to deal said critical strike
 	 */
-	public CriticalStrikeEvent(int damage, WeaponDamageEvent event, Player attacker, ItemStack weapon, List<String> weaponModsAttacker) {
+	public CriticalStrikeEvent(double damage, WeaponDamageEvent event, Player attacker, ItemStack weapon, List<String> weaponModsAttacker) {
 		this.dmg = damage;
 		this.event = event;
 		this.player = attacker;
@@ -50,7 +50,7 @@ public class CriticalStrikeEvent extends Event {
 	 * Get the damage post-critical strike
 	 * @return     Post-Crit damage
 	 */
-	public int getDamage() {
+	public double getDamage() {
 		return dmg;
 	}
 	/**
