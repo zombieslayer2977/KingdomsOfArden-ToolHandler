@@ -361,6 +361,9 @@ public class ModCombinerListener implements Listener {
         inv.setItem(scrollSignSlot, new ItemStack(Material.SIGN));
 	    return inv;
 	}
+	public int[] getEmptySlotList() {
+	    return this.inputSlots;
+	}
 	private class ArtificierInventoryHolder implements InventoryHolder {
 
 	    //Should not be called

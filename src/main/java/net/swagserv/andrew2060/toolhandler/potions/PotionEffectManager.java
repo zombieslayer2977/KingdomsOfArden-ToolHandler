@@ -28,7 +28,7 @@ public class PotionEffectManager {
         //Schedule Listener to remove Entities on Death
         plugin.getServer().getPluginManager().registerEvents(new PotionEffectManagerListener(this), plugin);
         //Override CraftLivingEntity's existing methods
-        new PotionMethodInjector(this).createProxy();
+        //new PotionMethodInjector(this).createProxy();
     }
     /**
      * Processes all active potion effects for a LivingEntity in queue and removes scheduled future applications

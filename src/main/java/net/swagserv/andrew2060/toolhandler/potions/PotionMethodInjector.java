@@ -15,6 +15,8 @@ public class PotionMethodInjector {
     public PotionMethodInjector(PotionEffectManager pEMan) {
         this.pEMan = pEMan;
     }
+    
+    
     protected final Object createProxy() {
         final ProxyFactory pFactory = new ProxyFactory();
         pFactory.setSuperclass(CraftLivingEntity.class);
@@ -33,7 +35,7 @@ public class PotionMethodInjector {
         });
         final MethodHandler handler = createDefaultMethodHandler();
         try {
-            return pFactory.create(new Class<?>[0], new Object[0], handler);
+            return pFactory.create(new Class<?>[] {PotionEffect.class,Boolean.class}, new Object[]{}, handler);
         } catch (final Exception e) {
             e.printStackTrace();
         }

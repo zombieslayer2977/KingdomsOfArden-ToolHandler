@@ -35,11 +35,6 @@
   </build>
   <dependencies>
   	<dependency>
-  		<groupId>com.herocraftonline.heroes</groupId>
-  		<artifactId>Heroes</artifactId>
-  		<version>1.5.2-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
   		<groupId>org.libigot</groupId>
   		<artifactId>libkit</artifactId>
   		<version>1.5.2-R1.1-SNAPSHOT</version>
@@ -55,5 +50,10 @@
       <version>1.2.26-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
+  	<dependency>
+  		<groupId>com.herocraftonline.heroes</groupId>
+  		<artifactId>Heroes-Spigot</artifactId>
+  		<version>1.5.2-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>

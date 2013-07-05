@@ -138,12 +138,12 @@ public class ToolHandlerPlugin extends JavaPlugin{
 			Block b = entryIterator.next();
 			Inventory inv = modChests.get(b);
 			Location loc = b.getLocation();
-			if(inv.getItem(1) != null) {
-				loc.getWorld().dropItemNaturally(loc, inv.getItem(1));
+			for(int i : modCraftListener.getEmptySlotList()) {
+			    if(inv.getItem(i) != null) {
+			        loc.getWorld().dropItemNaturally(loc, inv.getItem(i));
+			    }
 			}
-			if(inv.getItem(0) != null) {
-				loc.getWorld().dropItemNaturally(loc, inv.getItem(2));
-			}
+
 		}
 	}
 	
