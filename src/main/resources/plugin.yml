@@ -1,8 +1,8 @@
-name: Swagserv-ToolHandler
+name: KingdomsOfTerraria-ToolHandler
 version: 2.0
 description: Handles durability based enchantments such as prot and sharpness, as well as lore based weapon bonuses and modifications
 author: Andrew2060
-website: http://www.swagserv.net/
+website: http://www.kingdomsofterraria.net/
 main: net.swagserv.andrew2060.toolhandler.ToolHandlerPlugin
 commands:
     toolhandler: 
