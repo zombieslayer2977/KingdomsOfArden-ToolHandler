@@ -173,8 +173,8 @@ public class ModUtil {
                 if(lore.get(i).startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
                     addedModSlot = true;
                 }
-                lore.remove(i);
                 if(mod.isSlotRequired()) {
+                    lore.remove(i);
                     if(addedModSlot) {
                         lore.add(i, ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
                     } else {
@@ -227,8 +227,8 @@ public class ModUtil {
                 if(lore.get(i).startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
                     addedModSlot = true;
                 }
-                lore.remove(i);
                 if(mod.isSlotRequired()) {
+                    lore.remove(i);
                     if(addedModSlot) {
                         lore.add(i, ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
                     } else {
@@ -335,8 +335,8 @@ public class ModUtil {
 			    if(lore.get(i).startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
 			        addedModSlot = true;
 			    }
-				lore.remove(i);
 				if(mod.isSlotRequired()) {
+	                lore.remove(i);
 				    if(addedModSlot) {
 				        lore.add(i, ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
 				    } else {
