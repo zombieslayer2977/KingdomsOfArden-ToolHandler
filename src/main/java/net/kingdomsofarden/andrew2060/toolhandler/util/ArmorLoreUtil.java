@@ -197,7 +197,7 @@ public class ArmorLoreUtil {
 		loreUpdated.add(healingBonusText);
 		loreUpdated.add(additionalProtText);
 		loreUpdated.add(ChatColor.WHITE + "========Modifications========");
-		ModManager modMan = ((ToolHandlerPlugin) Bukkit.getPluginManager().getPlugin("Swagserv-ToolHandler")).getModManager();
+		ModManager modMan = ((ToolHandlerPlugin) Bukkit.getPluginManager().getPlugin("KingdomsOfArden-ToolHandler")).getModManager();
 		for(String toAdd : modifications ) {
             if(!toAdd.contains(ChatColor.GOLD +"")) {
                 if(toAdd.contains(ChatColor.DARK_GRAY + "")) {

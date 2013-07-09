@@ -26,7 +26,7 @@ public abstract class WeaponMod {
 		this.desc = desc;
 		this.weight = weight;
 		this.requiresSlot = requiresSlot;
-		this.pEMan = ((ToolHandlerPlugin)Bukkit.getPluginManager().getPlugin("Swagserv-ToolHandler")).getPotionEffectHandler();
+		this.pEMan = ((ToolHandlerPlugin)Bukkit.getPluginManager().getPlugin("KingdomsOfArden-ToolHandler")).getPotionEffectHandler();
 		this.applyTargetOnDamage = new LinkedList<PotionEffect>();
 		this.applySelfOnDamage = new LinkedList<PotionEffect>();
 	}

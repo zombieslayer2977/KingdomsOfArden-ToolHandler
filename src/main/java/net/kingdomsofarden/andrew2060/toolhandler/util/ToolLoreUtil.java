@@ -96,7 +96,7 @@ public class ToolLoreUtil {
         loreUpdated.add(bashText);
         loreUpdated.add(decimationText);
         loreUpdated.add(ChatColor.WHITE + "========Modifications========");
-        ModManager modMan = ((ToolHandlerPlugin) Bukkit.getPluginManager().getPlugin("Swagserv-ToolHandler")).getModManager();
+        ModManager modMan = ((ToolHandlerPlugin) Bukkit.getPluginManager().getPlugin("KingdomsOfArden-ToolHandler")).getModManager();
         for(String toAdd : modifications ) {
             if(!toAdd.contains(ChatColor.GOLD +"")) {
                 if(toAdd.contains(ChatColor.DARK_GRAY + "")) {

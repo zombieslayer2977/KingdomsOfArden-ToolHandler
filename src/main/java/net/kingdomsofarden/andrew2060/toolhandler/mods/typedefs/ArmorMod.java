@@ -20,7 +20,7 @@ public abstract class ArmorMod {
 	private boolean requiresSlot;
 	private LinkedList<PotionEffect> effectsOnTick;
 	public ArmorMod(String name, String[] desc, int weight, boolean requiresSlot) {
-	    this.pEMan = ((ToolHandlerPlugin)Bukkit.getPluginManager().getPlugin("Swagserv-ToolHandler")).getPotionEffectHandler();
+	    this.pEMan = ((ToolHandlerPlugin)Bukkit.getPluginManager().getPlugin("KingdomsOfArden-ToolHandler")).getPotionEffectHandler();
 		this.name = name;
 		this.desc = desc;
 		this.weight = weight;
