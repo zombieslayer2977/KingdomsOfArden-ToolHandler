@@ -85,7 +85,7 @@ public class PotionEffectManager {
         //If the matching potion effect is not found/expired, then just apply the effect directly
         //If a similar effect already preexists we must determine how the effects will be stacked
         if(search == null) {
-            lE.addPotionEffect(effect);
+            ((CraftLivingEntity)lE).getHandle().addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
             return;
         } else {
             //If the newly applied potion effect has a greater amplifier or equal amplifier to the prexisting potion effect
