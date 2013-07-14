@@ -57,7 +57,8 @@ public class ModManager {
 
 	private ToolHandlerPlugin plugin;
 
-	public ModManager(ToolHandlerPlugin plugin) {
+	@SuppressWarnings("deprecation")
+    public ModManager(ToolHandlerPlugin plugin) {
 		this.plugin = plugin;
 
 		this.weaponModFiles = new HashMap<String, File>();

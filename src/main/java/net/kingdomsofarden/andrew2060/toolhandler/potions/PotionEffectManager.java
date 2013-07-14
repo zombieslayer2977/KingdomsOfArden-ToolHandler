@@ -40,6 +40,7 @@ public class PotionEffectManager {
         if(activeTasks.containsKey(lE)) {
             activeTasks.get(lE).removePotionEffect(type);
         }
+        ((CraftLivingEntity)lE).getHandle().k(type.getId());
     }
 
     /**
