@@ -80,6 +80,9 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		//Register listeners used by plugin
 		registerListeners();
 		
+		//Load Potion Effect Manager
+        this.potionEffectManager = new PotionEffectManager(this);
+        
 		//Initialize Mod Manager 
 		setModManager(new ModManager(this));
 		
@@ -94,8 +97,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		//Schedule Tasks
 		new ArmorPassiveTask(modManager).runTaskTimer(this, 0, 20);   //Armor Passives Task
 		
-		//Load Potion Effect Manager
-		this.potionEffectManager = new PotionEffectManager(this);
+
 	}
 	
 	private Boolean setupPermissions() {
