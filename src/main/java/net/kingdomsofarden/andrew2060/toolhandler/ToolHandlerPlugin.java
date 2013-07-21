@@ -31,7 +31,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class ToolHandlerPlugin extends JavaPlugin{
 	
-	//Vault
+	public static ToolHandlerPlugin instance;
+    
 	public Permission permission;
 	
 	private ModManager modManager;
@@ -96,6 +97,9 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		
 		//Schedule Tasks
 		new ArmorPassiveTask(modManager).runTaskTimer(this, 0, 20);   //Armor Passives Task
+		
+		//Set instance
+		ToolHandlerPlugin.instance = this;
 		
 
 	}
