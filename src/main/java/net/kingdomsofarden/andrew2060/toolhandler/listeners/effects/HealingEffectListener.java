@@ -3,12 +3,11 @@ package net.kingdomsofarden.andrew2060.toolhandler.listeners.effects;
 import org.bukkit.EntityEffect;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
+import com.herocraftonline.heroes.api.events.HeroRegainHealthEvent;
 
 /**
  * Simple listener to play wolf hearts on heal for the sake of visibility
@@ -17,14 +16,11 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 public class HealingEffectListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onPlayerRegainHealth(EntityRegainHealthEvent event) {
+	public void onHeroRegainHealth(HeroRegainHealthEvent event) {
 		if(!(event.getAmount() > 0)) {
 			return;
 		}
-		if(!(event.getEntity() instanceof Player)) {
-			return;
-		}
-		LivingEntity lE = (LivingEntity) event.getEntity();
+		LivingEntity lE = (LivingEntity) event.getHero().getEntity();
 		if(lE.getHealth() == lE.getMaxHealth()) {
 			return;
 		}
