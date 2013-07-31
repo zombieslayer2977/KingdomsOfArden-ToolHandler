@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import net.kingdomsofarden.andrew2060.toolhandler.potions.PotionEffectManager;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -50,7 +49,8 @@ public class PotionEffectManagerListener implements Listener {
             Collection<PotionEffect> effects = pot.getEffects();
             pEMan.addPotionEffectStacking(effects, event.getPlayer());
         } else if(i.getType() == Material.GOLDEN_APPLE) {
-            if(i.getItemMeta().getDisplayName().contains(ChatColor.AQUA + "")) {    //Enchanted
+            
+            if(i.getItemMeta().hasEnchants()) {    //Enchanted
                 pEMan.addPotionEffectStacking(PotionEffectType.REGENERATION.createEffect(600, 2), event.getPlayer());
             } else {
                 pEMan.addPotionEffectStacking(PotionEffectType.REGENERATION.createEffect(200, 1), event.getPlayer());
