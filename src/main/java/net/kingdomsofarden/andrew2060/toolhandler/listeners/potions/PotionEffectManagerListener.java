@@ -47,13 +47,13 @@ public class PotionEffectManagerListener implements Listener {
         if(i.getType() == Material.POTION) {
             Potion pot = Potion.fromItemStack(i);
             Collection<PotionEffect> effects = pot.getEffects();
-            pEMan.addPotionEffectStacking(effects, event.getPlayer());
+            pEMan.addPotionEffectStacking(effects, event.getPlayer(), false);
         } else if(i.getType() == Material.GOLDEN_APPLE) {
             
             if(i.getItemMeta().hasEnchants()) {    //Enchanted
-                pEMan.addPotionEffectStacking(PotionEffectType.REGENERATION.createEffect(600, 2), event.getPlayer());
+                pEMan.addPotionEffectStacking(PotionEffectType.REGENERATION.createEffect(600, 2), event.getPlayer(), false);
             } else {
-                pEMan.addPotionEffectStacking(PotionEffectType.REGENERATION.createEffect(200, 1), event.getPlayer());
+                pEMan.addPotionEffectStacking(PotionEffectType.REGENERATION.createEffect(200, 1), event.getPlayer(), false);
             }        
         } else {
             return;
@@ -70,7 +70,7 @@ public class PotionEffectManagerListener implements Listener {
         event.setCancelled(true);
         Collection<PotionEffect> effects = event.getPotion().getEffects();
         for(LivingEntity lE : event.getAffectedEntities()) {
-            pEMan.addPotionEffectStacking(effects, lE);
+            pEMan.addPotionEffectStacking(effects, lE, false);
         }
         //Cancelling prevents splash from playing so we play it ourselves
         Location loc = event.getEntity().getLocation();

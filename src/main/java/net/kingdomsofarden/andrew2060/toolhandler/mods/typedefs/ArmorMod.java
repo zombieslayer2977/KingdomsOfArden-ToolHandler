@@ -57,7 +57,7 @@ public abstract class ArmorMod {
     }
 	//To prevent lag, only tick through players as opposed to all possible living entities
 	public void onTick(Player p) {
-	    pEMan.addPotionEffectStacking(effectsOnTick, p);
+	    pEMan.addPotionEffectStacking(effectsOnTick, p, true);
 	    executeOnTick(p);
 	}
 }

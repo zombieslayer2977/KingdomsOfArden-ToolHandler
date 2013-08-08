@@ -57,18 +57,23 @@ public class PotionEffectManager {
      * Adds a potion effect to a player, or scheduling it appropriately in the event of a type conflict
      * @param effects A collection of potion effects to add
      * @param lE The Living Entity to remove the Potion Effect from
+     * @param hidden Whether the potion effects should be hidden, i.e. effects still present, bubbles are not.
      */
-    public void addPotionEffectStacking(Collection<PotionEffect> effects, LivingEntity lE) {
+    public void addPotionEffectStacking(Collection<PotionEffect> effects, LivingEntity lE, boolean hidden) {
         for(PotionEffect effect : effects) {
-            addPotionEffectStacking(effect,lE);
+            addPotionEffectStacking(effect, lE, hidden);
         }
+    }
+    @Deprecated
+    public void addPotionEffectStacking(PotionEffect effect, LivingEntity lE) {
+        addPotionEffectStacking(effect,lE,false);
     }
     /**
      * Adds a potion effect to a player, or scheduling it appropriately in the event of a type conflict
      * @param effect The PotionEffect to add
      * @param lE The Living Entity to remove the Potion Effect from
      */
-    public void addPotionEffectStacking(PotionEffect effect, LivingEntity lE) {
+    public void addPotionEffectStacking(PotionEffect effect, LivingEntity lE, boolean hidden) {
         PotionEffectType searchType = effect.getType();
         Collection<PotionEffect> activeEffects = lE.getActivePotionEffects();
         PotionEffect search = null;
@@ -105,7 +110,7 @@ public class PotionEffectManager {
                     //Make the remaining effect when the applied one expires
                     final PotionEffect remainder = searchType.createEffect(remainingDuration, search.getAmplifier());
                     //Schedule another attempt to apply the remaining duration when the time of the new effect expires
-                    BukkitTask task = new PotionUpdateRunnable(plugin, remainder,lE).runTaskLater(this.plugin, effect.getDuration());
+                    BukkitTask task = new PotionUpdateRunnable(plugin, remainder, lE, hidden).runTaskLater(this.plugin, effect.getDuration());
                     //Add task to list of running potion tasks for a given livingentity
                     if(activeTasks.containsKey(lE)) {
                         PotionTaskWrapper taskWrapper = activeTasks.get(lE);
@@ -126,7 +131,7 @@ public class PotionEffectManager {
                     int remainingDuration = effect.getDuration() - search.getDuration();
                     final PotionEffect remainder = searchType.createEffect(remainingDuration, effect.getAmplifier());
                     //Schedule another attempt to apply the lower amplitude potion effect once current one ends
-                    BukkitTask task = new PotionUpdateRunnable(plugin, remainder,lE).runTaskLater(this.plugin, effect.getDuration());
+                    BukkitTask task = new PotionUpdateRunnable(plugin, remainder, lE, hidden).runTaskLater(this.plugin, effect.getDuration());
                     //Add task to list of running potion tasks for a given livingentity
                     if(activeTasks.containsKey(lE)) {
                         PotionTaskWrapper taskWrapper = activeTasks.get(lE);

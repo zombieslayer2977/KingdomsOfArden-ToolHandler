@@ -65,7 +65,7 @@ public abstract class WeaponMod {
     }
 	public void tickMod(WeaponDamageEvent event) {
 	    executeOnWeaponDamage(event);
-        pEMan.addPotionEffectStacking(applyTargetOnDamage, (LivingEntity) event.getEntity());
-        pEMan.addPotionEffectStacking(applySelfOnDamage, event.getDamager().getEntity());
+        pEMan.addPotionEffectStacking(applyTargetOnDamage, (LivingEntity) event.getEntity(), false);
+        pEMan.addPotionEffectStacking(applySelfOnDamage, event.getDamager().getEntity(), false);
 	}
 }

@@ -49,7 +49,7 @@ public class PotionMethodInjector {
                 case "addPotionEffect": {
                     try {
                         PotionEffect pE = (PotionEffect) args[0];
-                        pEMan.addPotionEffectStacking(pE, (LivingEntity)self);
+                        pEMan.addPotionEffectStacking(pE, (LivingEntity)self, false);
                     } catch (ClassCastException e) {
                         System.out.println("Someone attempted to trigger a potion effect addition using invalid arguments!");
                         e.printStackTrace();
