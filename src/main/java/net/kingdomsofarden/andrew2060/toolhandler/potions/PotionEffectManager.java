@@ -6,15 +6,28 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.potions.PotionEffectManagerListener;
 import net.kingdomsofarden.andrew2060.toolhandler.tasks.PotionUpdateRunnable;
+import net.minecraft.server.v1_6_R2.EntityPlayer;
 import net.minecraft.server.v1_6_R2.MobEffect;
+import net.minecraft.server.v1_6_R2.Packet41MobEffect;
 
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+/**
+ * This class offers utilities to better be able to apply stacking potion effects
+ * as well as utilities to apply hidden potion effects without any visual indicators.
+ * 
+ * Note that hidden potion effects can ONLY be applied to be players and are untracked, meaning that
+ * new potion effects will override them.
+ * @author Andrew
+ *
+ */
 public class PotionEffectManager {
     
     private ToolHandlerPlugin plugin;
@@ -88,10 +101,19 @@ public class PotionEffectManager {
                 }
             }
         }
+        //Ignore hidden flag for mobs
+        if(!(lE instanceof Player)) {
+            hidden = false;
+        }
         //If the matching potion effect is not found/expired, then just apply the effect directly
         //If a similar effect already preexists we must determine how the effects will be stacked
         if(search == null) {
-            ((CraftLivingEntity)lE).getHandle().addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
+            if(hidden) {
+                EntityPlayer ePlayer = ((CraftPlayer) lE).getHandle();
+                ePlayer.playerConnection.sendPacket(new Packet41MobEffect(ePlayer.id, new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier())));
+            } else {
+                ((CraftLivingEntity)lE).getHandle().addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
+            }
             return;
         } else {
             //If the newly applied potion effect has a greater amplifier or equal amplifier to the prexisting potion effect
@@ -101,12 +123,22 @@ public class PotionEffectManager {
                 //With equal or greater amplifier
                 //If the newly applied effect has a shorter length we must schedule reinstatement of the longer potion effect
                 if(effect.getDuration() >= search.getDuration()) {
-                    ((CraftLivingEntity)lE).getHandle().addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
+                    if(hidden) {
+                        EntityPlayer ePlayer = ((CraftPlayer) lE).getHandle();
+                        ePlayer.playerConnection.sendPacket(new Packet41MobEffect(ePlayer.id, new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier())));
+                    } else {
+                        ((CraftLivingEntity)lE).getHandle().addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
+                    }
                     return;
                 } else {
                     int remainingDuration = search.getDuration() - effect.getDuration();
                     //First force apply the new effect immediately
-                    lE.addPotionEffect(effect,true);
+                    if(hidden) {
+                        EntityPlayer ePlayer = ((CraftPlayer) lE).getHandle();
+                        ePlayer.playerConnection.sendPacket(new Packet41MobEffect(ePlayer.id, new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier())));
+                    } else {
+                        ((CraftLivingEntity)lE).getHandle().addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
+                    }
                     //Make the remaining effect when the applied one expires
                     final PotionEffect remainder = searchType.createEffect(remainingDuration, search.getAmplifier());
                     //Schedule another attempt to apply the remaining duration when the time of the new effect expires
