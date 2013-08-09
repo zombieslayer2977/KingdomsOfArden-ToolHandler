@@ -25,13 +25,12 @@ import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.WeaponMod;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ModUtil;
 
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.plugin.java.PluginClassLoader;
 
 import com.herocraftonline.heroes.util.Util;
 @SuppressWarnings("rawtypes")
 public class ModManager {
-	private final PluginClassLoader classLoader;
+	private PluginClassLoader classLoader;
 
 	private final File weaponModDir;
 	private final File armorModDir;
@@ -57,7 +56,6 @@ public class ModManager {
 
 	private ToolHandlerPlugin plugin;
 
-	@SuppressWarnings("deprecation")
     public ModManager(ToolHandlerPlugin plugin) {
 		this.plugin = plugin;
 
@@ -92,7 +90,11 @@ public class ModManager {
 			this.classLoader = null;
 			return;
 		}
-		this.classLoader = new PluginClassLoader((JavaPluginLoader)plugin.getPluginLoader(),classLoader.getURLs(),classLoader);
+		this.classLoader = (PluginClassLoader)plugin.getClass().getClassLoader();
+		if (classLoader.getClass().getConstructors().length > 1) {
+            this.classLoader = null;
+            return;
+        }
 
 		loadWeaponModFiles();
 		loadArmorModFiles();
