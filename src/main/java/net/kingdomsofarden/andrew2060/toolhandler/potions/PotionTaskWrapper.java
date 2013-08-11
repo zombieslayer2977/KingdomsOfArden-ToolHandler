@@ -8,6 +8,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 public class PotionTaskWrapper {
+    public PotionTaskWrapper() {
+        this.potionTaskMap = new HashMap<PotionEffectType, List<BukkitTask>>();
+    }
     private HashMap<PotionEffectType, List<BukkitTask>> potionTaskMap;
     public void removePotionEffect(PotionEffectType type) {
         if(potionTaskMap.containsKey(type)) {
