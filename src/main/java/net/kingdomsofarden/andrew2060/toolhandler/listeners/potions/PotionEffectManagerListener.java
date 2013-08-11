@@ -50,7 +50,7 @@ public class PotionEffectManagerListener implements Listener {
             pEMan.addPotionEffectStacking(effects, event.getPlayer(), false);
         } else if(i.getType() == Material.GOLDEN_APPLE) {
             
-            if(i.getItemMeta().hasEnchants()) {    //Enchanted
+            if(i.getData().getData() == 2) {    //Enchanted
                 pEMan.addPotionEffectStacking(PotionEffectType.REGENERATION.createEffect(600, 2), event.getPlayer(), false);
             } else {
                 pEMan.addPotionEffectStacking(PotionEffectType.REGENERATION.createEffect(200, 1), event.getPlayer(), false);
