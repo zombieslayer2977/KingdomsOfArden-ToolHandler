@@ -1,12 +1,13 @@
 package net.kingdomsofarden.andrew2060.toolhandler.listeners.effects;
 
-import org.bukkit.EntityEffect;
-import org.bukkit.entity.EntityType;
+import net.kingdomsofarden.andrew2060.toolhandler.effects.ClientEffectSender;
+import net.kingdomsofarden.andrew2060.toolhandler.effects.ClientEffectType;
+
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+
 import com.herocraftonline.heroes.api.events.HeroRegainHealthEvent;
 
 /**
@@ -24,9 +25,7 @@ public class HealingEffectListener implements Listener {
 		if(lE.getHealth() == lE.getMaxHealth()) {
 			return;
 		}
-		Wolf w = (Wolf) lE.getWorld().spawnEntity(lE.getLocation(), EntityType.WOLF);
-		w.playEffect(EntityEffect.WOLF_HEARTS);
-		w.remove();
+		ClientEffectSender.playClientEffect(ClientEffectType.HEART, lE.getLocation());
 	}
 
 }
