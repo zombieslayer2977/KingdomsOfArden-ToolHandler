@@ -140,36 +140,38 @@ public class ImprovementUtil {
 		item.setItemMeta(meta);
 		return quality;
 	}
-	public static double improveQuality(ItemStack item) {
-		ItemMeta meta = item.getItemMeta();
-		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLoreDefaults(item);
-			meta = item.getItemMeta();
-		}
-		List<String> lore = meta.getLore();
+	public static double improveQuality(ItemStack item, int amount) {
+	    return improveQuality(item,amount,100);
+	}
+	public static double improveQuality(ItemStack item, int amount, double threshold) {
+	    ItemMeta meta = item.getItemMeta();
+        if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(item);
+            meta = item.getItemMeta();
+        }
+        List<String> lore = meta.getLore();
         if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
             GeneralLoreUtil.updateLore(item);
             meta = item.getItemMeta();
             lore = meta.getLore();
         }
-		String toAdd = ChatColor.stripColor(lore.get(1));
-		toAdd = toAdd.replace("Improvement Quality: ", "")
-			.replace("%", "");
-		double quality = Double.parseDouble(toAdd);
-		if(quality == 100) {
-			return -1;
-		}
-		quality += 4;
-		if(quality >= 100) {
-			quality = 100;
-		}
-		toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.dF.format(quality) + ChatColor.GRAY + "%";
-		lore.remove(1);
-		lore.add(1, toAdd);
-		meta.setLore(lore);
-		item.setItemMeta(meta);
-		return quality;
-	
+        String toAdd = ChatColor.stripColor(lore.get(1));
+        toAdd = toAdd.replace("Improvement Quality: ", "")
+            .replace("%", "");
+        double quality = Double.parseDouble(toAdd);
+        if(quality == 100) {
+            return -1;
+        }
+        quality += amount;
+        if(quality >= threshold) {
+            quality = threshold;
+        }
+        toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.dF.format(quality) + ChatColor.GRAY + "%";
+        lore.remove(1);
+        lore.add(1, toAdd);
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return quality;
 	}
 	public static double getQuality(ItemStack item) {
 		ItemMeta meta = item.getItemMeta();
