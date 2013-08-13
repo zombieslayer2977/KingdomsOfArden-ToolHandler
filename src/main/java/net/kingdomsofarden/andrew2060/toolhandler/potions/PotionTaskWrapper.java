@@ -1,17 +1,17 @@
 package net.kingdomsofarden.andrew2060.toolhandler.potions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 public class PotionTaskWrapper {
+    private ConcurrentHashMap<PotionEffectType, List<BukkitTask>> potionTaskMap;
     public PotionTaskWrapper() {
-        this.potionTaskMap = new HashMap<PotionEffectType, List<BukkitTask>>();
+        this.potionTaskMap = new ConcurrentHashMap<PotionEffectType, List<BukkitTask>>();
     }
-    private HashMap<PotionEffectType, List<BukkitTask>> potionTaskMap;
     public void removePotionEffect(PotionEffectType type) {
         if(potionTaskMap.containsKey(type)) {
             for(BukkitTask task: potionTaskMap.get(type)) {
