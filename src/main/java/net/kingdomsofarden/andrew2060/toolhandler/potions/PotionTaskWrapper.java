@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+
+import org.bukkit.Bukkit;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -31,28 +34,46 @@ public class PotionTaskWrapper {
         }
     }
     public void removeTask(BukkitTask toRemove) {
-        for(PotionEffectType potionEffectType : potionTaskMap.keySet()) {
-            for(BukkitTask task : potionTaskMap.get(potionEffectType)) {
+        for(final PotionEffectType potionEffectType : potionTaskMap.keySet()) {
+            for(final BukkitTask task : potionTaskMap.get(potionEffectType)) {
                 if(task.equals(toRemove)) {
-                    potionTaskMap.get(potionEffectType).remove(task);
+                    Bukkit.getScheduler().runTask(ToolHandlerPlugin.instance, new Runnable() {
+                        
+                        public void run() {
+                            potionTaskMap.get(potionEffectType).remove(task);
+                        }
+                        
+                    });
                     return;
                 }
             }
         }
     }
     public void removeAllTasks() {
-        for(PotionEffectType potionEffectType : potionTaskMap.keySet()) {
-            for(BukkitTask task : potionTaskMap.get(potionEffectType)) {  
-                potionTaskMap.get(potionEffectType).remove(task);
-                return;
+        for(final PotionEffectType potionEffectType : potionTaskMap.keySet()) {
+            for(final BukkitTask task : potionTaskMap.get(potionEffectType)) {
+                Bukkit.getScheduler().runTask(ToolHandlerPlugin.instance, new Runnable() {
+                    
+                    public void run() {
+                        potionTaskMap.get(potionEffectType).remove(task);
+                    }
+                    
+                });
+                continue;
             }
         }
     }
     public void removeTask(int taskId) {
-        for(PotionEffectType potionEffectType : potionTaskMap.keySet()) {
-            for(BukkitTask task : potionTaskMap.get(potionEffectType)) {
+        for(final PotionEffectType potionEffectType : potionTaskMap.keySet()) {
+            for(final BukkitTask task : potionTaskMap.get(potionEffectType)) {
                 if(task.getTaskId() == taskId) {
-                    potionTaskMap.get(potionEffectType).remove(task);
+                    Bukkit.getScheduler().runTask(ToolHandlerPlugin.instance, new Runnable() {
+                        
+                        public void run() {
+                            potionTaskMap.get(potionEffectType).remove(task);
+                        }
+                        
+                    });
                     return;
                 }
             }
