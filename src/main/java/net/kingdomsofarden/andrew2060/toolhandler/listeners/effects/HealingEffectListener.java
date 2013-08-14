@@ -26,7 +26,7 @@ public class HealingEffectListener implements Listener {
 		if(p.getHealth() == p.getMaxHealth()) {
 			return;
 		}
-		ClientEffectSender.playClientEffect(p, ClientEffectType.HEART, new Vector(0,0,0), 1F, 10, true);
+		ClientEffectSender.playClientEffect(p, ClientEffectType.HEART, new Vector(0.50,1.00,0.50), 1.5F, 15, true, 0.50);
 	}
 
 }
