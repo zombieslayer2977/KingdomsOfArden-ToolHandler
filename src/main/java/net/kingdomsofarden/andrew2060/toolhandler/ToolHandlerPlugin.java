@@ -29,10 +29,14 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.herocraftonline.heroes.Heroes;
+
 public class ToolHandlerPlugin extends JavaPlugin{
 	
 	public static ToolHandlerPlugin instance;
-    
+	
+    public Heroes heroesPlugin;
+
 	public Permission permission;
 	
 	private ModManager modManager;
@@ -57,9 +61,11 @@ public class ToolHandlerPlugin extends JavaPlugin{
     // Gets the 4 character version identifier associated with this version of tool lore to determine if an update is needed.
     public static String versionIdentifier = ChatColor.AQUA + "" + ChatColor.BLACK + "" + ChatColor.RESET + "";
 
+
 	
 	public void onEnable() {
-
+	    //Load the Heroes plugin instance
+	    this.heroesPlugin = (Heroes)Bukkit.getPluginManager().getPlugin("Heroes");
 		//Initialize Listeners
 	    this.qualityListener = new DurabilityChangeListener();
 		

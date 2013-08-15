@@ -1,4 +1,4 @@
-package net.kingdomsofarden.andrew2060.toolhandler.effects;
+package net.kingdomsofarden.andrew2060.toolhandler.clienteffects;
 
 import net.minecraft.server.v1_6_R2.Packet63WorldParticles;
 

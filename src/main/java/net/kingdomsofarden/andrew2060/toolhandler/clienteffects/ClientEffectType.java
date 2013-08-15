@@ -1,4 +1,4 @@
-package net.kingdomsofarden.andrew2060.toolhandler.effects;
+package net.kingdomsofarden.andrew2060.toolhandler.clienteffects;
 
 public enum ClientEffectType {
     LARGE_EXPLOSION("largeexplode"),

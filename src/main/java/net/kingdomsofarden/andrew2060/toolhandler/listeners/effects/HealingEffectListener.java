@@ -1,7 +1,7 @@
 package net.kingdomsofarden.andrew2060.toolhandler.listeners.effects;
 
-import net.kingdomsofarden.andrew2060.toolhandler.effects.ClientEffectSender;
-import net.kingdomsofarden.andrew2060.toolhandler.effects.ClientEffectType;
+import net.kingdomsofarden.andrew2060.toolhandler.clienteffects.ClientEffectSender;
+import net.kingdomsofarden.andrew2060.toolhandler.clienteffects.ClientEffectType;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
