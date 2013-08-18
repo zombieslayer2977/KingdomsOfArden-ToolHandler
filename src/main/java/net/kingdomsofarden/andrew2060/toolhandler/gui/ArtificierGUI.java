@@ -13,7 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class ArtificierGUI {
 
-    private static int[] inputSlots;
     private static ArrayList<Integer> inputSlotList;
     private static int[] soulGemSlots;
     private static int[] greenWoolSlots;
@@ -29,9 +28,8 @@ public class ArtificierGUI {
     private static int gemCombinerSignSlot;
 
     static {
-        inputSlots = new int[] {10,11,14,15,16,37,38,41,42,43}; 
         inputSlotList = new ArrayList<Integer>();
-        for(int i : inputSlots) {
+        for(Integer i : new Integer[] {10,11,14,15,16,37,38,41,42,43}) {
             inputSlotList.add(i);
         }
         soulGemSlots = new int[] {1,5,32,33};
@@ -60,7 +58,7 @@ public class ArtificierGUI {
             inv.setItem(i, stick);
         }
         //Insert Empty Spaces/Input Slots
-        for(int i : inputSlots) {
+        for(Integer i : inputSlotList) {
             inv.setItem(i, null);
         }
         //Populate Soul Gem Item Slots
