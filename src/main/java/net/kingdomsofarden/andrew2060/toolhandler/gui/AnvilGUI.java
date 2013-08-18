@@ -50,7 +50,7 @@ public class AnvilGUI {
         //Create confirmation buttons
         ItemStack confirmButton = new ItemStack(Material.WOOL,1,(short) 5);
         ItemMeta confirmButtonMeta = confirmButton.getItemMeta();
-        confirmButtonMeta.setDisplayName("Combine");
+        confirmButtonMeta.setDisplayName("Confirm");
         confirmButton.setItemMeta(confirmButtonMeta);
         for(int i : confirmButtons) {
             inv.setItem(i,confirmButton);
