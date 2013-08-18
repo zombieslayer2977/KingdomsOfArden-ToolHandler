@@ -27,7 +27,6 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -152,12 +151,11 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	@Override
 	public void onDisable() {
 		//Prevent contents of item mod combiners from disappearing on server restart
-		HashMap<Block, Inventory> modChests = artificierListener.getActiveArtificierTables();
-		Iterator<Block> entryIterator = modChests.keySet().iterator();
+		HashMap<Location, Inventory> modChests = artificierListener.getActiveArtificierTables();
+		Iterator<Location> entryIterator = modChests.keySet().iterator();
 		while(entryIterator.hasNext()) {
-			Block b = entryIterator.next();
-			Inventory inv = modChests.get(b);
-			Location loc = b.getLocation();
+			Location loc = entryIterator.next();
+			Inventory inv = modChests.get(loc);
 			for(int i : ArtificierGUI.getInputSlots()) {
 			    if(inv.getItem(i) != null) {
 			        loc.getWorld().dropItemNaturally(loc, inv.getItem(i));

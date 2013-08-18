@@ -1,7 +1,9 @@
 package net.kingdomsofarden.andrew2060.toolhandler.listeners.gui;
 
 import java.util.HashMap;
+
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -14,6 +16,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
 import com.herocraftonline.heroes.util.Util;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
@@ -22,10 +25,10 @@ import net.kingdomsofarden.andrew2060.toolhandler.util.ModUtil;
 
 public class ArtificierListener implements Listener {
 	private ToolHandlerPlugin plugin;
-	private HashMap<Block, Inventory> activeModChests;
+	private HashMap<Location, Inventory> activeModChests;
 	public ArtificierListener(ToolHandlerPlugin toolHandlerPlugin) {
 		this.plugin = toolHandlerPlugin;
-		this.activeModChests = new HashMap<Block,Inventory>();
+		this.activeModChests = new HashMap<Location,Inventory>();
 	}
 	
 	@SuppressWarnings("deprecation")   //Not much we can do, Bukkit requires this
@@ -186,12 +189,12 @@ public class ArtificierListener implements Listener {
 			p.openInventory(activeModChests.get(b));
 		} else {
 			Inventory inv = ArtificierGUI.getInventoryInstance();
-			activeModChests.put(b, inv);
+			activeModChests.put(b.getLocation(), inv);
 			p.openInventory(inv);
 		}
 		
 	}
-	public HashMap<Block, Inventory> getActiveArtificierTables() {
+	public HashMap<Location, Inventory> getActiveArtificierTables() {
 		return this.activeModChests;
 	}
 	public int addMod(ItemStack tool, ItemStack soulGem) {
