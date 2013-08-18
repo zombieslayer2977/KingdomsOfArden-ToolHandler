@@ -16,10 +16,16 @@ public class FireTickEffect extends PeriodicExpirableEffect {
 
     private double fireTickDamage;
     private CharacterTemplate applier;
-    public FireTickEffect(long duration, CharacterTemplate fireApplier) {
-        super((Skill)null, ToolHandlerPlugin.instance.heroesPlugin, "FireTickEffect", 10, duration);
+    private int specialDamageSourceAppliers;
+    private int ticksBeforeNextDamage;
+    public FireTickEffect(long duration, CharacterTemplate fireApplier, Integer specialDamageSourceAppliers) {
+        super((Skill)null, ToolHandlerPlugin.instance.heroesPlugin, "FireTickEffect", 1, duration);
         this.fireTickDamage = plugin.getDamageManager().getEnvironmentalDamage(DamageCause.FIRE_TICK);
         this.applier = fireApplier;
+        if(fireApplier == null) {
+            this.specialDamageSourceAppliers = specialDamageSourceAppliers;
+        }
+        this.ticksBeforeNextDamage = 0;
     }
     @Override
     public void applyToHero(Hero h) {
@@ -27,26 +33,35 @@ public class FireTickEffect extends PeriodicExpirableEffect {
     }
     @Override
     public void tickMonster(Monster monster) {
-        CharacterDamageEvent cEvent = new CharacterDamageEvent(monster.getEntity(), DamageCause.FIRE_TICK, fireTickDamage);
-        Bukkit.getPluginManager().callEvent(cEvent);
-        if(!cEvent.isCancelled()) {
-            if(!Skill.damageEntity(monster.getEntity(), applier.getEntity(), cEvent.getDamage(), DamageCause.FIRE_TICK)) {
-                monster.getEntity().damage(cEvent.getDamage());
-            }
-            monster.getEntity().setNoDamageTicks(0);
-        } 
+        this.ticksBeforeNextDamage++;
+        if(this.ticksBeforeNextDamage == 10) {
+            this.ticksBeforeNextDamage = 0;
+            CharacterDamageEvent cEvent = new CharacterDamageEvent(monster.getEntity(), DamageCause.FIRE_TICK, fireTickDamage);
+            Bukkit.getPluginManager().callEvent(cEvent);
+            if(!cEvent.isCancelled()) {
+                if(!Skill.damageEntity(monster.getEntity(), applier.getEntity(), cEvent.getDamage(), DamageCause.FIRE_TICK)) {
+                    monster.getEntity().damage(cEvent.getDamage());
+                }
+                monster.getEntity().setNoDamageTicks(0);
+            } 
+        }
+        
     }
 
     @Override
     public void tickHero(Hero hero) {
-        CharacterDamageEvent cEvent = new CharacterDamageEvent(hero.getEntity(), DamageCause.FIRE_TICK, fireTickDamage);
-        Bukkit.getPluginManager().callEvent(cEvent);
-        if(!cEvent.isCancelled()) {
-            if(!Skill.damageEntity(hero.getEntity(), applier.getEntity(), cEvent.getDamage(), DamageCause.FIRE_TICK)) {
-                hero.getEntity().damage(cEvent.getDamage());
-            }
-            hero.getEntity().setNoDamageTicks(0);
-        } 
+        this.ticksBeforeNextDamage++;
+        if(this.ticksBeforeNextDamage == 10) {
+            this.ticksBeforeNextDamage = 0;
+            CharacterDamageEvent cEvent = new CharacterDamageEvent(hero.getEntity(), DamageCause.FIRE_TICK, fireTickDamage);
+            Bukkit.getPluginManager().callEvent(cEvent);
+            if(!cEvent.isCancelled()) {
+                if(!Skill.damageEntity(hero.getEntity(), applier.getEntity(), cEvent.getDamage(), DamageCause.FIRE_TICK)) {
+                    hero.getEntity().damage(cEvent.getDamage());
+                }
+                hero.getEntity().setNoDamageTicks(0);
+            } 
+        }
     }
 
 }
