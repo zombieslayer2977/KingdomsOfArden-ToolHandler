@@ -169,7 +169,7 @@ public class ArtificierGUI {
         return constructArtificierGUI();
     }
 
-    public static ArrayList<Integer> getInputSlotList() {
+    public static ArrayList<Integer> getInputSlots() {
         return inputSlotList;
     }
 

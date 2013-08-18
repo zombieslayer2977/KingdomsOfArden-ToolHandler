@@ -7,12 +7,14 @@ import java.util.Random;
 import net.kingdomsofarden.andrew2060.toolhandler.commands.ModCommandExecutor;
 import net.kingdomsofarden.andrew2060.toolhandler.commands.RefreshLoreCommandExecutor;
 import net.kingdomsofarden.andrew2060.toolhandler.commands.ReloadCommandExecutor;
+import net.kingdomsofarden.andrew2060.toolhandler.gui.AnvilGUI;
 import net.kingdomsofarden.andrew2060.toolhandler.gui.ArtificierGUI;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.crafting.CraftingListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.crafting.ShiftClickListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.durability.ChainMailListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.durability.DurabilityChangeListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.effects.HealingEffectListener;
+import net.kingdomsofarden.andrew2060.toolhandler.listeners.gui.AnvilListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.gui.ArtificierListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.lore.ArmorLoreListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.lore.WeaponLoreListener;
@@ -52,12 +54,15 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	private WeaponLoreListener weapLoreListener;
 	
 	private ModListener modListener;
-	private ArtificierListener modCraftListener;
 	
+	private ArtificierListener artificierListener;
+    private AnvilListener anvilListener;
+
 	private Random rand;
 	private HealingEffectListener healingEffectListener;
 
 	private PotionEffectManager potionEffectManager;
+
 
     // Gets the 4 character version identifier associated with this version of tool lore to determine if an update is needed.
     public static String versionIdentifier = ChatColor.AQUA + "" + ChatColor.BLACK + "" + ChatColor.RESET + "";
@@ -79,8 +84,10 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		this.weapLoreListener = new WeaponLoreListener();
 		
 		this.modListener = new ModListener(this);
-		this.modCraftListener = new ArtificierListener(this);
 		
+		this.artificierListener = new ArtificierListener(this);
+        this.anvilListener = new AnvilListener(this);
+
 		this.healingEffectListener = new HealingEffectListener();
 		
 		this.rand = new Random();
@@ -136,7 +143,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		
 		//Modification Listeners
 		Bukkit.getPluginManager().registerEvents(this.modListener, this);
-		Bukkit.getPluginManager().registerEvents(this.modCraftListener, this);
+		Bukkit.getPluginManager().registerEvents(this.artificierListener, this);
 		
 		//Effect Listeners
 		Bukkit.getPluginManager().registerEvents(this.healingEffectListener, this);
@@ -145,19 +152,30 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	@Override
 	public void onDisable() {
 		//Prevent contents of item mod combiners from disappearing on server restart
-		HashMap<Block, Inventory> modChests = modCraftListener.getActiveModChests();
+		HashMap<Block, Inventory> modChests = artificierListener.getActiveArtificierTables();
 		Iterator<Block> entryIterator = modChests.keySet().iterator();
 		while(entryIterator.hasNext()) {
 			Block b = entryIterator.next();
 			Inventory inv = modChests.get(b);
 			Location loc = b.getLocation();
-			for(int i : ArtificierGUI.getInputSlotList()) {
+			for(int i : ArtificierGUI.getInputSlots()) {
 			    if(inv.getItem(i) != null) {
 			        loc.getWorld().dropItemNaturally(loc, inv.getItem(i));
 			    }
 			}
-
 		}
+        //Prevent contents of anvils from disappearing on server restart
+		HashMap<Location, Inventory> anvilChest = anvilListener.getActiveAnvilChests();
+        Iterator<Location> locIterator = anvilChest.keySet().iterator();
+        while(locIterator.hasNext()) {
+            Location loc = locIterator.next();
+            Inventory inv = modChests.get(loc);
+            for(int i : AnvilGUI.getInputSlots()) {
+                if(inv.getItem(i) != null) {
+                    loc.getWorld().dropItemNaturally(loc, inv.getItem(i));
+                }
+            }
+        }
 	}
 	
 	/**

@@ -33,11 +33,11 @@ public class ArtificierListener implements Listener {
     public void onInventoryInteract(InventoryClickEvent event) {
         Inventory inv = event.getInventory();
         if(inv.getHolder() instanceof ArtificierGUI.ArtificierInventoryHolder) {
-            if(!ArtificierGUI.getInputSlotList().contains(event.getSlot())) {
+            if(!ArtificierGUI.getInputSlots().contains(event.getSlot())) {
                 if(event.getRawSlot() < 54) {
                     event.setCancelled(true);
                     Player p = (Player) event.getWhoClicked();
-                    ((Player)event.getWhoClicked()).updateInventory();
+                    p.updateInventory();
                     switch(event.getSlot()) {
                     
                         case 19: {  //Mod Installer Slot
@@ -191,7 +191,7 @@ public class ArtificierListener implements Listener {
 		}
 		
 	}
-	public HashMap<Block, Inventory> getActiveModChests() {
+	public HashMap<Block, Inventory> getActiveArtificierTables() {
 		return this.activeModChests;
 	}
 	public int addMod(ItemStack tool, ItemStack soulGem) {

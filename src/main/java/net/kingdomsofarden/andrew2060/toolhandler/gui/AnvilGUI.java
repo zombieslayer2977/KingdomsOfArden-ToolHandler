@@ -62,6 +62,7 @@ public class AnvilGUI {
         LinkedList<String> repairTitleLore = new LinkedList<String>();
         repairTitleLore.add(ChatColor.GRAY + "Repair Your Items Below");
         repairTitleLore.add(ChatColor.GRAY.toString() + ChatColor.ITALIC + "Increases the durability of your item");
+        repairTitleLore.add(ChatColor.AQUA + "Must be a level 1 Blacksmith or greater");
         repairTitleLore.add(ChatColor.GRAY + "Slot 1: Item to repair");
         repairTitleLore.add(ChatColor.GRAY + "Slot 2: Repair materials");
         repairTitleMeta.setLore(repairTitleLore);
@@ -83,15 +84,15 @@ public class AnvilGUI {
         inv.setItem(improveSign, improvingTitle);
 
         //Create Titling for Salvaging
-        ItemStack salvagingTitle = new ItemStack(Material.FIRE);
+        ItemStack salvagingTitle = new ItemStack(Material.GOLD_INGOT);
         ItemMeta salvagingTitleMeta = salvagingTitle.getItemMeta();
         salvagingTitleMeta.setDisplayName("Item Salvage");
         LinkedList<String> salvageTitleLore = new LinkedList<String>();
-        salvageTitleLore.add(ChatColor.GRAY + "Improve Your Items Below!");
+        salvageTitleLore.add(ChatColor.GRAY + "Salvage Your Items Below!");
         salvageTitleLore.add(ChatColor.GRAY.toString() + ChatColor.ITALIC + "Salvage a gold tier or better item");
         salvageTitleLore.add(ChatColor.GRAY.toString() + ChatColor.ITALIC + "Recovers up to 80% of resources depending on blacksmith level");
         salvageTitleLore.add(ChatColor.GRAY.toString() + ChatColor.ITALIC + "and item condition.");
-        salvageTitleLore.add(ChatColor.AQUA + "Must be a level 5 Blacksmith or greater");
+        salvageTitleLore.add(ChatColor.AQUA + "Must be a level 15 Blacksmith or greater");
         salvageTitleLore.add(ChatColor.GRAY + "Slot 1: Item to salvage");
         salvageTitleLore.add(ChatColor.GRAY + "Slot 2: Salvaged output");
         salvagingTitleMeta.setLore(salvageTitleLore);
