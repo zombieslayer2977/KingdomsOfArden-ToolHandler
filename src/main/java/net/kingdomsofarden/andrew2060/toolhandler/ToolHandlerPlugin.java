@@ -7,6 +7,7 @@ import java.util.Random;
 import net.kingdomsofarden.andrew2060.toolhandler.commands.ModCommandExecutor;
 import net.kingdomsofarden.andrew2060.toolhandler.commands.RefreshLoreCommandExecutor;
 import net.kingdomsofarden.andrew2060.toolhandler.commands.ReloadCommandExecutor;
+import net.kingdomsofarden.andrew2060.toolhandler.gui.ArtificierGUI;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.crafting.CraftingListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.crafting.ShiftClickListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.durability.ChainMailListener;
@@ -150,7 +151,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 			Block b = entryIterator.next();
 			Inventory inv = modChests.get(b);
 			Location loc = b.getLocation();
-			for(int i : modCraftListener.getEmptySlotList()) {
+			for(int i : ArtificierGUI.getInputSlotList()) {
 			    if(inv.getItem(i) != null) {
 			        loc.getWorld().dropItemNaturally(loc, inv.getItem(i));
 			    }
