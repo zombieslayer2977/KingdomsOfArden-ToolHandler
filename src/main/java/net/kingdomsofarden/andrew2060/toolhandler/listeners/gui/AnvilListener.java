@@ -54,7 +54,7 @@ public class AnvilListener implements Listener {
         if(!(inv.getHolder() instanceof AnvilGUI.AnvilInventoryHolder)) {
             return;
         }
-        if(!AnvilGUI.getInputSlots().contains(event.getSlot())) {
+        if(!(AnvilGUI.getInputSlots().contains(event.getSlot())) && event.getRawSlot() < 54) {
             event.setCancelled(true);
             Player p = (Player) event.getWhoClicked();
             p.updateInventory();
@@ -99,6 +99,9 @@ public class AnvilListener implements Listener {
     }
     @SuppressWarnings("deprecation")
     private void repair(ItemStack repair, ItemStack mat, Inventory anvilGUI, Player player) {
+        if(repair == null || mat == null) {
+            return;
+        }
         int maxDurability = 0;
         Material requiredImprove = Material.DIAMOND;
         int fullRepair = 8;
@@ -363,6 +366,9 @@ public class AnvilListener implements Listener {
 
     @SuppressWarnings("deprecation")
     private void improve(ItemStack improve, ItemStack mat, Inventory anvilGUI, Player player) {
+        if(improve == null || mat == null) {
+            return;
+        }
         Hero h = plugin.heroesPlugin.getCharacterManager().getHero(player);
         Material requiredImprove = Material.IRON_INGOT;
         String commonName = null;
@@ -597,6 +603,9 @@ public class AnvilListener implements Listener {
 
     @SuppressWarnings("deprecation")
     private void salvage(ItemStack salvage, Inventory anvilGUI, Player player) {
+        if(salvage == null) {
+            return;
+        }
         Salvageable salvageable = null;
         try {
             salvageable = Salvageable.valueOf(salvage.getType().name());
