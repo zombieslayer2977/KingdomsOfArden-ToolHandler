@@ -620,7 +620,7 @@ public class AnvilListener implements Listener {
         Hero h = plugin.heroesPlugin.getCharacterManager().getHero(player);
         double deductable = h.getLevel(h.getSecondClass())*0.15;
         double calcDurability = salvage.getDurability() + salvageable.getMaxDurability() * 0.2-deductable;
-        int resultAmount = (int)Math.floor(salvageable.getResultAmountBase()*((salvageable.getMaxDurability()-calcDurability)/(salvageable.getMaxDurability())));
+        int resultAmount = 1;
         if(salvage.getType() == Material.IRON_FENCE) {
             if(salvage.getAmount() > 16) {
                 salvage.setAmount(salvage.getAmount()-16);
@@ -628,8 +628,10 @@ public class AnvilListener implements Listener {
                 anvilGUI.clear(25); 
             } else {
                 player.sendMessage(ChatColor.GRAY + "Iron Bars can only be salvaged 16 at a time!");
+                return;
             }
         } else {
+            resultAmount = (int)Math.floor(salvageable.getResultAmountBase()*((salvageable.getMaxDurability()-calcDurability)/(salvageable.getMaxDurability())));
             anvilGUI.clear(25);
         }
         if(resultAmount > 0) {
@@ -661,107 +663,54 @@ public class AnvilListener implements Listener {
             exp = 0;
         }   
         h.addExp(exp*resultAmount, h.getSecondClass(), h.getPlayer().getLocation());     
-        h.getPlayer().sendMessage(ChatColor.GRAY + "Salvage Successful! Salvaged " + resultAmount + "items!");
+        h.getPlayer().sendMessage(ChatColor.GRAY + "Salvage Successful! Salvaged " + resultAmount + " items!");
     }
 
     private enum Salvageable {
-        DIAMOND_SPADE,
-        DIAMOND_SWORD,
-        DIAMOND_HOE,
-        DIAMOND_PICKAXE,
-        DIAMOND_AXE,
-        DIAMOND_HELMET,
-        DIAMOND_CHESTPLATE,
-        DIAMOND_LEGGINGS,
-        DIAMOND_BOOTS,
-        IRON_SPADE,
-        IRON_SWORD,
-        IRON_HOE,
-        IRON_PICKAXE,
-        IRON_AXE,
-        IRON_HELMET,
-        IRON_CHESTPLATE,
-        IRON_LEGGINGS,
-        IRON_BOOTS,
-        IRON_FENCE,
-        CHAINMAIL_HELMET,
-        CHAINMAIL_CHESTPLATE,
-        CHAINMAIL_LEGGINGS,
-        CHAINMAIL_BOOTS,
-        GOLD_SPADE,
-        GOLD_SWORD,
-        GOLD_HOE,
-        GOLD_PICKAXE,
-        GOLD_AXE,
-        GOLD_HELMET,
-        GOLD_CHESTPLATE,
-        GOLD_LEGGINGS,
-        GOLD_BOOTS;
+        
+        DIAMOND_SPADE(Material.DIAMOND,1,Material.DIAMOND_SPADE.getMaxDurability()),
+        DIAMOND_SWORD(Material.DIAMOND,2,Material.DIAMOND_SWORD.getMaxDurability()),
+        DIAMOND_HOE(Material.DIAMOND,2,Material.DIAMOND_HOE.getMaxDurability()),
+        DIAMOND_PICKAXE(Material.DIAMOND,3,Material.DIAMOND_PICKAXE.getMaxDurability()),
+        DIAMOND_AXE(Material.DIAMOND,3,Material.DIAMOND_AXE.getMaxDurability()),
+        DIAMOND_HELMET(Material.DIAMOND,5,Material.DIAMOND_HELMET.getMaxDurability()),
+        DIAMOND_CHESTPLATE(Material.DIAMOND,8,Material.DIAMOND_CHESTPLATE.getMaxDurability()),
+        DIAMOND_LEGGINGS(Material.DIAMOND,7,Material.DIAMOND_LEGGINGS.getMaxDurability()),
+        DIAMOND_BOOTS(Material.DIAMOND,4,Material.DIAMOND_BOOTS.getMaxDurability()),
+        IRON_SPADE(Material.IRON_INGOT,1,Material.IRON_SPADE.getMaxDurability()),
+        IRON_SWORD(Material.IRON_INGOT,2,Material.IRON_SWORD.getMaxDurability()),
+        IRON_HOE(Material.IRON_INGOT,2,Material.IRON_HOE.getMaxDurability()),
+        IRON_PICKAXE(Material.IRON_INGOT,3,Material.IRON_PICKAXE.getMaxDurability()),
+        IRON_AXE(Material.IRON_INGOT,3,Material.IRON_AXE.getMaxDurability()),
+        IRON_HELMET(Material.IRON_INGOT,5,Material.IRON_HELMET.getMaxDurability()),
+        IRON_CHESTPLATE(Material.IRON_INGOT,8,Material.IRON_CHESTPLATE.getMaxDurability()),
+        IRON_LEGGINGS(Material.IRON_INGOT,7,Material.IRON_LEGGINGS.getMaxDurability()),
+        IRON_BOOTS(Material.IRON_INGOT,4,Material.IRON_BOOTS.getMaxDurability()),
+        IRON_FENCE(Material.IRON_INGOT,1,(short)0),
+        CHAINMAIL_HELMET(Material.IRON_FENCE,5,Material.CHAINMAIL_HELMET.getMaxDurability()),
+        CHAINMAIL_CHESTPLATE(Material.IRON_FENCE,8,Material.CHAINMAIL_CHESTPLATE.getMaxDurability()),
+        CHAINMAIL_LEGGINGS(Material.IRON_FENCE,7,Material.CHAINMAIL_LEGGINGS.getMaxDurability()),
+        CHAINMAIL_BOOTS(Material.IRON_FENCE,4,Material.CHAINMAIL_BOOTS.getMaxDurability()),
+        GOLD_SPADE(Material.GOLD_INGOT,1,Material.GOLD_SPADE.getMaxDurability()),
+        GOLD_SWORD(Material.GOLD_INGOT,2,Material.GOLD_SWORD.getMaxDurability()),
+        GOLD_HOE(Material.GOLD_INGOT,2,Material.GOLD_HOE.getMaxDurability()),
+        GOLD_PICKAXE(Material.GOLD_INGOT,3,Material.GOLD_PICKAXE.getMaxDurability()),
+        GOLD_AXE(Material.GOLD_INGOT,3,Material.GOLD_AXE.getMaxDurability()),
+        GOLD_HELMET(Material.GOLD_INGOT,5,Material.GOLD_HELMET.getMaxDurability()),
+        GOLD_CHESTPLATE(Material.GOLD_INGOT,8,Material.GOLD_CHESTPLATE.getMaxDurability()),
+        GOLD_LEGGINGS(Material.GOLD_INGOT,7,Material.GOLD_LEGGINGS.getMaxDurability()),
+        GOLD_BOOTS(Material.GOLD_INGOT,4,Material.GOLD_BOOTS.getMaxDurability());
+        
+        private Salvageable(Material to, int baseAmount, short maxDura) {
+            setTo(to);
+            setResultAmountBase(baseAmount);
+            setMaxDurability(maxDura);
+        }
 
         private Material to;
         private double resultAmountBase;
         private short maxDurability;
-        Salvageable() {
-            Material mat = Material.getMaterial(name());
-            String[] name = name().split("_");
-            if(name[0].equals("CHAINMAIL")) {
-                this.setTo(Material.IRON_FENCE);
-            } else {
-                this.setTo(Material.getMaterial(name[0]+"_INGOT"));
-            }
-
-            setMaxDurability(mat.getMaxDurability());
-
-            switch(name[1]) {
-
-            case "SPADE": {
-                this.setResultAmountBase(1);
-                break;
-            }
-            case "SWORD":
-            case "HOE": {
-                this.setResultAmountBase(2);
-                break;
-            }
-            case "PICKAXE":
-            case "AXE": {
-                this.setResultAmountBase(3);
-                break;
-            }
-
-            case "HELMET": {
-                this.setResultAmountBase(5);
-                break;
-            }
-
-            case "CHESTPLATE": {
-                this.setResultAmountBase(8);
-                break;
-            }
-
-            case "LEGGINGS": {
-                this.setResultAmountBase(7);
-                break;
-            }
-
-            case "BOOTS": {
-                this.setResultAmountBase(4);
-                break;
-            }
-
-            case "FENCE": {
-                this.setResultAmountBase(6);
-                break;
-            }
-
-            default: {
-                throw new IllegalArgumentException();
-            }
-
-            }
-
-
-        }
+        
         public Material getTo() {
             return to;
         }
