@@ -1,4 +1,4 @@
-package net.kingdomsofarden.andrew2060.toolhandler.listeners.mods;
+package net.kingdomsofarden.andrew2060.toolhandler.listeners.gui;
 
 import java.util.HashMap;
 import org.bukkit.ChatColor;
@@ -20,10 +20,10 @@ import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.gui.ArtificierGUI;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ModUtil;
 
-public class ModCombinerListener implements Listener {
+public class ArtificierListener implements Listener {
 	private ToolHandlerPlugin plugin;
 	private HashMap<Block, Inventory> activeModChests;
-	public ModCombinerListener(ToolHandlerPlugin toolHandlerPlugin) {
+	public ArtificierListener(ToolHandlerPlugin toolHandlerPlugin) {
 		this.plugin = toolHandlerPlugin;
 		this.activeModChests = new HashMap<Block,Inventory>();
 	}

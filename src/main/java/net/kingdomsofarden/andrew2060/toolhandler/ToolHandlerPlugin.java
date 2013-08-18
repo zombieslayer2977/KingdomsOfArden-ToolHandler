@@ -13,9 +13,9 @@ import net.kingdomsofarden.andrew2060.toolhandler.listeners.crafting.ShiftClickL
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.durability.ChainMailListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.durability.DurabilityChangeListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.effects.HealingEffectListener;
+import net.kingdomsofarden.andrew2060.toolhandler.listeners.gui.ArtificierListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.lore.ArmorLoreListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.lore.WeaponLoreListener;
-import net.kingdomsofarden.andrew2060.toolhandler.listeners.mods.ModCombinerListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.mods.ModListener;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.ModManager;
 import net.kingdomsofarden.andrew2060.toolhandler.potions.PotionEffectManager;
@@ -52,7 +52,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 	private WeaponLoreListener weapLoreListener;
 	
 	private ModListener modListener;
-	private ModCombinerListener modCraftListener;
+	private ArtificierListener modCraftListener;
 	
 	private Random rand;
 	private HealingEffectListener healingEffectListener;
@@ -79,7 +79,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 		this.weapLoreListener = new WeaponLoreListener();
 		
 		this.modListener = new ModListener(this);
-		this.modCraftListener = new ModCombinerListener(this);
+		this.modCraftListener = new ArtificierListener(this);
 		
 		this.healingEffectListener = new HealingEffectListener();
 		
