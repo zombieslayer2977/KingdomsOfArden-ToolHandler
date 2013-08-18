@@ -46,7 +46,7 @@ public class ArtificierGUI {
         gemCombinerSignSlot = 40;
     }
 
-    private static Inventory constructModCombinerInventory() {
+    private static Inventory constructArtificierGUI() {
         Inventory inv = Bukkit.createInventory(new ArtificierInventoryHolder(), 54, "Artificier Table");
         
         //Fill Inventory with sticks w/ no name
@@ -166,7 +166,7 @@ public class ArtificierGUI {
         
     }
     public static Inventory getInventoryInstance() {
-        return constructModCombinerInventory();
+        return constructArtificierGUI();
     }
 
     public static ArrayList<Integer> getInputSlotList() {
