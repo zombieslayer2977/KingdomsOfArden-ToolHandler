@@ -54,7 +54,7 @@ public class ArtificierGUI {
         //Fill Inventory with sticks w/ no name
         ItemStack stick = new ItemStack(Material.STICK);
         ItemMeta stickMeta = stick.getItemMeta();
-        stickMeta.setDisplayName("");
+        stickMeta.setDisplayName(" ");
         stick.setItemMeta(stickMeta); 
         for(int i = 0; i<inv.getSize() ; i++) {
             inv.setItem(i, stick);
