@@ -618,7 +618,7 @@ public class AnvilListener implements Listener {
             return;
         }
         Hero h = plugin.heroesPlugin.getCharacterManager().getHero(player);
-        double deductable = h.getLevel(h.getSecondClass())*0.15;
+        double deductable = h.getLevel(h.getSecondClass())*0.15*0.01;
         double calcDurability = salvage.getDurability() + (salvageable.getMaxDurability() * (0.2-deductable));
         int resultAmount = 0;
         if(salvage.getType() == Material.IRON_FENCE) {
