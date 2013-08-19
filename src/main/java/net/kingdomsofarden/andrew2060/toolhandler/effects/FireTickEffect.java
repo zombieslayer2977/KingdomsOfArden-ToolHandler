@@ -4,10 +4,12 @@ import java.lang.reflect.Field;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
+import com.herocraftonline.heroes.api.events.CharacterDamageEvent;
 import com.herocraftonline.heroes.characters.CharacterTemplate;
 import com.herocraftonline.heroes.characters.Hero;
 import com.herocraftonline.heroes.characters.Monster;
@@ -47,13 +49,17 @@ public class FireTickEffect extends PeriodicExpirableEffect {
         this.ticksBeforeNextDamage++;
         if(this.ticksBeforeNextDamage == 10) {
             this.ticksBeforeNextDamage = 0;
-            if(applier != null) {
-                Skill.damageEntity(monster.getEntity(), applier.getEntity(), fireTickDamage, DamageCause.FIRE_TICK);
-            } else {
-                monster.getEntity().damage(fireTickDamage);
-                monster.getEntity().setLastDamageCause(new EntityDamageEvent(monster.getEntity(), DamageCause.FIRE_TICK, fireTickDamage));
+            CharacterDamageEvent cEvent = new CharacterDamageEvent(monster.getEntity(),DamageCause.FIRE_TICK,fireTickDamage);
+            Bukkit.getPluginManager().callEvent(cEvent);
+            if(!cEvent.isCancelled()) {
+                if(applier != null) {
+                    Skill.damageEntity(monster.getEntity(), applier.getEntity(), fireTickDamage, DamageCause.FIRE_TICK);
+                } else {
+                    monster.getEntity().damage(fireTickDamage);
+                    monster.getEntity().setLastDamageCause(new EntityDamageEvent(monster.getEntity(), DamageCause.FIRE_TICK, fireTickDamage));
+                }
+                monster.getEntity().setNoDamageTicks(0);
             }
-            monster.getEntity().setNoDamageTicks(0);
 
         }
 
@@ -80,15 +86,19 @@ public class FireTickEffect extends PeriodicExpirableEffect {
         this.ticksBeforeNextDamage++;
         if(this.ticksBeforeNextDamage == 10) {
             this.ticksBeforeNextDamage = 0;
-            if(applier != null) {
-                if(applier instanceof Hero && !Skill.damageCheck((Player) applier.getEntity(), hero.getEntity())) {
-                    hero.getEntity().damage(fireTickDamage);
+            CharacterDamageEvent cEvent = new CharacterDamageEvent(hero.getEntity(),DamageCause.FIRE_TICK,fireTickDamage);
+            Bukkit.getPluginManager().callEvent(cEvent);
+            if(!cEvent.isCancelled()) {
+                if(applier != null) {
+                    if(applier instanceof Hero && !Skill.damageCheck((Player) applier.getEntity(), hero.getEntity())) {
+                        hero.getEntity().damage(fireTickDamage);
+                    } else {
+                        Skill.damageEntity(hero.getEntity(), applier.getEntity(), fireTickDamage, DamageCause.FIRE_TICK);
+                    }
                 } else {
-                    Skill.damageEntity(hero.getEntity(), applier.getEntity(), fireTickDamage, DamageCause.FIRE_TICK);
+                    hero.getPlayer().damage(fireTickDamage);
+                    hero.getPlayer().setLastDamageCause(new EntityDamageEvent(hero.getPlayer(), DamageCause.FIRE_TICK, fireTickDamage));
                 }
-            } else {
-                hero.getPlayer().damage(fireTickDamage);
-                hero.getPlayer().setLastDamageCause(new EntityDamageEvent(hero.getPlayer(), DamageCause.FIRE_TICK, fireTickDamage));
             }
             hero.getEntity().setNoDamageTicks(0);
 
