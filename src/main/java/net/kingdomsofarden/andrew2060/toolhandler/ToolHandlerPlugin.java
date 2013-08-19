@@ -14,6 +14,7 @@ import net.kingdomsofarden.andrew2060.toolhandler.listeners.crafting.ShiftClickL
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.durability.ChainMailListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.durability.DurabilityChangeListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.effects.HealingEffectListener;
+import net.kingdomsofarden.andrew2060.toolhandler.listeners.fire.FireEffectListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.gui.AnvilListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.gui.ArtificierListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.lore.ArmorLoreListener;
@@ -57,10 +58,13 @@ public class ToolHandlerPlugin extends JavaPlugin{
     private ArtificierListener artificierListener;
     private AnvilListener anvilListener;
 
-    private Random rand;
     private HealingEffectListener healingEffectListener;
+    private FireEffectListener fireEffectListener;
 
     private PotionEffectManager potionEffectManager;
+    
+    private Random rand;
+
 
 
     // Gets the 4 character version identifier associated with this version of tool lore to determine if an update is needed.
@@ -88,7 +92,8 @@ public class ToolHandlerPlugin extends JavaPlugin{
         this.anvilListener = new AnvilListener(this);
 
         this.healingEffectListener = new HealingEffectListener();
-
+        this.fireEffectListener = new FireEffectListener(heroesPlugin);
+        
         this.rand = new Random();
 
         //Register listeners used by plugin
@@ -149,6 +154,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 
         //Effect Listeners
         Bukkit.getPluginManager().registerEvents(this.healingEffectListener, this);
+        Bukkit.getPluginManager().registerEvents(this.fireEffectListener, this);
 
     }
     @Override
