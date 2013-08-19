@@ -19,6 +19,7 @@ import net.kingdomsofarden.andrew2060.toolhandler.listeners.gui.AnvilListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.gui.ArtificierListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.lore.ArmorLoreListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.lore.WeaponLoreListener;
+import net.kingdomsofarden.andrew2060.toolhandler.listeners.mechanics.DamageTickResetListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.mods.ModListener;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.ModManager;
 import net.kingdomsofarden.andrew2060.toolhandler.potions.PotionEffectManager;
@@ -61,9 +62,12 @@ public class ToolHandlerPlugin extends JavaPlugin{
     private HealingEffectListener healingEffectListener;
     private FireEffectListener fireEffectListener;
 
+    private DamageTickResetListener noDamageTickListener;
+    
     private PotionEffectManager potionEffectManager;
     
     private Random rand;
+
 
 
 
@@ -93,6 +97,8 @@ public class ToolHandlerPlugin extends JavaPlugin{
 
         this.healingEffectListener = new HealingEffectListener();
         this.fireEffectListener = new FireEffectListener(heroesPlugin);
+        
+        this.noDamageTickListener = new DamageTickResetListener();
         
         this.rand = new Random();
 
@@ -156,6 +162,9 @@ public class ToolHandlerPlugin extends JavaPlugin{
         Bukkit.getPluginManager().registerEvents(this.healingEffectListener, this);
         Bukkit.getPluginManager().registerEvents(this.fireEffectListener, this);
 
+        //Mechanics Listeners
+        Bukkit.getPluginManager().registerEvents(this.noDamageTickListener, this);
+        
     }
     @Override
     public void onDisable() {
