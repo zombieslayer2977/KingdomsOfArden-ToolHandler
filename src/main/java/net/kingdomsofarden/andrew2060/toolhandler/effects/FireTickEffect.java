@@ -38,7 +38,7 @@ public class FireTickEffect extends PeriodicExpirableEffect {
             long remainingFireTickDuration = Math.round(fireTicks*1000*0.05);
             if(getRemainingTime() < remainingFireTickDuration) {
                 try {
-                    Field f = this.getClass().getSuperclass().getDeclaredField("expireTime");
+                    Field f = this.getClass().getSuperclass().getSuperclass().getDeclaredField("expireTime");
                     f.setAccessible(true);
                     f.setLong(this, System.currentTimeMillis() + remainingFireTickDuration);
                 } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
@@ -75,7 +75,7 @@ public class FireTickEffect extends PeriodicExpirableEffect {
             long remainingFireTickDuration = Math.round(fireTicks*1000*0.05);
             if(getRemainingTime() < remainingFireTickDuration) {
                 try {
-                    Field f = this.getClass().getSuperclass().getDeclaredField("expireTime");
+                    Field f = this.getClass().getSuperclass().getSuperclass().getDeclaredField("expireTime");
                     f.setAccessible(true);
                     f.setLong(this, System.currentTimeMillis() + remainingFireTickDuration);
                 } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
