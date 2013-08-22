@@ -1,6 +1,8 @@
 package net.kingdomsofarden.andrew2060.toolhandler.listeners.potions;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import net.kingdomsofarden.andrew2060.toolhandler.potions.PotionEffectManager;
 
@@ -24,8 +26,17 @@ import org.bukkit.potion.PotionEffectType;
 
 public class PotionEffectManagerListener implements Listener {
     private PotionEffectManager pEMan;
+    private List<PotionEffectType> dispellablePotions;
     public PotionEffectManagerListener(PotionEffectManager effectMan) {
         this.pEMan = effectMan;
+        this.dispellablePotions = new LinkedList<PotionEffectType>();
+        this.dispellablePotions.add(PotionEffectType.BLINDNESS);
+        this.dispellablePotions.add(PotionEffectType.CONFUSION);
+        this.dispellablePotions.add(PotionEffectType.HARM);
+        this.dispellablePotions.add(PotionEffectType.HUNGER);
+        this.dispellablePotions.add(PotionEffectType.POISON);
+        this.dispellablePotions.add(PotionEffectType.WEAKNESS);
+        this.dispellablePotions.add(PotionEffectType.WITHER);
     }
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
@@ -59,6 +70,12 @@ public class PotionEffectManagerListener implements Listener {
             }        
             return; //We have our own seperate handling for golden apples where we don't want to remove quite yet or cancel the event
             
+        } else if(i.getType() == Material.MILK_BUCKET) {
+            for(PotionEffect pE : p.getActivePotionEffects()) {
+                if(this.dispellablePotions.contains(pE.getType())) {
+                    pEMan.removePotionEffect(pE.getType(), p);
+                }
+            }
         } else {
             return;
         }
