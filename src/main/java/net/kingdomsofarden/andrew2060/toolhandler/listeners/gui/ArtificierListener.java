@@ -185,11 +185,12 @@ public class ArtificierListener implements Listener {
 		}
 		event.setCancelled(true);
 		Player p = event.getPlayer();
-		if(activeModChests.containsKey(b)) {
-			p.openInventory(activeModChests.get(b));
+	      Location loc = b.getLocation();
+		if(activeModChests.containsKey(loc)) {
+			p.openInventory(activeModChests.get(loc));
 		} else {
 			Inventory inv = ArtificierGUI.getInventoryInstance();
-			activeModChests.put(b.getLocation(), inv);
+			activeModChests.put(loc, inv);
 			p.openInventory(inv);
 		}
 		
