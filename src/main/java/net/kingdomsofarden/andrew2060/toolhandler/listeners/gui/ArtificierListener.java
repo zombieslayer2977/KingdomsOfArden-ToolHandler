@@ -130,7 +130,7 @@ public class ArtificierListener implements Listener {
                             if(soulGem.getAmount() > 1) {
                                 soulGem.setAmount(soulGem.getAmount()-1);
                             } else {
-                                inv.setItem(14, new ItemStack(Material.AIR));
+                                inv.clear(14);
                             }
                             inv.setItem(16, new ItemStack(Material.AIR));
                             if(!createNewModSlot(soulGem,item,essenceOfEnchanting)) {
