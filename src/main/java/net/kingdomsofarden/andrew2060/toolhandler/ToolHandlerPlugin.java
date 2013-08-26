@@ -20,6 +20,7 @@ import net.kingdomsofarden.andrew2060.toolhandler.listeners.gui.ArtificierListen
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.lore.ArmorLoreListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.lore.WeaponLoreListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.mechanics.DamageTickResetListener;
+import net.kingdomsofarden.andrew2060.toolhandler.listeners.mechanics.RegenManaListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.mods.ModListener;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.ModManager;
 import net.kingdomsofarden.andrew2060.toolhandler.potions.PotionEffectManager;
@@ -164,6 +165,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 
         //Mechanics Listeners
         Bukkit.getPluginManager().registerEvents(this.noDamageTickListener, this);
+        Bukkit.getPluginManager().registerEvents(new RegenManaListener(heroesPlugin.getCharacterManager()), this);
         
     }
     @Override
