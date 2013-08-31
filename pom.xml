@@ -72,10 +72,15 @@
 		<url>ci.kingdomsofarden.net</url>
 	</ciManagement>
 	<distributionManagement>
-		<repository>
-			<id>koa-repo</id>
-			<name>KoA developers repo</name>
-			<url>http://ci.kingdomsofarden.net/nexus/content/repositories/dev/</url>
-		</repository>
+	  <repository>
+	     <id>koa-repo</id>
+	     <name>Internal Releases</name>
+	     <url>http://ci.kingdomsofarden.net/nexus/content/repositories/releases/</url>
+	  </repository>
+	  <snapshotRepository>
+	     <id>koa-repo</id>
+	     <name>Internal Releases</name>
+	     <url>http://ci.kingdomsofarden.net/nexus/content/repositories/snapshots/</url>
+	  </snapshotRepository>
 	</distributionManagement>
 </project>
