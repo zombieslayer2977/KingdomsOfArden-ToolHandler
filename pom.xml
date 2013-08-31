@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.kingdomsofarden</groupId>
 	<artifactId>ToolHandler </artifactId>
-	<version>2.2</version>
+	<version>2.2-SNAPSHOT</version>
 	<name>KingdomsOfArden-ToolHandler</name>
 	<description>Tool Handler Plugin for Custom Lore Based Features</description>
 	<repositories>
