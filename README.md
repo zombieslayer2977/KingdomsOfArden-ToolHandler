@@ -1,10 +1,10 @@
 KingdomsOfArden-ToolHandler (www.kingdomsofarden.net)
 ===========
 
-Version 2.1.0 Dev
+Version 2.2
 Author: Andrew Wen (andrew2060)
 
-FOR CB 1.6.X - This will NOT work with prior versions!
+FOR Spigot 1.6.X - This will NOT work with prior versions!
 
 ##Introduction
 
@@ -33,10 +33,11 @@ Enchants:
 
 Heroes Integration:
 
-* Comes with the following four skills
+* Comes with the following skills
     * SkillDisenchant: disenchanted items gives you bottles of enchanting instead of experience as is the case with the Heroes bundled SkillDisenchant (More on that later)
-    * SkillForge: Skill to adjust / increase improvement quality of items (anvil on top of a block with fire underneath)
-    * SkillRepair: repair the durability of the item, does not affect improvement quality (normal anvil)
+    * SkillForge: Skill to adjust / increase improvement quality of items
+    * SkillRepair: repair the durability of the item, does not affect improvement quality
+    * SkillSalvage: regain resources from salvage
     * SkillSoulSap: Charge soul gems (Emeralds) of varying power based on enemy's level. (More on this later)
 
 Potion Effects:
@@ -53,12 +54,16 @@ Item Mods:
 * Tools/Armor have a configurable chance of breaking upon having mods applied to them
 * Tools/Armor have 2 mod slots by default, this can also be increased with bottles of enchanting with a configurable break chance
 
+Custom GUIs:
+* Artificier Interface via Enchantment Table on top of Enderchest
+* Blacksmith Interface via Anvil
+
 
 ## Dependencies
 
 This plugin depends on
 
-* Libigot (Until the time if/when Heroes no longer requires this as a dependency)
+* Spigot (Will NOT work on Craftbukkit)
 * Heroes
 * Vault
 
