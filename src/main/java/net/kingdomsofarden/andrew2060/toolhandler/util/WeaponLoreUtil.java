@@ -8,7 +8,6 @@ import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.ModManager;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.WeaponMod;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -184,7 +183,7 @@ public class WeaponLoreUtil {
 		loreUpdated.add(lifestealtext);
 		loreUpdated.add(crittext);
 		loreUpdated.add(ChatColor.WHITE + "========Modifications========");
-		ModManager modMan = ((ToolHandlerPlugin) Bukkit.getPluginManager().getPlugin("KingdomsOfArden-ToolHandler")).getModManager();
+		ModManager modMan = ToolHandlerPlugin.instance.getModManager();
 		for(String toAdd : modifications ) {
             if(!toAdd.contains(ChatColor.GOLD +"")) {
                 if(toAdd.contains(ChatColor.DARK_GRAY + "")) {
