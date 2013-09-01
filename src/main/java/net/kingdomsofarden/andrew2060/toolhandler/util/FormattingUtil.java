@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import org.bukkit.ChatColor;
 
 public class FormattingUtil {
-    public static DecimalFormat dF = new DecimalFormat("###.##");
+    public static DecimalFormat dF = new DecimalFormat("###.00");
 	public static String getQualityColor(double quality) {
 		if(quality > 0 && quality <= 20) {
 			return ChatColor.RED + "";
