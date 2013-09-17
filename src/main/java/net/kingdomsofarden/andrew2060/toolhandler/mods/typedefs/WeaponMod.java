@@ -4,8 +4,8 @@ import java.util.LinkedList;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.potions.PotionEffectManager;
+import net.kingdomsofarden.andrew2060.toolhandler.util.WeaponLoreUtil;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -20,20 +20,33 @@ public abstract class WeaponMod {
 	private boolean requiresSlot;
 	private LinkedList<PotionEffect> applyTargetOnDamage;
 	private LinkedList<PotionEffect> applySelfOnDamage;
+	private Double bonusDamage;
+	private Double lifeSteal;
+	private Double critChance;
 
-	public WeaponMod(String name, String[] desc, int weight, boolean requiresSlot) {
+	public WeaponMod(String name, int weight, boolean requiresSlot, String... desc) {
 		this.name = name;
 		this.desc = desc;
 		this.weight = weight;
 		this.requiresSlot = requiresSlot;
-		this.pEMan = ((ToolHandlerPlugin)Bukkit.getPluginManager().getPlugin("KingdomsOfArden-ToolHandler")).getPotionEffectHandler();
+		this.pEMan = ToolHandlerPlugin.instance.getPotionEffectHandler();
 		this.applyTargetOnDamage = new LinkedList<PotionEffect>();
 		this.applySelfOnDamage = new LinkedList<PotionEffect>();
+		this.bonusDamage = null;
+		this.lifeSteal = null;
+		this.critChance = null;
 	}
-	public WeaponMod(String name, String descr, int weight, boolean requiresSlot) {
-		this(name, new String[] {descr}, weight, requiresSlot);
+	public void applyToWeapon(ItemStack weapon) {
+	    if(bonusDamage != null && bonusDamage > Double.valueOf(0.00)) {
+	        WeaponLoreUtil.setBonusDamage(WeaponLoreUtil.getBonusDamage(weapon)+bonusDamage, weapon);
+	    }
+	    if(lifeSteal != null && lifeSteal > Double.valueOf(0.00)) {
+            WeaponLoreUtil.setLifeSteal(WeaponLoreUtil.getLifeSteal(weapon)+lifeSteal, weapon);
+        }
+	    if(critChance != null && critChance > Double.valueOf(0.00)) {
+            WeaponLoreUtil.setCritChance(WeaponLoreUtil.getCritChance(weapon)+critChance, weapon);
+        }
 	}
-	public abstract void applyToWeapon(ItemStack weapon);
 	public abstract void executeOnWeaponDamage(WeaponDamageEvent event);
 	public String getName() {
 		return name;
@@ -68,4 +81,23 @@ public abstract class WeaponMod {
         pEMan.addPotionEffectStacking(applyTargetOnDamage, (LivingEntity) event.getEntity(), false);
         pEMan.addPotionEffectStacking(applySelfOnDamage, event.getDamager().getEntity(), false);
 	}
+    public Double getBonusDamage() {
+        return bonusDamage;
+    }
+    public void setBonusDamage(Double bonusDamage) {
+        this.bonusDamage = bonusDamage;
+    }
+    public Double getLifeSteal() {
+        return lifeSteal;
+    }
+    public void setLifeSteal(Double lifeSteal) {
+        this.lifeSteal = lifeSteal;
+    }
+    public Double getCritChance() {
+        return critChance;
+    }
+    public void setCritChance(Double critChance) {
+        this.critChance = critChance;
+    }
+	
 }

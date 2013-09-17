@@ -80,13 +80,13 @@ public class ToolLoreUtil {
                 reachedmodifications = true;
             }
         }
-        String improvementText = FormattingUtil.getQualityColor(improvementQuality) + FormattingUtil.dF.format(improvementQuality) + ChatColor.GRAY;
+        String improvementText = FormattingUtil.getQualityColor(improvementQuality) + FormattingUtil.loreDescriptorFormat.format(improvementQuality) + ChatColor.GRAY;
         improvementText = ChatColor.GRAY + "Improvement Quality: " + improvementQuality + "%";
         String truedmgText = FormattingUtil.getAttributeColor(bonusDamage) + bonusDamage + ChatColor.GRAY;
         truedmgText = ChatColor.GRAY + "True Damage: " + truedmgText;
-        String bashText = FormattingUtil.getAttributeColor(bashChance) + FormattingUtil.dF.format(bashChance) + ChatColor.GRAY;
+        String bashText = FormattingUtil.getAttributeColor(bashChance) + FormattingUtil.loreDescriptorFormat.format(bashChance) + ChatColor.GRAY;
         bashText = ChatColor.GRAY + "Bash Attack Chance: " + bashText + "%";
-        String decimationText = FormattingUtil.getAttributeColor(decimateChance) + FormattingUtil.dF.format(decimateChance) + ChatColor.GRAY;
+        String decimationText = FormattingUtil.getAttributeColor(decimateChance) + FormattingUtil.loreDescriptorFormat.format(decimateChance) + ChatColor.GRAY;
         decimationText = ChatColor.GRAY + "Bash Attack Chance: " + decimationText + "%";
         List<String> loreUpdated = new LinkedList<String>();
         loreUpdated.add(ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");

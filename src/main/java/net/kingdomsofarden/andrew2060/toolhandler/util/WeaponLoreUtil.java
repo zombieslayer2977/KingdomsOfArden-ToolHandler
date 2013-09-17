@@ -59,7 +59,7 @@ public class WeaponLoreUtil {
 		double crit = Double.parseDouble(doubleParse);
 		return crit;
 	}
-	public static void setBonusDamage(int bonus, ItemStack weapon) {
+	public static void setBonusDamage(double bonus, ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		if(!meta.hasLore()) {
             GeneralLoreUtil.populateLoreDefaults(weapon);
@@ -72,12 +72,12 @@ public class WeaponLoreUtil {
             lore = meta.getLore();
         }
 		lore.remove(2);
-		lore.add(2, ChatColor.GRAY + "Bonus Damage: " + FormattingUtil.getAttributeColor(bonus) + bonus);
+		lore.add(2, ChatColor.GRAY + "Bonus Damage: " + FormattingUtil.getAttributeColor(bonus) + FormattingUtil.loreDescriptorFormat.format(bonus));
 		meta.setLore(lore);
 		weapon.setItemMeta(meta);
 		return;
 	}
-	public static void setLifeSteal(double d, ItemStack weapon) {
+	public static void setLifeSteal(double lifesteal, ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		if(!meta.hasLore()) {
             GeneralLoreUtil.populateLoreDefaults(weapon);
@@ -90,7 +90,7 @@ public class WeaponLoreUtil {
             lore = meta.getLore();
         }
 		lore.remove(3);
-		lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttributeColor(d) + FormattingUtil.dF.format(d) + ChatColor.GRAY + " %");
+		lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttributeColor(lifesteal) + FormattingUtil.loreDescriptorFormat.format(lifesteal) + ChatColor.GRAY + " %");
 		meta.setLore(lore);
 		weapon.setItemMeta(meta);
 		return;
@@ -108,7 +108,7 @@ public class WeaponLoreUtil {
             lore = meta.getLore();
         }
 		lore.remove(4);
-		lore.add(4, ChatColor.GRAY + "Critical Strike Chance: " + FormattingUtil.getAttributeColor(bonusCrit) + FormattingUtil.dF.format(bonusCrit) + ChatColor.GRAY + "%");
+		lore.add(4, ChatColor.GRAY + "Critical Strike Chance: " + FormattingUtil.getAttributeColor(bonusCrit) + FormattingUtil.loreDescriptorFormat.format(bonusCrit) + ChatColor.GRAY + "%");
 		meta.setLore(lore);
 		weapon.setItemMeta(meta);
 		return;
@@ -168,13 +168,13 @@ public class WeaponLoreUtil {
 				reachedmodifications = true;
 			}
 		}
-		String improvementtext = FormattingUtil.getQualityColor(improvementQuality) + FormattingUtil.dF.format(improvementQuality) + ChatColor.GRAY;
+		String improvementtext = FormattingUtil.getQualityColor(improvementQuality) + FormattingUtil.loreDescriptorFormat.format(improvementQuality) + ChatColor.GRAY;
 		improvementtext = ChatColor.GRAY + "Improvement Quality: " + improvementQuality + "%";
 		String bonusdmgtext = FormattingUtil.getAttributeColor(bonusdmg) + bonusdmg + ChatColor.GRAY;
 		bonusdmgtext = ChatColor.GRAY + "Bonus Damage: " + bonusdmgtext;
-		String lifestealtext =  FormattingUtil.getAttributeColor(lifesteal) + FormattingUtil.dF.format(lifesteal) + ChatColor.GRAY;
+		String lifestealtext =  FormattingUtil.getAttributeColor(lifesteal) + FormattingUtil.loreDescriptorFormat.format(lifesteal) + ChatColor.GRAY;
 		lifestealtext = ChatColor.GRAY + "Life Steal: " + lifestealtext + " %";
-		String crittext = FormattingUtil.getAttributeColor(critchance) + FormattingUtil.dF.format(critchance) + ChatColor.GRAY;
+		String crittext = FormattingUtil.getAttributeColor(critchance) + FormattingUtil.loreDescriptorFormat.format(critchance) + ChatColor.GRAY;
 		crittext = ChatColor.GRAY + "Critical Strike Chance: " + crittext + "%";
 		List<String> loreUpdated = new ArrayList<String>();
 		loreUpdated.add(ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");

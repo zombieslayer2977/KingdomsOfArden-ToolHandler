@@ -167,21 +167,43 @@ public class ModUtil {
             meta = weapon.getItemMeta();
             lore = meta.getLore();
         }
-		for(int i = 6; i < lore.size(); i++) {
-            if(lore.get(i).contains("[Empty Slot]")) {
+		for(int modSlotIterator = 6; modSlotIterator < lore.size(); modSlotIterator++) {
+            if(lore.get(modSlotIterator).contains("[Empty Slot]")) {
                 boolean addedModSlot = false;
-                if(lore.get(i).startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
+                if(lore.get(modSlotIterator).startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
                     addedModSlot = true;
                 }
                 if(mod.isSlotRequired()) {
-                    lore.remove(i);
+                    lore.remove(modSlotIterator);
                     if(addedModSlot) {
-                        lore.add(i, ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
+                        lore.add(modSlotIterator, ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
                     } else {
-                        lore.add(i, ChatColor.GOLD + mod.getName());
+                        lore.add(modSlotIterator, ChatColor.GOLD + mod.getName());
                     }
-					for(int x = 0; x < mod.getDescription().length; x++) {
-						lore.add(i+x+1,ChatColor.GRAY + "- " + mod.getDescription()[x]);
+                    int baseDescriptionSlots = 0;
+                    if(mod.getBonusDamage() != null && mod.getBonusDamage() > Double.valueOf(0.00)) {
+                        baseDescriptionSlots++;
+                        lore.add(modSlotIterator+baseDescriptionSlots+1, ChatColor.GRAY + "- " 
+                                + FormattingUtil.getAttributeColor(mod.getBonusDamage()) 
+                                + FormattingUtil.modDescriptorFormat.format(mod.getBonusDamage())
+                                + ChatColor.GRAY + " Damage");
+                    }
+                    if(mod.getLifeSteal() != null && mod.getLifeSteal() > Double.valueOf(0.00)) {
+                        baseDescriptionSlots++;
+                        lore.add(modSlotIterator+baseDescriptionSlots+1, ChatColor.GRAY + "- " 
+                                + FormattingUtil.getAttributeColor(mod.getLifeSteal()) 
+                                + FormattingUtil.modDescriptorFormat.format(mod.getLifeSteal())
+                                + ChatColor.GRAY + " Life Steal");
+                    }
+                    if(mod.getCritChance() != null && mod.getCritChance() > Double.valueOf(0.00)) {
+                        baseDescriptionSlots++;
+                        lore.add(modSlotIterator+baseDescriptionSlots+1, ChatColor.GRAY + "- " 
+                                + FormattingUtil.getAttributeColor(mod.getCritChance()) 
+                                + FormattingUtil.modDescriptorFormat.format(mod.getCritChance())
+                                + ChatColor.GRAY + " Critical Hit Chance");
+                    }
+					for(int descriptionIterator = 0; descriptionIterator < mod.getDescription().length; descriptionIterator++) {
+						lore.add(modSlotIterator+baseDescriptionSlots+descriptionIterator+1,ChatColor.GRAY + "- " + mod.getDescription()[descriptionIterator]);
 					}
 				}
 				meta.setLore(lore);

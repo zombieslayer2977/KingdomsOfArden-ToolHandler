@@ -5,7 +5,8 @@ import java.text.DecimalFormat;
 import org.bukkit.ChatColor;
 
 public class FormattingUtil {
-    public static DecimalFormat dF = new DecimalFormat("###.00");
+    public static DecimalFormat modDescriptorFormat = new DecimalFormat("+###.00;-###.00");
+    public static DecimalFormat loreDescriptorFormat = new DecimalFormat("###.00");
 	public static String getQualityColor(double quality) {
 		if(quality > 0 && quality <= 20) {
 			return ChatColor.RED + "";
@@ -22,12 +23,6 @@ public class FormattingUtil {
 		}
 	}
 	public static String getAttributeColor(double attribute) {
-		if(attribute < 0) {
-			return ChatColor.RED + "";
-		} else if(attribute > 0) {
-			return ChatColor.GREEN + "";
-		} else {
-			return ChatColor.GRAY + "";
-		}
+		return attribute > 0.00 ? ChatColor.GREEN + "" : attribute == Double.valueOf(0.00) ? ChatColor.GRAY + "" : ChatColor.RED + "";
 	}
 }

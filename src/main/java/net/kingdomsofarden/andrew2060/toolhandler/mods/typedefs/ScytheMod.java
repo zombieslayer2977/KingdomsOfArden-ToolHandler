@@ -9,14 +9,11 @@ public abstract class ScytheMod {
 	private String name;
 	private int weight;
 	private boolean requiresSlot;
-	public ScytheMod(String name, String[] desc, int weight, boolean requiresSlot) {
+	public ScytheMod(String name, int weight, boolean requiresSlot, String... desc) {
 		this.name = name;
 		this.desc = desc;
 		this.weight = weight;
 		this.requiresSlot = requiresSlot;
-	}
-	public ScytheMod(String name, String desc, int weight, boolean requiresSlot) {
-		this(name, new String[] {desc}, weight, requiresSlot);
 	}
 	public String getName() {
 		return name;

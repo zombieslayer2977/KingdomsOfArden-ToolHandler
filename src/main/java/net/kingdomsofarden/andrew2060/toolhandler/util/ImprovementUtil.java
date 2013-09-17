@@ -77,7 +77,7 @@ public class ImprovementUtil {
             meta = item.getItemMeta();
             lore = meta.getLore();
         }
-		String toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.dF.format(quality) + ChatColor.GRAY + "%";
+		String toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.loreDescriptorFormat.format(quality) + ChatColor.GRAY + "%";
 		lore.remove(1);
 		lore.add(1, toAdd);
 		meta.setLore(lore);
@@ -133,7 +133,7 @@ public class ImprovementUtil {
 		if(quality < 0) {
 			quality = 0;
 		}
-		toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.dF.format(quality) + ChatColor.GRAY + "%";
+		toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.loreDescriptorFormat.format(quality) + ChatColor.GRAY + "%";
 		lore.remove(1);
 		lore.add(1, toAdd);
 		meta.setLore(lore);
@@ -166,7 +166,7 @@ public class ImprovementUtil {
         if(quality >= threshold) {
             quality = threshold;
         }
-        toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.dF.format(quality) + ChatColor.GRAY + "%";
+        toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.loreDescriptorFormat.format(quality) + ChatColor.GRAY + "%";
         lore.remove(1);
         lore.add(1, toAdd);
         meta.setLore(lore);

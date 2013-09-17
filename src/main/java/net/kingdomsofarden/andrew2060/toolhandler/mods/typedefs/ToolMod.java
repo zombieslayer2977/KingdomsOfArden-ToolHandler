@@ -9,15 +9,13 @@ public abstract class ToolMod {
 	private String name;
 	private int weight;
 	private boolean requiresSlot;
-	public ToolMod(String name, String[] desc, int weight, boolean requiresSlot) {
+	public ToolMod(String name, int weight, boolean requiresSlot, String... desc) {
 		this.name = name;
 		this.desc = desc;
 		this.weight = weight;
 		this.requiresSlot = requiresSlot;
 	}
-	public ToolMod(String name, String desc, int weight, boolean requiresSlot) {
-		this(name, new String[] {desc}, weight, requiresSlot);
-	}
+
 	public String getName() {
 		return name;
 	}
