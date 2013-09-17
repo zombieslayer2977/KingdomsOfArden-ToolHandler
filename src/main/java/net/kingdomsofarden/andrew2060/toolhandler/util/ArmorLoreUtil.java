@@ -109,7 +109,7 @@ public class ArmorLoreUtil {
 		armor.setItemMeta(meta);
 		return;
 	}
-	public static void setProtBonus(int bonusProt, ItemStack armor) {
+	public static void setProtBonus(double bonusProt, ItemStack armor) {
 		ItemMeta meta = armor.getItemMeta();
 		if(!meta.hasLore()) {
             GeneralLoreUtil.populateLoreDefaults(armor);
@@ -122,7 +122,7 @@ public class ArmorLoreUtil {
             lore = meta.getLore();
         }
 		lore.remove(4);
-		lore.add(4, ChatColor.GRAY + "Additional Protection: " + FormattingUtil.getAttributeColor(bonusProt) + bonusProt + ChatColor.GRAY + " Damage/Hit");
+		lore.add(4, ChatColor.GRAY + "Additional Protection: " + FormattingUtil.getAttributeColor(bonusProt) + FormattingUtil.loreDescriptorFormat.format(bonusProt) + ChatColor.GRAY + " Damage/Hit");
 		meta.setLore(lore);
 		armor.setItemMeta(meta);
 		return;
@@ -227,7 +227,7 @@ public class ArmorLoreUtil {
         setHealingBonus(getHealingBonus(armor) + i,armor);
     }
     
-    public static void addProtBonus(int i, ItemStack armor) {
-        setProtBonus(getProtBonus(armor) + i,armor);
+    public static void addProtBonus(Double protBonus, ItemStack armor) {
+        setProtBonus(getProtBonus(armor) + protBonus,armor);
     }
 }
