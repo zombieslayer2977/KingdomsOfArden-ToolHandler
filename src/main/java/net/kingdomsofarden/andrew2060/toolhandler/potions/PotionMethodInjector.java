@@ -1,7 +1,7 @@
 package net.kingdomsofarden.andrew2060.toolhandler.potions;
 import java.lang.reflect.Method;
 
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_6_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;

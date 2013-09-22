@@ -6,12 +6,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.potions.PotionEffectManagerListener;
 import net.kingdomsofarden.andrew2060.toolhandler.tasks.PotionUpdateRunnable;
-import net.minecraft.server.v1_6_R2.EntityPlayer;
-import net.minecraft.server.v1_6_R2.MobEffect;
-import net.minecraft.server.v1_6_R2.Packet41MobEffect;
+import net.minecraft.server.v1_6_R3.EntityPlayer;
+import net.minecraft.server.v1_6_R3.MobEffect;
+import net.minecraft.server.v1_6_R3.Packet41MobEffect;
 
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_6_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_6_R3.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
