@@ -1,10 +1,10 @@
 package net.kingdomsofarden.andrew2060.toolhandler.clienteffects;
 
-import net.minecraft.server.v1_6_R3.Packet63WorldParticles;
+import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_6_R3.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_6_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -26,7 +26,7 @@ public class ClientEffectSender {
             throw new IllegalArgumentException("The provided player is NOT a CraftPlayer!");
         }
         Location loc = player.getLocation();
-        Packet63WorldParticles clientEffectPacket = new Packet63WorldParticles(effect.getParticleName(), (float)loc.getX(), (float)(loc.getY() + verticalOffset), (float)loc.getZ(), (float)offset.getX(), (float)offset.getY(), (float)offset.getZ(), speed, count);
+        PacketPlayOutWorldParticles clientEffectPacket = new PacketPlayOutWorldParticles(effect.getParticleName(), (float)loc.getX(), (float)(loc.getY() + verticalOffset), (float)loc.getZ(), (float)offset.getX(), (float)offset.getY(), (float)offset.getZ(), speed, count);
         if(sendToAll) {
             ((CraftWorld)loc.getWorld()).getHandle().getTracker().sendPacketToEntity(((CraftPlayer)player).getHandle(), clientEffectPacket);
         } else {

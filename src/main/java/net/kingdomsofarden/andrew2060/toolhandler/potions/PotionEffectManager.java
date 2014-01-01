@@ -6,12 +6,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.potions.PotionEffectManagerListener;
 import net.kingdomsofarden.andrew2060.toolhandler.tasks.PotionUpdateRunnable;
-import net.minecraft.server.v1_6_R3.EntityPlayer;
-import net.minecraft.server.v1_6_R3.MobEffect;
-import net.minecraft.server.v1_6_R3.Packet41MobEffect;
+import net.minecraft.server.v1_7_R1.EntityPlayer;
+import net.minecraft.server.v1_7_R1.MobEffect;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityEffect;
 
-import org.bukkit.craftbukkit.v1_6_R3.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_6_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -53,7 +53,7 @@ public class PotionEffectManager {
         if(activeTasks.containsKey(lE)) {
             activeTasks.get(lE).removePotionEffect(type);
         }
-        ((CraftLivingEntity)lE).getHandle().k(type.getId());
+        ((CraftLivingEntity)lE).getHandle().m(type.getId());
     }
 
     /**
@@ -110,7 +110,7 @@ public class PotionEffectManager {
         if(search == null) {
             if(hidden) {
                 EntityPlayer ePlayer = ((CraftPlayer) lE).getHandle();
-                ePlayer.playerConnection.sendPacket(new Packet41MobEffect(ePlayer.id, new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier())));
+                ePlayer.playerConnection.sendPacket(new PacketPlayOutEntityEffect(ePlayer.getId(), new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier())));
             } else {
                 ((CraftLivingEntity)lE).getHandle().addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
             }
@@ -125,7 +125,7 @@ public class PotionEffectManager {
                 if(effect.getDuration() >= search.getDuration()) {
                     if(hidden) {
                         EntityPlayer ePlayer = ((CraftPlayer) lE).getHandle();
-                        ePlayer.playerConnection.sendPacket(new Packet41MobEffect(ePlayer.id, new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier())));
+                        ePlayer.playerConnection.sendPacket(new PacketPlayOutEntityEffect(ePlayer.getId(), new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier())));
                     } else {
                         ((CraftLivingEntity)lE).getHandle().addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
                     }
@@ -135,7 +135,7 @@ public class PotionEffectManager {
                     //First force apply the new effect immediately
                     if(hidden) {
                         EntityPlayer ePlayer = ((CraftPlayer) lE).getHandle();
-                        ePlayer.playerConnection.sendPacket(new Packet41MobEffect(ePlayer.id, new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier())));
+                        ePlayer.playerConnection.sendPacket(new PacketPlayOutEntityEffect(ePlayer.getId(), new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier())));
                     } else {
                         ((CraftLivingEntity)lE).getHandle().addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
                     }
