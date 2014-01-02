@@ -239,7 +239,7 @@ public class ModManager {
 			}
 			jarFile.close();
 		} catch (Exception e) {
-			plugin.getLogger().log(Level.INFO, "The mod pack " + file.getName() + " failed to load.");
+			plugin.getLogger().log(Level.INFO, "The mod pack " + file.getName() + " failed to load from " + file.getName());
 			e.printStackTrace();
 		}
 		return null;
