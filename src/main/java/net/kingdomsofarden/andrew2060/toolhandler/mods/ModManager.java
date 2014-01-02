@@ -171,7 +171,7 @@ public class ModManager {
 					mainClasses = new LinkedList<String>();
 					String next = reader.readLine();
 					while(next != null) {
-						mainClasses.add(next);
+						mainClasses.add(next.substring(11));
 						try {
 							next = reader.readLine();
 							continue;
@@ -214,7 +214,7 @@ public class ModManager {
 					mainClasses = new LinkedList<String>();
 					String next = reader.readLine();
 					while(next != null) {
-						mainClasses.add(next);
+						mainClasses.add(next.substring(11));
 						try {
 							next = reader.readLine();
 							continue;
@@ -239,7 +239,7 @@ public class ModManager {
 			}
 			jarFile.close();
 		} catch (Exception e) {
-			plugin.getLogger().log(Level.INFO, "The mod pack " + file.getName() + " failed to load from " + file.getName());
+			plugin.getLogger().log(Level.INFO, "The mod pack " + file.getName() + " failed to load.");
 			e.printStackTrace();
 		}
 		return null;
@@ -257,7 +257,7 @@ public class ModManager {
 					mainClasses = new LinkedList<String>();
 					String next = reader.readLine();
 					while(next != null) {
-						mainClasses.add(next);
+						mainClasses.add(next.substring(11));
 						try {
 							next = reader.readLine();
 							continue;
@@ -300,7 +300,7 @@ public class ModManager {
 					mainClasses = new LinkedList<String>();
 					String next = reader.readLine();
 					while(next != null) {
-						mainClasses.add(next);
+						mainClasses.add(next.substring(11));
 						try {
 							next = reader.readLine();
 							continue;
