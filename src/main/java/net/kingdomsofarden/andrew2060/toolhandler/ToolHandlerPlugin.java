@@ -78,6 +78,11 @@ public class ToolHandlerPlugin extends JavaPlugin{
 
 
     public void onEnable() {
+        
+
+        //Set instance
+        ToolHandlerPlugin.instance = this;
+        
         //Load the Heroes plugin instance
         this.heroesPlugin = (Heroes)Bukkit.getPluginManager().getPlugin("Heroes");
         //Initialize Listeners
@@ -123,8 +128,6 @@ public class ToolHandlerPlugin extends JavaPlugin{
         //Schedule Tasks
         new ArmorPassiveTask(modManager).runTaskTimer(this, 0, 20);   //Armor Passives Task
 
-        //Set instance
-        ToolHandlerPlugin.instance = this;
 
 
     }
