@@ -171,7 +171,7 @@ public class ModManager {
 					mainClasses = new LinkedList<String>();
 					String next = reader.readLine();
 					while(next != null) {
-						mainClasses.add(next.substring(11));
+						mainClasses.add(next.substring(12));
 						try {
 							next = reader.readLine();
 							continue;
@@ -214,7 +214,7 @@ public class ModManager {
 					mainClasses = new LinkedList<String>();
 					String next = reader.readLine();
 					while(next != null) {
-						mainClasses.add(next.substring(11));
+						mainClasses.add(next.substring(12));
 						try {
 							next = reader.readLine();
 							continue;
@@ -257,7 +257,7 @@ public class ModManager {
 					mainClasses = new LinkedList<String>();
 					String next = reader.readLine();
 					while(next != null) {
-						mainClasses.add(next.substring(11));
+						mainClasses.add(next.substring(12));
 						try {
 							next = reader.readLine();
 							continue;
@@ -300,7 +300,7 @@ public class ModManager {
 					mainClasses = new LinkedList<String>();
 					String next = reader.readLine();
 					while(next != null) {
-						mainClasses.add(next.substring(11));
+						mainClasses.add(next.substring(12));
 						try {
 							next = reader.readLine();
 							continue;
