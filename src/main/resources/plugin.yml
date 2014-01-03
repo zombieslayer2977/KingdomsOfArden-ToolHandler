@@ -4,6 +4,7 @@ description: Handles durability based enchantments such as prot and sharpness, a
 author: Andrew2060
 website: http://www.kingdomsofarden.net/
 main: net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin
+depend: [Heroes, Vault]
 commands:
     toolhandler: 
         description: Reloads configs and reloads all mods from disk
