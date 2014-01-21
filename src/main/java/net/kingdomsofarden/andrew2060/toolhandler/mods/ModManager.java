@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
@@ -28,7 +29,7 @@ import net.kingdomsofarden.andrew2060.toolhandler.util.ModUtil;
 import org.bukkit.inventory.ItemStack;
 
 import com.herocraftonline.heroes.util.Util;
-@SuppressWarnings("rawtypes")
+
 public class ModManager extends URLClassLoader {
 	
 	private final File weaponModDir;
@@ -182,7 +183,7 @@ public class ModManager extends URLClassLoader {
 				while(classIterator.hasNext()) {
 					Class<?> weaponModClass = Class.forName(classIterator.next(), true, this);
 					Class<?> modClass = weaponModClass.asSubclass(WeaponMod.class);
-					Constructor ctor = modClass.getConstructor(new Class[] {});
+					Constructor<?> ctor = modClass.getConstructor(new Class[] {});
 					WeaponMod mod = (WeaponMod)ctor.newInstance(new Object[] {});
 					mods.add(mod);
 				}
@@ -196,7 +197,7 @@ public class ModManager extends URLClassLoader {
 		}
 		return null;
 	}
-	@SuppressWarnings({ "unchecked" })
+
 	private List<ArmorMod> loadArmorMods(File file) {
 		try {
 			JarFile jarFile = new JarFile(file);
@@ -223,9 +224,9 @@ public class ModManager extends URLClassLoader {
 				List<ArmorMod> mods = new LinkedList<ArmorMod>();
 				Iterator<String> classIterator = mainClasses.iterator();
 				while(classIterator.hasNext()) {
-					Class armorModClass = Class.forName(classIterator.next(), true, this);
-					Class modClass = armorModClass.asSubclass(ArmorMod.class);
-					Constructor ctor = modClass.getConstructor(new Class[] {});
+					Class<?> armorModClass = Class.forName(classIterator.next(), true, this);
+					Class<?> modClass = armorModClass.asSubclass(ArmorMod.class);
+					Constructor<?> ctor = modClass.getConstructor(new Class[] {});
 					ArmorMod mod = (ArmorMod)ctor.newInstance(new Object[] {});
 					mods.add(mod);
 				}
@@ -268,7 +269,7 @@ public class ModManager extends URLClassLoader {
 				while(classIterator.hasNext()) {
 					Class<?> toolModClass = Class.forName(classIterator.next(), true, this);
 					Class<?> modClass = toolModClass.asSubclass(ToolMod.class);
-					Constructor ctor = modClass.getConstructor(new Class[] {});
+					Constructor<?> ctor = modClass.getConstructor(new Class[] {});
 					ToolMod mod = (ToolMod)ctor.newInstance(new Object[] {});
 					mods.add(mod);
 				}
@@ -311,7 +312,7 @@ public class ModManager extends URLClassLoader {
 				while(classIterator.hasNext()) {
 					Class<?> toolModClass = Class.forName(classIterator.next(), true, this);
 					Class<?> modClass = toolModClass.asSubclass(ScytheMod.class);
-					Constructor ctor = modClass.getConstructor(new Class[] {});
+					Constructor<?> ctor = modClass.getConstructor(new Class[] {});
 					ScytheMod mod = (ScytheMod)ctor.newInstance(new Object[] {});
 					mods.add(mod);
 				}
@@ -327,7 +328,7 @@ public class ModManager extends URLClassLoader {
 	}
 	
 	public void loadWeaponMods() {
-		for (Map.Entry entry : this.weaponModFiles.entrySet()) {
+		for (Entry<String, File> entry : this.weaponModFiles.entrySet()) {
 			if (!isWeaponModLoaded((String)entry.getKey())) {
 				Iterator<WeaponMod> loadModsFromFile = loadWeaponMods((File)entry.getValue()).iterator();
 				while(loadModsFromFile.hasNext()) {
@@ -341,7 +342,7 @@ public class ModManager extends URLClassLoader {
 	}
 
 	public void loadArmorMods() {
-		for (Map.Entry entry : this.armorModFiles.entrySet()) {
+		for (Entry<String, File> entry : this.armorModFiles.entrySet()) {
 			if (!isArmorModLoaded((String)entry.getKey())) {
 				Iterator<ArmorMod> loadModsFromFile = loadArmorMods((File)entry.getValue()).iterator();
 				while(loadModsFromFile.hasNext()) {
@@ -354,7 +355,7 @@ public class ModManager extends URLClassLoader {
 	}
 
 	public void loadToolMods() {
-		for (Map.Entry entry : this.toolModFiles.entrySet()) {
+		for (Entry<String, File> entry : this.toolModFiles.entrySet()) {
 			if (!isToolModLoaded((String)entry.getKey())) {
 				Iterator<ToolMod> loadModsFromFile = loadToolMods((File)entry.getValue()).iterator();
 				while(loadModsFromFile.hasNext()) {
@@ -367,7 +368,7 @@ public class ModManager extends URLClassLoader {
 	}
 	
 	public void loadScytheMods() {
-		for (Map.Entry entry : this.scytheModFiles.entrySet()) {
+		for (Entry<String, File> entry : this.scytheModFiles.entrySet()) {
 			if (!isScytheModLoaded((String)entry.getKey())) {
 				Iterator<ScytheMod> loadModsFromFile = loadScytheMods((File)entry.getValue()).iterator();
 				while(loadModsFromFile.hasNext()) {
