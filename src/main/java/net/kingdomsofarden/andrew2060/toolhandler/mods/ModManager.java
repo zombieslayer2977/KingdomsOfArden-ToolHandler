@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
+import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -25,13 +26,11 @@ import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.WeaponMod;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ModUtil;
 
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.PluginClassLoader;
 
 import com.herocraftonline.heroes.util.Util;
 @SuppressWarnings("rawtypes")
-public class ModManager {
-	private PluginClassLoader classLoader;
-
+public class ModManager extends URLClassLoader {
+	
 	private final File weaponModDir;
 	private final File armorModDir;
 	private final File toolModDir;
@@ -57,6 +56,10 @@ public class ModManager {
 	private ToolHandlerPlugin plugin;
 
     public ModManager(ToolHandlerPlugin plugin) {
+        
+        //Initialize by getting the PluginClassLoader since its not visible anymore
+        super(((URLClassLoader)plugin.getClass().getClassLoader()).getURLs(),plugin.getClass().getClassLoader());
+        
 		this.plugin = plugin;
 
 		this.weaponModFiles = new HashMap<String, File>();
@@ -85,17 +88,6 @@ public class ModManager {
 		this.weaponModWeightTotal = 0;
 		this.scytheModWeightTotal = 0;
 		
-		PluginClassLoader classLoader = (PluginClassLoader)plugin.getClass().getClassLoader();
-		if (classLoader.getClass().getConstructors().length > 1) {
-			this.classLoader = null;
-			return;
-		}
-		this.classLoader = (PluginClassLoader)plugin.getClass().getClassLoader();
-		if (classLoader.getClass().getConstructors().length > 1) {
-            this.classLoader = null;
-            return;
-        }
-
 		loadWeaponModFiles();
 		loadArmorModFiles();
 		loadToolModFiles();
@@ -104,6 +96,7 @@ public class ModManager {
 		loadToolMods();
 		loadWeaponMods();
 	}
+    
 	private void loadWeaponModFiles() {
 		for(String modFileName : this.weaponModDir.list()) {
 			if(modFileName.contains(".jar")) {
@@ -114,7 +107,7 @@ public class ModManager {
 				} else {
 					this.weaponModFiles.put(name, modFile);
 					try {
-						classLoader.addURL(modFile.toURI().toURL());
+						this.addURL(modFile.toURI().toURL());
 					} catch (MalformedURLException e) {
 						e.printStackTrace();
 					}
@@ -122,6 +115,7 @@ public class ModManager {
 			}
 		}
 	}
+	
 	private void loadArmorModFiles() {
 		for(String modFileName : this.armorModDir.list()) {
 			if(modFileName.contains(".jar")) {
@@ -132,7 +126,7 @@ public class ModManager {
 				} else {
 					this.armorModFiles.put(name, modFile);
 					try {
-						classLoader.addURL(modFile.toURI().toURL());
+						this.addURL(modFile.toURI().toURL());
 					} catch (MalformedURLException e) {
 						e.printStackTrace();
 					}
@@ -140,6 +134,7 @@ public class ModManager {
 			}
 		}
 	}
+	
 	private void loadToolModFiles() {
 		for(String modFileName : this.toolModDir.list()) {
 			if(modFileName.contains(".jar")) {
@@ -150,7 +145,7 @@ public class ModManager {
 				} else {
 					this.toolModFiles.put(name, modFile);
 					try {
-						classLoader.addURL(modFile.toURI().toURL());
+						this.addURL(modFile.toURI().toURL());
 					} catch (MalformedURLException e) {
 						e.printStackTrace();
 					}
@@ -158,7 +153,7 @@ public class ModManager {
 			}
 		}
 	}
-	@SuppressWarnings({ "unchecked" })
+
 	private List<WeaponMod> loadWeaponMods(File file) {
 		try {
 			JarFile jarFile = new JarFile(file);
@@ -185,8 +180,8 @@ public class ModManager {
 				List<WeaponMod> mods = new LinkedList<WeaponMod>();
 				Iterator<String> classIterator = mainClasses.iterator();
 				while(classIterator.hasNext()) {
-					Class weaponModClass = Class.forName(classIterator.next(), true, this.classLoader);
-					Class modClass = weaponModClass.asSubclass(WeaponMod.class);
+					Class<?> weaponModClass = Class.forName(classIterator.next(), true, this);
+					Class<?> modClass = weaponModClass.asSubclass(WeaponMod.class);
 					Constructor ctor = modClass.getConstructor(new Class[] {});
 					WeaponMod mod = (WeaponMod)ctor.newInstance(new Object[] {});
 					mods.add(mod);
@@ -228,7 +223,7 @@ public class ModManager {
 				List<ArmorMod> mods = new LinkedList<ArmorMod>();
 				Iterator<String> classIterator = mainClasses.iterator();
 				while(classIterator.hasNext()) {
-					Class armorModClass = Class.forName(classIterator.next(), true, this.classLoader);
+					Class armorModClass = Class.forName(classIterator.next(), true, this);
 					Class modClass = armorModClass.asSubclass(ArmorMod.class);
 					Constructor ctor = modClass.getConstructor(new Class[] {});
 					ArmorMod mod = (ArmorMod)ctor.newInstance(new Object[] {});
@@ -244,7 +239,7 @@ public class ModManager {
 		}
 		return null;
 	}
-	@SuppressWarnings({ "unchecked" })
+
 	private List<ToolMod> loadToolMods(File file) {
 		try {
 			JarFile jarFile = new JarFile(file);
@@ -271,8 +266,8 @@ public class ModManager {
 				List<ToolMod> mods = new LinkedList<ToolMod>();
 				Iterator<String> classIterator = mainClasses.iterator();
 				while(classIterator.hasNext()) {
-					Class toolModClass = Class.forName(classIterator.next(), true, this.classLoader);
-					Class modClass = toolModClass.asSubclass(ToolMod.class);
+					Class<?> toolModClass = Class.forName(classIterator.next(), true, this);
+					Class<?> modClass = toolModClass.asSubclass(ToolMod.class);
 					Constructor ctor = modClass.getConstructor(new Class[] {});
 					ToolMod mod = (ToolMod)ctor.newInstance(new Object[] {});
 					mods.add(mod);
@@ -287,7 +282,7 @@ public class ModManager {
 		}
 		return null;
 	}
-	@SuppressWarnings({ "unchecked" })
+
 	private List<ScytheMod> loadScytheMods(File file) {
 		try {
 			JarFile jarFile = new JarFile(file);
@@ -314,8 +309,8 @@ public class ModManager {
 				List<ScytheMod> mods = new LinkedList<ScytheMod>();
 				Iterator<String> classIterator = mainClasses.iterator();
 				while(classIterator.hasNext()) {
-					Class toolModClass = Class.forName(classIterator.next(), true, this.classLoader);
-					Class modClass = toolModClass.asSubclass(ScytheMod.class);
+					Class<?> toolModClass = Class.forName(classIterator.next(), true, this);
+					Class<?> modClass = toolModClass.asSubclass(ScytheMod.class);
 					Constructor ctor = modClass.getConstructor(new Class[] {});
 					ScytheMod mod = (ScytheMod)ctor.newInstance(new Object[] {});
 					mods.add(mod);
@@ -330,6 +325,7 @@ public class ModManager {
 		}
 		return null;
 	}
+	
 	public void loadWeaponMods() {
 		for (Map.Entry entry : this.weaponModFiles.entrySet()) {
 			if (!isWeaponModLoaded((String)entry.getKey())) {
@@ -369,6 +365,7 @@ public class ModManager {
 			}
 		}
 	}
+	
 	public void loadScytheMods() {
 		for (Map.Entry entry : this.scytheModFiles.entrySet()) {
 			if (!isScytheModLoaded((String)entry.getKey())) {
@@ -381,38 +378,44 @@ public class ModManager {
 			}
 		}
 	}
+	
 	private void addScytheMod(ScytheMod mod) {
 		this.scytheMods.put(mod.getName().toLowerCase(), mod);	
 		this.scytheModWeightTotal += mod.getWeight();
 	}
+	
 	private void addToolMod(ToolMod mod) {
 		this.toolMods.put(mod.getName().toLowerCase(), mod);	
 		this.toolModWeightTotal +=mod.getWeight();
 
 	} 
+	
 	private void addArmorMod(ArmorMod mod) {
 		this.armorMods.put(mod.getName().toLowerCase(), mod);	
 		this.armorModWeightTotal += mod.getWeight();
 	}
+	
 	private void addWeaponMod(WeaponMod mod) {
 		this.weaponMods.put(mod.getName().toLowerCase(), mod);
 		this.weaponModWeightTotal += mod.getWeight();
 	}
+	
 	private boolean isWeaponModLoaded(String key) {
 		return this.weaponMods.containsKey(key.toLowerCase());
 	}
+	
 	private boolean isArmorModLoaded(String key) {
 		return this.armorMods.containsKey(key.toLowerCase());
 	}
+	
 	private boolean isToolModLoaded(String key) {
 		return this.toolMods.containsKey(key.toLowerCase());
 	}
+	
 	private boolean isScytheModLoaded(String key) {
 		return this.scytheMods.containsKey(key.toLowerCase());
 	}
-	public PluginClassLoader getClassLoader() {
-		return classLoader;
-	}
+
 	public WeaponMod getRandomWeaponMod(int seed) {
 		Collection<String> mods = weaponMods.keySet();
 		Iterator<String> modIt = mods.iterator();
