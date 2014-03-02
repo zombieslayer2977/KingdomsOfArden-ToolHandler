@@ -2,9 +2,9 @@ package net.kingdomsofarden.andrew2060.toolhandler.listeners.lore;
 
 import java.util.Random;
 
+import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.events.CriticalStrikeEvent;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ModUtil;
-import net.kingdomsofarden.andrew2060.toolhandler.util.WeaponLoreUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -19,6 +19,12 @@ import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 import com.herocraftonline.heroes.characters.Hero;
 
 public class WeaponLoreListener implements Listener {
+    
+    ToolHandlerPlugin plugin;
+    public WeaponLoreListener(ToolHandlerPlugin plugin) {
+        this.plugin = plugin;
+    }
+    
 	//Bonus Damage Handler
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onWeaponDamageDmg(WeaponDamageEvent event) {
@@ -35,8 +41,7 @@ public class WeaponLoreListener implements Listener {
 				return;
 			}
 		}
-		int bonusDamage = 0;
-		bonusDamage = WeaponLoreUtil.getBonusDamage(i);
+		double bonusDamage = plugin.getCacheManager().getCachedWeaponInfo(i).getBonusDamage();
 		event.setDamage(event.getDamage() + bonusDamage);
 	}
 	//Life Steal Handler
@@ -56,7 +61,7 @@ public class WeaponLoreListener implements Listener {
 			}
 		}
 		double ls = 0;
-		ls = WeaponLoreUtil.getLifeSteal(i);
+		ls = plugin.getCacheManager().getCachedWeaponInfo(i).getLifeSteal();
 		HeroRegainHealthEvent healingEvent = new HeroRegainHealthEvent((Hero) event.getDamager(), event.getDamage()*ls*0.01, null);
 		Bukkit.getPluginManager().callEvent(healingEvent);
 		try {
@@ -82,8 +87,7 @@ public class WeaponLoreListener implements Listener {
 				return;
 			}
 		}
-		double critchance = 0;
-		critchance = WeaponLoreUtil.getCritChance(i);
+		double critchance = plugin.getCacheManager().getCachedWeaponInfo(i).getCritChance();
 		Random randGen = new Random();
 		double rand = randGen.nextInt(10000)*0.01;
 		if(rand < critchance) {

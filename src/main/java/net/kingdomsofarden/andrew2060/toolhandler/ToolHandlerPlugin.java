@@ -92,7 +92,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
         //Load the Heroes plugin instance
         this.heroesPlugin = (Heroes)Bukkit.getPluginManager().getPlugin("Heroes");
         //Initialize Listeners
-        this.qualityListener = new DurabilityChangeListener();
+        this.qualityListener = new DurabilityChangeListener(this);
 
         this.craftingListener = new CraftingListener();
         this.craftingShiftClickListener = new ShiftClickListener(this);
@@ -100,7 +100,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
         this.chainmailListener = new ChainMailListener();
 
         this.armorLoreListener = new ArmorLoreListener();
-        this.weapLoreListener = new WeaponLoreListener();
+        this.weapLoreListener = new WeaponLoreListener(this);
 
         this.modListener = new ModListener(this);
 

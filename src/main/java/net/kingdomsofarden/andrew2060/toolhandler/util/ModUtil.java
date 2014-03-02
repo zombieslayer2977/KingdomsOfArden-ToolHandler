@@ -225,7 +225,7 @@ public class ModUtil {
 	 */
 	public static int addScytheMod(ItemStack scythe, ScytheMod mod) {
 		switch(scythe.getType()) {
-			case DIAMOND_SWORD:	case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
+			case DIAMOND_HOE:	case IRON_HOE: case GOLD_HOE: case STONE_HOE: case WOOD_HOE: {
 				break;
 			}
 			default: {

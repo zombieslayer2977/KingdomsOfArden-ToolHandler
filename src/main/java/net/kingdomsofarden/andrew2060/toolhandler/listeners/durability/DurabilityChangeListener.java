@@ -1,6 +1,9 @@
 package net.kingdomsofarden.andrew2060.toolhandler.listeners.durability;
 
+import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
+import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil.ItemStackChangedException;
 
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -14,6 +17,12 @@ import com.herocraftonline.heroes.characters.Hero;
 
 
 public class DurabilityChangeListener implements Listener {
+    ToolHandlerPlugin plugin;
+    
+    public DurabilityChangeListener(ToolHandlerPlugin plugin) {
+        this.plugin = plugin;
+    }
+    
     //Necessary due to hoe not losing durability when used as a weapon
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onHoeWeapon(WeaponDamageEvent event) {
@@ -74,7 +83,16 @@ public class DurabilityChangeListener implements Listener {
         case IRON_AXE: 
         case GOLD_AXE: 
         case STONE_AXE:
-        case WOOD_AXE: 
+        case WOOD_AXE: {
+            CachedWeaponInfo cached = plugin.getCacheManager().getCachedWeaponInfo(item);
+            try {
+                cached.reduceQuality();
+            } catch (ItemStackChangedException e) {
+                ImprovementUtil.applyEnchantmentLevel(e.newStack, Enchantment.DAMAGE_ALL,cached.getQuality());
+            }
+            ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DAMAGE_ALL,cached.getQuality());
+            return;
+        }
         case DIAMOND_HOE: 
         case IRON_HOE: 
         case GOLD_HOE: 
@@ -85,8 +103,13 @@ public class DurabilityChangeListener implements Listener {
             return;
         }
         case BOW: {
-            double quality = ImprovementUtil.reduceQuality(item, ImprovementUtil.getItemType(item));
-            ImprovementUtil.applyEnchantmentLevel(item, Enchantment.ARROW_DAMAGE,quality);
+            CachedWeaponInfo cached = plugin.getCacheManager().getCachedWeaponInfo(item);
+            try {
+                cached.reduceQuality();
+            } catch (ItemStackChangedException e) {
+                ImprovementUtil.applyEnchantmentLevel(e.newStack, Enchantment.ARROW_DAMAGE,cached.getQuality());
+            }
+            ImprovementUtil.applyEnchantmentLevel(item, Enchantment.ARROW_DAMAGE,cached.getQuality());
             return;
         }
         case DIAMOND_PICKAXE:

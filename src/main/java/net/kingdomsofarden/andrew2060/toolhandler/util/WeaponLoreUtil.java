@@ -1,10 +1,13 @@
 package net.kingdomsofarden.andrew2060.toolhandler.util;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.ModManager;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.WeaponMod;
 
@@ -13,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class WeaponLoreUtil {
+    public static final DecimalFormat dF = new DecimalFormat("##.##");
 	public static int getBonusDamage(ItemStack weapon) {
 		ItemMeta meta = weapon.getItemMeta();
 		if(!meta.hasLore()) {
@@ -168,7 +172,7 @@ public class WeaponLoreUtil {
 				reachedmodifications = true;
 			}
 		}
-		String improvementtext = FormattingUtil.getQualityColor(improvementQuality) + FormattingUtil.loreDescriptorFormat.format(improvementQuality) + ChatColor.GRAY;
+		String improvementtext = FormattingUtil.getWeaponQualityFormat(improvementQuality);
 		improvementtext = ChatColor.GRAY + "Improvement Quality: " + improvementQuality + "%";
 		String bonusdmgtext = FormattingUtil.getAttributeColor(bonusdmg) + bonusdmg + ChatColor.GRAY;
 		bonusdmgtext = ChatColor.GRAY + "Bonus Damage: " + bonusdmgtext;
@@ -203,5 +207,62 @@ public class WeaponLoreUtil {
 		meta.setLore(loreUpdated);
 		weapon.setItemMeta(meta);
 		return;
+	}
+	public static void write(CachedWeaponInfo cachedData, ItemStack weapon) {
+	    ItemMeta meta = weapon.getItemMeta();
+        List<String> lore = new LinkedList<String>();
+        lore.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
+        lore.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getWeaponQualityFormat(cachedData.getQuality()));
+        lore.add(2,ChatColor.GRAY + "Bonus Damage: " + FormattingUtil.getAttribute(cachedData.getBonusDamage()));
+        lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttribute(cachedData.getLifeSteal()) + " Health/Hit");
+        lore.add(4,ChatColor.GRAY + "Critical Strike Chance: " + FormattingUtil.getAttribute(cachedData.getCritChance()) + "%");
+        lore.add(5,ChatColor.WHITE + "========Modifications========");
+        int i = 0;
+        for(UUID id : cachedData.getMods()) {
+            WeaponMod mod = ToolHandlerPlugin.instance.getModManager().getWeaponMod(id);
+            if(mod == null) {
+                continue;
+            }
+            if(i > 1 || !mod.isSlotRequired()) {
+                lore.add(ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
+            } else {
+                lore.add(ChatColor.GOLD + mod.getName());
+            }
+            if(mod.getBonusDamage() != null && mod.getBonusDamage() > Double.valueOf(0.00)) {
+                lore.add(ChatColor.GRAY + "- " 
+                        + FormattingUtil.getAttributeColor(mod.getBonusDamage()) 
+                        + FormattingUtil.modDescriptorFormat.format(mod.getBonusDamage())
+                        + ChatColor.GRAY + " Damage");
+            }
+            if(mod.getLifeSteal() != null && mod.getLifeSteal() > Double.valueOf(0.00)) {
+                lore.add(ChatColor.GRAY + "- " 
+                        + FormattingUtil.getAttributeColor(mod.getLifeSteal()) 
+                        + FormattingUtil.modDescriptorFormat.format(mod.getLifeSteal())
+                        + ChatColor.GRAY + " Life Steal");
+            }
+            if(mod.getCritChance() != null && mod.getCritChance() > Double.valueOf(0.00)) {
+                lore.add(ChatColor.GRAY + "- " 
+                        + FormattingUtil.getAttributeColor(mod.getCritChance()) 
+                        + FormattingUtil.modDescriptorFormat.format(mod.getCritChance())
+                        + ChatColor.GRAY + " Critical Hit Chance");
+            }
+            for(int descriptionIterator = 0; descriptionIterator < mod.getDescription().length; descriptionIterator++) {
+                lore.add(ChatColor.GRAY + "- " + mod.getDescription()[descriptionIterator]);
+            }
+            //TODO: Add blank slot options
+            if(mod.isSlotRequired()) {
+                i++; 
+                continue;
+            } else {
+                continue;
+            }
+        }
+        if(i <= 1) {
+            for(int j = 0; j <= 1 - i; j++) {
+                lore.add(ChatColor.DARK_GRAY + "[Empty Slot]");
+            }
+        }
+        meta.setLore(lore);
+        weapon.setItemMeta(meta);
 	}
 }

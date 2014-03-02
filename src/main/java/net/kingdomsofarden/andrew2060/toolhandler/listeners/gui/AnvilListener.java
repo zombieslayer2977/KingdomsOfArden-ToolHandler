@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.gui.AnvilGUI;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
 
@@ -93,7 +94,7 @@ public class AnvilListener implements Listener {
             default: {
                 return;
             }
-            
+
             }
         }
     }
@@ -506,20 +507,20 @@ public class AnvilListener implements Listener {
             return;
         }
         if (mat.getType() != requiredImprove) {
-            switch (requiredImprove.getId()) {
-            case 265:
+            switch (requiredImprove) {
+            case IRON_INGOT:
                 commonName = "iron ingots";
                 break;
-            case 266:
+            case GOLD_INGOT:
                 commonName = "gold ingots";
                 break;
-            case 318:
+            case FLINT:
                 commonName = "flint";
                 break;
-            case 5:
+            case WOOD:
                 commonName = "wood planks";
                 break;
-            case 334:
+            case LEATHER:
                 commonName = "leather";
                 break;
             default:
@@ -550,54 +551,52 @@ public class AnvilListener implements Listener {
             player.sendMessage(ChatColor.GRAY + "This item cannot be improved to a higher quality.");
             return;
         } else {
-            if(ImprovementUtil.improveQuality(improve,4,threshold) == -1) {
-                player.sendMessage(ChatColor.GRAY + "This item cannot be improved to a higher quality.");
-                return;
-            } else {
-                player.sendMessage("Item Improvement Successful!");
-                switch(t) {
-                case 1:
-                    ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.DAMAGE_ALL);
-                    break;
-                case 2:
-                    ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.ARROW_DAMAGE);
-                    break;
-                case 3:
-                    ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.PROTECTION_ENVIRONMENTAL);
-                    break;
-                case 4:
-                    ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.DIG_SPEED);
-                }
-                if (mat.getAmount() > 1) {
-                    mat.setAmount(mat.getAmount() - 1);
-                }
-                else {
-                    anvilGUI.clear(31);
-                }
-                int exp = 0;
-                switch (requiredImprove) {
-                case IRON_INGOT:
-                    exp = 60;
-                    break; 
-                case GOLD_INGOT:
-                    exp = 20;
-                    break;
-                case LEATHER:
-                    exp = 12;
-                    break;
-                case WOOD:
-                    exp = 4;
-                    break;
-                case FLINT:
-                    exp = 8;
-                    break;
-                default:
-                    exp = 0;
-                }   
-                h.addExp(exp, h.getSecondClass(), h.getPlayer().getLocation());      
-                player.updateInventory();
-
+            
+            switch(t) {
+            case 1:
+                CachedWeaponInfo cached = plugin.getCacheManager().getCachedWeaponInfo(improve);
+                cached.setQuality(cached.getQuality() + 4 > threshold ? threshold : cached.getQuality() + 4);
+                ItemStack cacheWrite = cached.forceWrite();
+                ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.DAMAGE_ALL);
+                break;
+            case 2:
+                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.ARROW_DAMAGE);
+                break;
+            case 3:
+                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.PROTECTION_ENVIRONMENTAL);
+                break;
+            case 4:
+                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.DIG_SPEED);
             }
+            player.sendMessage("Item Improvement Successful!");
+            if (mat.getAmount() > 1) {
+                mat.setAmount(mat.getAmount() - 1);
+            }
+            else {
+                anvilGUI.clear(31);
+            }
+            int exp = 0;
+            switch (requiredImprove) {
+            case IRON_INGOT:
+                exp = 60;
+                break; 
+            case GOLD_INGOT:
+                exp = 20;
+                break;
+            case LEATHER:
+                exp = 12;
+                break;
+            case WOOD:
+                exp = 4;
+                break;
+            case FLINT:
+                exp = 8;
+                break;
+            default:
+                exp = 0;
+            }   
+            h.addExp(exp, h.getSecondClass(), h.getPlayer().getLocation());      
+            player.updateInventory();
         }
     }
 
@@ -668,7 +667,7 @@ public class AnvilListener implements Listener {
     }
 
     private enum Salvageable {
-        
+
         DIAMOND_SPADE(Material.DIAMOND,1,Material.DIAMOND_SPADE.getMaxDurability()),
         DIAMOND_SWORD(Material.DIAMOND,2,Material.DIAMOND_SWORD.getMaxDurability()),
         DIAMOND_HOE(Material.DIAMOND,2,Material.DIAMOND_HOE.getMaxDurability()),
@@ -701,7 +700,7 @@ public class AnvilListener implements Listener {
         GOLD_CHESTPLATE(Material.GOLD_INGOT,8,Material.GOLD_CHESTPLATE.getMaxDurability()),
         GOLD_LEGGINGS(Material.GOLD_INGOT,7,Material.GOLD_LEGGINGS.getMaxDurability()),
         GOLD_BOOTS(Material.GOLD_INGOT,4,Material.GOLD_BOOTS.getMaxDurability());
-        
+
         private Salvageable(Material to, int baseAmount, short maxDura) {
             setTo(to);
             setResultAmountBase(baseAmount);
@@ -711,7 +710,7 @@ public class AnvilListener implements Listener {
         private Material to;
         private double resultAmountBase;
         private short maxDurability;
-        
+
         public Material getTo() {
             return to;
         }

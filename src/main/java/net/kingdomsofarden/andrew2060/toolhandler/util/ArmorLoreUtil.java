@@ -182,8 +182,8 @@ public class ArmorLoreUtil {
 				reachedmodifications = true;
 			}
 		}
-		String improvementText = FormattingUtil.getQualityColor(improvementQuality) + GeneralLoreUtil.dF.format(improvementQuality) + ChatColor.GRAY;
-		improvementText = ChatColor.GRAY + "Improvement Quality: " + improvementQuality + "%";
+		String improvementText = FormattingUtil.getArmorQualityFormat(improvementQuality) + ChatColor.GRAY;
+		improvementText = ChatColor.GRAY + "Improvement Quality: " + improvementQuality;
 		String magicResText = FormattingUtil.getAttributeColor(magicRes) + magicRes + ChatColor.GRAY;
 		magicResText = ChatColor.GRAY + "Magical Resistance Rating: " + magicResText + "%";
 		String healingBonusText =  FormattingUtil.getAttributeColor(healingBonus) + GeneralLoreUtil.dF.format(healingBonus) + ChatColor.GRAY;

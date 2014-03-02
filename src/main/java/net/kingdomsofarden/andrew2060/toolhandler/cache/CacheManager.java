@@ -51,5 +51,9 @@ public class CacheManager {
         }
         
     }
+    
+    public void invalidateFromWeaponCache(ItemStack is) {
+        weaponCache.invalidate(is);
+    }
 
 }

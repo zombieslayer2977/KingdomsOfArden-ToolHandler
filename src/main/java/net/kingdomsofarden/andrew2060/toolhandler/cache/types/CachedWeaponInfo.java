@@ -1,19 +1,30 @@
 package net.kingdomsofarden.andrew2060.toolhandler.cache.types;
 
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.util.FormattingUtil;
+import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
+import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil;
+import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil.ItemStackChangedException;
+
+import org.bukkit.Bukkit;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 public class CachedWeaponInfo {
     
     private double quality;
+    private String qualityFormat;
     private double bonusDamage;
     private double lifeSteal;
     private double critChance;
     private ItemStack item;
     private UUID[] mods;
+    private DecimalFormat dF;
     
     public CachedWeaponInfo(ItemStack item, double quality, double bonusDamage,double lifeSteal, double critChance) {
         this(item,quality,bonusDamage,lifeSteal,critChance,new UUID[] {});
@@ -25,6 +36,8 @@ public class CachedWeaponInfo {
         this.setCritChance(critChance);
         this.setItem(item);
         this.setMods(mods);
+        this.qualityFormat = FormattingUtil.getWeaponQualityFormat(quality);
+        this.dF = new DecimalFormat("##.##");
     }
 
     public double getQuality() {
@@ -35,6 +48,45 @@ public class CachedWeaponInfo {
         this.quality = quality;
     }
 
+    public final double reduceQuality() throws ItemStackChangedException { 
+        int unbreakinglevel = item.getEnchantmentLevel(Enchantment.DURABILITY)+1;
+        switch(ImprovementUtil.getItemType(item)) {
+        case DIAMOND: 
+            quality -= 0.1/unbreakinglevel;
+            break;
+        case IRON_INGOT:
+            quality -= 0.2/unbreakinglevel;
+            break;
+        case GOLD_INGOT:
+            quality -= 1.0/unbreakinglevel;
+            break;
+        case LEATHER: 
+            quality -= 0.8/unbreakinglevel;
+            break;
+        case STONE: 
+            quality -= 0.5/unbreakinglevel;
+            break;
+        case BOW:
+            quality -= 0.5/unbreakinglevel;
+            break;
+        default: 
+            System.err.println("Material Sent to Reduce Quality is Invalid");
+            System.err.println("-" + item.toString());
+            return quality;
+        }
+        if(quality < 0) {
+            quality = 0;
+        }
+        String newFormat = FormattingUtil.getWeaponQualityFormat(quality);
+        if(!newFormat.equalsIgnoreCase(qualityFormat)) {
+            ItemStack written = this.forceWrite();
+            if(written != this.item) {
+                throw new ItemStackChangedException(written);
+            }
+        }
+        return quality;
+    }
+    
     public double getBonusDamage() {
         return bonusDamage;
     }
@@ -90,6 +142,40 @@ public class CachedWeaponInfo {
     
     private void setMods(UUID[] mods) {
         this.mods = mods;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(dF.format(quality));
+        sb.append(":");
+        sb.append(dF.format(bonusDamage));
+        sb.append(":");
+        sb.append(dF.format(lifeSteal));
+        sb.append(":");
+        sb.append(dF.format(critChance));
+        for(UUID id : mods) {
+            sb.append(":");
+            sb.append(id.toString());
+        }
+        return sb.toString();
+    }
+    
+    public ItemStack forceWrite() {
+        try {
+            NbtUtil.writeAttributes(item, this);
+        } catch (ItemStackChangedException e) {
+            Bukkit.getScheduler().runTaskLater(ToolHandlerPlugin.instance, new Runnable() {
+
+                @Override
+                public void run() {
+                    ToolHandlerPlugin.instance.getCacheManager().invalidateFromWeaponCache(item);                   
+                }
+                
+            }, 1);
+            return e.newStack;
+        }
+        return this.item;
     }
     
     

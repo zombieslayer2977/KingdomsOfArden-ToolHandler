@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.ModManager;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.WeaponMod;
 import net.kingdomsofarden.andrew2060.toolhandler.thirdparty.comphoenix.AttributeStorage;
@@ -16,7 +17,27 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class NbtUtil {
 
-
+    public static void writeAttributes(ItemStack item, CachedWeaponInfo data) throws ItemStackChangedException {
+        switch(item.getType()) {
+        
+        case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
+            WeaponLoreUtil.write(data, item);
+            break;
+        }
+        default: {
+            break;
+        }
+        
+        }
+        String cachedData = data.toString();
+        AttributeStorage storage = AttributeStorage.newTarget(item, ToolHandlerPlugin.identifier);
+        storage.setData(cachedData);
+        if(item != storage.getTarget()) {
+            throw new ItemStackChangedException(storage.getTarget());
+        } else {
+            return;
+        }
+    }
 
     public static String getWeaponAttributes(ItemStack item) throws ItemStackChangedException {
         AttributeStorage storage = AttributeStorage.newTarget(item, ToolHandlerPlugin.identifier);
@@ -29,11 +50,10 @@ public class NbtUtil {
                 meta = item.getItemMeta();
             }
             List<String> lore = meta.getLore();
-            String parseableQuality = ChatColor.stripColor(lore.get(1)).replaceAll("[^.0-9]","");
             String parseableBonusDamage = ChatColor.stripColor(lore.get(2)).replaceAll("[^.0-9]","");
             String parseableLifeSteal = ChatColor.stripColor(lore.get(3)).replaceAll("[^.0-9]","");
             String parseableCritChance = ChatColor.stripColor(lore.get(4)).replaceAll("[^.0-9]","");
-            double quality = Double.parseDouble(parseableQuality);
+            double quality = 0.00;
             double bonusDamage = Double.parseDouble(parseableBonusDamage);
             double lifeSteal = Double.parseDouble(parseableLifeSteal);
             double critChance = Double.parseDouble(parseableCritChance);

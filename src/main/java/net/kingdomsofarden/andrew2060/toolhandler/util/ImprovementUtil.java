@@ -62,7 +62,7 @@ public class ImprovementUtil {
 			return Material.AIR;
 		}
 	}
-	public static void setQuality(ItemStack item, double quality) {
+	public static void setWeaponQuality(ItemStack item, double quality) {
 		if(!(Util.isWeapon(item.getType()) || Util.isArmor((item.getType())))) {
 			return;
 		}
@@ -77,12 +77,39 @@ public class ImprovementUtil {
             meta = item.getItemMeta();
             lore = meta.getLore();
         }
-		String toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.loreDescriptorFormat.format(quality) + ChatColor.GRAY + "%";
+		String toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getWeaponQualityFormat(quality);
 		lore.remove(1);
 		lore.add(1, toAdd);
 		meta.setLore(lore);
 		item.setItemMeta(meta);
 	}
+	public static void setArmorQuality(ItemStack item, double quality) {
+        if(!(Util.isWeapon(item.getType()) || Util.isArmor((item.getType())))) {
+            return;
+        }
+        ItemMeta meta = item.getItemMeta();
+        if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(item);
+            meta = item.getItemMeta();
+        }
+        List<String> lore = meta.getLore();
+        if(lore.isEmpty() || !lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
+            GeneralLoreUtil.updateLore(item);
+            meta = item.getItemMeta();
+            lore = meta.getLore();
+        }
+        String toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getArmorQualityFormat(quality);
+        lore.remove(1);
+        lore.add(1, toAdd);
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+    }
+	/**
+	 * @deprecated use cache instead
+	 * @param item ItemStack to reduce quality of
+	 * @param mat Material type of the item
+	 * @return new quality
+	 */
 	public static double reduceQuality(ItemStack item, Material mat) {
 		if(mat.equals(Material.AIR)) {
 			return 0;
@@ -133,17 +160,17 @@ public class ImprovementUtil {
 		if(quality < 0) {
 			quality = 0;
 		}
-		toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.loreDescriptorFormat.format(quality) + ChatColor.GRAY + "%";
+		toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getArmorQualityFormat(quality);
 		lore.remove(1);
 		lore.add(1, toAdd);
 		meta.setLore(lore);
 		item.setItemMeta(meta);
 		return quality;
 	}
-	public static double improveQuality(ItemStack item, int amount) {
-	    return improveQuality(item,amount,100);
+	public static double improveWeaponQuality(ItemStack item, int amount) {
+	    return improveWeaponQuality(item,amount,100);
 	}
-	public static double improveQuality(ItemStack item, int amount, double threshold) {
+	public static double improveWeaponQuality(ItemStack item, int amount, double threshold) {
 	    ItemMeta meta = item.getItemMeta();
         if(!meta.hasLore()) {
             GeneralLoreUtil.populateLoreDefaults(item);
@@ -166,7 +193,7 @@ public class ImprovementUtil {
         if(quality >= threshold) {
             quality = threshold;
         }
-        toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getQualityColor(quality) + FormattingUtil.loreDescriptorFormat.format(quality) + ChatColor.GRAY + "%";
+        toAdd = ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getWeaponQualityFormat(quality);
         lore.remove(1);
         lore.add(1, toAdd);
         meta.setLore(lore);
