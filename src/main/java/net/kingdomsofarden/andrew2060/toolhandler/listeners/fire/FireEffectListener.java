@@ -64,7 +64,7 @@ public class FireEffectListener implements Listener {
             if(event.getEntity() instanceof LivingEntity) {
                 CharacterTemplate cT = plugin.getCharacterManager().getCharacter((LivingEntity) event.getEntity());
                 if(cT.hasEffect("FireTickEffect")) {
-                    event.setDamage(0);;
+                    event.setDamage(0.00);
                     cT.getEntity().setNoDamageTicks(0);
                     return;
                 } else {
