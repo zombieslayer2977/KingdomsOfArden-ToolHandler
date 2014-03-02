@@ -1,6 +1,7 @@
 package net.kingdomsofarden.andrew2060.toolhandler.listeners.mods;
 
 import java.util.List;
+import java.util.UUID;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.ModManager;
@@ -45,10 +46,9 @@ public class ModListener implements Listener {
 			case STONE_SWORD: 
 			case WOOD_SWORD:
 			case BOW: {
-				List<String> mods = ModUtil.getWeaponMods(i);
-				ModManager modManager = plugin.getModManager();
-				for(int x = 0; x < mods.size(); x++) {
-					WeaponMod mod = modManager.getWeaponMod(mods.get(x));
+				UUID[] modIDs = plugin.getCacheManager().getCachedWeaponInfo(i).getMods();
+				for(UUID id : modIDs) {
+					WeaponMod mod = plugin.getModManager().getWeaponMod(id);
 					if(mod != null) {
 						try {
 							mod.tickMod(event);

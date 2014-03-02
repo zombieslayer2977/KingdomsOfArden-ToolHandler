@@ -3,7 +3,9 @@ package net.kingdomsofarden.andrew2060.toolhandler;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.UUID;
 
+import net.kingdomsofarden.andrew2060.toolhandler.cache.CacheManager;
 import net.kingdomsofarden.andrew2060.toolhandler.commands.ModCommandExecutor;
 import net.kingdomsofarden.andrew2060.toolhandler.commands.RefreshLoreCommandExecutor;
 import net.kingdomsofarden.andrew2060.toolhandler.commands.ReloadCommandExecutor;
@@ -69,11 +71,15 @@ public class ToolHandlerPlugin extends JavaPlugin{
     
     private Random rand;
 
+    private CacheManager cacheManager;
 
 
 
-    // Gets the 4 character version identifier associated with this version of tool lore to determine if an update is needed.
+
+    //Deprecated: Gets the 4 character version identifier associated with this version of tool lore to determine if an update is needed.
     public static String versionIdentifier = ChatColor.AQUA + "" + ChatColor.BLUE + "" + ChatColor.RESET + "";
+    //Plugin identifier for nbt storage (change whenever an update is needed)
+    public static final UUID identifier = UUID.fromString("4871b300-a1cf-11e3-a5e2-0800200c9a66");
 
 
 
@@ -119,7 +125,10 @@ public class ToolHandlerPlugin extends JavaPlugin{
 
         //Set Up Permissions
         setupPermissions();
-
+        
+        //Set up caching
+        setCacheManager(new CacheManager());
+        
         //Set up Commands
         getCommand("toolhandler").setExecutor(new ReloadCommandExecutor(this));
         getCommand("modtool").setExecutor(new ModCommandExecutor(this));
@@ -213,6 +222,14 @@ public class ToolHandlerPlugin extends JavaPlugin{
     public void setModManager(ModManager modManager) {
         this.modManager = modManager;
     }
+    
+    public CacheManager getCacheManager() {
+        return this.cacheManager;
+    }
+    
+    private void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
 
     /**
      * @return the Random Number Generator used by this plugin
@@ -224,6 +241,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
     public PotionEffectManager getPotionEffectHandler() {
         return this.potionEffectManager;
     }
+
 
 
 }

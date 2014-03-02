@@ -1,6 +1,7 @@
 package net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.UUID;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.potions.PotionEffectManager;
@@ -14,6 +15,7 @@ import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 
 public abstract class WeaponMod {
     protected PotionEffectManager pEMan;
+    public final UUID modUUID;
 	private String[] desc;
 	private String name;
 	private int weight;
@@ -24,7 +26,8 @@ public abstract class WeaponMod {
 	private Double lifeSteal;
 	private Double critChance;
 
-	public WeaponMod(String name, int weight, boolean requiresSlot, String... desc) {
+	public WeaponMod(UUID modUUID, String name, int weight, boolean requiresSlot, String... desc) {
+	    this.modUUID = modUUID;
 		this.name = name;
 		this.desc = desc;
 		this.weight = weight;
