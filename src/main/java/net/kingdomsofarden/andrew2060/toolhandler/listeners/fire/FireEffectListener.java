@@ -2,6 +2,7 @@ package net.kingdomsofarden.andrew2060.toolhandler.listeners.fire;
 
 import net.kingdomsofarden.andrew2060.toolhandler.effects.FireTickEffect;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -10,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityCombustByBlockEvent;
 import org.bukkit.event.entity.EntityCombustByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.projectiles.ProjectileSource;
 
 import com.herocraftonline.heroes.Heroes;
 import com.herocraftonline.heroes.api.events.CharacterDamageEvent;
@@ -31,12 +33,14 @@ public class FireEffectListener implements Listener {
         event.setCancelled(true);
         long fireTicks = event.getDuration()*20*1000;
         CharacterTemplate cT = null;
+        Entity combusterEntity = event.getCombuster();
         LivingEntity combuster = null;
-        if(event.getCombuster() instanceof LivingEntity) {
+        if(combusterEntity instanceof LivingEntity) {
             combuster = (LivingEntity)event.getCombuster();
         }
-        if(event.getCombuster() instanceof Projectile) {
-            combuster = ((Projectile)event.getCombuster()).getShooter();
+        if(combusterEntity instanceof Projectile) {
+            ProjectileSource source = ((Projectile)event.getCombuster()).getShooter();
+            combuster = source instanceof LivingEntity ? (LivingEntity)source : null;
         }
         if(!(combuster == null)) {
             cT = plugin.getCharacterManager().getCharacter(combuster);
