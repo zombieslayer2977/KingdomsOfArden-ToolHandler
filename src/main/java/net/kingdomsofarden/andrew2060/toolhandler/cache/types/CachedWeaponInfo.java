@@ -79,7 +79,7 @@ public class CachedWeaponInfo {
         }
         String newFormat = FormattingUtil.getWeaponQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
-            ItemStack written = this.forceWrite();
+            ItemStack written = this.forceWrite(true);
             if(written != this.item) {
                 throw new ItemStackChangedException(written);
             }
@@ -161,18 +161,20 @@ public class CachedWeaponInfo {
         return sb.toString();
     }
     
-    public ItemStack forceWrite() {
+    public ItemStack forceWrite(boolean removeOldFromCache) {
         try {
             NbtUtil.writeAttributes(item, this);
         } catch (ItemStackChangedException e) {
-            Bukkit.getScheduler().runTaskLater(ToolHandlerPlugin.instance, new Runnable() {
-
-                @Override
-                public void run() {
-                    ToolHandlerPlugin.instance.getCacheManager().invalidateFromWeaponCache(item);                   
-                }
-                
-            }, 1);
+            if(removeOldFromCache) {
+                Bukkit.getScheduler().runTaskLater(ToolHandlerPlugin.instance, new Runnable() {
+    
+                    @Override
+                    public void run() {
+                        ToolHandlerPlugin.instance.getCacheManager().invalidateFromWeaponCache(item);                   
+                    }
+                    
+                }, 1);
+            }
             return e.newStack;
         }
         return this.item;

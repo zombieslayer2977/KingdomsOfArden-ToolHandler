@@ -12,6 +12,9 @@ import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil.ItemStackChangedE
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
+import com.google.common.cache.RemovalCause;
+import com.google.common.cache.RemovalListener;
+import com.google.common.cache.RemovalNotification;
 
 public class CacheManager {
     private Cache<ItemStack,CachedWeaponInfo> weaponCache;
@@ -21,6 +24,7 @@ public class CacheManager {
                 .concurrencyLevel(1)
                 .weakKeys()
                 .expireAfterAccess(3,TimeUnit.MINUTES)
+                .removalListener(new WeaponCacheRemovalListener())
                 .build(new CacheLoader<ItemStack, CachedWeaponInfo>() {
 
                     @Override
@@ -35,6 +39,26 @@ public class CacheManager {
                     }
                     
                 });
+    }
+    
+    public class WeaponCacheRemovalListener implements RemovalListener<ItemStack,CachedWeaponInfo> {
+
+        @Override
+        public void onRemoval(RemovalNotification<ItemStack, CachedWeaponInfo> removal) {
+            switch(removal.getCause()) {
+            
+            case EXPIRED:
+            case COLLECTED: {
+                removal.getValue().forceWrite(false);
+                return;
+            }
+            default: {
+                return;
+            }
+            
+            }
+        }
+        
     }
     
     public CachedWeaponInfo getCachedWeaponInfo(ItemStack is) {

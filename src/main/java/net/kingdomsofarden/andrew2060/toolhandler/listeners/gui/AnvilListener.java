@@ -556,7 +556,7 @@ public class AnvilListener implements Listener {
             case 1:
                 CachedWeaponInfo cached = plugin.getCacheManager().getCachedWeaponInfo(improve);
                 cached.setQuality(cached.getQuality() + 4 > threshold ? threshold : cached.getQuality() + 4);
-                ItemStack cacheWrite = cached.forceWrite();
+                ItemStack cacheWrite = cached.forceWrite(true);
                 ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.DAMAGE_ALL);
                 break;
             case 2:
