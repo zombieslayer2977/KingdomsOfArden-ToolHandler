@@ -553,20 +553,26 @@ public class AnvilListener implements Listener {
         } else {
             
             switch(t) {
-            case 1:
+            case 1: {
                 CachedWeaponInfo cached = plugin.getCacheManager().getCachedWeaponInfo(improve);
                 cached.setQuality(cached.getQuality() + 4 > threshold ? threshold : cached.getQuality() + 4);
                 ItemStack cacheWrite = cached.forceWrite(true);
                 ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.DAMAGE_ALL);
                 break;
-            case 2:
-                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.ARROW_DAMAGE);
+            }
+            case 2: {
+                CachedWeaponInfo cached = plugin.getCacheManager().getCachedWeaponInfo(improve);
+                cached.setQuality(cached.getQuality() + 4 > threshold ? threshold : cached.getQuality() + 4);
+                ItemStack cacheWrite = cached.forceWrite(true);
+                ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.ARROW_DAMAGE);
                 break;
+            }
             case 3:
                 ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.PROTECTION_ENVIRONMENTAL);
                 break;
             case 4:
                 ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.DIG_SPEED);
+                break;
             }
             player.sendMessage("Item Improvement Successful!");
             if (mat.getAmount() > 1) {
