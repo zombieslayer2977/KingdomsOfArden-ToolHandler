@@ -1,10 +1,10 @@
 KingdomsOfArden-ToolHandler (www.kingdomsofarden.net)
 ===========
 
-Version 2.2
+Version 2.5
 Author: Andrew Wen (andrew2060)
 
-FOR Spigot 1.6.X - This will NOT work with prior versions!
+FOR Spigot 1.7.X - This will NOT work with prior versions!
 
 ##Introduction
 
