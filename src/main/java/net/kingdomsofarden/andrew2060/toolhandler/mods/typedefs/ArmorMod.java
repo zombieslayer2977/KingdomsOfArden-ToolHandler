@@ -4,9 +4,8 @@ import java.util.LinkedList;
 import java.util.UUID;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedArmorInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.potions.PotionEffectManager;
-import net.kingdomsofarden.andrew2060.toolhandler.util.ArmorLoreUtil;
-
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -38,15 +37,11 @@ public abstract class ArmorMod {
         this.protBonus = null;
     }
     public void applyToArmor(ItemStack armor) {
-        if(magicResist != null && magicResist > Double.valueOf(0.00)) {
-            ArmorLoreUtil.addMagicResistRating(magicResist,armor);
-        }
-        if(healingBonus != null && healingBonus > Double.valueOf(0.00)) {
-            ArmorLoreUtil.addHealingBonus(healingBonus,armor);
-        }
-        if(protBonus != null && protBonus > Double.valueOf(0.00)) {
-            ArmorLoreUtil.addProtBonus(protBonus,armor);
-        }
+        CachedArmorInfo cachedArmor = ToolHandlerPlugin.instance.getCacheManager().getCachedArmorInfo(armor);
+        cachedArmor.setMagicResist(cachedArmor.getMagicResist() + this.magicResist);
+        cachedArmor.setHealBonus(cachedArmor.getHealBonus() + this.healingBonus);
+        cachedArmor.setProtBonus(cachedArmor.getProtBonus() + this.protBonus);
+        cachedArmor.forceWrite(true);
     }
     public String getName() {
         return name;

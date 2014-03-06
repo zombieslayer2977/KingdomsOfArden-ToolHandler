@@ -237,15 +237,21 @@ public class ArmorLoreUtil {
         armor.setItemMeta(meta);
         return;
     }
-
+    /**
+     * @deprecated use cache
+     */
     public static void addMagicResistRating(double d, ItemStack armor) {
         setMagicResistRating(getMagicResistRating(armor) + d, armor);
     }
-
+    /**
+     * @deprecated use cache
+     */
     public static void addHealingBonus(double i, ItemStack armor) {
         setHealingBonus(getHealingBonus(armor) + i,armor);
     }
-
+    /**
+     * @deprecated use cache
+     */
     public static void addProtBonus(Double protBonus, ItemStack armor) {
         setProtBonus(getProtBonus(armor) + protBonus,armor);
     }

@@ -20,7 +20,7 @@ public class CachedArmorInfo extends CachedItemInfo {
     private String qualityFormat;
     private double magicResist;
     private double healBonus;
-    private int protBonus;
+    private double protBonus;
     private ItemStack item;
     private UUID[] mods;
     private DecimalFormat dF;
@@ -28,7 +28,7 @@ public class CachedArmorInfo extends CachedItemInfo {
     public CachedArmorInfo(ItemStack item, double quality, double magicResist, double healBonus, int protBonus) {
         this(item,quality,magicResist,healBonus,protBonus,new UUID[] {});
     }
-    public CachedArmorInfo(ItemStack item, double quality, double magicResist, double healBonus, int protBonus, UUID[] mods) {
+    public CachedArmorInfo(ItemStack item, double quality, double magicResist, double healBonus, double protBonus, UUID[] mods) {
         this.qualityFormat = FormattingUtil.getWeaponQualityFormat(quality);
         this.quality = quality;
         this.setMagicResist(magicResist);
@@ -101,11 +101,11 @@ public class CachedArmorInfo extends CachedItemInfo {
     public void setHealBonus(double healBonus) {
         this.healBonus = healBonus;
     }
-    public int getProtBonus() {
+    public double getProtBonus() {
         return protBonus;
     }
-    public void setProtBonus(int protBonus) {
-        this.protBonus = protBonus;
+    public void setProtBonus(double bonus) {
+        this.protBonus = bonus;
     }
     public ItemStack getItem() {
         return item;
@@ -161,7 +161,7 @@ public class CachedArmorInfo extends CachedItemInfo {
         double quality = Double.valueOf(parsed[0]);
         double magicResist = Double.valueOf(parsed[1]);
         double healBonus = Double.valueOf(parsed[2]);
-        int protBonus = Integer.valueOf(parsed[3]);
+        double protBonus = Double.valueOf(parsed[3]);
         Set<UUID> coll = new HashSet<UUID>();
         for(int i = 4; i < parsed.length; i++) {
             coll.add(UUID.fromString(parsed[i]));
