@@ -125,7 +125,7 @@ public class ShiftClickListener implements Listener{
         else if (b == null)
             return a == null;
 
-        return a.getTypeId() == b.getTypeId() &&
+        return a.getType().equals(b.getType()) &&
                 a.getDurability() == b.getDurability() &&
                 Objects.equals(a.getData(), b.getData()) &&
                 Objects.equals(a.getEnchantments(), b.getEnchantments());
