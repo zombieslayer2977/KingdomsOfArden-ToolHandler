@@ -5,7 +5,6 @@ import java.util.Random;
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.events.CriticalStrikeEvent;
-import net.kingdomsofarden.andrew2060.toolhandler.util.ModUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -67,7 +66,7 @@ public class WeaponLoreListener implements Listener {
         double rand = randGen.nextInt(10000)*0.01;
         if(rand < critchance) {
             //Fire a CriticalStrikeEvent
-            CriticalStrikeEvent cEvent = new CriticalStrikeEvent(event.getDamage()*1.5, event, p,i,ModUtil.getWeaponMods(i));
+            CriticalStrikeEvent cEvent = new CriticalStrikeEvent(event.getDamage()*1.5, event, p,i,cached.getMods());
             cEvent.callEvent();
             if(!cEvent.isCancelled()) {
                 event.setDamage(cEvent.getDamage());

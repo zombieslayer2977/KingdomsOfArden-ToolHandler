@@ -49,6 +49,7 @@ public class PotionEffectManager {
      * @param type The PotionEffectType to Remove
      * @param lE The Living Entity to remove the Potion Effect from
      */
+    @SuppressWarnings("deprecation")
     public void removePotionEffect(PotionEffectType type, LivingEntity lE) {
         if(activeTasks.containsKey(lE)) {
             activeTasks.get(lE).removePotionEffect(type);
@@ -86,6 +87,7 @@ public class PotionEffectManager {
      * @param effect The PotionEffect to add
      * @param lE The Living Entity to remove the Potion Effect from
      */
+    @SuppressWarnings("deprecation")
     public void addPotionEffectStacking(PotionEffect effect, LivingEntity lE, boolean hidden) {
         PotionEffectType searchType = effect.getType();
         Collection<PotionEffect> activeEffects = lE.getActivePotionEffects();

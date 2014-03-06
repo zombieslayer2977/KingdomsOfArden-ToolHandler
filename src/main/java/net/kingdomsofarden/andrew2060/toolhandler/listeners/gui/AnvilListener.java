@@ -7,6 +7,7 @@ import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.gui.AnvilGUI;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
+import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil.ItemStackChangedException;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -555,15 +556,23 @@ public class AnvilListener implements Listener {
             switch(t) {
             case 1: {
                 CachedWeaponInfo cached = plugin.getCacheManager().getCachedWeaponInfo(improve);
-                cached.setQuality(cached.getQuality() + 4 > threshold ? threshold : cached.getQuality() + 4);
-                ItemStack cacheWrite = cached.forceWrite(true);
+                ItemStack cacheWrite = improve;
+                try {
+                    cached.setQuality(cached.getQuality() + 4 > threshold ? threshold : cached.getQuality() + 4);
+                } catch (ItemStackChangedException e) {
+                    cacheWrite = e.newStack;
+                }
                 ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.DAMAGE_ALL);
                 break;
             }
             case 2: {
                 CachedWeaponInfo cached = plugin.getCacheManager().getCachedWeaponInfo(improve);
-                cached.setQuality(cached.getQuality() + 4 > threshold ? threshold : cached.getQuality() + 4);
-                ItemStack cacheWrite = cached.forceWrite(true);
+                ItemStack cacheWrite = improve;
+                try {
+                    cached.setQuality(cached.getQuality() + 4 > threshold ? threshold : cached.getQuality() + 4);
+                } catch (ItemStackChangedException e) {
+                    cacheWrite = e.newStack;
+                }
                 ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.ARROW_DAMAGE);
                 break;
             }

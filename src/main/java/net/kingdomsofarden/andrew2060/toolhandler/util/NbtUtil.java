@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedArmorInfo;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedItemInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.ModManager;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.WeaponMod;
@@ -17,12 +19,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class NbtUtil {
 
-    public static void writeAttributes(ItemStack item, CachedWeaponInfo data) throws ItemStackChangedException {
+    public static void writeAttributes(ItemStack item, CachedItemInfo data) throws ItemStackChangedException {
         switch(item.getType()) {
         
         case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
-            WeaponLoreUtil.write(data, item);
+            WeaponLoreUtil.write((CachedWeaponInfo)data, item);
             break;
+        }
+        case DIAMOND_HELMET: case DIAMOND_CHESTPLATE: case DIAMOND_LEGGINGS: case DIAMOND_BOOTS: case IRON_HELMET: case IRON_CHESTPLATE: case IRON_LEGGINGS: case IRON_BOOTS: case GOLD_HELMET: case GOLD_CHESTPLATE: case GOLD_LEGGINGS: case GOLD_BOOTS: case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: case LEATHER_HELMET: case LEATHER_CHESTPLATE: case LEATHER_LEGGINGS: case LEATHER_BOOTS: {
+            ArmorLoreUtil.write((CachedArmorInfo)data, item);
         }
         default: {
             break;

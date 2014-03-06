@@ -120,44 +120,44 @@ public class ModListener implements Listener {
 			bootscheck = false;
 		}
 		if(helmetcheck) {
-			List<String> mods = ModUtil.getArmorMods(helmet);
+			UUID[] mods = plugin.getCacheManager().getCachedWeaponInfo(helmet).getMods();
 			ModManager modManager = plugin.getModManager();
-			for(int x = 0; x < mods.size(); x++) {
-				ArmorMod mod = modManager.getArmorMod(mods.get(x));
+			for(UUID id : mods) {
+				ArmorMod mod = modManager.getArmorMod(id);
 				if(mod != null) {
 					mod.executeOnArmorDamage(event);
 				}
 			}		
 		}
 		if(chestcheck) {
-			List<String> mods = ModUtil.getArmorMods(chest);
-			ModManager modManager = plugin.getModManager();
-			for(int x = 0; x < mods.size(); x++) {
-				ArmorMod mod = modManager.getArmorMod(mods.get(x));
-				if(mod != null) {
-					mod.executeOnArmorDamage(event);
-				}
-			}	
+		    UUID[] mods = plugin.getCacheManager().getCachedWeaponInfo(chest).getMods();
+            ModManager modManager = plugin.getModManager();
+            for(UUID id : mods) {
+                ArmorMod mod = modManager.getArmorMod(id);
+                if(mod != null) {
+                    mod.executeOnArmorDamage(event);
+                }
+            }   
 		}
 		if(legscheck) {
-			List<String> mods = ModUtil.getArmorMods(legs);
-			ModManager modManager = plugin.getModManager();
-			for(int x = 0; x < mods.size(); x++) {
-				ArmorMod mod = modManager.getArmorMod(mods.get(x));
-				if(mod != null) {
-					mod.executeOnArmorDamage(event);
-				}
-			}	
+		    UUID[] mods = plugin.getCacheManager().getCachedWeaponInfo(legs).getMods();
+            ModManager modManager = plugin.getModManager();
+            for(UUID id : mods) {
+                ArmorMod mod = modManager.getArmorMod(id);
+                if(mod != null) {
+                    mod.executeOnArmorDamage(event);
+                }
+            }   
 		}
 		if(bootscheck) {
-			List<String> mods = ModUtil.getArmorMods(boots);
-			ModManager modManager = plugin.getModManager();
-			for(int x = 0; x < mods.size(); x++) {
-				ArmorMod mod = modManager.getArmorMod(mods.get(x));
-				if(mod != null) {
-					mod.executeOnArmorDamage(event);
-				}
-			}	
+		    UUID[] mods = plugin.getCacheManager().getCachedWeaponInfo(boots).getMods();
+            ModManager modManager = plugin.getModManager();
+            for(UUID id : mods) {
+                ArmorMod mod = modManager.getArmorMod(id);
+                if(mod != null) {
+                    mod.executeOnArmorDamage(event);
+                }
+            }   	
 		}
 		
 	}

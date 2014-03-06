@@ -44,12 +44,14 @@ public class ModManager extends URLClassLoader {
     private final Map<String,File> scytheModFiles;
 
     private final Map<UUID,WeaponMod> weaponMods;
-    private final Map<String,ArmorMod> armorMods;
+    private final Map<UUID,ArmorMod> armorMods;
     private final Map<String,ToolMod> toolMods;
     private final Map<String,ScytheMod> scytheMods;
     
     //Map of mod name along with its associated mod data file
     private final Map<String,WeaponMod> weaponModNames;
+    private final Map<String,ArmorMod> armorModNames;
+
 
 
     //Used to calculate random chances
@@ -73,11 +75,12 @@ public class ModManager extends URLClassLoader {
         this.scytheModFiles = new HashMap<String, File>();	
 
         this.weaponMods = new LinkedHashMap<UUID, WeaponMod>();
-        this.armorMods = new LinkedHashMap<String, ArmorMod>();
+        this.armorMods = new LinkedHashMap<UUID, ArmorMod>();
         this.toolMods = new LinkedHashMap<String, ToolMod>();
         this.scytheMods = new LinkedHashMap<String, ScytheMod>();
         
         this.weaponModNames = new HashMap<String,WeaponMod>();
+        this.armorModNames = new HashMap<String, ArmorMod>();
 
         File modDir = new File(plugin.getDataFolder(),"Mods");
         modDir.mkdirs();
@@ -398,7 +401,8 @@ public class ModManager extends URLClassLoader {
     } 
 
     private void addArmorMod(ArmorMod mod) {
-        this.armorMods.put(mod.getName().toLowerCase(), mod);	
+        this.armorMods.put(mod.modUUID, mod);
+        this.armorModNames.put(mod.getName().toLowerCase(), mod);
         this.armorModWeightTotal += mod.getWeight();
     }
 
@@ -449,13 +453,13 @@ public class ModManager extends URLClassLoader {
         }
     }
     public ArmorMod getRandomArmorMod(int seed) {
-        Collection<String> mods = armorMods.keySet();
-        Iterator<String> modIt = mods.iterator();
+        Collection<UUID> mods = armorMods.keySet();
+        Iterator<UUID> modIt = mods.iterator();
         if(mods.size() > 0) {
             int rand = plugin.getRand().nextInt(this.armorModWeightTotal+1);
             ArmorMod mod = null;
             while(rand > 0 && modIt.hasNext()) {
-                String next = modIt.next();
+                UUID next = modIt.next();
                 mod = armorMods.get(next);
                 rand -= mod.getWeight();
             }
@@ -520,6 +524,10 @@ public class ModManager extends URLClassLoader {
             return null;
         }	
     }
+    
+    public WeaponMod getWeaponMod(String name) {
+        return weaponModNames.get(name);
+    }
     public WeaponMod getWeaponMod(UUID id) {
         return weaponMods.get(id);
     }
@@ -530,6 +538,9 @@ public class ModManager extends URLClassLoader {
     public ArmorMod getArmorMod(String name) {
         name = name.toLowerCase();
         return armorMods.get(name);
+    }
+    public ArmorMod getArmorMod(UUID id) {
+        return armorMods.get(id);
     }
     public ToolMod getToolMod(String name) {
         name = name.toLowerCase();
@@ -571,8 +582,8 @@ public class ModManager extends URLClassLoader {
         }
     }
 
-    public WeaponMod getWeaponMod(String name) {
-        return weaponModNames.get(name);
-    }
+
+
+
 
 }

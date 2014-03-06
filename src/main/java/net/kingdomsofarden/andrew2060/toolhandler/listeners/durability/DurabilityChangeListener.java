@@ -1,6 +1,7 @@
 package net.kingdomsofarden.andrew2060.toolhandler.listeners.durability;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedArmorInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
 import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil.ItemStackChangedException;
@@ -70,8 +71,13 @@ public class DurabilityChangeListener implements Listener {
         case CHAINMAIL_BOOTS:
         case GOLD_BOOTS:
         case LEATHER_BOOTS: {
-            double quality = ImprovementUtil.reduceQuality(item, ImprovementUtil.getItemType(item));
-            ImprovementUtil.applyEnchantmentLevel(item, Enchantment.PROTECTION_ENVIRONMENTAL, quality);
+            CachedArmorInfo cached = plugin.getCacheManager().getCachedArmorInfo(item);
+            try {
+                cached.reduceQuality();
+            } catch (ItemStackChangedException e) {
+                ImprovementUtil.applyEnchantmentLevel(e.newStack, Enchantment.PROTECTION_ENVIRONMENTAL, cached.getQuality());
+            }
+            ImprovementUtil.applyEnchantmentLevel(item, Enchantment.PROTECTION_ENVIRONMENTAL, cached.getQuality());
             return;
         }
         case DIAMOND_SWORD: 

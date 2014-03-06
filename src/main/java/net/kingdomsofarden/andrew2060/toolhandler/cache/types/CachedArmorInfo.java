@@ -15,38 +15,35 @@ import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-public class CachedWeaponInfo extends CachedItemInfo {
-    
+public class CachedArmorInfo extends CachedItemInfo {
     private double quality;
     private String qualityFormat;
-    private double bonusDamage;
-    private double lifeSteal;
-    private double critChance;
+    private double magicResist;
+    private double healBonus;
+    private int protBonus;
     private ItemStack item;
     private UUID[] mods;
     private DecimalFormat dF;
     
-    public CachedWeaponInfo(ItemStack item, double quality, double bonusDamage,double lifeSteal, double critChance) {
-        this(item,quality,bonusDamage,lifeSteal,critChance,new UUID[] {});
+    public CachedArmorInfo(ItemStack item, double quality, double magicResist, double healBonus, int protBonus) {
+        this(item,quality,magicResist,healBonus,protBonus,new UUID[] {});
     }
-    public CachedWeaponInfo(ItemStack item, double quality, double bonusDamage,double lifeSteal, double critChance, UUID[] mods) {
+    public CachedArmorInfo(ItemStack item, double quality, double magicResist, double healBonus, int protBonus, UUID[] mods) {
         this.qualityFormat = FormattingUtil.getWeaponQualityFormat(quality);
         this.quality = quality;
-        this.setBonusDamage(bonusDamage);
-        this.setLifeSteal(lifeSteal);
-        this.setCritChance(critChance);
+        this.setMagicResist(magicResist);
+        this.setHealBonus(healBonus);
+        this.setProtBonus(protBonus);
         this.setItem(item);
         this.setMods(mods);
         this.dF = new DecimalFormat("##.##");
     }
-
     public double getQuality() {
         return quality;
     }
-
     public void setQuality(double quality) throws ItemStackChangedException {
         this.quality = quality;
-        String newFormat = FormattingUtil.getWeaponQualityFormat(quality);
+        String newFormat = FormattingUtil.getArmorQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
             ItemStack written = this.forceWrite(true);
             if(written != this.item) {
@@ -54,7 +51,6 @@ public class CachedWeaponInfo extends CachedItemInfo {
             }
         }
     }
-
     public final double reduceQuality() throws ItemStackChangedException { 
         int unbreakinglevel = item.getEnchantmentLevel(Enchantment.DURABILITY)+1;
         switch(ImprovementUtil.getItemType(item)) {
@@ -84,7 +80,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
         if(quality < 0) {
             quality = 0;
         }
-        String newFormat = FormattingUtil.getWeaponQualityFormat(quality);
+        String newFormat = FormattingUtil.getArmorQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
             ItemStack written = this.forceWrite(true);
             if(written != this.item) {
@@ -93,81 +89,36 @@ public class CachedWeaponInfo extends CachedItemInfo {
         }
         return quality;
     }
-    
-    public double getBonusDamage() {
-        return bonusDamage;
+    public double getMagicResist() {
+        return magicResist;
     }
-
-    public void setBonusDamage(double bonusDamage) {
-        this.bonusDamage = bonusDamage;
+    public void setMagicResist(double magicResist) {
+        this.magicResist = magicResist;
     }
-
-    public double getLifeSteal() {
-        return lifeSteal;
+    public double getHealBonus() {
+        return healBonus;
     }
-
-    public void setLifeSteal(double lifeSteal) {
-        this.lifeSteal = lifeSteal;
+    public void setHealBonus(double healBonus) {
+        this.healBonus = healBonus;
     }
-
-    public double getCritChance() {
-        return critChance;
+    public int getProtBonus() {
+        return protBonus;
     }
-
-    public void setCritChance(double critChance) {
-        this.critChance = critChance;
+    public void setProtBonus(int protBonus) {
+        this.protBonus = protBonus;
     }
-
     public ItemStack getItem() {
         return item;
     }
-
-    private void setItem(ItemStack item) {
+    public void setItem(ItemStack item) {
         this.item = item;
     }
-
-    public static CachedWeaponInfo fromString(ItemStack is, String parseable) {
-        String[] parsed = parseable.split(":");
-        double quality = Double.valueOf(parsed[0]);
-        double bonusDamage = Double.valueOf(parsed[1]);
-        double lifeSteal = Double.valueOf(parsed[2]);
-        double critChance = Double.valueOf(parsed[3]);
-        Set<UUID> coll = new HashSet<UUID>();
-        for(int i = 4; i < parsed.length; i++) {
-            coll.add(UUID.fromString(parsed[i]));
-        }
-        return new CachedWeaponInfo(is,quality,bonusDamage,lifeSteal,critChance,coll.toArray(new UUID[coll.size()]));
-    }
-
-    public static CachedWeaponInfo getDefault(ItemStack is) {
-        return new CachedWeaponInfo(is,0.00,0.00,0.00,0.00);
-    }
-    
     public UUID[] getMods() {
         return mods;
     }
-    
-    private void setMods(UUID[] mods) {
+    public void setMods(UUID[] mods) {
         this.mods = mods;
-    }
-    
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(dF.format(quality));
-        sb.append(":");
-        sb.append(dF.format(bonusDamage));
-        sb.append(":");
-        sb.append(dF.format(lifeSteal));
-        sb.append(":");
-        sb.append(dF.format(critChance));
-        for(UUID id : mods) {
-            sb.append(":");
-            sb.append(id.toString());
-        }
-        return sb.toString();
-    }
-    
+    }    
     public ItemStack forceWrite(boolean removeOldFromCache) {
         try {
             NbtUtil.writeAttributes(item, this);
@@ -177,7 +128,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
     
                     @Override
                     public void run() {
-                        ToolHandlerPlugin.instance.getCacheManager().invalidateFromWeaponCache(item);                   
+                        ToolHandlerPlugin.instance.getCacheManager().invalidateFromArmorCache(item);                   
                     }
                     
                 }, 1);
@@ -186,7 +137,36 @@ public class CachedWeaponInfo extends CachedItemInfo {
         }
         return this.item;
     }
-    
-    
-    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(dF.format(quality));
+        sb.append(":");
+        sb.append(dF.format(magicResist));
+        sb.append(":");
+        sb.append(dF.format(healBonus));
+        sb.append(":");
+        sb.append(protBonus);
+        for(UUID id : mods) {
+            sb.append(":");
+            sb.append(id.toString());
+        }
+        return sb.toString();
+    }
+    public static CachedArmorInfo getDefault(ItemStack is) {
+        return new CachedArmorInfo(is,0,0,0,0);
+    }
+    public static CachedArmorInfo fromString(ItemStack is, String parseable) {
+        String[] parsed = parseable.split(":");
+        double quality = Double.valueOf(parsed[0]);
+        double magicResist = Double.valueOf(parsed[1]);
+        double healBonus = Double.valueOf(parsed[2]);
+        int protBonus = Integer.valueOf(parsed[3]);
+        Set<UUID> coll = new HashSet<UUID>();
+        for(int i = 4; i < parsed.length; i++) {
+            coll.add(UUID.fromString(parsed[i]));
+        }
+        return new CachedArmorInfo(is,quality,magicResist,healBonus,protBonus,coll.toArray(new UUID[coll.size()]));
+    }
+
 }

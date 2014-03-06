@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class ModUtil {
 	
 	/**
+	 * @deprecated use nbt caching instead
 	 * Gets a list of weapon mods on a weapon
 	 * 
 	 * @param weapon The ItemStack associated with a weapon
@@ -48,6 +49,7 @@ public class ModUtil {
 		return mods;
 	}
 	/**
+	 * @deprecated use nbt caching instead
 	 * Gets a list of armor mods on a armor
 	 * 
 	 * @param armor The ItemStack associated with a armor
@@ -79,6 +81,7 @@ public class ModUtil {
 		return mods;
 	}
 	/**
+     * @deprecated use nbt caching instead
 	 * Gets a list of tool mods on a tool
 	 * 
 	 * @param tool The ItemStack associated with a tool
@@ -110,6 +113,7 @@ public class ModUtil {
 		return mods;
 	}
 	/**
+	 * @deprecated use nbt caching instead
 	 * Gets a list of scythe mods on a scythe
 	 * 
 	 * @param scythe The ItemStack associated with a tool

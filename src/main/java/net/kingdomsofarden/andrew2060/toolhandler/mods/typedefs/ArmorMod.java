@@ -1,6 +1,7 @@
 package net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.UUID;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.potions.PotionEffectManager;
@@ -22,7 +23,10 @@ public abstract class ArmorMod {
     private Double magicResist;
     private Double healingBonus;
     private Double protBonus;
-    public ArmorMod(String name, int weight, boolean requiresSlot, String... desc) {
+    public UUID modUUID;
+    
+    public ArmorMod(UUID modUUID, String name, int weight, boolean requiresSlot, String... desc) {
+        this.modUUID = modUUID;
         this.pEMan = ToolHandlerPlugin.instance.getPotionEffectHandler();
         this.name = name;
         this.desc = desc;

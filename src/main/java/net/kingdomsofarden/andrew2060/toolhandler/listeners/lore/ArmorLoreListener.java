@@ -1,7 +1,7 @@
 package net.kingdomsofarden.andrew2060.toolhandler.listeners.lore;
 
-import net.kingdomsofarden.andrew2060.toolhandler.util.ArmorLoreUtil;
-
+import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.CacheManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,6 +15,12 @@ import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 import com.herocraftonline.heroes.characters.Hero;
 
 public class ArmorLoreListener implements Listener {
+    
+    private ToolHandlerPlugin plugin;
+    public ArmorLoreListener(ToolHandlerPlugin plugin) {
+        this.plugin = plugin;
+    }
+    
     //Armor Magic Protection Handling
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onSkillDamage(SkillDamageEvent event) {
@@ -43,22 +49,23 @@ public class ArmorLoreListener implements Listener {
         if(boots == null) {
             bootscheck = false;
         }
+        CacheManager man = plugin.getCacheManager();
         double damagereduction = 0;
         if(helmetcheck) {
-            damagereduction += ArmorLoreUtil.getMagicResistRating(helmet);
+            damagereduction += man.getCachedArmorInfo(helmet).getMagicResist()*0.01;
         }
         if(chestcheck) {
-            damagereduction += ArmorLoreUtil.getMagicResistRating(chest);
+            damagereduction += man.getCachedArmorInfo(chest).getMagicResist()*0.01;
         }
         if(legscheck) {
-            damagereduction += ArmorLoreUtil.getMagicResistRating(legs);
+            damagereduction += man.getCachedArmorInfo(legs).getMagicResist()*0.01;
         } 
         if(bootscheck) {
-            damagereduction += ArmorLoreUtil.getMagicResistRating(boots);
+            damagereduction += man.getCachedArmorInfo(boots).getMagicResist()*0.01;
         }
 
         double multiplier = 1 - damagereduction;
-        event.setDamage((int)event.getDamage() * multiplier);
+        event.setDamage(event.getDamage() * multiplier);
     }
     //Armor Healing Bonus Handling
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
@@ -85,21 +92,22 @@ public class ArmorLoreListener implements Listener {
         if(boots == null) {
             bootscheck = false;
         }
+        CacheManager man = plugin.getCacheManager();
         double healBonus = 0;
         if(helmetcheck) {
-            healBonus += ArmorLoreUtil.getHealingBonus(helmet);
+            healBonus += man.getCachedArmorInfo(helmet).getHealBonus()*0.01;
         }
 
         if(chestcheck) {
-            healBonus += ArmorLoreUtil.getHealingBonus(chest);
+            healBonus += man.getCachedArmorInfo(chest).getHealBonus()*0.01;
         }
 
         if(legscheck) {
-            healBonus += ArmorLoreUtil.getHealingBonus(legs);
+            healBonus += man.getCachedArmorInfo(legs).getHealBonus()*0.01;
         }
 
         if(bootscheck) {
-            healBonus += ArmorLoreUtil.getHealingBonus(boots);
+            healBonus += man.getCachedArmorInfo(boots).getHealBonus()*0.01;
         } 
 
         double multiplier = 1 + healBonus;
@@ -133,18 +141,19 @@ public class ArmorLoreListener implements Listener {
         if(boots == null) {
             bootscheck = false;
         }
+        CacheManager man = plugin.getCacheManager();
         int protBonus = 0;
         if(helmetcheck) {
-            protBonus += ArmorLoreUtil.getProtBonus(helmet);
+            protBonus += man.getCachedArmorInfo(helmet).getProtBonus();
         }
         if(chestcheck) {
-            protBonus += ArmorLoreUtil.getProtBonus(chest);
+            protBonus += man.getCachedArmorInfo(chest).getProtBonus();
         }
         if(legscheck) {
-            protBonus += ArmorLoreUtil.getProtBonus(legs);
+            protBonus += man.getCachedArmorInfo(legs).getProtBonus();
         }
         if(bootscheck) {
-            protBonus += ArmorLoreUtil.getProtBonus(boots);
+            protBonus += man.getCachedArmorInfo(boots).getProtBonus();
         } 
         event.setDamage(event.getDamage()-protBonus);
     }

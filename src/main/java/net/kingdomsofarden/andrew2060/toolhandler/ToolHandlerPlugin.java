@@ -99,7 +99,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 
         this.chainmailListener = new ChainMailListener();
 
-        this.armorLoreListener = new ArmorLoreListener();
+        this.armorLoreListener = new ArmorLoreListener(this);
         this.weapLoreListener = new WeaponLoreListener(this);
 
         this.modListener = new ModListener(this);
@@ -135,9 +135,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
         getCommand("refreshtoollore").setExecutor(new RefreshLoreCommandExecutor(this));
 
         //Schedule Tasks
-        new ArmorPassiveTask(modManager).runTaskTimer(this, 0, 20);   //Armor Passives Task
-
-
+        new ArmorPassiveTask(this).runTaskTimer(this, 0, 20);   //Armor Passives Task
 
     }
 

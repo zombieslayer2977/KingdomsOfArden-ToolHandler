@@ -1,6 +1,6 @@
 package net.kingdomsofarden.andrew2060.toolhandler.events;
 
-import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,7 +16,7 @@ public class CriticalStrikeEvent extends Event {
 	private WeaponDamageEvent event;
 	private Player player;
 	private boolean cancelled;
-	private List<String> mods;
+	private UUID[] mods;
 	/**
 	 * This event is to be thrown whenever a critical strike is made. 
 	 * 
@@ -24,13 +24,14 @@ public class CriticalStrikeEvent extends Event {
 	 * @param event    WeaponDamageEvent associated with the critical strike
 	 * @param attacker The attacker that dealt the critical strike
 	 * @param weapon   ItemStack representing the weapon used to deal said critical strike
+	 * @param modID    An array of UUIDs representing the mods on this weapon
 	 */
-	public CriticalStrikeEvent(double damage, WeaponDamageEvent event, Player attacker, ItemStack weapon, List<String> weaponModsAttacker) {
+	public CriticalStrikeEvent(double damage, WeaponDamageEvent event, Player attacker, ItemStack weapon, UUID[] modID) {
 		this.dmg = damage;
 		this.event = event;
 		this.player = attacker;
 		this.cancelled = false;
-		this.mods = weaponModsAttacker;
+		this.mods = modID;
 	}
 
 	@Override
@@ -95,7 +96,7 @@ public class CriticalStrikeEvent extends Event {
 	/**
 	 * @return the mods
 	 */
-	public List<String> getMods() {
+	public UUID[] getMods() {
 		return mods;
 	}
 }
