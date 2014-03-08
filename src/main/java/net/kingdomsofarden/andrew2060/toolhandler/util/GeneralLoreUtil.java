@@ -41,7 +41,7 @@ public class GeneralLoreUtil {
         templateLoreArmor.add(1,ChatColor.GRAY + "Improvement Quality: Basic");
 		templateLoreArmor.add(2,ChatColor.GRAY + "Magical Resistance Rating: 0.00%");
 		templateLoreArmor.add(3,ChatColor.GRAY + "Healing Bonus: 0.00%");
-		templateLoreArmor.add(4,ChatColor.GRAY + "Additional Protection: 0 Damage/Hit");
+		templateLoreArmor.add(4,ChatColor.GRAY + "Additional Protection: 0.00%");
 		templateLoreArmor.add(5,ChatColor.WHITE + "========Modifications========");
 		templateLoreArmor.add(6,ChatColor.DARK_GRAY + "[Empty Slot]");
 		templateLoreArmor.add(7,ChatColor.DARK_GRAY + "[Empty Slot]");
@@ -50,8 +50,8 @@ public class GeneralLoreUtil {
 	private static void populateWeapon(List<String> templateLoreWeapon) {
 		templateLoreWeapon.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
 	    templateLoreWeapon.add(1,ChatColor.GRAY + "Improvement Quality: Basic");
-		templateLoreWeapon.add(2,ChatColor.GRAY + "Bonus Damage: 0");
-		templateLoreWeapon.add(3,ChatColor.GRAY + "Life Steal: 0 Health/Hit");
+		templateLoreWeapon.add(2,ChatColor.GRAY + "Bonus Damage: 0.00");
+		templateLoreWeapon.add(3,ChatColor.GRAY + "Life Steal: 0.00%");
 		templateLoreWeapon.add(4,ChatColor.GRAY + "Critical Strike Chance: 0.00%");
 		templateLoreWeapon.add(5,ChatColor.WHITE + "========Modifications========");
 		templateLoreWeapon.add(6,ChatColor.DARK_GRAY + "[Empty Slot]");
@@ -120,6 +120,11 @@ public class GeneralLoreUtil {
 			}
 		}
 	}
+	
+	/**
+	 * @deprecated - Use SerializationUtil instead
+	 * @param item
+	 */
 	public static void updateLore(ItemStack item) {
 		Material mat = item.getType();
 		switch(mat) {

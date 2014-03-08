@@ -30,7 +30,7 @@ public class CachedArmorInfo extends CachedItemInfo {
         this(item,quality,magicResist,healBonus,protBonus,new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
     }
     public CachedArmorInfo(ItemStack item, double quality, double magicResist, double healBonus, double protBonus, UUID[] mods) {
-        this.qualityFormat = FormattingUtil.getWeaponQualityFormat(quality);
+        this.qualityFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         this.quality = quality;
         this.setMagicResist(magicResist);
         this.setHealBonus(healBonus);

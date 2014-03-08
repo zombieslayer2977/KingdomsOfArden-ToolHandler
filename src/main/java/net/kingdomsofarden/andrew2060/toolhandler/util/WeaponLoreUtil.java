@@ -137,8 +137,8 @@ public class WeaponLoreUtil {
         return;
     }
     /**
-     * @deprecated - use NBT caching instead
-     * Updates this itemstack's lore after getting all previous values: note that you will have to get an updated copy
+     * @deprecated - use NBT caching instead <br>
+     * Updates this itemstack's lore after getting all previous values: note that you will have to get an updated copy <br>
      * of the ItemMeta from the weapon after running this function to update.
      * @param weapon
      */
@@ -192,7 +192,7 @@ public class WeaponLoreUtil {
                 reachedmodifications = true;
             }
         }
-        String improvementtext = FormattingUtil.getWeaponQualityFormat(improvementQuality);
+        String improvementtext = FormattingUtil.getWeaponToolQualityFormat(improvementQuality);
         improvementtext = ChatColor.GRAY + "Improvement Quality: " + improvementQuality + "%";
         String bonusdmgtext = FormattingUtil.getAttributeColor(bonusdmg) + bonusdmg + ChatColor.GRAY;
         bonusdmgtext = ChatColor.GRAY + "Bonus Damage: " + bonusdmgtext;
@@ -232,20 +232,26 @@ public class WeaponLoreUtil {
         ItemMeta meta = weapon.getItemMeta();
         List<String> lore = new LinkedList<String>();
         lore.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
-        lore.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getWeaponQualityFormat(cachedData.getQuality()));
+        lore.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getWeaponToolQualityFormat(cachedData.getQuality()));
         lore.add(2,ChatColor.GRAY + "Bonus Damage: " + FormattingUtil.getAttribute(cachedData.getBonusDamage()));
         lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttribute(cachedData.getLifeSteal()) + " Health/Hit");
         lore.add(4,ChatColor.GRAY + "Critical Strike Chance: " + FormattingUtil.getAttribute(cachedData.getCritChance()) + "%");
         lore.add(5,ChatColor.WHITE + "========Modifications========");
         int usedSlots = 0;
         int addedBlankSlots = 0;
+        int baseBlankSlots = 0;
         for(UUID id : cachedData.getMods()) {
-            if(id.equals(EmptyModSlot.bonusId)) {
-                addedBlankSlots++;
-                continue;
-            }
+            
             WeaponMod mod = ToolHandlerPlugin.instance.getModManager().getWeaponMod(id);
             if(mod == null) {
+                if(id.equals(EmptyModSlot.bonusId)) {
+                    addedBlankSlots++;
+                    continue;
+                }
+                if(id.equals(EmptyModSlot.baseId)) {
+                    baseBlankSlots++;
+                    usedSlots ++;
+                }
                 continue;
             }
             if(usedSlots > 1 || !mod.isSlotRequired()) {
@@ -263,18 +269,17 @@ public class WeaponLoreUtil {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getLifeSteal()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getLifeSteal())
-                        + ChatColor.GRAY + " Life Steal");
+                        + ChatColor.GRAY + "% Life Steal");
             }
             if(mod.getCritChance() != null && mod.getCritChance() > Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getCritChance()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getCritChance())
-                        + ChatColor.GRAY + " Critical Hit Chance");
+                        + ChatColor.GRAY + "% Critical Hit Chance");
             }
-            for(int descriptionIterator = 0; descriptionIterator < mod.getDescription().length; descriptionIterator++) {
-                lore.add(ChatColor.GRAY + "- " + mod.getDescription()[descriptionIterator]);
+            for(String s : mod.getDescription()) {
+                lore.add(ChatColor.GRAY + "- " + s);
             }
-            //TODO: Add blank slot options
             if(mod.isSlotRequired()) {
                 usedSlots++; 
                 continue;
@@ -282,10 +287,8 @@ public class WeaponLoreUtil {
                 continue;
             }
         }
-        if(usedSlots <= 1) {
-            for(int i = 0; i <= 1 - usedSlots; i++) {
-                lore.add(ChatColor.DARK_GRAY + "[Empty Slot]");
-            }
+        for(int i = 0; i < baseBlankSlots; i++) {
+            lore.add(EmptyModSlot.baseDesc);
         }
         for(int i = 0; i < addedBlankSlots; i++) {
             lore.add(EmptyModSlot.bonusDesc);

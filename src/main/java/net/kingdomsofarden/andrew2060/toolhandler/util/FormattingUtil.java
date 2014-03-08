@@ -7,34 +7,49 @@ import org.bukkit.ChatColor;
 public class FormattingUtil {
     public static DecimalFormat modDescriptorFormat = new DecimalFormat("+###.00;-###.00");
     public static DecimalFormat loreDescriptorFormat = new DecimalFormat("###.00");
-	public static String getWeaponQualityFormat(double quality) {
+	public static String getWeaponToolQualityFormat(double quality) {
 		if(quality > 0 && quality <= 20) {
-			return ChatColor.RED + "Sharpened";
+			return ChatColor.RED + "Sharpened (Tier 1)";
 		} else if (quality > 20 && quality <= 40) {
-			return ChatColor.GOLD + "Honed";
+			return ChatColor.GOLD + "Honed (Tier 2)";
 		} else if (quality > 40 && quality <= 60) {
-			return ChatColor.YELLOW + "Keen";
+			return ChatColor.YELLOW + "Keen (Tier 3)";
 		} else if (quality > 60 && quality <= 80) {
-			return ChatColor.GREEN + "Superior";
+			return ChatColor.GREEN + "Superior (Tier 4)";
 		} else if (quality > 80) {
-			return ChatColor.DARK_GREEN + "Lethal";
+			return ChatColor.DARK_GREEN + "Legendary (Tier 5)";
 		} else {
-			return ChatColor.GRAY + "Basic";
+			return ChatColor.GRAY + "Basic (Tier 0)";
 		}
 	}
 	public static String getArmorQualityFormat(double quality) {
         if(quality > 0 && quality <= 20) {
-            return ChatColor.RED + "Strengthened";
+            return ChatColor.RED + "Augmented (Tier 1)";
         } else if (quality > 20 && quality <= 40) {
-            return ChatColor.GOLD + "Reinforced";
+            return ChatColor.GOLD + "Reinforced (Tier 2)";
         } else if (quality > 40 && quality <= 60) {
-            return ChatColor.YELLOW + "Augmented";
+            return ChatColor.YELLOW + "Fortified (Tier 3)";
         } else if (quality > 60 && quality <= 80) {
-            return ChatColor.GREEN + "Fortified";
+            return ChatColor.GREEN + "Bulwarked (Tier 4)";
         } else if (quality > 80) {
-            return ChatColor.DARK_GREEN + "Bulwarked";
+            return ChatColor.DARK_GREEN + "Legendary (Tier 5)";
         } else {
-            return ChatColor.GRAY + "Basic";
+            return ChatColor.GRAY + "Basic (Tier 0)";
+        }
+    }
+	public static String getScytheQualityFormat(double quality) {
+        if(quality > 0 && quality <= 20) {
+            return ChatColor.RED + "Empowered (Tier 1)";
+        } else if (quality > 20 && quality <= 40) {
+            return ChatColor.GOLD + "Imbued (Tier 2)";
+        } else if (quality > 40 && quality <= 60) {
+            return ChatColor.YELLOW + "Attuned (Tier 3)";
+        } else if (quality > 60 && quality <= 80) {
+            return ChatColor.GREEN + "Dominating (Tier 4)";
+        } else if (quality > 80) {
+            return ChatColor.DARK_GREEN + "Legendary (Tier 5)";
+        } else {
+            return ChatColor.GRAY + "Basic (0)";
         }
     }
 	public static String getAttributeColor(double attribute) {

@@ -80,7 +80,7 @@ public class ToolLoreUtil {
                 reachedmodifications = true;
             }
         }
-        String improvementText = FormattingUtil.getWeaponQualityFormat(improvementQuality);
+        String improvementText = FormattingUtil.getWeaponToolQualityFormat(improvementQuality);
         improvementText = ChatColor.GRAY + "Improvement Quality: " + improvementQuality + "%";
         String truedmgText = FormattingUtil.getAttributeColor(bonusDamage) + bonusDamage + ChatColor.GRAY;
         truedmgText = ChatColor.GRAY + "True Damage: " + truedmgText;

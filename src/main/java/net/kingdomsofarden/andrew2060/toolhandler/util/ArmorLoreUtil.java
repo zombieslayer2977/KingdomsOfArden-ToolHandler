@@ -268,13 +268,17 @@ public class ArmorLoreUtil {
         lore.add(5,ChatColor.WHITE + "========Modifications========");
         int usedSlots = 0;
         int addedBlankSlots = 0;
+        int baseBlankSlots = 0;
         for(UUID id : data.getMods()) {
-            if(id.equals(EmptyModSlot.bonusId)) {
-                addedBlankSlots++;
-                continue;
-            }
             ArmorMod mod = ToolHandlerPlugin.instance.getModManager().getArmorMod(id);
             if(mod == null) {
+                if(id.equals(EmptyModSlot.bonusId)) {
+                    addedBlankSlots++;
+                    continue;
+                }
+                if(id.equals(EmptyModSlot.baseId)) {
+                    baseBlankSlots++;
+                }
                 continue;
             }
             if(usedSlots > 1 || !mod.isSlotRequired()) {
@@ -298,12 +302,11 @@ public class ArmorLoreUtil {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getProtBonus()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getProtBonus())
-                        + ChatColor.GRAY + " Bonus Protection");
+                        + ChatColor.GRAY + "% Bonus Protection");
             }
-            for(int descriptionIterator = 0; descriptionIterator < mod.getDescription().length; descriptionIterator++) {
-                lore.add(ChatColor.GRAY + "- " + mod.getDescription()[descriptionIterator]);
+            for(String s : mod.getDescription()) {
+                lore.add(ChatColor.GRAY + "- " + s);
             }
-            //TODO: Add blank slot options
             if(mod.isSlotRequired()) {
                 usedSlots++; 
                 continue;
@@ -311,10 +314,8 @@ public class ArmorLoreUtil {
                 continue;
             }
         }
-        if(usedSlots <= 1) {
-            for(int j = 0; j <= 1 - usedSlots; j++) {
-                lore.add(ChatColor.DARK_GRAY + "[Empty Slot]");
-            }
+        for(int i = 0; i < baseBlankSlots; i++) {
+            lore.add(EmptyModSlot.baseDesc);
         }
         for(int i = 0; i < addedBlankSlots; i++) {
             lore.add(EmptyModSlot.bonusDesc);

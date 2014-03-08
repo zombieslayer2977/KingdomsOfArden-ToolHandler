@@ -31,7 +31,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
         this(item,quality,bonusDamage,lifeSteal,critChance,new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
     }
     public CachedWeaponInfo(ItemStack item, double quality, double bonusDamage,double lifeSteal, double critChance, UUID[] mods) {
-        this.qualityFormat = FormattingUtil.getWeaponQualityFormat(quality);
+        this.qualityFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         this.quality = quality;
         this.setBonusDamage(bonusDamage);
         this.setLifeSteal(lifeSteal);
@@ -47,7 +47,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
 
     public void setQuality(double quality) throws ItemStackChangedException {
         this.quality = quality;
-        String newFormat = FormattingUtil.getWeaponQualityFormat(quality);
+        String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
             ItemStack written = this.forceWrite(true);
             if(written != this.item) {
@@ -85,7 +85,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
         if(quality < 0) {
             quality = 0;
         }
-        String newFormat = FormattingUtil.getWeaponQualityFormat(quality);
+        String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
             ItemStack written = this.forceWrite(true);
             if(written != this.item) {
