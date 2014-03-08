@@ -1,4 +1,6 @@
 package net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs;
+import java.util.UUID;
+
 import net.kingdomsofarden.andrew2060.toolhandler.mods.ItemMod;
 
 import org.bukkit.inventory.ItemStack;
@@ -11,7 +13,8 @@ public abstract class ScytheMod extends ItemMod {
 	private String name;
 	private int weight;
 	private boolean requiresSlot;
-	public ScytheMod(String name, int weight, boolean requiresSlot, String... desc) {
+	public ScytheMod(UUID modUUID, String name, int weight, boolean requiresSlot, String... desc) {
+	    super(modUUID);
 		this.name = name;
 		this.desc = desc;
 		this.weight = weight;

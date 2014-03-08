@@ -16,7 +16,6 @@ import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 
 public abstract class WeaponMod extends ItemMod {
     protected PotionEffectManager pEMan;
-    public final UUID modUUID;
     private String[] desc;
     private String name;
     private int weight;
@@ -28,7 +27,7 @@ public abstract class WeaponMod extends ItemMod {
     private Double critChance;
 
     public WeaponMod(UUID modUUID, String name, int weight, boolean requiresSlot, String... desc) {
-        this.modUUID = modUUID;
+        super(modUUID);
         this.name = name;
         this.desc = desc;
         this.weight = weight;

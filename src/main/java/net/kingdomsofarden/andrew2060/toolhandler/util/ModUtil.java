@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedArmorInfo;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedItemInfo;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ArmorMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ScytheMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ToolMod;
@@ -149,77 +152,22 @@ public class ModUtil {
 	 * 
 	 * @param weapon - ItemStack representing the weapon to add a mod to 
 	 * @param mod - WeaponMod to Add
-	 * @return -1 for invalid input weapon, 0 for all mod slots full, 1 for normal operation
-	 */
-	public static int addWeaponMod(ItemStack weapon, WeaponMod mod) {
+     * @return the ItemStack with the inserted mod (may be different if it was not a nms ItemStack), null if no space or improper type
+     */
+
+	public static ItemStack addWeaponMod(ItemStack weapon, WeaponMod mod) {
 		switch(weapon.getType()) {
 			case DIAMOND_SWORD:	case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
 				break;
 			}
 			default: {
-				return -1;
+                throw new IllegalArgumentException("Attempted to add weapon mod to a " + weapon.getType().toString());
 			}
 		}
-		ItemMeta meta = weapon.getItemMeta();
-		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLoreDefaults(weapon);
-			meta = weapon.getItemMeta();
-		}
-		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
-            GeneralLoreUtil.updateLore(weapon);
-            meta = weapon.getItemMeta();
-            lore = meta.getLore();
-        }
-		for(int modSlotIterator = 6; modSlotIterator < lore.size(); modSlotIterator++) {
-            if(lore.get(modSlotIterator).contains("[Empty Slot]")) {
-                boolean addedModSlot = false;
-                if(lore.get(modSlotIterator).startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
-                    addedModSlot = true;
-                }
-                if(mod.isSlotRequired()) {
-                    lore.remove(modSlotIterator);
-                    if(addedModSlot) {
-                        lore.add(modSlotIterator, ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
-                    } else {
-                        lore.add(modSlotIterator, ChatColor.GOLD + mod.getName());
-                    }
-                    int baseDescriptionSlots = 0;
-                    if(mod.getBonusDamage() != null && mod.getBonusDamage() > Double.valueOf(0.00)) {
-                        baseDescriptionSlots++;
-                        lore.add(modSlotIterator+baseDescriptionSlots+1, ChatColor.GRAY + "- " 
-                                + FormattingUtil.getAttributeColor(mod.getBonusDamage()) 
-                                + FormattingUtil.modDescriptorFormat.format(mod.getBonusDamage())
-                                + ChatColor.GRAY + " Damage");
-                    }
-                    if(mod.getLifeSteal() != null && mod.getLifeSteal() > Double.valueOf(0.00)) {
-                        baseDescriptionSlots++;
-                        lore.add(modSlotIterator+baseDescriptionSlots+1, ChatColor.GRAY + "- " 
-                                + FormattingUtil.getAttributeColor(mod.getLifeSteal()) 
-                                + FormattingUtil.modDescriptorFormat.format(mod.getLifeSteal())
-                                + ChatColor.GRAY + " Life Steal");
-                    }
-                    if(mod.getCritChance() != null && mod.getCritChance() > Double.valueOf(0.00)) {
-                        baseDescriptionSlots++;
-                        lore.add(modSlotIterator+baseDescriptionSlots+1, ChatColor.GRAY + "- " 
-                                + FormattingUtil.getAttributeColor(mod.getCritChance()) 
-                                + FormattingUtil.modDescriptorFormat.format(mod.getCritChance())
-                                + ChatColor.GRAY + " Critical Hit Chance");
-                    }
-					for(int descriptionIterator = 0; descriptionIterator < mod.getDescription().length; descriptionIterator++) {
-						lore.add(modSlotIterator+baseDescriptionSlots+descriptionIterator+2,ChatColor.GRAY + "- " + mod.getDescription()[descriptionIterator]);
-					}
-				}
-				meta.setLore(lore);
-				weapon.setItemMeta(meta);
-				mod.applyToWeapon(weapon);
-				return 1;
-			} else {
-				continue;
-			}
-		}
-		return 0;
+		CachedWeaponInfo cachedItem = ToolHandlerPlugin.instance.getCacheManager().getCachedWeaponInfo(weapon);
+		return cachedItem.addMod(mod);
 	}
+	
 	/**
 	 * Adds a specified scythe mod to a scythe itemstack
 	 * 
@@ -227,128 +175,28 @@ public class ModUtil {
 	 * @param mod - ScytheMod to Add
 	 * @return -1 for invalid input scythe, 0 for all mod slots full, 1 for normal operation
 	 */
-	public static int addScytheMod(ItemStack scythe, ScytheMod mod) {
-		switch(scythe.getType()) {
-			case DIAMOND_HOE:	case IRON_HOE: case GOLD_HOE: case STONE_HOE: case WOOD_HOE: {
-				break;
-			}
-			default: {
-				return -1;
-			}
-		}
-		ItemMeta meta = scythe.getItemMeta();
-		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLoreDefaults(scythe);
-			meta = scythe.getItemMeta();
-		}
-		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
-            GeneralLoreUtil.updateLore(scythe);
-            meta = scythe.getItemMeta();
-            lore = meta.getLore();
-        }
-		for(int i = 6; i < lore.size(); i++) {
-            if(lore.get(i).contains("[Empty Slot]")) {
-                boolean addedModSlot = false;
-                if(lore.get(i).startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
-                    addedModSlot = true;
-                }
-                if(mod.isSlotRequired()) {
-                    lore.remove(i);
-                    if(addedModSlot) {
-                        lore.add(i, ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
-                    } else {
-                        lore.add(i, ChatColor.GOLD + mod.getName());
-                    }
-					for(int x = 0; x < mod.getDescription().length; x++) {
-						lore.add(i+x+2,ChatColor.GRAY + "- " + mod.getDescription()[x]);
-					}			
-				}				
-				meta.setLore(lore);
-				scythe.setItemMeta(meta);
-				mod.applyToScythe(scythe);
-				return 1;
-			} else {
-				continue;
-			}
-		}
-		return 0;
+	public static ItemStack addScytheMod(ItemStack scythe, ScytheMod mod) {
+	      throw new UnsupportedOperationException("Not implemented yet");
+
 	}
 	/**
 	 * Adds a specified armor mod to a armor itemstack
 	 * 
-	 * @param armor - ItemStack representing the armor to add a mod to 
-	 * @param mod - ArmorMod to Add
-	 * @return -1 for invalid input armor, 0 for all mod slots full, 1 for normal operation
+     * @param armor - ItemStack representing the weapon to add a mod to 
+     * @param mod - ArmorMod to Add
+     * @return the ItemStack with the inserted mod (may be different if it was not a nms ItemStack), null if no space
 	 */
-	public static int addArmorMod(ItemStack armor, ArmorMod mod) {
+	public static ItemStack addArmorMod(ItemStack armor, ArmorMod mod) {
 		switch(armor.getType()) {
-			case DIAMOND_SWORD:	case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
+            case DIAMOND_HELMET: case DIAMOND_CHESTPLATE: case DIAMOND_LEGGINGS: case DIAMOND_BOOTS: case IRON_HELMET: case IRON_CHESTPLATE: case IRON_LEGGINGS: case IRON_BOOTS: case GOLD_HELMET: case GOLD_CHESTPLATE: case GOLD_LEGGINGS: case GOLD_BOOTS: case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: case LEATHER_HELMET: case LEATHER_CHESTPLATE: case LEATHER_LEGGINGS: case LEATHER_BOOTS: {
 				break;
 			}
 			default: {
-				return -1;
+				throw new IllegalArgumentException("Attempted to add armor mod to a " + armor.getType().toString());
 			}
 		}
-		ItemMeta meta = armor.getItemMeta();
-		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLoreDefaults(armor);
-			meta = armor.getItemMeta();
-		}
-		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
-            GeneralLoreUtil.updateLore(armor);
-            meta = armor.getItemMeta();
-            lore = meta.getLore();
-        }
-		for(int modSlotIterator = 6; modSlotIterator < lore.size(); modSlotIterator++) {
-            if(lore.get(modSlotIterator).contains("[Empty Slot]")) {
-                boolean addedModSlot = false;
-                if(lore.get(modSlotIterator).startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
-                    addedModSlot = true;
-                }
-                lore.remove(modSlotIterator);
-                if(mod.isSlotRequired()) {
-                    if(addedModSlot) {
-                        lore.add(modSlotIterator, ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
-                    } else {
-                        lore.add(modSlotIterator, ChatColor.GOLD + mod.getName());
-                    }	
-                    int baseDescriptionSlots = 0;
-                    if(mod.getMagicResist() != null && mod.getMagicResist() > Double.valueOf(0.00)) {
-                        baseDescriptionSlots++;
-                        lore.add(modSlotIterator+baseDescriptionSlots+1, ChatColor.GRAY + "- " 
-                                + FormattingUtil.getAttributeColor(mod.getMagicResist()) 
-                                + FormattingUtil.modDescriptorFormat.format(mod.getMagicResist())
-                                + "%" + ChatColor.GRAY + " Magic Resist");
-                    }
-                    if(mod.getHealingBonus() != null && mod.getHealingBonus() > Double.valueOf(0.00)) {
-                        baseDescriptionSlots++;
-                        lore.add(modSlotIterator+baseDescriptionSlots+1, ChatColor.GRAY + "- " 
-                                + FormattingUtil.getAttributeColor(mod.getHealingBonus()) 
-                                + FormattingUtil.modDescriptorFormat.format(mod.getHealingBonus())
-                                + "%" + ChatColor.GRAY + " Healing Modifier");
-                    }
-                    if(mod.getProtBonus() != null && mod.getProtBonus() > Double.valueOf(0.00)) {
-                        baseDescriptionSlots++;
-                        lore.add(modSlotIterator+baseDescriptionSlots+1, ChatColor.GRAY + "- " 
-                                + FormattingUtil.getAttributeColor(mod.getProtBonus()) 
-                                + FormattingUtil.modDescriptorFormat.format(mod.getProtBonus())
-                                + ChatColor.GRAY + " Additional Damage Reduction");
-                    }
-					for(int x = 0; x < mod.getDescription().length; x++) {
-						lore.add(modSlotIterator+baseDescriptionSlots+x+2,ChatColor.GRAY + "- " + mod.getDescription()[x]);
-					}			
-				}				
-				meta.setLore(lore);
-				armor.setItemMeta(meta);
-				mod.applyToArmor(armor);
-				return 1;
-			} else {
-				continue;
-			}
-		}
-		return 0;
+		CachedArmorInfo cachedItem = ToolHandlerPlugin.instance.getCacheManager().getCachedArmorInfo(armor);
+        return cachedItem.addMod(mod);
 	}
 	/**
 	 * Adds a specified tool mod to a tool itemstack
@@ -357,52 +205,8 @@ public class ModUtil {
 	 * @param mod - ToolMod to Add
 	 * @return -1 for invalid input tool, 0 for all mod slots full, 1 for normal operation
 	 */
-	public static int addToolMod(ItemStack tool, ToolMod mod) {
-		switch(tool.getType()) {
-			case DIAMOND_SWORD:	case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
-				break;
-			}
-			default: {
-				return -1;
-			}
-		}
-		ItemMeta meta = tool.getItemMeta();
-		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLoreDefaults(tool);
-			meta = tool.getItemMeta();
-		}
-		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
-            GeneralLoreUtil.updateLore(tool);
-            meta = tool.getItemMeta();
-            lore = meta.getLore();
-        }
-		for(int i = 6; i < lore.size(); i++) {
-			if(lore.get(i).contains("[Empty Slot]")) {
-			    boolean addedModSlot = false;
-			    if(lore.get(i).startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
-			        addedModSlot = true;
-			    }
-				if(mod.isSlotRequired()) {
-	                lore.remove(i);
-				    if(addedModSlot) {
-				        lore.add(i, ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
-				    } else {
-                        lore.add(i, ChatColor.GOLD + mod.getName());
-				    }
-					for(int x = 0; x < mod.getDescription().length; x++) {
-						lore.add(i+x+1,ChatColor.GRAY + "- " + mod.getDescription()[x]);
-					}				
-				}				
-				meta.setLore(lore);
-				tool.setItemMeta(meta);
-				mod.applyToTool(tool);
-				return 1;
-			} else {
-				continue;
-			}
-		}
-		return 0;
+	public static ItemStack addToolMod(ItemStack tool, ToolMod mod) {
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	/**
 	 * Adds a mod slot to the specified ItemStack
@@ -411,24 +215,10 @@ public class ModUtil {
 	 * @return false for breaking, true for success
 	 */
 	public static boolean addModSlot(ItemStack item, double multiplier) {
-		ItemMeta meta = item.getItemMeta();
-		if(!meta.hasLore()) {
-			GeneralLoreUtil.populateLoreDefaults(item);
-			meta = item.getItemMeta();
-		}
-		List<String> lore = meta.getLore();
-		if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
-            GeneralLoreUtil.updateLore(item);
-            meta = item.getItemMeta();
-            lore = meta.getLore();
-        }
+		CachedItemInfo itemInfo = ToolHandlerPlugin.instance.getCacheManager().getCachedInfo(item);
 		//Gets number of currently added (not part of default lore) mod slots
 		int modSlotsAdditional = 1;
-		for(String s : lore) {
-		    if(s.startsWith(ChatColor.MAGIC + "" + ChatColor.RESET + "")) {
-		        modSlotsAdditional++;
-		    }
-		}
+		modSlotsAdditional += itemInfo.getNumBonusSlots();
 		double successChance = 100/(Math.pow(2, modSlotsAdditional));
 		int powTen = 0;
 		while(successChance % 10 != 0) {
@@ -440,11 +230,7 @@ public class ModUtil {
 		if(!(roll < successChance)) {
 		    return false;
 		}
-		//Get the current size of the lore list -> we add a mod slot at the end
-		int size = lore.size();
-		lore.add(size,ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.DARK_GRAY + "[Empty Slot]");
-		meta.setLore(lore);
-		item.setItemMeta(meta);
+		itemInfo.addModSlot();
 		return true;
 	}
 	

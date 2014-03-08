@@ -24,10 +24,9 @@ public abstract class ArmorMod extends ItemMod {
     private Double magicResist;
     private Double healingBonus;
     private Double protBonus;
-    public UUID modUUID;
     
     public ArmorMod(UUID modUUID, String name, int weight, boolean requiresSlot, String... desc) {
-        this.modUUID = modUUID;
+        super(modUUID);
         this.pEMan = ToolHandlerPlugin.instance.getPotionEffectHandler();
         this.name = name;
         this.desc = desc;

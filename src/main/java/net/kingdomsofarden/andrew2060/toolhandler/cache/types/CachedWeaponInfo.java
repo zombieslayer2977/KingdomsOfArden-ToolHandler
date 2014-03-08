@@ -1,12 +1,15 @@
 package net.kingdomsofarden.andrew2060.toolhandler.cache.types;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.EmptyModSlot;
+import net.kingdomsofarden.andrew2060.toolhandler.mods.ItemMod;
+import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.WeaponMod;
 import net.kingdomsofarden.andrew2060.toolhandler.util.FormattingUtil;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
 import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil;
@@ -150,6 +153,44 @@ public class CachedWeaponInfo extends CachedItemInfo {
     
     private void setMods(UUID[] mods) {
         this.mods = mods;
+    }
+    
+    /** 
+     * Attempts to add a mod to the cached weapon object
+     * @param mod Mod to add
+     * @return the ItemStack with the inserted mod (may be different if it was not a nms ItemStack), null if no space
+     */
+    public ItemStack addMod(ItemMod mod) {
+        if(!(mod instanceof WeaponMod)) {
+            throw new IllegalArgumentException("This is not a weapon mod!");
+        }
+        for(int i = 0; i < this.mods.length; i++) {
+            if(this.mods[i] == EmptyModSlot.baseId || this.mods[i] == EmptyModSlot.bonusId) {
+                this.mods[i] = mod.modUUID;
+                return this.forceWrite(true);
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Adds a mod slot to the cached weapon object
+     * @return the ItemStack with the inserted mod (may be different if it was not a nms ItemStack)
+     */
+    public ItemStack addModSlot() {
+        this.mods = Arrays.copyOf(this.mods, this.mods.length + 1);
+        this.mods[this.mods.length] = EmptyModSlot.bonusId;
+        return forceWrite(true);
+    }
+    
+    public int getNumBonusSlots() {
+        int bonusSlots = 0;
+        for(int i = 0; i < this.mods.length; i++) {
+            if(this.mods[i].equals(EmptyModSlot.bonusId)) {
+                bonusSlots++;
+            }
+        }
+        return bonusSlots;
     }
     
     @Override

@@ -119,4 +119,23 @@ public class CacheManager {
         armorCache.invalidate(is);
     }
 
+    public CachedItemInfo getCachedInfo(ItemStack item) {
+        
+        switch(item.getType()) {
+        
+        case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
+            return getCachedWeaponInfo(item);
+        }
+        
+        case DIAMOND_HELMET: case DIAMOND_CHESTPLATE: case DIAMOND_LEGGINGS: case DIAMOND_BOOTS: case IRON_HELMET: case IRON_CHESTPLATE: case IRON_LEGGINGS: case IRON_BOOTS: case GOLD_HELMET: case GOLD_CHESTPLATE: case GOLD_LEGGINGS: case GOLD_BOOTS: case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: case LEATHER_HELMET: case LEATHER_CHESTPLATE: case LEATHER_LEGGINGS: case LEATHER_BOOTS: {
+            return getCachedArmorInfo(item);
+        }
+        
+        default: {
+            return null;
+        }
+        
+        }
+    }
+
 }

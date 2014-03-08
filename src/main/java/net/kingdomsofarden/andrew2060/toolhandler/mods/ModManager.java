@@ -550,11 +550,11 @@ public class ModManager extends URLClassLoader {
      * Determines whether itemstack is a weapon/tool/armor, and adds a mod to it
      * 
      * @param itemstack Itemstack to add mod to
-     * @return -2 if invalid size input, -1 if not a valid tool type, 0 for all mod slots full, 1 for normal operation
+     * @return null if no space, the (possibly) changed ItemStack otherwise
      */
-    public int addMod(ItemStack itemstack,int weight) {
+    public ItemStack addMod(ItemStack itemstack,int weight) {
         if(itemstack.getAmount() > 1) {
-            return -2;
+            throw new IllegalArgumentException("You can only apply mods to one item at a time!");
         } else {
             if(Util.isArmor(itemstack.getType())) {
                 return ModUtil.addArmorMod(itemstack, getRandomArmorMod(weight));
@@ -573,11 +573,11 @@ public class ModManager extends URLClassLoader {
                 case DIAMOND_HOE: case IRON_HOE: case GOLD_HOE: case STONE_HOE: case WOOD_HOE:
                     return ModUtil.addScytheMod(itemstack, getRandomScytheMod(weight));
                 default: {
-                    return -1;
+                    throw new IllegalArgumentException("You cannot add a mod on this type of item!");
                 }
                 }
             } else {
-                return -1;
+                throw new IllegalArgumentException("You cannot add a mod on this type of item!");
             }
         }
     }

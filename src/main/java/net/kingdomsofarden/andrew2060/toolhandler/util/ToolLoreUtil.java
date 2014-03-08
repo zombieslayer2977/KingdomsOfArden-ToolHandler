@@ -12,7 +12,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class ToolLoreUtil {
-
+    
+    /**
+     * @deprecated
+     * @param tool
+     */
     public static int getBonusTrueDamage(ItemStack tool) {
         ItemMeta meta = tool.getItemMeta();
         if(!meta.hasLore()) {
@@ -29,7 +33,10 @@ public class ToolLoreUtil {
         int bonus = Integer.parseInt(intParse);
         return bonus;
     }
-    
+    /**
+     * @deprecated
+     * @param tool
+     */
     public static void updateToolLore(ItemStack tool) {
         ItemMeta meta = tool.getItemMeta();
         if(!meta.hasLore()) {
