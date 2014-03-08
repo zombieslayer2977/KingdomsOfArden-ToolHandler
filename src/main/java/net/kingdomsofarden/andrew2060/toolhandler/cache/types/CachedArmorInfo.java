@@ -29,7 +29,7 @@ public class CachedArmorInfo extends CachedItemInfo {
     private UUID[] mods;
     private DecimalFormat dF;
     
-    public CachedArmorInfo(ItemStack item, double quality, double magicResist, double healBonus, int protBonus) {
+    public CachedArmorInfo(ItemStack item, double quality, double magicResist, double healBonus, double protBonus) {
         this(item,quality,magicResist,healBonus,protBonus,new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
     }
     public CachedArmorInfo(ItemStack item, double quality, double magicResist, double healBonus, double protBonus, UUID[] mods) {
