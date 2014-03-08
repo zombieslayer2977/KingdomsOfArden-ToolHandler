@@ -131,7 +131,7 @@ public class CachedArmorInfo extends CachedItemInfo {
      */
     public ItemStack addMod(ItemMod mod) {
         if(!(mod instanceof ArmorMod)) {
-            throw new IllegalArgumentException("This is not a weapon mod!");
+            throw new IllegalArgumentException("This is not a armor mod!");
         }
         for(int i = 0; i < this.mods.length; i++) {
             if(this.mods[i].equals(EmptyModSlot.baseId) || this.mods[i].equals(EmptyModSlot.bonusId)) {
