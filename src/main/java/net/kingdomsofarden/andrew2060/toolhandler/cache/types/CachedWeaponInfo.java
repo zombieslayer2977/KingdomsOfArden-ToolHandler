@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.mods.EmptyModSlot;
 import net.kingdomsofarden.andrew2060.toolhandler.util.FormattingUtil;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
 import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil;
@@ -27,7 +28,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
     private DecimalFormat dF;
     
     public CachedWeaponInfo(ItemStack item, double quality, double bonusDamage,double lifeSteal, double critChance) {
-        this(item,quality,bonusDamage,lifeSteal,critChance,new UUID[] {});
+        this(item,quality,bonusDamage,lifeSteal,critChance,new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
     }
     public CachedWeaponInfo(ItemStack item, double quality, double bonusDamage,double lifeSteal, double critChance, UUID[] mods) {
         this.qualityFormat = FormattingUtil.getWeaponQualityFormat(quality);

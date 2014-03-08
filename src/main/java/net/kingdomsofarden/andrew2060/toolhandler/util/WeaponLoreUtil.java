@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
+import net.kingdomsofarden.andrew2060.toolhandler.mods.EmptyModSlot;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.ModManager;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.WeaponMod;
 
@@ -236,13 +237,18 @@ public class WeaponLoreUtil {
         lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttribute(cachedData.getLifeSteal()) + " Health/Hit");
         lore.add(4,ChatColor.GRAY + "Critical Strike Chance: " + FormattingUtil.getAttribute(cachedData.getCritChance()) + "%");
         lore.add(5,ChatColor.WHITE + "========Modifications========");
-        int i = 0;
+        int usedSlots = 0;
+        int addedBlankSlots = 0;
         for(UUID id : cachedData.getMods()) {
+            if(id.equals(EmptyModSlot.bonusId)) {
+                addedBlankSlots++;
+                continue;
+            }
             WeaponMod mod = ToolHandlerPlugin.instance.getModManager().getWeaponMod(id);
             if(mod == null) {
                 continue;
             }
-            if(i > 1 || !mod.isSlotRequired()) {
+            if(usedSlots > 1 || !mod.isSlotRequired()) {
                 lore.add(ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
             } else {
                 lore.add(ChatColor.GOLD + mod.getName());
@@ -270,16 +276,19 @@ public class WeaponLoreUtil {
             }
             //TODO: Add blank slot options
             if(mod.isSlotRequired()) {
-                i++; 
+                usedSlots++; 
                 continue;
             } else {
                 continue;
             }
         }
-        if(i <= 1) {
-            for(int j = 0; j <= 1 - i; j++) {
+        if(usedSlots <= 1) {
+            for(int i = 0; i <= 1 - usedSlots; i++) {
                 lore.add(ChatColor.DARK_GRAY + "[Empty Slot]");
             }
+        }
+        for(int i = 0; i < addedBlankSlots; i++) {
+            lore.add(EmptyModSlot.bonusDesc);
         }
         meta.setLore(lore);
         weapon.setItemMeta(meta);

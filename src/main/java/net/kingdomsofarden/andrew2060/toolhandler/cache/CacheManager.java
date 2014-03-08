@@ -31,7 +31,7 @@ public class CacheManager {
 
                     @Override
                     public CachedWeaponInfo load(ItemStack is) throws ItemStackChangedException {
-                        String parseable = NbtUtil.getWeaponAttributes(is);
+                        String parseable = NbtUtil.getAttributes(is);
                         if(parseable == null) {
                             //This should never be called, it is merely here as a just in case
                             return CachedWeaponInfo.getDefault(is);
@@ -50,7 +50,7 @@ public class CacheManager {
 
                     @Override
                     public CachedArmorInfo load(ItemStack is) throws ItemStackChangedException {
-                        String parseable = NbtUtil.getWeaponAttributes(is);
+                        String parseable = NbtUtil.getAttributes(is);
                         if(parseable == null) {
                             //This should never be called, it is merely here as a just in case
                             return CachedArmorInfo.getDefault(is);
