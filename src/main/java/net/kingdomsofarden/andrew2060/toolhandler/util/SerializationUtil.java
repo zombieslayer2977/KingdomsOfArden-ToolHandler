@@ -280,7 +280,7 @@ public class SerializationUtil {
                 loreUpdated.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getBonusDamage()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getBonusDamage())
-                        + ChatColor.GRAY + " Damage");
+                        + ChatColor.GRAY + "% Damage");
             }
             if(mod.getLifeSteal() != null && mod.getLifeSteal() > Double.valueOf(0.00)) {
                 loreUpdated.add(ChatColor.GRAY + "- " 

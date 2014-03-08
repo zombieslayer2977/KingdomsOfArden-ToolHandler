@@ -42,7 +42,9 @@ public class WeaponLoreListener implements Listener {
 			}
 		}
 		double bonusDamage = plugin.getCacheManager().getCachedWeaponInfo(i).getBonusDamage();
-		event.setDamage(event.getDamage() + bonusDamage);
+		bonusDamage *= 0.01;
+		bonusDamage += 1;
+		event.setDamage(event.getDamage() * bonusDamage);
 	}
 	//Life Steal Handler
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
