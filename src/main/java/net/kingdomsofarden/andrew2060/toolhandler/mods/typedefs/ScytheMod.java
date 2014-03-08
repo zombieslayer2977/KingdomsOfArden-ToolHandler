@@ -1,10 +1,12 @@
 package net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs;
+import net.kingdomsofarden.andrew2060.toolhandler.mods.ItemMod;
+
 import org.bukkit.inventory.ItemStack;
 
 import com.herocraftonline.heroes.api.events.SkillDamageEvent;
 import com.herocraftonline.heroes.api.events.SkillUseEvent;
 
-public abstract class ScytheMod {
+public abstract class ScytheMod extends ItemMod {
 	private String[] desc;
 	private String name;
 	private int weight;

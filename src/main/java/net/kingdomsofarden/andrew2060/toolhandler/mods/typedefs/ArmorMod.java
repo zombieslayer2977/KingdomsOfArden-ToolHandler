@@ -5,14 +5,16 @@ import java.util.UUID;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedArmorInfo;
+import net.kingdomsofarden.andrew2060.toolhandler.mods.ItemMod;
 import net.kingdomsofarden.andrew2060.toolhandler.potions.PotionEffectManager;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 
-public abstract class ArmorMod {
+public abstract class ArmorMod extends ItemMod {
     protected PotionEffectManager pEMan;
     private String[] desc;
     private String name;

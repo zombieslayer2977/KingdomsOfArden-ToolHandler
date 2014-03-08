@@ -1,10 +1,12 @@
 package net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs;
+import net.kingdomsofarden.andrew2060.toolhandler.mods.ItemMod;
+
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 
-public abstract class ToolMod {
+public abstract class ToolMod extends ItemMod {
 	private String[] desc;
 	private String name;
 	private int weight;
