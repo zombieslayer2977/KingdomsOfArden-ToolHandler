@@ -13,6 +13,10 @@ public abstract class ToolMod extends ItemMod {
 	private String name;
 	private int weight;
 	private boolean requiresSlot;
+	private Double trueDamage;
+	private Double bashChance;
+	private Double decimateChance;
+	
 	public ToolMod(UUID modUUID, String name, int weight, boolean requiresSlot, String... desc) {
 	    super(modUUID);
 		this.name = name;
@@ -36,4 +40,28 @@ public abstract class ToolMod extends ItemMod {
 	public abstract void executeOnBlockBreak(BlockBreakEvent event);
 	public abstract void applyToTool(ItemStack tool);
 	public abstract void executeOnWeaponDamage(WeaponDamageEvent event);
+
+    public Double getTrueDamage() {
+        return trueDamage;
+    }
+
+    public void setTrueDamage(double trueDamage) {
+        this.trueDamage = trueDamage;
+    }
+
+    public Double getBashChance() {
+        return bashChance;
+    }
+
+    public void setBashChance(double bashChance) {
+        this.bashChance = bashChance;
+    }
+
+    public Double getDecimateChance() {
+        return decimateChance;
+    }
+
+    public void setDecimateChance(double decimateChance) {
+        this.decimateChance = decimateChance;
+    }
 }

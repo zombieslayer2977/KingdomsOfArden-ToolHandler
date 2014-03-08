@@ -14,6 +14,7 @@ import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.EmptyModSlot;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.ModManager;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ArmorMod;
+import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ToolMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.WeaponMod;
 
 public class SerializationUtil {
@@ -46,7 +47,140 @@ public class SerializationUtil {
     }
 
     private static String deserializeTool(ItemStack item) {
-        return null;
+        ItemMeta meta = item.getItemMeta();
+        if(!meta.hasLore()) {
+            GeneralLoreUtil.populateLoreDefaults(item);
+            return "0.00:0.00:0.00:0.00:" + EmptyModSlot.baseId.toString() + ":" + EmptyModSlot.baseId.toString();
+        }
+        List<String> lore = meta.getLore();
+
+        double improvementQuality = 0.00D;
+        double trueDamage = 0.00D;
+        double bashChance = 0.00D;
+        double decimateChance = 0.00D;
+
+        List<String> modifications = new LinkedList<String>();
+        
+        //Once this is true, assumes all lore past is modification lore
+        boolean reachedmodifications = false;
+        for(String line : lore) {
+            if(reachedmodifications) {
+                modifications.add(line);
+            }
+            line = ChatColor.stripColor(line);
+            if(line.contains("Quality")) {
+                boolean textBased = line.contains("("); //If it contains a parenthetical open - it is in formatted text form
+                try {
+                    improvementQuality = Double.parseDouble(line.replaceAll("[^.0-9]",""));
+                    if(textBased) {
+                        improvementQuality *= 20.00D;
+                    }
+                } catch (NumberFormatException e) {
+                }
+            }
+            if(line.contains("Modifications")) {
+                reachedmodifications = true;
+            }
+        }
+        ModManager modMan = ToolHandlerPlugin.instance.getModManager();
+        List<UUID> mods = new LinkedList<UUID>();
+        int baseBlankSlots = 0;
+        int addedBlankSlots = 0;
+        for(String parseableModName : modifications) {
+            if(!parseableModName.contains(ChatColor.GOLD +"")) {
+                if(parseableModName.contains(ChatColor.DARK_GRAY + "")) {
+                    if(parseableModName.contains(ChatColor.MAGIC + "")) {
+                        addedBlankSlots++;
+                    } else {
+                        baseBlankSlots++;
+                    }
+                }
+                continue;
+            } else {
+                ToolMod mod = modMan.getToolMod(ChatColor.stripColor(parseableModName).replace(" ", ""));
+                if(mod != null) {
+                    mods.add(mod.modUUID);
+                    trueDamage += mod.getTrueDamage();
+                    bashChance += mod.getBashChance();
+                    decimateChance += mod.getDecimateChance();
+                } else {
+                    addedBlankSlots++; //Mod no longer exists, add slot back
+                }
+            }
+        }
+
+        List<String> loreUpdated = new ArrayList<String>();
+        loreUpdated.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
+        loreUpdated.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getArmorQualityFormat(improvementQuality));
+        loreUpdated.add(2,ChatColor.GRAY + "True Damage: " + FormattingUtil.getAttribute(trueDamage));
+        loreUpdated.add(3,ChatColor.GRAY + "Bash Attack Chance: " + FormattingUtil.getAttribute(bashChance) + "%");
+        loreUpdated.add(4,ChatColor.GRAY + "Decimating Strike Chance: " + FormattingUtil.getAttribute(decimateChance) + "%");
+        loreUpdated.add(5,ChatColor.WHITE + "========Modifications========");
+        int usedSlots = 0;
+        for(UUID modID :  mods) {
+            ToolMod mod = modMan.getToolMod(modID);
+            if(usedSlots > 1 || !mod.isSlotRequired()) {
+                loreUpdated.add(ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
+            } else {
+                loreUpdated.add(ChatColor.GOLD + mod.getName());
+            }
+            if(mod.getTrueDamage() != null && mod.getTrueDamage() > Double.valueOf(0.00)) {
+                lore.add(ChatColor.GRAY + "- " 
+                        + FormattingUtil.getAttributeColor(mod.getTrueDamage()) 
+                        + FormattingUtil.modDescriptorFormat.format(mod.getTrueDamage())
+                        + ChatColor.GRAY + " True Damage");
+            }
+            if(mod.getBashChance() != null && mod.getBashChance() > Double.valueOf(0.00)) {
+                lore.add(ChatColor.GRAY + "- " 
+                        + FormattingUtil.getAttributeColor(mod.getBashChance()) 
+                        + FormattingUtil.modDescriptorFormat.format(mod.getBashChance())
+                        + ChatColor.GRAY + "% Bash Attack Chance");
+            }
+            if(mod.getDecimateChance() != null && mod.getDecimateChance() > Double.valueOf(0.00)) {
+                lore.add(ChatColor.GRAY + "- " 
+                        + FormattingUtil.getAttributeColor(mod.getDecimateChance()) 
+                        + FormattingUtil.modDescriptorFormat.format(mod.getDecimateChance())
+                        + ChatColor.GRAY + "% Decimating Attack Chance");
+            }
+            for(String s : mod.getDescription()) {
+                lore.add(ChatColor.GRAY + "- " + s);
+            }
+            if(mod.isSlotRequired()) {
+                usedSlots++; 
+                continue;
+            } else {
+                continue;
+            }
+        }
+        for(int i = 0; i < baseBlankSlots; i++) {
+            loreUpdated.add(EmptyModSlot.baseDesc);
+        }
+        for(int i = 0; i < addedBlankSlots; i++) {
+            loreUpdated.add(EmptyModSlot.bonusDesc);
+        }
+        meta.setLore(loreUpdated);
+        item.setItemMeta(meta);
+        DecimalFormat dF = new DecimalFormat("##.##");
+        StringBuilder dataBuilder = new StringBuilder();
+        dataBuilder.append(dF.format(improvementQuality));
+        dataBuilder.append(":");
+        dataBuilder.append(dF.format(trueDamage));
+        dataBuilder.append(":");
+        dataBuilder.append(dF.format(bashChance));
+        dataBuilder.append(":");
+        dataBuilder.append(dF.format(decimateChance));
+        for(UUID modID : mods) {
+            dataBuilder.append(":");
+            dataBuilder.append(modID.toString());
+        }
+        for(int i = 0; i < baseBlankSlots; i++) {
+            dataBuilder.append(":");
+            dataBuilder.append(EmptyModSlot.baseId.toString());
+        }
+        for(int i = 0; i < addedBlankSlots; i++) {
+            loreUpdated.add(EmptyModSlot.bonusId.toString());
+        }
+        return dataBuilder.toString();
     }
 
     private static String deserializeScythe(ItemStack item) {

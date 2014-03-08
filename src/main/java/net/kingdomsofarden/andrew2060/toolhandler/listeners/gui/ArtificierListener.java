@@ -131,11 +131,13 @@ public class ArtificierListener implements Listener {
                             inv.clear(14);
                         }
                         inv.setItem(16, new ItemStack(Material.AIR));
-                        if(!createNewModSlot(soulGem,item,essenceOfEnchanting)) {
+                        ItemStack newSlotItem = createNewModSlot(soulGem,item,essenceOfEnchanting);
+                        if(newSlotItem == null) {
                             inv.setItem(15, new ItemStack(Material.AIR));
                             p.sendMessage(ChatColor.GRAY + "Item upgrade unsuccessful, item broke!");
                             break;
                         } else {
+                            inv.setItem(15, newSlotItem);
                             p.sendMessage(ChatColor.GRAY + "Item upgrade successful!");
                             break;
                         }
@@ -151,26 +153,7 @@ public class ArtificierListener implements Listener {
             }
         }
     }
-    private boolean createNewModSlot(ItemStack soulGem, ItemStack item, ItemStack essenceOfEnchanting) {
-        String name = ChatColor.stripColor(soulGem.getItemMeta().getDisplayName());
-        name = name.toLowerCase();
-        double modifier = 1D;
-        if(name.contains("weak")) {
-            modifier = 2D;
-        } else if(name.contains("common")) {
-            modifier = 3D;
-        } else if(name.contains("strong")) {
-            modifier = 4D;
-        } else if(name.contains("major")) {
-            modifier = 5D;
-        } else if(name.contains("master")) {
-            modifier = 6D;
-        } else if(name.contains("legendary")) {
-            modifier = 7D;
-        }
-        double multiply = modifier/7.0D;
-        return ModUtil.addModSlot(item,multiply);
-    }
+
 
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerInteractModCombiner(PlayerInteractEvent event) {
@@ -196,7 +179,7 @@ public class ArtificierListener implements Listener {
     public HashMap<Location, Inventory> getActiveArtificierTables() {
         return this.activeModChests;
     }
-    public ItemStack addMod(ItemStack tool, ItemStack soulGem) {
+    private ItemStack addMod(ItemStack tool, ItemStack soulGem) {
         String name = ChatColor.stripColor(soulGem.getItemMeta().getDisplayName());
         name = name.toLowerCase();
         int weight = 1;
@@ -214,5 +197,26 @@ public class ArtificierListener implements Listener {
             weight = 7;
         }
         return plugin.getModManager().addMod(tool, weight);
+    }
+    
+    private ItemStack createNewModSlot(ItemStack soulGem, ItemStack item, ItemStack essenceOfEnchanting) {
+        String name = ChatColor.stripColor(soulGem.getItemMeta().getDisplayName());
+        name = name.toLowerCase();
+        double modifier = 1D;
+        if(name.contains("weak")) {
+            modifier = 2D;
+        } else if(name.contains("common")) {
+            modifier = 3D;
+        } else if(name.contains("strong")) {
+            modifier = 4D;
+        } else if(name.contains("major")) {
+            modifier = 5D;
+        } else if(name.contains("master")) {
+            modifier = 6D;
+        } else if(name.contains("legendary")) {
+            modifier = 7D;
+        }
+        double multiply = modifier/7.0D;
+        return ModUtil.addModSlot(item,multiply);
     }
 }

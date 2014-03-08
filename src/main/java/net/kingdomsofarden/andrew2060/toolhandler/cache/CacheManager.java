@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedArmorInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedItemInfo;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedToolInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil;
 import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil.ItemStackChangedException;
@@ -20,6 +21,7 @@ import com.google.common.cache.RemovalNotification;
 public class CacheManager {
     private Cache<ItemStack,CachedWeaponInfo> weaponCache;
     private Cache<ItemStack,CachedArmorInfo> armorCache;
+    private Cache<ItemStack, CachedToolInfo> toolCache;
 
     public CacheManager() {
         weaponCache = CacheBuilder.newBuilder()
@@ -56,6 +58,25 @@ public class CacheManager {
                             return CachedArmorInfo.getDefault(is);
                         } else {
                             return CachedArmorInfo.fromString(is, parseable);
+                        }
+                    }
+                    
+                });
+        toolCache = CacheBuilder.newBuilder()
+                .concurrencyLevel(1)
+                .weakKeys()
+                .expireAfterAccess(3,TimeUnit.MINUTES)
+                .removalListener(new CacheItemRemovalListener())
+                .build(new CacheLoader<ItemStack, CachedToolInfo>() {
+
+                    @Override
+                    public CachedToolInfo load(ItemStack is) throws ItemStackChangedException {
+                        String parseable = NbtUtil.getAttributes(is);
+                        if(parseable == null) {
+                            //This should never be called, it is merely here as a just in case
+                            return CachedToolInfo.getDefault(is);
+                        } else {
+                            return CachedToolInfo.fromString(is, parseable);
                         }
                     }
                     
@@ -111,6 +132,20 @@ public class CacheManager {
         
     }
     
+
+    public CachedToolInfo getCachedToolInfo(ItemStack is) {
+        try {
+            return toolCache.get(is);
+        } catch (ExecutionException e) {
+            if(e.getCause() instanceof ItemStackChangedException) {
+                ItemStackChangedException changeException = (ItemStackChangedException)e.getCause();
+                return getCachedToolInfo(changeException.newStack);
+            }
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public void invalidateFromWeaponCache(ItemStack is) {
         weaponCache.invalidate(is);
     }
@@ -130,12 +165,15 @@ public class CacheManager {
         case DIAMOND_HELMET: case DIAMOND_CHESTPLATE: case DIAMOND_LEGGINGS: case DIAMOND_BOOTS: case IRON_HELMET: case IRON_CHESTPLATE: case IRON_LEGGINGS: case IRON_BOOTS: case GOLD_HELMET: case GOLD_CHESTPLATE: case GOLD_LEGGINGS: case GOLD_BOOTS: case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: case LEATHER_HELMET: case LEATHER_CHESTPLATE: case LEATHER_LEGGINGS: case LEATHER_BOOTS: {
             return getCachedArmorInfo(item);
         }
-        
+        case DIAMOND_AXE: case DIAMOND_PICKAXE: case DIAMOND_SPADE: case IRON_AXE: case IRON_PICKAXE: case IRON_SPADE: case GOLD_AXE: case GOLD_PICKAXE: case GOLD_SPADE: case STONE_AXE: case STONE_PICKAXE: case STONE_SPADE: case WOOD_AXE: case WOOD_PICKAXE: case WOOD_SPADE: {
+            return getCachedToolInfo(item);
+        }
         default: {
             return null;
         }
         
         }
     }
+
 
 }

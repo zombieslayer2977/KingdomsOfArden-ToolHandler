@@ -45,12 +45,14 @@ public class ModManager extends URLClassLoader {
 
     private final Map<UUID,WeaponMod> weaponMods;
     private final Map<UUID,ArmorMod> armorMods;
-    private final Map<String,ToolMod> toolMods;
-    private final Map<String,ScytheMod> scytheMods;
+    private final Map<UUID,ToolMod> toolMods;
+    private final Map<UUID,ScytheMod> scytheMods;
     
     //Map of mod name along with its associated mod data file
     private final Map<String,WeaponMod> weaponModNames;
     private final Map<String,ArmorMod> armorModNames;
+    private final Map<String,ToolMod> toolModNames;
+    private final Map<String,ScytheMod> scytheModNames;
 
 
 
@@ -76,12 +78,14 @@ public class ModManager extends URLClassLoader {
 
         this.weaponMods = new LinkedHashMap<UUID, WeaponMod>();
         this.armorMods = new LinkedHashMap<UUID, ArmorMod>();
-        this.toolMods = new LinkedHashMap<String, ToolMod>();
-        this.scytheMods = new LinkedHashMap<String, ScytheMod>();
+        this.toolMods = new LinkedHashMap<UUID, ToolMod>();
+        this.scytheMods = new LinkedHashMap<UUID, ScytheMod>();
         
-        this.weaponModNames = new HashMap<String,WeaponMod>();
+        this.weaponModNames = new HashMap<String, WeaponMod>();
         this.armorModNames = new HashMap<String, ArmorMod>();
-
+        this.toolModNames = new HashMap<String, ToolMod>();
+        this.scytheModNames = new HashMap<String, ScytheMod>();
+        
         File modDir = new File(plugin.getDataFolder(),"Mods");
         modDir.mkdirs();
         this.weaponModDir = new File(modDir,"WeaponMods");
@@ -390,12 +394,14 @@ public class ModManager extends URLClassLoader {
     }
 
     private void addScytheMod(ScytheMod mod) {
-        this.scytheMods.put(mod.getName().toLowerCase(), mod);	
+        this.scytheMods.put(mod.modUUID, mod);
+        this.scytheModNames.put(mod.getName().toLowerCase(), mod);
         this.scytheModWeightTotal += mod.getWeight();
     }
 
     private void addToolMod(ToolMod mod) {
-        this.toolMods.put(mod.getName().toLowerCase(), mod);	
+        this.toolMods.put(mod.modUUID, mod);	
+        this.toolModNames.put(mod.getName().toLowerCase(), mod);
         this.toolModWeightTotal +=mod.getWeight();
 
     } 
@@ -477,13 +483,13 @@ public class ModManager extends URLClassLoader {
         }	
     }
     public ToolMod getRandomToolMod(int seed) {
-        Collection<String> mods = toolMods.keySet();
-        Iterator<String> modIt = mods.iterator();
+        Collection<UUID> mods = toolMods.keySet();
+        Iterator<UUID> modIt = mods.iterator();
         if(mods.size() > 0) {
             int rand = plugin.getRand().nextInt(this.toolModWeightTotal+1);
             ToolMod mod = null;
             while(rand > 0 && modIt.hasNext()) {
-                String next = modIt.next();
+                UUID next = modIt.next();
                 mod = toolMods.get(next);
                 rand -= mod.getWeight();
             }
@@ -501,13 +507,13 @@ public class ModManager extends URLClassLoader {
         }	
     }
     public ScytheMod getRandomScytheMod(int seed) {
-        Collection<String> mods = scytheMods.keySet();
-        Iterator<String> modIt = mods.iterator();
+        Collection<UUID> mods = scytheMods.keySet();
+        Iterator<UUID> modIt = mods.iterator();
         if(mods.size() > 0) {
             int rand = plugin.getRand().nextInt(this.scytheModWeightTotal+1);
             ScytheMod mod = null;
             while(rand > 0 && modIt.hasNext()) {
-                String next = modIt.next();
+                UUID next = modIt.next();
                 mod = scytheMods.get(next);
                 rand -= mod.getWeight();
             }
@@ -526,6 +532,7 @@ public class ModManager extends URLClassLoader {
     }
     
     public WeaponMod getWeaponMod(String name) {
+        name = name.toLowerCase();
         return weaponModNames.get(name);
     }
     public WeaponMod getWeaponMod(UUID id) {
@@ -537,14 +544,17 @@ public class ModManager extends URLClassLoader {
     }
     public ArmorMod getArmorMod(String name) {
         name = name.toLowerCase();
-        return armorMods.get(name);
+        return armorModNames.get(name);
     }
     public ArmorMod getArmorMod(UUID id) {
         return armorMods.get(id);
     }
+    public ToolMod getToolMod(UUID id) {
+        return toolMods.get(id); 
+    }
     public ToolMod getToolMod(String name) {
         name = name.toLowerCase();
-        return toolMods.get(name); 
+        return toolModNames.get(name); 
     }
     /**
      * Determines whether itemstack is a weapon/tool/armor, and adds a mod to it
