@@ -85,11 +85,7 @@ public class DurabilityChangeListener implements Listener {
         case GOLD_SWORD: 
         case STONE_SWORD:
         case WOOD_SWORD: 
-        case DIAMOND_AXE: 
-        case IRON_AXE: 
-        case GOLD_AXE: 
-        case STONE_AXE:
-        case WOOD_AXE: {
+ {
             CachedWeaponInfo cached = plugin.getCacheManager().getCachedWeaponInfo(item);
             try {
                 cached.reduceQuality();
@@ -105,7 +101,8 @@ public class DurabilityChangeListener implements Listener {
         case STONE_HOE:
         case WOOD_HOE: {
             double quality = ImprovementUtil.reduceQuality(item, ImprovementUtil.getItemType(item));
-            ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DAMAGE_ALL,quality);
+            ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DIG_SPEED, quality);
+            ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DAMAGE_ALL, quality);
             return;
         }
         case BOW: {
@@ -116,6 +113,16 @@ public class DurabilityChangeListener implements Listener {
                 ImprovementUtil.applyEnchantmentLevel(e.newStack, Enchantment.ARROW_DAMAGE,cached.getQuality());
             }
             ImprovementUtil.applyEnchantmentLevel(item, Enchantment.ARROW_DAMAGE,cached.getQuality());
+            return;
+        }
+        case DIAMOND_AXE: 
+        case IRON_AXE: 
+        case GOLD_AXE: 
+        case STONE_AXE:
+        case WOOD_AXE: {
+            double quality = ImprovementUtil.reduceQuality(item, ImprovementUtil.getItemType(item));
+            ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DIG_SPEED, quality);
+            ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DAMAGE_ALL, quality);
             return;
         }
         case DIAMOND_PICKAXE:
