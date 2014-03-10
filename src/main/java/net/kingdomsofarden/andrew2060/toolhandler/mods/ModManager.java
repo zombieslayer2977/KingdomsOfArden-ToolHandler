@@ -419,19 +419,19 @@ public class ModManager extends URLClassLoader {
     }
 
     private boolean isWeaponModLoaded(String key) {
-        return this.weaponMods.containsKey(key.toLowerCase());
+        return this.weaponModNames.containsKey(key.toLowerCase());
     }
 
     private boolean isArmorModLoaded(String key) {
-        return this.armorMods.containsKey(key.toLowerCase());
+        return this.armorModNames.containsKey(key.toLowerCase());
     }
 
     private boolean isToolModLoaded(String key) {
-        return this.toolMods.containsKey(key.toLowerCase());
+        return this.toolModNames.containsKey(key.toLowerCase());
     }
 
     private boolean isScytheModLoaded(String key) {
-        return this.scytheMods.containsKey(key.toLowerCase());
+        return this.scytheModNames.containsKey(key.toLowerCase());
     }
 
     public WeaponMod getRandomWeaponMod(int seed) {
