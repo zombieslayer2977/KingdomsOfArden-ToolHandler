@@ -75,14 +75,18 @@ public class ModListener implements Listener {
 			case WOOD_PICKAXE:
 			case WOOD_AXE:
 			case WOOD_SPADE: {
-				List<String> mods = ModUtil.getToolMods(i);
-				ModManager modManager = plugin.getModManager();
-				for(int x = 0; x < mods.size(); x++) {
-					ToolMod mod = modManager.getToolMod(mods.get(x));
-					if(mod != null) {
-						mod.executeOnWeaponDamage(event);
-					}
-				}
+			    UUID[] modIDs = plugin.getCacheManager().getCachedToolInfo(i).getMods();
+                for(UUID id : modIDs) {
+                    ToolMod mod = plugin.getModManager().getToolMod(id);
+                    if(mod != null) {
+                        try {
+                            mod.tickModWeaponDamage(event);
+                        } catch (Exception e) {
+                            System.out.println("Error in Tool Mod " + mod.getName());
+                            e.printStackTrace();
+                        }
+                    }
+                }
 				return;
 			}
 			default: {
@@ -120,7 +124,7 @@ public class ModListener implements Listener {
 			bootscheck = false;
 		}
 		if(helmetcheck) {
-			UUID[] mods = plugin.getCacheManager().getCachedWeaponInfo(helmet).getMods();
+			UUID[] mods = plugin.getCacheManager().getCachedArmorInfo(helmet).getMods();
 			ModManager modManager = plugin.getModManager();
 			for(UUID id : mods) {
 				ArmorMod mod = modManager.getArmorMod(id);
@@ -130,7 +134,7 @@ public class ModListener implements Listener {
 			}		
 		}
 		if(chestcheck) {
-		    UUID[] mods = plugin.getCacheManager().getCachedWeaponInfo(chest).getMods();
+		    UUID[] mods = plugin.getCacheManager().getCachedArmorInfo(chest).getMods();
             ModManager modManager = plugin.getModManager();
             for(UUID id : mods) {
                 ArmorMod mod = modManager.getArmorMod(id);
@@ -140,7 +144,7 @@ public class ModListener implements Listener {
             }   
 		}
 		if(legscheck) {
-		    UUID[] mods = plugin.getCacheManager().getCachedWeaponInfo(legs).getMods();
+		    UUID[] mods = plugin.getCacheManager().getCachedArmorInfo(legs).getMods();
             ModManager modManager = plugin.getModManager();
             for(UUID id : mods) {
                 ArmorMod mod = modManager.getArmorMod(id);
@@ -150,7 +154,7 @@ public class ModListener implements Listener {
             }   
 		}
 		if(bootscheck) {
-		    UUID[] mods = plugin.getCacheManager().getCachedWeaponInfo(boots).getMods();
+		    UUID[] mods = plugin.getCacheManager().getCachedArmorInfo(boots).getMods();
             ModManager modManager = plugin.getModManager();
             for(UUID id : mods) {
                 ArmorMod mod = modManager.getArmorMod(id);
@@ -182,15 +186,19 @@ public class ModListener implements Listener {
 			case WOOD_PICKAXE:
 			case WOOD_AXE:
 			case WOOD_SPADE: {
-				List<String> mods = ModUtil.getToolMods(i);
-				ModManager modManager = plugin.getModManager();
-				for(int x = 0; x < mods.size(); x++) {
-					ToolMod mod = modManager.getToolMod(mods.get(x));
-					if(mod != null) {
-						mod.executeOnBlockBreak(event);
-					}
-				}
-				return;
+			    UUID[] modIDs = plugin.getCacheManager().getCachedToolInfo(i).getMods();
+                for(UUID id : modIDs) {
+                    ToolMod mod = plugin.getModManager().getToolMod(id);
+                    if(mod != null) {
+                        try {
+                            mod.tickModBlockBreak(event);
+                        } catch (Exception e) {
+                            System.out.println("Error in Tool Mod " + mod.getName());
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                return;
 			}
 			default: {
 				return;
