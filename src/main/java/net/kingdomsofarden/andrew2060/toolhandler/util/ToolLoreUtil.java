@@ -19,17 +19,25 @@ public class ToolLoreUtil {
     public static void write(CachedToolInfo data, ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         List<String> lore = new LinkedList<String>();
+        double trueDamage = 0;
+        double bashChance = 0;
+        double decimatingChance = 0;
+        ToolHandlerPlugin plugin = ToolHandlerPlugin.instance;
+        for(UUID id : data.getMods()) {
+            ToolMod mod = plugin.getModManager().getToolMod(id);
+            trueDamage += mod.getTrueDamage();
+        }
         lore.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         lore.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getWeaponToolQualityFormat(data.getQuality()));
-        lore.add(2,ChatColor.GRAY + "True Damage: " + FormattingUtil.getAttribute(data.getTrueDamage()));
-        lore.add(3,ChatColor.GRAY + "Bash Attack Chance: " + FormattingUtil.getAttribute(data.getBashChance()) + "%");
-        lore.add(4,ChatColor.GRAY + "Decimating Strike Chance: " + FormattingUtil.getAttribute(data.getDecimatingStrikeChance()) + "%");
+        lore.add(2,ChatColor.GRAY + "True Damage: " + FormattingUtil.getAttribute(trueDamage));
+        lore.add(3,ChatColor.GRAY + "Bash Attack Chance: " + FormattingUtil.getAttribute(bashChance) + "%");
+        lore.add(4,ChatColor.GRAY + "Decimating Strike Chance: " + FormattingUtil.getAttribute(decimatingChance) + "%");
         lore.add(5,ChatColor.WHITE + "========Modifications========");
         int usedSlots = 0;
         int addedBlankSlots = 0;
         int baseBlankSlots = 0;
         for(UUID id : data.getMods()) {
-            ToolMod mod = ToolHandlerPlugin.instance.getModManager().getToolMod(id);
+            ToolMod mod = plugin.getModManager().getToolMod(id);
             if(mod == null) {
                 if(id.equals(EmptyModSlot.bonusId)) {
                     addedBlankSlots++;

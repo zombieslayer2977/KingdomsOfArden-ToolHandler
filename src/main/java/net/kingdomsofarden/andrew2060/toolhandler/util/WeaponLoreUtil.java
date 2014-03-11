@@ -18,18 +18,31 @@ public class WeaponLoreUtil {
     public static void write(CachedWeaponInfo cachedData, ItemStack weapon) {
         ItemMeta meta = weapon.getItemMeta();
         List<String> lore = new LinkedList<String>();
+        double damage = 0.00;
+        double lifeSteal = 0.00;
+        double critChance = 0.00;
+        ToolHandlerPlugin plugin = ToolHandlerPlugin.instance;
+        for(UUID id : cachedData.getMods()) {
+            
+            WeaponMod mod = plugin.getModManager().getWeaponMod(id);
+            if(mod != null) {
+                damage += mod.getBonusDamage();
+                lifeSteal += mod.getLifeSteal();
+                critChance += mod.getCritChance();
+            }
+        }
         lore.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         lore.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getWeaponToolQualityFormat(cachedData.getQuality()));
-        lore.add(2,ChatColor.GRAY + "Bonus Damage: " + FormattingUtil.getAttribute(cachedData.getBonusDamage()));
-        lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttribute(cachedData.getLifeSteal()) + "%");
-        lore.add(4,ChatColor.GRAY + "Critical Strike Chance: " + FormattingUtil.getAttribute(cachedData.getCritChance()) + "%");
+        lore.add(2,ChatColor.GRAY + "Bonus Damage: " + FormattingUtil.getAttribute(damage));
+        lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttribute(lifeSteal) + "%");
+        lore.add(4,ChatColor.GRAY + "Critical Strike Chance: " + FormattingUtil.getAttribute(critChance) + "%");
         lore.add(5,ChatColor.WHITE + "========Modifications========");
         int usedSlots = 0;
         int addedBlankSlots = 0;
         int baseBlankSlots = 0;
         for(UUID id : cachedData.getMods()) {
             
-            WeaponMod mod = ToolHandlerPlugin.instance.getModManager().getWeaponMod(id);
+            WeaponMod mod = plugin.getModManager().getWeaponMod(id);
             if(mod == null) {
                 if(id.equals(EmptyModSlot.bonusId)) {
                     addedBlankSlots++;

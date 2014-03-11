@@ -22,6 +22,18 @@ public class ArmorLoreUtil {
         double magicResist = 0.00;
         double kbResist = 0.00;
         double protBonus = 0.00;
+        switch(item.getType()) { //All chainmail has +10% base magic resist
+        
+        case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: {
+            magicResist += 10;
+            break;
+        }
+        default: {
+            break;
+        }
+        
+        }
+        
         for(UUID id : data.getMods()) {
             ArmorMod mod = plugin.getModManager().getArmorMod(id);
             if(mod != null) {
@@ -33,7 +45,7 @@ public class ArmorLoreUtil {
         lore.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         lore.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getArmorQualityFormat(data.getQuality()));
         lore.add(2,ChatColor.GRAY + "Magical Resistance Rating: " + FormattingUtil.getAttribute(magicResist) + "%");
-        lore.add(3,ChatColor.GRAY + "Knockback Resistance Rating: " + FormattingUtil.getAttribute(kbResist) + "%");
+        lore.add(3,ChatColor.GRAY + "Knockback Resistance Rating: " + FormattingUtil.getAttribute(kbResist*100) + "%");
         lore.add(4,ChatColor.GRAY + "Additional Protection: " + FormattingUtil.getAttribute(protBonus) + "%");
         lore.add(5,ChatColor.WHITE + "========Modifications========");
         int usedSlots = 0;
