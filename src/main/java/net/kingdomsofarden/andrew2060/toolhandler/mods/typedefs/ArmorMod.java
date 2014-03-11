@@ -40,7 +40,7 @@ public abstract class ArmorMod extends ItemMod {
     public void applyToArmor(ItemStack armor) {
         CachedArmorInfo cachedArmor = ToolHandlerPlugin.instance.getCacheManager().getCachedArmorInfo(armor);
         cachedArmor.setMagicResist(cachedArmor.getMagicResist() + this.magicResist);
-        cachedArmor.setHealBonus(cachedArmor.getHealBonus() + this.healingBonus);
+        cachedArmor.setKBResistBonus(cachedArmor.getKBResistBonus() + this.healingBonus);
         cachedArmor.setProtBonus(cachedArmor.getProtBonus() + this.protBonus);
         cachedArmor.forceWrite(true);
     }

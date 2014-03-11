@@ -23,7 +23,7 @@ public class CachedArmorInfo extends CachedItemInfo {
     private double quality;
     private String qualityFormat;
     private double magicResist;
-    private double healBonus;
+    private double knockBackResist;
     private double protBonus;
     private ItemStack item;
     private UUID[] mods;
@@ -33,10 +33,10 @@ public class CachedArmorInfo extends CachedItemInfo {
         this(item,quality,magicResist,healBonus,protBonus,new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
     }
     public CachedArmorInfo(ItemStack item, double quality, double magicResist, double healBonus, double protBonus, UUID[] mods) {
-        this.qualityFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
+        this.qualityFormat = FormattingUtil.getArmorQualityFormat(quality);
         this.quality = quality;
         this.setMagicResist(magicResist);
-        this.setHealBonus(healBonus);
+        this.setKBResistBonus(healBonus);
         this.setProtBonus(protBonus);
         this.setItem(item);
         this.setMods(mods);
@@ -99,11 +99,11 @@ public class CachedArmorInfo extends CachedItemInfo {
     public void setMagicResist(double magicResist) {
         this.magicResist = magicResist;
     }
-    public double getHealBonus() {
-        return healBonus;
+    public double getKBResistBonus() {
+        return knockBackResist;
     }
-    public void setHealBonus(double healBonus) {
-        this.healBonus = healBonus;
+    public void setKBResistBonus(double resist) {
+        this.knockBackResist = resist;
     }
     public double getProtBonus() {
         return protBonus;
@@ -164,22 +164,8 @@ public class CachedArmorInfo extends CachedItemInfo {
     }
     
     public ItemStack forceWrite(boolean removeOldFromCache) {
-        try {
-            NbtUtil.writeAttributes(item, this);
-        } catch (ItemStackChangedException e) {
-            if(removeOldFromCache) {
-                Bukkit.getScheduler().runTaskLater(ToolHandlerPlugin.instance, new Runnable() {
-    
-                    @Override
-                    public void run() {
-                        ToolHandlerPlugin.instance.getCacheManager().invalidateFromArmorCache(item);                   
-                    }
-                    
-                }, 1);
-            }
-            return e.newStack;
-        }
-        return this.item;
+        ItemStack returnVal = NbtUtil.writeAttributes(item, this);
+        return returnVal;
     }
     
     @Override
@@ -189,7 +175,7 @@ public class CachedArmorInfo extends CachedItemInfo {
         sb.append(":");
         sb.append(dF.format(magicResist));
         sb.append(":");
-        sb.append(dF.format(healBonus));
+        sb.append(dF.format(knockBackResist));
         sb.append(":");
         sb.append(protBonus);
         for(UUID id : mods) {

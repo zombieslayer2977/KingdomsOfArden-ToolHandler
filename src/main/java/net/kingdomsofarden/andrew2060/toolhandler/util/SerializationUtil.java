@@ -198,7 +198,7 @@ public class SerializationUtil {
 
         double improvementQuality = 0.00D;
         double magicResist = 0.00D;
-        double healBonus = 0.00D;
+        double knockbackResist = 0.00D;
         double protBonus = 0.00D;
         switch(item.getType()) { //All chainmail has +10% base magic resist
         
@@ -253,7 +253,7 @@ public class SerializationUtil {
                 if(mod != null) {
                     mods.add(mod.modUUID);
                     magicResist += mod.getMagicResist();
-                    healBonus += mod.getHealingBonus();
+                    knockbackResist += mod.getHealingBonus();
                     protBonus += mod.getProtBonus();
                 } else {
                     addedBlankSlots++; //Mod no longer exists, add slot back
@@ -265,7 +265,7 @@ public class SerializationUtil {
         loreUpdated.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         loreUpdated.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getArmorQualityFormat(improvementQuality));
         loreUpdated.add(2,ChatColor.GRAY + "Magic Resistance Rating: " + FormattingUtil.getAttribute(magicResist) + "%");
-        loreUpdated.add(3,ChatColor.GRAY + "Healing Bonus: " + FormattingUtil.getAttribute(healBonus) + "%");
+        loreUpdated.add(3,ChatColor.GRAY + "Healing Bonus: " + FormattingUtil.getAttribute(knockbackResist) + "%");
         loreUpdated.add(4,ChatColor.GRAY + "Additional Protection: " + FormattingUtil.getAttribute(protBonus) + "%");
         loreUpdated.add(5,ChatColor.WHITE + "========Modifications========");
         int usedSlots = 0;
@@ -286,7 +286,7 @@ public class SerializationUtil {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getHealingBonus()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getHealingBonus())
-                        + ChatColor.GRAY + "% Healing Bonus");
+                        + ChatColor.GRAY + "% Knockback Resist");
             }
             if(mod.getProtBonus() != null && mod.getProtBonus() > Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
@@ -318,7 +318,7 @@ public class SerializationUtil {
         dataBuilder.append(":");
         dataBuilder.append(dF.format(magicResist));
         dataBuilder.append(":");
-        dataBuilder.append(dF.format(healBonus));
+        dataBuilder.append(dF.format(knockbackResist));
         dataBuilder.append(":");
         dataBuilder.append(dF.format(protBonus));
         for(UUID modID : mods) {

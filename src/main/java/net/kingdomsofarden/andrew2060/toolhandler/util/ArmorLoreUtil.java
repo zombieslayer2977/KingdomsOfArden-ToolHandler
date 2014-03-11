@@ -263,7 +263,7 @@ public class ArmorLoreUtil {
         lore.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         lore.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getArmorQualityFormat(data.getQuality()));
         lore.add(2,ChatColor.GRAY + "Magical Resistance Rating: " + FormattingUtil.getAttribute(data.getMagicResist()) + "%");
-        lore.add(3,ChatColor.GRAY + "Healing Bonus: " + FormattingUtil.getAttribute(data.getHealBonus()) + "%");
+        lore.add(3,ChatColor.GRAY + "Knockback Resistance Rating: " + FormattingUtil.getAttribute(data.getKBResistBonus()) + "%");
         lore.add(4,ChatColor.GRAY + "Additional Protection: " + FormattingUtil.getAttribute(data.getProtBonus()) + "%");
         lore.add(5,ChatColor.WHITE + "========Modifications========");
         int usedSlots = 0;
@@ -296,7 +296,7 @@ public class ArmorLoreUtil {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getHealingBonus()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getHealingBonus())
-                        + ChatColor.GRAY + "% Healing Bonus");
+                        + ChatColor.GRAY + "% Knockback Resist");
             }
             if(mod.getProtBonus() != null && mod.getProtBonus() > Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 

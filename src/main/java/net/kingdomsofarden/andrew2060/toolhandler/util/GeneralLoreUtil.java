@@ -40,7 +40,7 @@ public class GeneralLoreUtil {
         templateLoreArmor.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         templateLoreArmor.add(1,ChatColor.GRAY + "Improvement Quality: Basic");
 		templateLoreArmor.add(2,ChatColor.GRAY + "Magical Resistance Rating: 0.00%");
-		templateLoreArmor.add(3,ChatColor.GRAY + "Healing Bonus: 0.00%");
+		templateLoreArmor.add(3,ChatColor.GRAY + "Knockback Resistance: 0.00%");
 		templateLoreArmor.add(4,ChatColor.GRAY + "Additional Protection: 0.00%");
 		templateLoreArmor.add(5,ChatColor.WHITE + "========Modifications========");
 		templateLoreArmor.add(6,ChatColor.DARK_GRAY + "[Empty Slot]");
@@ -133,7 +133,6 @@ public class GeneralLoreUtil {
 				return;
 			}
 			case DIAMOND_PICKAXE: case DIAMOND_AXE: case DIAMOND_HOE: case DIAMOND_SPADE: case IRON_PICKAXE: case IRON_AXE: case IRON_HOE: case IRON_SPADE: case GOLD_PICKAXE: case GOLD_AXE: case GOLD_HOE: case GOLD_SPADE: case STONE_PICKAXE: case STONE_AXE: case STONE_HOE: case STONE_SPADE: case WOOD_PICKAXE: case WOOD_AXE: case WOOD_HOE: case WOOD_SPADE: {
-				//TODO: Needs to be done
 				ItemMeta meta = item.getItemMeta();
 				meta.setLore(getToolDefault(item));
 				item.setItemMeta(meta);
