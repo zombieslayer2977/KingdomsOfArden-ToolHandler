@@ -39,12 +39,9 @@ public abstract class WeaponMod extends ItemMod {
         this.lifeSteal = null;
         this.critChance = null;
     }
-    public void applyToWeapon(ItemStack weapon) {
+    public ItemStack applyToWeapon(ItemStack weapon) {
         CachedWeaponInfo cachedWeapon = ToolHandlerPlugin.instance.getCacheManager().getCachedWeaponInfo(weapon);
-        cachedWeapon.setBonusDamage(cachedWeapon.getBonusDamage() + this.bonusDamage);
-        cachedWeapon.setLifeSteal(cachedWeapon.getLifeSteal() + this.lifeSteal);
-        cachedWeapon.setCritChance(cachedWeapon.getCritChance() + this.critChance);
-        cachedWeapon.forceWrite(true);
+        return cachedWeapon.forceWrite();
     }
     public abstract void executeOnWeaponDamage(WeaponDamageEvent event);
     public String getName() {
