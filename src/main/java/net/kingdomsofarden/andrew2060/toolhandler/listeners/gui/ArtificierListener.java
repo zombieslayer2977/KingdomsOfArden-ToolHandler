@@ -135,7 +135,7 @@ public class ArtificierListener implements Listener {
                             inv.clear(14);
                         }
                         inv.setItem(16, new ItemStack(Material.AIR));
-                        ItemStack newSlotItem = createNewModSlot(soulGem,item,essenceOfEnchanting);
+                        ItemStack newSlotItem = createNewModSlot(soulGem,item);
                         if(newSlotItem == null) {
                             inv.setItem(15, new ItemStack(Material.AIR));
                             p.sendMessage(ChatColor.GRAY + "Item upgrade unsuccessful, item broke!");
@@ -203,7 +203,7 @@ public class ArtificierListener implements Listener {
         return plugin.getModManager().addMod(tool, weight);
     }
     
-    private ItemStack createNewModSlot(ItemStack soulGem, ItemStack item, ItemStack essenceOfEnchanting) {
+    private ItemStack createNewModSlot(ItemStack soulGem, ItemStack item) {
         String name = ChatColor.stripColor(soulGem.getItemMeta().getDisplayName());
         name = name.toLowerCase();
         double modifier = 1D;
@@ -221,7 +221,6 @@ public class ArtificierListener implements Listener {
             modifier = 7D;
         }
         double multiply = modifier/7.0D;
-        //TODO: clear Essence of enchanting
         return ModUtil.addModSlot(item,multiply);
     }
 }
