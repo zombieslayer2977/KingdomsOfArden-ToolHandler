@@ -1,7 +1,5 @@
 package net.kingdomsofarden.andrew2060.toolhandler.util;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
@@ -14,140 +12,11 @@ import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ScytheMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ToolMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.WeaponMod;
 
-import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class ModUtil {
 
-    /**
-     * @deprecated use nbt caching instead
-     * Gets a list of weapon mods on a weapon
-     * 
-     * @param weapon The ItemStack associated with a weapon
-     * @return null for no mods, otherwise an ArrayList of strings containing mod names
-     */
-    public static List<String> getWeaponMods(ItemStack weapon) {
-        ItemMeta meta = weapon.getItemMeta();
-        if(!meta.hasLore()) {
-            GeneralLoreUtil.populateLoreDefaults(weapon);
-            return new ArrayList<String>();
-        }
-        List<String> lore = meta.getLore();
-        if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
-            GeneralLoreUtil.updateLore(weapon);
-            meta = weapon.getItemMeta();
-            lore = meta.getLore();
-        }
-        List<String> mods = new ArrayList<String>();
-        for(int i = 6; i < lore.size(); i++) {
-            String mod = lore.get(i);
-            if(!mod.contains(ChatColor.GOLD +"")) {
-                continue;
-            } else {
-                mod = ChatColor.stripColor(mod);
-                String modName = mod.replace(" ", "");
-                mods.add(modName);
-            }
-        }
-        return mods;
-    }
-    /**
-     * @deprecated use nbt caching instead
-     * Gets a list of armor mods on a armor
-     * 
-     * @param armor The ItemStack associated with a armor
-     * @return null for no mods, otherwise an ArrayList of strings containing mod names
-     */
-    public static List<String> getArmorMods(ItemStack armor) {
-        ItemMeta meta = armor.getItemMeta();
-        if(!meta.hasLore()) {
-            GeneralLoreUtil.populateLoreDefaults(armor);
-            return new ArrayList<String>();
-        }
-        List<String> lore = meta.getLore();
-        if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
-            GeneralLoreUtil.updateLore(armor);
-            meta = armor.getItemMeta();
-            lore = meta.getLore();
-        }
-        List<String> mods = new ArrayList<String>();
-        for(int i = 6; i < lore.size(); i++) {
-            String mod = lore.get(i);
-            if(!mod.contains(ChatColor.GOLD +"")) {
-                continue;
-            } else {
-                mod = ChatColor.stripColor(mod);
-                String modName = mod.replace(" ", "");
-                mods.add(modName);
-            }
-        }
-        return mods;
-    }
-    /**
-     * @deprecated use nbt caching instead
-     * Gets a list of tool mods on a tool
-     * 
-     * @param tool The ItemStack associated with a tool
-     * @return null for no mods, otherwise an ArrayList of strings containing mod names
-     */
-    public static List<String> getToolMods(ItemStack tool) {
-        ItemMeta meta = tool.getItemMeta();
-        if(!meta.hasLore()) {
-            GeneralLoreUtil.populateLoreDefaults(tool);
-            return new ArrayList<String>();
-        }
-        List<String> lore = meta.getLore();
-        if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
-            GeneralLoreUtil.updateLore(tool);
-            meta = tool.getItemMeta();
-            lore = meta.getLore();
-        }
-        List<String> mods = new ArrayList<String>();
-        for(int i = 6; i < lore.size(); i++) {
-            String mod = lore.get(i);
-            if(!mod.contains(ChatColor.GOLD +"")) {
-                continue;
-            } else {
-                mod = ChatColor.stripColor(mod);
-                String modName = mod.replace(" ", "");
-                mods.add(modName);
-            }
-        }		
-        return mods;
-    }
-    /**
-     * @deprecated use nbt caching instead
-     * Gets a list of scythe mods on a scythe
-     * 
-     * @param scythe The ItemStack associated with a tool
-     * @return null for no mods, otherwise an ArrayList of strings containing mod names
-     */
-    public static List<String> getScytheMods(ItemStack scythe) {
-        ItemMeta meta = scythe.getItemMeta();
-        if(!meta.hasLore()) {
-            GeneralLoreUtil.populateLoreDefaults(scythe);
-            return new ArrayList<String>();
-        }
-        List<String> lore = meta.getLore();
-        if(!lore.get(0).contains(ToolHandlerPlugin.versionIdentifier)) {
-            GeneralLoreUtil.updateLore(scythe);
-            meta = scythe.getItemMeta();
-            lore = meta.getLore();
-        }
-        List<String> mods = new ArrayList<String>();
-        for(int i = 6; i < lore.size(); i++) {
-            String mod = lore.get(i);
-            if(!mod.contains(ChatColor.GOLD +"")) {
-                continue;
-            } else {
-                mod = ChatColor.stripColor(mod);
-                String modName = mod.replace(" ", "");
-                mods.add(modName);
-            }
-        }		
-        return mods;
-    }
+ 
     /**
      * Adds a specified weapon mod to a weapon itemstack
      * 

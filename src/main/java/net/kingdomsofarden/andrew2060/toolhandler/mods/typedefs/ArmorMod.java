@@ -25,7 +25,7 @@ public abstract class ArmorMod extends ItemMod {
     private LinkedList<PotionEffect> applySelfOnDamage;
     private LinkedList<PotionEffect> applyAttackerOnDamage;
     private Double magicResist;
-    private Double healingBonus;
+    private Double knockbackResist;
     private Double protBonus;
     
     public ArmorMod(UUID modUUID, String name, int weight, boolean requiresSlot, String... desc) {
@@ -40,7 +40,7 @@ public abstract class ArmorMod extends ItemMod {
         this.applyAttackerOnDamage = new LinkedList<PotionEffect>();
 
         this.magicResist = null;
-        this.healingBonus = null;
+        this.knockbackResist = null;
         this.protBonus = null;
     }
     public ItemStack applyToArmor(ItemStack armor) {
@@ -82,11 +82,11 @@ public abstract class ArmorMod extends ItemMod {
     public void setMagicResist(Double magicResist) {
         this.magicResist = magicResist;
     }
-    public Double getHealingBonus() {
-        return healingBonus;
+    public Double getKnockbackResist() {
+        return knockbackResist;
     }
-    public void setHealingBonus(Double healingBonus) {
-        this.healingBonus = healingBonus;
+    public void setKnockbackResist(Double knockbackResist) {
+        this.knockbackResist = knockbackResist;
     }
     public Double getProtBonus() {
         return protBonus;

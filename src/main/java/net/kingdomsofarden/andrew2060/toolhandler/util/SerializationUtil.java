@@ -253,7 +253,7 @@ public class SerializationUtil {
                 if(mod != null) {
                     mods.add(mod.modUUID);
                     magicResist += mod.getMagicResist();
-                    knockbackResist += mod.getHealingBonus();
+                    knockbackResist += mod.getKnockbackResist();
                     protBonus += mod.getProtBonus();
                 } else {
                     addedBlankSlots++; //Mod no longer exists, add slot back
@@ -282,10 +282,10 @@ public class SerializationUtil {
                         + FormattingUtil.modDescriptorFormat.format(mod.getMagicResist())
                         + ChatColor.GRAY + "% Magic Resist");
             }
-            if(mod.getHealingBonus() != null && mod.getHealingBonus() > Double.valueOf(0.00)) {
+            if(mod.getKnockbackResist() != null && mod.getKnockbackResist() > Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
-                        + FormattingUtil.getAttributeColor(mod.getHealingBonus()) 
-                        + FormattingUtil.modDescriptorFormat.format(mod.getHealingBonus())
+                        + FormattingUtil.getAttributeColor(mod.getKnockbackResist()) 
+                        + FormattingUtil.modDescriptorFormat.format(mod.getKnockbackResist())
                         + ChatColor.GRAY + "% Knockback Resist");
             }
             if(mod.getProtBonus() != null && mod.getProtBonus() > Double.valueOf(0.00)) {
