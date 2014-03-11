@@ -27,17 +27,36 @@ public class CachedArmorInfo extends CachedItemInfo {
     private UUID[] mods;
     private DecimalFormat dF;
     
-    public CachedArmorInfo(ItemStack item, double quality, double magicResist, double knockBackResist, double protBonus) {
-        this(item,quality,magicResist,knockBackResist,protBonus,new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
+    public CachedArmorInfo(ItemStack item, double quality) {
+        this(item,quality, new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
     }
-    public CachedArmorInfo(ItemStack item, double quality, double magicResist, double knockBackResist, double protBonus, UUID[] mods) {
+    public CachedArmorInfo(ItemStack item, double quality, UUID[] mods) {
         super(ToolHandlerPlugin.instance,item);
         this.qualityFormat = FormattingUtil.getArmorQualityFormat(quality);
         this.quality = quality;
-        this.magicResist = magicResist;
-        this.knockBackResist = knockBackResist;
-        this.protBonus = protBonus;
+        this.magicResist = 0.00;
+        this.knockBackResist = 0.00;
+        this.protBonus = 0.00;
         this.mods = mods;
+        for(UUID id : mods) {
+            ArmorMod mod = plugin.getModManager().getArmorMod(id);
+            if(mod != null) {
+                magicResist += mod.getMagicResist();
+                knockBackResist += mod.getKnockbackResist();
+                protBonus += mod.getProtBonus();
+            }
+        }
+        switch(item.getType()) { //All chainmail has +10% base magic resist
+        
+        case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: {
+            magicResist += 10;
+            break;
+        }
+        default: {
+            break;
+        }
+        
+        }
         this.dF = new DecimalFormat("##.##");
     }
     public double getQuality() {
@@ -183,12 +202,6 @@ public class CachedArmorInfo extends CachedItemInfo {
         }
         StringBuilder sb = new StringBuilder();
         sb.append(dF.format(quality));
-        sb.append(":");
-        sb.append(dF.format(magicResist));
-        sb.append(":");
-        sb.append(dF.format(knockBackResist));
-        sb.append(":");
-        sb.append(protBonus);
         for(UUID id : mods) {
             sb.append(":");
             sb.append(id.toString());
@@ -196,19 +209,16 @@ public class CachedArmorInfo extends CachedItemInfo {
         return sb.toString();
     }
     public static CachedArmorInfo getDefault(ItemStack is) {
-        return new CachedArmorInfo(is,0,0,0,0);
+        return new CachedArmorInfo(is,0.00);
     }
     public static CachedArmorInfo fromString(ItemStack is, String parseable) {
         String[] parsed = parseable.split(":");
         double quality = Double.valueOf(parsed[0]);
-        double magicResist = Double.valueOf(parsed[1]);
-        double healBonus = Double.valueOf(parsed[2]);
-        double protBonus = Double.valueOf(parsed[3]);
         Set<UUID> coll = new HashSet<UUID>();
-        for(int i = 4; i < parsed.length; i++) {
+        for(int i = 1; i < parsed.length; i++) {
             coll.add(UUID.fromString(parsed[i]));
         }
-        return new CachedArmorInfo(is,quality,magicResist,healBonus,protBonus,coll.toArray(new UUID[coll.size()]));
+        return new CachedArmorInfo(is,quality,coll.toArray(new UUID[coll.size()]));
     }
 
 

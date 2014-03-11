@@ -29,17 +29,25 @@ public class CachedToolInfo extends CachedItemInfo {
     private DecimalFormat dF;    
 
 
-    public CachedToolInfo(ItemStack item, double quality, double trueDamage, double bashChance, double decimatingStrikeChance) {
-        this(item,quality,trueDamage,bashChance,decimatingStrikeChance,new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
+    public CachedToolInfo(ItemStack item, double quality) {
+        this(item, quality, new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
     }
-    public CachedToolInfo(ItemStack item, double quality, double trueDamage, double bashChance, double decimatingStrikeChance, UUID[] mods) {
+    public CachedToolInfo(ItemStack item, double quality, UUID[] mods) {
         super(ToolHandlerPlugin.instance,item);
         this.qualityFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         this.quality = quality;
-        this.trueDamage = trueDamage;
-        this.bashChance = bashChance;
-        this.decimateChance = decimatingStrikeChance;
+        this.trueDamage = 0.00;
+        this.bashChance = 0.00;
+        this.decimateChance = 0.00;
         this.mods = mods;
+        for(UUID id : this.mods) {
+            ToolMod mod = plugin.getModManager().getToolMod(id);
+            if(mod != null) {
+                trueDamage += mod.getTrueDamage();
+                bashChance += mod.getBashChance();
+                decimateChance += mod.getDecimateChance();
+            }
+        }
         this.dF = new DecimalFormat("##.##");
     }
 
@@ -113,12 +121,6 @@ public class CachedToolInfo extends CachedItemInfo {
         }
         StringBuilder sb = new StringBuilder();
         sb.append(dF.format(quality));
-        sb.append(":");
-        sb.append(dF.format(trueDamage));
-        sb.append(":");
-        sb.append(dF.format(bashChance));
-        sb.append(":");
-        sb.append(decimateChance);
         for(UUID id : mods) {
             sb.append(":");
             sb.append(id.toString());
@@ -198,17 +200,14 @@ public class CachedToolInfo extends CachedItemInfo {
     public static CachedToolInfo fromString(ItemStack is, String parseable) {
         String[] parsed = parseable.split(":");
         double quality = Double.valueOf(parsed[0]);
-        double trueDamage = Double.valueOf(parsed[1]);
-        double bashChance = Double.valueOf(parsed[2]);
-        double decimateChance = Double.valueOf(parsed[3]);
         Set<UUID> coll = new HashSet<UUID>();
-        for(int i = 4; i < parsed.length; i++) {
+        for(int i = 1; i < parsed.length; i++) {
             coll.add(UUID.fromString(parsed[i]));
         }
-        return new CachedToolInfo(is,quality,trueDamage,bashChance,decimateChance,coll.toArray(new UUID[coll.size()]));
+        return new CachedToolInfo(is,quality,coll.toArray(new UUID[coll.size()]));
     }
     public static CachedToolInfo getDefault(ItemStack is) {
-        return new CachedToolInfo(is,0,0,0,0);
+        return new CachedToolInfo(is,0);
     }
 
 }

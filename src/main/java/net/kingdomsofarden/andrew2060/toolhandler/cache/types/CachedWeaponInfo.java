@@ -25,17 +25,25 @@ public class CachedWeaponInfo extends CachedItemInfo {
     private UUID[] mods;
     private DecimalFormat dF;
 
-    public CachedWeaponInfo(ItemStack item, double quality, double bonusDamage,double lifeSteal, double critChance) {
-        this(item,quality,bonusDamage,lifeSteal,critChance,new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
+    public CachedWeaponInfo(ItemStack item, double quality) {
+        this(item, quality, new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
     }
-    public CachedWeaponInfo(ItemStack item, double quality, double bonusDamage,double lifeSteal, double critChance, UUID[] mods) {
+    public CachedWeaponInfo(ItemStack item, double quality, UUID[] mods) {
         super(ToolHandlerPlugin.instance,item);
         this.qualityFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         this.quality = quality;
-        this.bonusDamage = bonusDamage;
-        this.lifeSteal = lifeSteal;
-        this.critChance = critChance;
+        this.bonusDamage = 0.00;
+        this.lifeSteal = 0.00;
+        this.critChance = 0.00;
         this.mods = mods;
+        for(UUID id : this.mods) {
+            WeaponMod mod = plugin.getModManager().getWeaponMod(id);
+            if(mod != null) {
+                this.bonusDamage += mod.getBonusDamage();
+                this.lifeSteal += mod.getLifeSteal();
+                this.critChance += mod.getCritChance();
+            }
+        }
         this.dF = new DecimalFormat("##.##");
     }
 
@@ -108,18 +116,15 @@ public class CachedWeaponInfo extends CachedItemInfo {
     public static CachedWeaponInfo fromString(ItemStack is, String parseable) {
         String[] parsed = parseable.split(":");
         double quality = Double.valueOf(parsed[0]);
-        double bonusDamage = Double.valueOf(parsed[1]);
-        double lifeSteal = Double.valueOf(parsed[2]);
-        double critChance = Double.valueOf(parsed[3]);
         Set<UUID> coll = new HashSet<UUID>();
-        for(int i = 4; i < parsed.length; i++) {
+        for(int i = 1; i < parsed.length; i++) {
             coll.add(UUID.fromString(parsed[i]));
         }
-        return new CachedWeaponInfo(is,quality,bonusDamage,lifeSteal,critChance,coll.toArray(new UUID[coll.size()]));
+        return new CachedWeaponInfo(is,quality,coll.toArray(new UUID[coll.size()]));
     }
 
     public static CachedWeaponInfo getDefault(ItemStack is) {
-        return new CachedWeaponInfo(is,0.00,0.00,0.00,0.00);
+        return new CachedWeaponInfo(is,0.00);
     }
 
     public UUID[] getMods() {
@@ -168,12 +173,6 @@ public class CachedWeaponInfo extends CachedItemInfo {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(dF.format(quality));
-        sb.append(":");
-        sb.append(dF.format(bonusDamage));
-        sb.append(":");
-        sb.append(dF.format(lifeSteal));
-        sb.append(":");
-        sb.append(dF.format(critChance));
         for(UUID id : mods) {
             sb.append(":");
             sb.append(id.toString());
