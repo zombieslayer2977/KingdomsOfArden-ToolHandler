@@ -1,6 +1,5 @@
 package net.kingdomsofarden.andrew2060.toolhandler.cache;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.inventory.ItemStack;
@@ -10,7 +9,6 @@ import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedItemInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedToolInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil;
-import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil.ItemStackChangedException;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -32,7 +30,7 @@ public class CacheManager {
                 .build(new CacheLoader<ItemStack, CachedWeaponInfo>() {
 
                     @Override
-                    public CachedWeaponInfo load(ItemStack is) throws ItemStackChangedException {
+                    public CachedWeaponInfo load(ItemStack is) {
                         String parseable = NbtUtil.getAttributes(is);
                         if(parseable == null) {
                             //This should never be called, it is merely here as a just in case
@@ -41,7 +39,7 @@ public class CacheManager {
                             return CachedWeaponInfo.fromString(is, parseable);
                         }
                     }
-                    
+
                 });
         armorCache = CacheBuilder.newBuilder()
                 .concurrencyLevel(1)
@@ -51,7 +49,7 @@ public class CacheManager {
                 .build(new CacheLoader<ItemStack, CachedArmorInfo>() {
 
                     @Override
-                    public CachedArmorInfo load(ItemStack is) throws ItemStackChangedException {
+                    public CachedArmorInfo load(ItemStack is) {
                         String parseable = NbtUtil.getAttributes(is);
                         if(parseable == null) {
                             //This should never be called, it is merely here as a just in case
@@ -60,7 +58,7 @@ public class CacheManager {
                             return CachedArmorInfo.fromString(is, parseable);
                         }
                     }
-                    
+
                 });
         toolCache = CacheBuilder.newBuilder()
                 .concurrencyLevel(1)
@@ -70,82 +68,50 @@ public class CacheManager {
                 .build(new CacheLoader<ItemStack, CachedToolInfo>() {
 
                     @Override
-                    public CachedToolInfo load(ItemStack is) throws ItemStackChangedException {
+                    public CachedToolInfo load(ItemStack is) {
                         String parseable = NbtUtil.getAttributes(is);
                         if(parseable == null) {
-                            //This should never be called, it is merely here as a just in case
                             return CachedToolInfo.getDefault(is);
                         } else {
                             return CachedToolInfo.fromString(is, parseable);
                         }
                     }
-                    
+
                 });
     }
-    
+
     public class CacheItemRemovalListener implements RemovalListener<ItemStack,CachedItemInfo> {
 
         @Override
         public void onRemoval(RemovalNotification<ItemStack, CachedItemInfo> removal) {
             switch(removal.getCause()) {
-            
-            case EXPIRED:
-            case COLLECTED: {
-                removal.getValue().forceWrite(false);
+
+            case EXPIRED: {
+                removal.getValue().forceWrite();
                 return;
             }
             default: {
                 return;
             }
-            
+
             }
         }
-        
+
     }
-    
+
     public CachedWeaponInfo getCachedWeaponInfo(ItemStack is) {
-        
-        try {
-            return weaponCache.get(is);
-        } catch (ExecutionException e) {
-            if(e.getCause() instanceof ItemStackChangedException) {
-                ItemStackChangedException changeException = (ItemStackChangedException)e.getCause();
-                return getCachedWeaponInfo(changeException.newStack);
-            }
-            e.printStackTrace();
-            return null;
-        }
+        return weaponCache.getUnchecked(is);
     }
-    
+
     public CachedArmorInfo getCachedArmorInfo(ItemStack is) {
-        
-        try {
-            return armorCache.get(is);
-        } catch (ExecutionException e) {
-            if(e.getCause() instanceof ItemStackChangedException) {
-                ItemStackChangedException changeException = (ItemStackChangedException)e.getCause();
-                return getCachedArmorInfo(changeException.newStack);
-            }
-            e.printStackTrace();
-            return null;
-        }
-        
+        return armorCache.getUnchecked(is);
     }
-    
+
 
     public CachedToolInfo getCachedToolInfo(ItemStack is) {
-        try {
-            return toolCache.get(is);
-        } catch (ExecutionException e) {
-            if(e.getCause() instanceof ItemStackChangedException) {
-                ItemStackChangedException changeException = (ItemStackChangedException)e.getCause();
-                return getCachedToolInfo(changeException.newStack);
-            }
-            e.printStackTrace();
-            return null;
-        }
+        return toolCache.getUnchecked(is);
     }
-    
+
     public void invalidateFromWeaponCache(ItemStack is) {
         weaponCache.invalidate(is);
     }
@@ -154,14 +120,19 @@ public class CacheManager {
         armorCache.invalidate(is);
     }
 
+
+    public void invalidateFromToolCache(ItemStack item) {
+        toolCache.invalidate(item);
+    }
+
     public CachedItemInfo getCachedInfo(ItemStack item) {
-        
+
         switch(item.getType()) {
-        
+
         case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
             return getCachedWeaponInfo(item);
         }
-        
+
         case DIAMOND_HELMET: case DIAMOND_CHESTPLATE: case DIAMOND_LEGGINGS: case DIAMOND_BOOTS: case IRON_HELMET: case IRON_CHESTPLATE: case IRON_LEGGINGS: case IRON_BOOTS: case GOLD_HELMET: case GOLD_CHESTPLATE: case GOLD_LEGGINGS: case GOLD_BOOTS: case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: case LEATHER_HELMET: case LEATHER_CHESTPLATE: case LEATHER_LEGGINGS: case LEATHER_BOOTS: {
             return getCachedArmorInfo(item);
         }
@@ -171,9 +142,10 @@ public class CacheManager {
         default: {
             return null;
         }
-        
+
         }
     }
+
 
 
 }

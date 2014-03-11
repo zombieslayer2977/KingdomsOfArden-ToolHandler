@@ -3,7 +3,6 @@ package net.kingdomsofarden.andrew2060.toolhandler.listeners.durability;
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedItemInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
-import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil.ItemStackChangedException;
 
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -36,15 +35,16 @@ public class DurabilityChangeListener implements Listener {
         case IRON_HOE:
         case GOLD_HOE:
         case STONE_HOE:
-        case WOOD_HOE:
+        case WOOD_HOE: {
             CachedItemInfo cached = plugin.getCacheManager().getCachedInfo(hand);
-            try {
-                cached.reduceQuality();
-            } catch (ItemStackChangedException e) {
-                ImprovementUtil.applyEnchantmentLevel(e.newStack, Enchantment.DAMAGE_ALL,cached.getQuality());
-                ImprovementUtil.applyEnchantmentLevel(e.newStack, Enchantment.DIG_SPEED,cached.getQuality());
+            ItemStack reduced = cached.reduceQuality();
+            ImprovementUtil.applyEnchantmentLevel(reduced, Enchantment.DAMAGE_ALL,cached.getQuality());
+            ImprovementUtil.applyEnchantmentLevel(reduced, Enchantment.DIG_SPEED,cached.getQuality());
+            if(cached.isInvalidated()) {
+                h.getPlayer().getInventory().setItemInHand(reduced);
             }
-            return;
+        }
+        return;
         default: 
             return;         
         }
@@ -75,12 +75,11 @@ public class DurabilityChangeListener implements Listener {
         case GOLD_BOOTS:
         case LEATHER_BOOTS: {
             CachedItemInfo cached = plugin.getCacheManager().getCachedArmorInfo(item);
-            try {
-                cached.reduceQuality();
-            } catch (ItemStackChangedException e) {
-                ImprovementUtil.applyEnchantmentLevel(e.newStack, Enchantment.PROTECTION_ENVIRONMENTAL, cached.getQuality());
-            }
+            cached.reduceQuality();     
             ImprovementUtil.applyEnchantmentLevel(item, Enchantment.PROTECTION_ENVIRONMENTAL, cached.getQuality());
+            if(cached.isInvalidated()) {
+                System.out.println("Item invalidation for durability change: " + event.getPlayer().getName() + " " + event.getItem().getType().name());
+            }
             return;
         }
         case DIAMOND_SWORD: 
@@ -89,12 +88,11 @@ public class DurabilityChangeListener implements Listener {
         case STONE_SWORD:
         case WOOD_SWORD: {
             CachedItemInfo cached = plugin.getCacheManager().getCachedWeaponInfo(item);
-            try {
-                cached.reduceQuality();
-            } catch (ItemStackChangedException e) {
-                ImprovementUtil.applyEnchantmentLevel(e.newStack, Enchantment.DAMAGE_ALL,cached.getQuality());
-            }
+            cached.reduceQuality();     
             ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DAMAGE_ALL,cached.getQuality());
+            if(cached.isInvalidated()) {
+                System.out.println("Item invalidation for durability change: " + event.getPlayer().getName() + " " + event.getItem().getType().name());
+            }
             return;
         }
         case DIAMOND_HOE: 
@@ -103,25 +101,21 @@ public class DurabilityChangeListener implements Listener {
         case STONE_HOE:
         case WOOD_HOE: {
             CachedItemInfo cached = plugin.getCacheManager().getCachedInfo(item);
-            try {
-                cached.reduceQuality();
-            } catch (ItemStackChangedException e) {
-                ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DIG_SPEED, cached.getQuality());
-                ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DAMAGE_ALL, cached.getQuality());
-            }
+            cached.reduceQuality();     
             ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DIG_SPEED, cached.getQuality());
             ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DAMAGE_ALL, cached.getQuality());
+            if(cached.isInvalidated()) {
+                System.out.println("Item invalidation for durability change: " + event.getPlayer().getName() + " " + event.getItem().getType().name());
+            }
             return;
         }
         case BOW: {
             CachedItemInfo cached = plugin.getCacheManager().getCachedWeaponInfo(item);
-            try {
-                cached.reduceQuality();
-            } catch (ItemStackChangedException e) {
-                ImprovementUtil.applyEnchantmentLevel(e.newStack, Enchantment.ARROW_DAMAGE,cached.getQuality());
-            }
+            cached.reduceQuality();     
             ImprovementUtil.applyEnchantmentLevel(item, Enchantment.ARROW_DAMAGE,cached.getQuality());
-
+            if(cached.isInvalidated()) {
+                System.out.println("Item invalidation for durability change: " + event.getPlayer().getName() + " " + event.getItem().getType().name());
+            }
             return;
         }
         case DIAMOND_AXE: 
@@ -130,14 +124,12 @@ public class DurabilityChangeListener implements Listener {
         case STONE_AXE:
         case WOOD_AXE: {
             CachedItemInfo cached = plugin.getCacheManager().getCachedInfo(item);
-            try {
-                cached.reduceQuality();
-            } catch (ItemStackChangedException e) {
-                ImprovementUtil.applyEnchantmentLevel(e.newStack, Enchantment.DIG_SPEED, cached.getQuality());
-                ImprovementUtil.applyEnchantmentLevel(e.newStack, Enchantment.DAMAGE_ALL, cached.getQuality());
-            }
+            cached.reduceQuality();     
             ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DIG_SPEED, cached.getQuality());
             ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DAMAGE_ALL, cached.getQuality());
+            if(cached.isInvalidated()) {
+                System.out.println("Item invalidation for durability change: " + event.getPlayer().getName() + " " + event.getItem().getType().name());
+            }
             return;
         }
         case DIAMOND_PICKAXE:
@@ -151,12 +143,11 @@ public class DurabilityChangeListener implements Listener {
         case STONE_SPADE:
         case WOOD_SPADE: {
             CachedItemInfo cached = plugin.getCacheManager().getCachedInfo(item);
-            try {
-                cached.reduceQuality();
-            } catch (ItemStackChangedException e) {
-                ImprovementUtil.applyEnchantmentLevel(e.newStack, Enchantment.DIG_SPEED, cached.getQuality());
-            }
+            cached.reduceQuality();     
             ImprovementUtil.applyEnchantmentLevel(item, Enchantment.DIG_SPEED, cached.getQuality());
+            if(cached.isInvalidated()) {
+                System.out.println("Item invalidation for durability change: " + event.getPlayer().getName() + " " + event.getItem().getType().name());
+            }
             return;
         }
         default: {

@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class NbtUtil {
 
-    public static void writeAttributes(ItemStack item, CachedItemInfo data) throws ItemStackChangedException {
+    public static ItemStack writeAttributes(ItemStack item, CachedItemInfo data) {
         switch(item.getType()) {
         
         case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
@@ -33,14 +33,10 @@ public class NbtUtil {
         String cachedData = data.toString();
         AttributeStorage storage = AttributeStorage.newTarget(item, ToolHandlerPlugin.identifier);
         storage.setData(cachedData);
-        if(item != storage.getTarget()) {
-            throw new ItemStackChangedException(storage.getTarget());
-        } else {
-            return;
-        }
+        return storage.getTarget();
     }
 
-    public static String getAttributes(ItemStack item) throws ItemStackChangedException {
+    public static String getAttributes(ItemStack item) {
         AttributeStorage storage = AttributeStorage.newTarget(item, ToolHandlerPlugin.identifier);
         String data = storage.getData();
         //Plugin tag is not present - rebuild   
@@ -51,17 +47,6 @@ public class NbtUtil {
             }
         }
         return data;
-    }
-
-    public static class ItemStackChangedException extends Exception {
-
-        private static final long serialVersionUID = -994887853407035957L;
-        public final ItemStack newStack;
-        
-        public ItemStackChangedException(ItemStack newStack) {
-            this.newStack = newStack;
-        }
-
     }
 
 }

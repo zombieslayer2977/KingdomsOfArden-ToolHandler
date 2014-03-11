@@ -12,35 +12,30 @@ import net.kingdomsofarden.andrew2060.toolhandler.mods.ItemMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.WeaponMod;
 import net.kingdomsofarden.andrew2060.toolhandler.util.FormattingUtil;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
-import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil;
-import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil.ItemStackChangedException;
-
-import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 public class CachedWeaponInfo extends CachedItemInfo {
-    
+
     private double quality;
     private String qualityFormat;
     private double bonusDamage;
     private double lifeSteal;
     private double critChance;
-    private ItemStack item;
     private UUID[] mods;
     private DecimalFormat dF;
-    
+
     public CachedWeaponInfo(ItemStack item, double quality, double bonusDamage,double lifeSteal, double critChance) {
         this(item,quality,bonusDamage,lifeSteal,critChance,new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
     }
     public CachedWeaponInfo(ItemStack item, double quality, double bonusDamage,double lifeSteal, double critChance, UUID[] mods) {
+        super(ToolHandlerPlugin.instance,item);
         this.qualityFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         this.quality = quality;
-        this.setBonusDamage(bonusDamage);
-        this.setLifeSteal(lifeSteal);
-        this.setCritChance(critChance);
-        this.setItem(item);
-        this.setMods(mods);
+        this.bonusDamage = bonusDamage;
+        this.lifeSteal = lifeSteal;
+        this.critChance = critChance;
+        this.mods = mods;
         this.dF = new DecimalFormat("##.##");
     }
 
@@ -48,18 +43,16 @@ public class CachedWeaponInfo extends CachedItemInfo {
         return quality;
     }
 
-    public void setQuality(double quality) throws ItemStackChangedException {
+    public ItemStack setQuality(double quality) {
         this.quality = quality;
         String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
-            ItemStack written = this.forceWrite(true);
-            if(written != this.item) {
-                throw new ItemStackChangedException(written);
-            }
+            this.forceWrite();
         }
+        return item;
     }
 
-    public final double reduceQuality() throws ItemStackChangedException { 
+    public final ItemStack reduceQuality() { 
         int unbreakinglevel = item.getEnchantmentLevel(Enchantment.DURABILITY)+1;
         switch(ImprovementUtil.getItemType(item)) {
         case DIAMOND: 
@@ -83,51 +76,33 @@ public class CachedWeaponInfo extends CachedItemInfo {
         default: 
             System.err.println("Material Sent to Reduce Quality is Invalid");
             System.err.println("-" + item.toString());
-            return quality;
+            return item;
         }
         if(quality < 0) {
             quality = 0;
         }
         String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
-            ItemStack written = this.forceWrite(true);
-            if(written != this.item) {
-                throw new ItemStackChangedException(written);
-            }
+            this.forceWrite();
         }
-        return quality;
+        return item;
     }
-    
+
     public double getBonusDamage() {
         return bonusDamage;
     }
 
-    public void setBonusDamage(double bonusDamage) {
-        this.bonusDamage = bonusDamage;
-    }
 
     public double getLifeSteal() {
         return lifeSteal;
-    }
-
-    public void setLifeSteal(double lifeSteal) {
-        this.lifeSteal = lifeSteal;
     }
 
     public double getCritChance() {
         return critChance;
     }
 
-    public void setCritChance(double critChance) {
-        this.critChance = critChance;
-    }
-
     public ItemStack getItem() {
         return item;
-    }
-
-    private void setItem(ItemStack item) {
-        this.item = item;
     }
 
     public static CachedWeaponInfo fromString(ItemStack is, String parseable) {
@@ -146,15 +121,11 @@ public class CachedWeaponInfo extends CachedItemInfo {
     public static CachedWeaponInfo getDefault(ItemStack is) {
         return new CachedWeaponInfo(is,0.00,0.00,0.00,0.00);
     }
-    
+
     public UUID[] getMods() {
         return mods;
     }
-    
-    private void setMods(UUID[] mods) {
-        this.mods = mods;
-    }
-    
+
     /** 
      * Attempts to add a mod to the cached weapon object
      * @param mod Mod to add
@@ -167,12 +138,12 @@ public class CachedWeaponInfo extends CachedItemInfo {
         for(int i = 0; i < this.mods.length; i++) {
             if(this.mods[i] == EmptyModSlot.baseId || this.mods[i] == EmptyModSlot.bonusId) {
                 this.mods[i] = mod.modUUID;
-                return this.forceWrite(true);
+                return this.forceWrite();
             }
         }
         return null;
     }
-    
+
     /**
      * Adds a mod slot to the cached weapon object
      * @return the ItemStack with the inserted mod (may be different if it was not a nms ItemStack)
@@ -180,9 +151,9 @@ public class CachedWeaponInfo extends CachedItemInfo {
     public ItemStack addModSlot() {
         this.mods = Arrays.copyOf(this.mods, this.mods.length + 1);
         this.mods[this.mods.length] = EmptyModSlot.bonusId;
-        return forceWrite(true);
+        return this.forceWrite();
     }
-    
+
     public int getNumBonusSlots() {
         int bonusSlots = 0;
         for(int i = 0; i < this.mods.length; i++) {
@@ -192,7 +163,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
         }
         return bonusSlots;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -209,26 +180,4 @@ public class CachedWeaponInfo extends CachedItemInfo {
         }
         return sb.toString();
     }
-    
-    public ItemStack forceWrite(boolean removeOldFromCache) {
-        try {
-            NbtUtil.writeAttributes(item, this);
-        } catch (ItemStackChangedException e) {
-            if(removeOldFromCache) {
-                Bukkit.getScheduler().runTaskLater(ToolHandlerPlugin.instance, new Runnable() {
-    
-                    @Override
-                    public void run() {
-                        ToolHandlerPlugin.instance.getCacheManager().invalidateFromWeaponCache(item);                   
-                    }
-                    
-                }, 1);
-            }
-            return e.newStack;
-        }
-        return this.item;
-    }
-    
-    
-    
 }

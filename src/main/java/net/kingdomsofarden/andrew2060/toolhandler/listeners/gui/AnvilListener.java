@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Random;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedItemInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.gui.AnvilGUI;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
-import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil.ItemStackChangedException;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -49,7 +49,6 @@ public class AnvilListener implements Listener {
         }
     }
 
-    @SuppressWarnings("deprecation")   //Not much we can do, Bukkit requires this
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void onInventoryInteract(InventoryClickEvent event) {
         Inventory inv = event.getView().getTopInventory();
@@ -99,7 +98,6 @@ public class AnvilListener implements Listener {
             }
         }
     }
-    @SuppressWarnings("deprecation")
     private void repair(ItemStack repair, ItemStack mat, Inventory anvilGUI, Player player) {
         if(repair == null || mat == null) {
             return;
@@ -366,7 +364,6 @@ public class AnvilListener implements Listener {
         player.updateInventory();
     }
 
-    @SuppressWarnings("deprecation")
     private void improve(ItemStack improve, ItemStack mat, Inventory anvilGUI, Player player) {
         if(improve == null || mat == null) {
             return;
@@ -380,10 +377,12 @@ public class AnvilListener implements Listener {
             t = 1;
             break;
         case DIAMOND_PICKAXE:
-        case DIAMOND_HOE:
-        case DIAMOND_AXE:
         case DIAMOND_SPADE:
             t = 4;
+            break;
+        case DIAMOND_HOE:
+        case DIAMOND_AXE: 
+            t = 5;
             break;
         case DIAMOND_HELMET:
         case DIAMOND_CHESTPLATE:
@@ -396,12 +395,14 @@ public class AnvilListener implements Listener {
             requiredImprove = Material.GOLD_INGOT;
             break;
         case IRON_PICKAXE:
-        case IRON_HOE:
-        case IRON_AXE:
         case IRON_SPADE:
             t = 4;
             requiredImprove = Material.GOLD_INGOT;
             break;
+        case IRON_HOE:
+        case IRON_AXE:
+            t = 5;
+            requiredImprove = Material.GOLD_INGOT;
         case IRON_HELMET:
             t = 3;
             requiredImprove = Material.GOLD_INGOT;
@@ -439,12 +440,14 @@ public class AnvilListener implements Listener {
             requiredImprove = Material.FLINT;
             break;
         case GOLD_PICKAXE:
-        case GOLD_HOE:
-        case GOLD_AXE:
         case GOLD_SPADE:
             t = 4;
             requiredImprove = Material.FLINT;
             break;
+        case GOLD_HOE:
+        case GOLD_AXE:
+            t = 5;
+            requiredImprove = Material.FLINT;
         case GOLD_HELMET:
             t = 3;
             requiredImprove = Material.FLINT;
@@ -466,12 +469,14 @@ public class AnvilListener implements Listener {
             requiredImprove = Material.LEATHER;
             break;
         case STONE_PICKAXE:             
-        case STONE_HOE:
-        case STONE_AXE:
         case STONE_SPADE:
             t = 4;
             requiredImprove = Material.LEATHER;
             break;
+        case STONE_HOE:
+        case STONE_AXE: 
+            t = 5;
+            requiredImprove = Material.LEATHER;
         case LEATHER_HELMET:
             t = 3;
             requiredImprove = Material.WOOD;
@@ -493,12 +498,14 @@ public class AnvilListener implements Listener {
             requiredImprove = Material.LEATHER;
             break;
         case WOOD_PICKAXE:
-        case WOOD_HOE:
-        case WOOD_AXE:
         case WOOD_SPADE:
             t = 4;
             requiredImprove = Material.WOOD;
             break;
+        case WOOD_HOE:
+        case WOOD_AXE: 
+            t = 5;
+            requiredImprove = Material.WOOD;
         case BOW:
             t = 2;
             requiredImprove = Material.FLINT;
@@ -544,7 +551,8 @@ public class AnvilListener implements Listener {
         } else if (level >= 40) {
             threshold = 100.00;
         }
-        double quality = ImprovementUtil.getQuality(improve);
+        CachedItemInfo cached = plugin.getCacheManager().getCachedInfo(improve);
+        double quality = cached.getQuality();
         if(quality >= threshold && threshold != 100) {
             player.sendMessage(ChatColor.GRAY + "You lack sufficient blacksmithing experience to improve this item further!");
             return;
@@ -552,35 +560,25 @@ public class AnvilListener implements Listener {
             player.sendMessage(ChatColor.GRAY + "This item cannot be improved to a higher quality.");
             return;
         } else {
-            
+            ItemStack cacheWrite = cached.setQuality(quality + 4 > threshold ? threshold : quality + 4);
             switch(t) {
             case 1: {
-                CachedWeaponInfo cached = plugin.getCacheManager().getCachedWeaponInfo(improve);
-                ItemStack cacheWrite = improve;
-                try {
-                    cached.setQuality(cached.getQuality() + 4 > threshold ? threshold : cached.getQuality() + 4);
-                } catch (ItemStackChangedException e) {
-                    cacheWrite = e.newStack;
-                }
-                ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.DAMAGE_ALL);
+                ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.DAMAGE_ALL, quality);
                 break;
             }
             case 2: {
-                CachedWeaponInfo cached = plugin.getCacheManager().getCachedWeaponInfo(improve);
-                ItemStack cacheWrite = improve;
-                try {
-                    cached.setQuality(cached.getQuality() + 4 > threshold ? threshold : cached.getQuality() + 4);
-                } catch (ItemStackChangedException e) {
-                    cacheWrite = e.newStack;
-                }
-                ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.ARROW_DAMAGE);
+                ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.ARROW_DAMAGE, quality);
                 break;
             }
             case 3:
-                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.PROTECTION_ENVIRONMENTAL);
+                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.PROTECTION_ENVIRONMENTAL, quality);
                 break;
             case 4:
-                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.DIG_SPEED);
+                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.DIG_SPEED, quality);
+                break;
+            case 5: 
+                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.DIG_SPEED, quality);
+                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.DAMAGE_ALL, quality);
                 break;
             }
             player.sendMessage("Item Improvement Successful!");
@@ -615,7 +613,6 @@ public class AnvilListener implements Listener {
         }
     }
 
-    @SuppressWarnings("deprecation")
     private void salvage(ItemStack salvage, Inventory anvilGUI, Player player) {
         if(salvage == null) {
             return;

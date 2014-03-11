@@ -12,14 +12,12 @@ import net.kingdomsofarden.andrew2060.toolhandler.mods.ItemMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ArmorMod;
 import net.kingdomsofarden.andrew2060.toolhandler.util.FormattingUtil;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
-import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil;
-import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil.ItemStackChangedException;
 
-import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 public class CachedArmorInfo extends CachedItemInfo {
+    private ToolHandlerPlugin plugin;
     private double quality;
     private String qualityFormat;
     private double magicResist;
@@ -29,33 +27,42 @@ public class CachedArmorInfo extends CachedItemInfo {
     private UUID[] mods;
     private DecimalFormat dF;
     
-    public CachedArmorInfo(ItemStack item, double quality, double magicResist, double healBonus, double protBonus) {
-        this(item,quality,magicResist,healBonus,protBonus,new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
+    public CachedArmorInfo(ItemStack item, double quality, double magicResist, double knockBackResist, double protBonus) {
+        this(item,quality,magicResist,knockBackResist,protBonus,new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
     }
-    public CachedArmorInfo(ItemStack item, double quality, double magicResist, double healBonus, double protBonus, UUID[] mods) {
+    public CachedArmorInfo(ItemStack item, double quality, double magicResist, double knockBackResist, double protBonus, UUID[] mods) {
+        super(ToolHandlerPlugin.instance,item);
         this.qualityFormat = FormattingUtil.getArmorQualityFormat(quality);
         this.quality = quality;
-        this.setMagicResist(magicResist);
-        this.setKBResistBonus(healBonus);
-        this.setProtBonus(protBonus);
-        this.setItem(item);
-        this.setMods(mods);
+        this.magicResist = magicResist;
+        this.knockBackResist = knockBackResist;
+        this.protBonus = protBonus;
+        this.mods = mods;
         this.dF = new DecimalFormat("##.##");
     }
     public double getQuality() {
+        if(this.invalidated) {
+            return this.plugin.getCacheManager().getCachedArmorInfo(this.item).getQuality();
+        }
         return quality;
     }
-    public void setQuality(double quality) throws ItemStackChangedException {
+    public ItemStack setQuality(double quality) {
+        if(this.invalidated) {
+            this.item = this.plugin.getCacheManager().getCachedArmorInfo(this.item).setQuality(quality);
+            return this.item;
+        }
         this.quality = quality;
         String newFormat = FormattingUtil.getArmorQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
-            ItemStack written = this.forceWrite(true);
-            if(written != this.item) {
-                throw new ItemStackChangedException(written);
-            }
-        }
+            this.item = this.forceWrite();
+        } 
+        return item;
     }
-    public final double reduceQuality() throws ItemStackChangedException { 
+    public final ItemStack reduceQuality() { 
+        if(this.invalidated) {
+            this.item = this.plugin.getCacheManager().getCachedArmorInfo(this.item).reduceQuality();
+            return this.item;
+        }
         int unbreakinglevel = item.getEnchantmentLevel(Enchantment.DURABILITY)+1;
         switch(ImprovementUtil.getItemType(item)) {
         case DIAMOND: 
@@ -79,50 +86,53 @@ public class CachedArmorInfo extends CachedItemInfo {
         default: 
             System.err.println("Material Sent to Reduce Quality is Invalid");
             System.err.println("-" + item.toString());
-            return quality;
+            return item;
         }
         if(quality < 0) {
             quality = 0;
         }
         String newFormat = FormattingUtil.getArmorQualityFormat(quality);
-        if(!newFormat.equalsIgnoreCase(qualityFormat)) {
-            ItemStack written = this.forceWrite(true);
-            if(written != this.item) {
-                throw new ItemStackChangedException(written);
-            }
+        if(newFormat.equals(this.qualityFormat)) {
+            return this.forceWrite();
+        } else {
+            return item;
         }
-        return quality;
     }
     public double getMagicResist() {
+        if(this.invalidated) {
+            return this.plugin.getCacheManager().getCachedArmorInfo(this.item).getMagicResist();
+        }
         return magicResist;
     }
-    public void setMagicResist(double magicResist) {
-        this.magicResist = magicResist;
-    }
+
     public double getKBResistBonus() {
+        if(this.invalidated) {
+            return this.plugin.getCacheManager().getCachedArmorInfo(this.item).getKBResistBonus();
+        }
         return knockBackResist;
     }
-    public void setKBResistBonus(double resist) {
-        this.knockBackResist = resist;
-    }
+
     public double getProtBonus() {
+        if(this.invalidated) {
+            return this.plugin.getCacheManager().getCachedArmorInfo(this.item).getProtBonus();
+        }
         return protBonus;
     }
-    public void setProtBonus(double bonus) {
-        this.protBonus = bonus;
-    }
+
     public ItemStack getItem() {
+        if(this.invalidated) {
+            this.item = this.plugin.getCacheManager().getCachedArmorInfo(this.item).getItem();
+        }
         return item;
     }
-    public void setItem(ItemStack item) {
-        this.item = item;
-    }
+
     public UUID[] getMods() {
+        if(this.invalidated) {
+            return this.plugin.getCacheManager().getCachedArmorInfo(this.item).getMods();
+        }
         return mods;
     }
-    public void setMods(UUID[] mods) {
-        this.mods = mods;
-    }    
+
     
     /** 
      * Attempts to add a mod to the cached weapon object
@@ -130,16 +140,19 @@ public class CachedArmorInfo extends CachedItemInfo {
      * @return the ItemStack with the inserted mod (may be different if it was not a nms ItemStack), null if no space
      */
     public ItemStack addMod(ItemMod mod) {
+        if(this.invalidated) {
+            return this.plugin.getCacheManager().getCachedArmorInfo(this.item).addMod(mod);
+        }
         if(!(mod instanceof ArmorMod)) {
             throw new IllegalArgumentException("This is not a armor mod!");
         }
         for(int i = 0; i < this.mods.length; i++) {
             if(this.mods[i].equals(EmptyModSlot.baseId) || this.mods[i].equals(EmptyModSlot.bonusId)) {
                 this.mods[i] = mod.modUUID;
-                return this.forceWrite(true);
+                return this.forceWrite();
             }
         }
-        return null;
+        return this.item;
     }
     
     
@@ -150,7 +163,7 @@ public class CachedArmorInfo extends CachedItemInfo {
     public ItemStack addModSlot() {
         this.mods = Arrays.copyOf(this.mods, this.mods.length + 1);
         this.mods[this.mods.length] = EmptyModSlot.bonusId;
-        return forceWrite(true);
+        return forceWrite();
     }
     
     public int getNumBonusSlots() {
@@ -163,13 +176,11 @@ public class CachedArmorInfo extends CachedItemInfo {
         return bonusSlots;
     }
     
-    public ItemStack forceWrite(boolean removeOldFromCache) {
-        ItemStack returnVal = NbtUtil.writeAttributes(item, this);
-        return returnVal;
-    }
-    
     @Override
     public String toString() {
+        if(this.invalidated) {
+            return plugin.getCacheManager().getCachedArmorInfo(this.item).toString();
+        }
         StringBuilder sb = new StringBuilder();
         sb.append(dF.format(quality));
         sb.append(":");
@@ -199,5 +210,6 @@ public class CachedArmorInfo extends CachedItemInfo {
         }
         return new CachedArmorInfo(is,quality,magicResist,healBonus,protBonus,coll.toArray(new UUID[coll.size()]));
     }
+
 
 }

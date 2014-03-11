@@ -12,15 +12,13 @@ import net.kingdomsofarden.andrew2060.toolhandler.mods.ItemMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ToolMod;
 import net.kingdomsofarden.andrew2060.toolhandler.util.FormattingUtil;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
-import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil;
-import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil.ItemStackChangedException;
 
-import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 public class CachedToolInfo extends CachedItemInfo {
-    
+
+    private ToolHandlerPlugin plugin;
     private double quality;
     private String qualityFormat;
     private double trueDamage;
@@ -30,40 +28,49 @@ public class CachedToolInfo extends CachedItemInfo {
     private UUID[] mods;
     private DecimalFormat dF;    
 
-    
+
     public CachedToolInfo(ItemStack item, double quality, double trueDamage, double bashChance, double decimatingStrikeChance) {
         this(item,quality,trueDamage,bashChance,decimatingStrikeChance,new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
     }
     public CachedToolInfo(ItemStack item, double quality, double trueDamage, double bashChance, double decimatingStrikeChance, UUID[] mods) {
+        super(ToolHandlerPlugin.instance,item);
         this.qualityFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         this.quality = quality;
-        this.setTrueDamage(trueDamage);
-        this.setBashChance(bashChance);
-        this.setDecimatingStrikeChance(decimatingStrikeChance);
-        this.item = item;
+        this.trueDamage = trueDamage;
+        this.bashChance = bashChance;
+        this.decimateChance = decimatingStrikeChance;
         this.mods = mods;
         this.dF = new DecimalFormat("##.##");
     }
-    
+
     @Override
     public double getQuality() {
+        if(this.invalidated) {
+            return plugin.getCacheManager().getCachedToolInfo(this.item).getQuality();
+        }
         return quality;
     }
 
     @Override
-    public void setQuality(double quality) throws ItemStackChangedException {
+    public ItemStack setQuality(double quality) {
+        if(this.invalidated){
+            this.item = plugin.getCacheManager().getCachedToolInfo(this.item).setQuality(quality);
+            return this.item;
+        }
         this.quality = quality;
         String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
-            ItemStack written = this.forceWrite(true);
-            if(written != this.item) {
-                throw new ItemStackChangedException(written);
-            }
+            this.forceWrite();
         }
+        return this.item;
     }
 
     @Override
-    public double reduceQuality() throws ItemStackChangedException {
+    public ItemStack reduceQuality() {
+        if(this.invalidated) { 
+            this.item = plugin.getCacheManager().getCachedToolInfo(this.item).reduceQuality();
+            return this.item;
+        }
         int unbreakinglevel = item.getEnchantmentLevel(Enchantment.DURABILITY)+1;
         switch(ImprovementUtil.getItemType(item)) {
         case DIAMOND: 
@@ -87,23 +94,23 @@ public class CachedToolInfo extends CachedItemInfo {
         default: 
             System.err.println("Material Sent to Reduce Quality is Invalid");
             System.err.println("-" + item.toString());
-            return quality;
+            return item;
         }
         if(quality < 0) {
             quality = 0;
         }
         String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
-            ItemStack written = this.forceWrite(true);
-            if(written != this.item) {
-                throw new ItemStackChangedException(written);
-            }
+            this.forceWrite();
         }
-        return quality;
+        return item;
     }
 
     @Override
     public String toString() {
+        if(this.invalidated) {
+            return plugin.getCacheManager().getCachedToolInfo(this.item).toString();
+        }
         StringBuilder sb = new StringBuilder();
         sb.append(dF.format(quality));
         sb.append(":");
@@ -120,27 +127,10 @@ public class CachedToolInfo extends CachedItemInfo {
     }
 
     @Override
-    public ItemStack forceWrite(boolean removeOldFromCache) {
-        try {
-            NbtUtil.writeAttributes(item, this);
-        } catch (ItemStackChangedException e) {
-            if(removeOldFromCache) {
-                Bukkit.getScheduler().runTaskLater(ToolHandlerPlugin.instance, new Runnable() {
-    
-                    @Override
-                    public void run() {
-                        ToolHandlerPlugin.instance.getCacheManager().invalidateFromArmorCache(item);                   
-                    }
-                    
-                }, 1);
-            }
-            return e.newStack;
-        }
-        return this.item;
-    }
-
-    @Override
     public int getNumBonusSlots() {
+        if(this.invalidated) {
+            return plugin.getCacheManager().getCachedToolInfo(this.item).getNumBonusSlots();
+        }
         int bonusSlots = 0;
         for(int i = 0; i < this.mods.length; i++) {
             if(this.mods[i].equals(EmptyModSlot.bonusId)) {
@@ -152,45 +142,59 @@ public class CachedToolInfo extends CachedItemInfo {
 
     @Override
     public ItemStack addModSlot() {
+        if(this.invalidated) {
+            this.item = plugin.getCacheManager().getCachedToolInfo(this.item).addModSlot();
+            return this.item;
+        }
         this.mods = Arrays.copyOf(this.mods, this.mods.length + 1);
         this.mods[this.mods.length] = EmptyModSlot.bonusId;
-        return forceWrite(true);
+        return forceWrite();
     }
 
     @Override
     public ItemStack addMod(ItemMod mod) {
+        if(this.invalidated) {
+            this.item = plugin.getCacheManager().getCachedToolInfo(this.item).addMod(mod);
+            return this.item;
+        }
         if(!(mod instanceof ToolMod)) {
             throw new IllegalArgumentException("This is not a tool mod!");
         }
         for(int i = 0; i < this.mods.length; i++) {
             if(this.mods[i].equals(EmptyModSlot.baseId) || this.mods[i].equals(EmptyModSlot.bonusId)) {
                 this.mods[i] = mod.modUUID;
-                return this.forceWrite(true);
+                this.forceWrite();
             }
         }
-        return null;
+        return item;
     }
     public UUID[] getMods() {
+        if(this.invalidated) {
+            return plugin.getCacheManager().getCachedToolInfo(this.item).getMods();
+        }
         return this.mods;
     }
     public double getTrueDamage() {
+        if(this.invalidated) {
+            return plugin.getCacheManager().getCachedToolInfo(this.item).getTrueDamage();
+        }
         return trueDamage;
     }
-    public void setTrueDamage(double trueDamage) {
-        this.trueDamage = trueDamage;
-    }
+
     public double getBashChance() {
+        if(this.invalidated) {
+            return plugin.getCacheManager().getCachedToolInfo(this.item).getBashChance();
+        }
         return bashChance;
     }
-    public void setBashChance(double bashChance) {
-        this.bashChance = bashChance;
-    }
+
     public double getDecimatingStrikeChance() {
+        if(this.invalidated) {
+            return plugin.getCacheManager().getCachedToolInfo(this.item).getDecimatingStrikeChance();
+        }
         return decimateChance;
     }
-    public void setDecimatingStrikeChance(double decimatingStrikeChance) {
-        this.decimateChance = decimatingStrikeChance;
-    }
+
     public static CachedToolInfo fromString(ItemStack is, String parseable) {
         String[] parsed = parseable.split(":");
         double quality = Double.valueOf(parsed[0]);

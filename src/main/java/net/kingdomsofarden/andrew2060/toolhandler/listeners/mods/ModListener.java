@@ -221,7 +221,7 @@ public class ModListener implements Listener {
 				for(int x = 0; x < mods.size(); x++) {
 					ScytheMod mod = modManager.getScytheMod(mods.get(x));
 					if(mod != null) {
-						mod.executeOnSkillUse(event);
+						mod.tickSkillUse(event);
 					}
 				}
 				return;
@@ -248,7 +248,7 @@ public class ModListener implements Listener {
 				for(int x = 0; x < mods.size(); x++) {
 					ScytheMod mod = modManager.getScytheMod(mods.get(x));
 					if(mod != null) {
-						mod.executeOnSkillDamage(event);
+						mod.tickSkillDamage(event);
 					}
 				}
 				return;
