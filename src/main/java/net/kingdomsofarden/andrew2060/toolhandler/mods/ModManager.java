@@ -538,9 +538,12 @@ public class ModManager extends URLClassLoader {
     public WeaponMod getWeaponMod(UUID id) {
         return weaponMods.get(id);
     }
+    public ScytheMod getScytheMod(UUID id) {
+        return scytheMods.get(id);
+    }
     public ScytheMod getScytheMod(String name) {
         name = name.toLowerCase();
-        return scytheMods.get(name);
+        return scytheModNames.get(name);
     }
     public ArmorMod getArmorMod(String name) {
         name = name.toLowerCase();
@@ -591,6 +594,8 @@ public class ModManager extends URLClassLoader {
             }
         }
     }
+
+
 
 
 

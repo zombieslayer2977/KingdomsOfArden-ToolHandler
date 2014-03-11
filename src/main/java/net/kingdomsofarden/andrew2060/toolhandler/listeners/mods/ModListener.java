@@ -1,6 +1,5 @@
 package net.kingdomsofarden.andrew2060.toolhandler.listeners.mods;
 
-import java.util.List;
 import java.util.UUID;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
@@ -9,8 +8,6 @@ import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ArmorMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ScytheMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ToolMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.WeaponMod;
-import net.kingdomsofarden.andrew2060.toolhandler.util.ModUtil;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -89,6 +86,25 @@ public class ModListener implements Listener {
                 }
 				return;
 			}
+			case DIAMOND_HOE:
+            case IRON_HOE:
+            case GOLD_HOE:
+            case STONE_HOE:
+            case WOOD_HOE: {
+                UUID[] modIDs = plugin.getCacheManager().getCachedToolInfo(i).getMods();
+                for(UUID id : modIDs) {
+                    ScytheMod mod = plugin.getModManager().getScytheMod(id);
+                    if(mod != null) {
+                        try {
+                            mod.tickWeaponDamage(event);
+                        } catch (Exception e) {
+                            System.out.println("Error in Scythe Mod " + mod.getName());
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                return;
+            }
 			default: {
 				return;
 			}
@@ -216,14 +232,18 @@ public class ModListener implements Listener {
 			case GOLD_HOE:
 			case STONE_HOE:
 			case WOOD_HOE: {
-				List<String> mods = ModUtil.getToolMods(i);
-				ModManager modManager = plugin.getModManager();
-				for(int x = 0; x < mods.size(); x++) {
-					ScytheMod mod = modManager.getScytheMod(mods.get(x));
-					if(mod != null) {
-						mod.tickSkillUse(event);
-					}
-				}
+                UUID[] modIDs = plugin.getCacheManager().getCachedToolInfo(i).getMods();
+                for(UUID id : modIDs) {
+                    ScytheMod mod = plugin.getModManager().getScytheMod(id);
+                    if(mod != null) {
+                        try {
+                            mod.tickSkillUse(event);
+                        } catch (Exception e) {
+                            System.out.println("Error in Scythe Mod " + mod.getName());
+                            e.printStackTrace();
+                        }
+                    }
+                }
 				return;
 			}
 			default: {
@@ -243,14 +263,18 @@ public class ModListener implements Listener {
 			case GOLD_HOE:
 			case STONE_HOE:
 			case WOOD_HOE: {
-				List<String> mods = ModUtil.getToolMods(i);
-				ModManager modManager = plugin.getModManager();
-				for(int x = 0; x < mods.size(); x++) {
-					ScytheMod mod = modManager.getScytheMod(mods.get(x));
-					if(mod != null) {
-						mod.tickSkillDamage(event);
-					}
-				}
+			    UUID[] modIDs = plugin.getCacheManager().getCachedToolInfo(i).getMods();
+                for(UUID id : modIDs) {
+                    ScytheMod mod = plugin.getModManager().getScytheMod(id);
+                    if(mod != null) {
+                        try {
+                            mod.tickSkillDamage(event);
+                        } catch (Exception e) {
+                            System.out.println("Error in Scythe Mod " + mod.getName());
+                            e.printStackTrace();
+                        }
+                    }
+                }
 				return;
 			}
 			default: {
