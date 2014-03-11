@@ -265,7 +265,7 @@ public class SerializationUtil {
         loreUpdated.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         loreUpdated.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getArmorQualityFormat(improvementQuality));
         loreUpdated.add(2,ChatColor.GRAY + "Magic Resistance Rating: " + FormattingUtil.getAttribute(magicResist) + "%");
-        loreUpdated.add(3,ChatColor.GRAY + "Healing Bonus: " + FormattingUtil.getAttribute(knockbackResist) + "%");
+        loreUpdated.add(3,ChatColor.GRAY + "Knockback Resistance: " + FormattingUtil.getAttribute(knockbackResist) + "%");
         loreUpdated.add(4,ChatColor.GRAY + "Additional Protection: " + FormattingUtil.getAttribute(protBonus) + "%");
         loreUpdated.add(5,ChatColor.WHITE + "========Modifications========");
         int usedSlots = 0;
