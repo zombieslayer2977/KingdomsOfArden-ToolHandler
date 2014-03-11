@@ -5,7 +5,6 @@ import java.util.Random;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedItemInfo;
-import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.gui.AnvilGUI;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
 
@@ -33,6 +32,12 @@ public class AnvilListener implements Listener {
         this.plugin = plugin;
         this.activeAnvilInventories = new HashMap<Location,Inventory>();
     }
+    
+    @SuppressWarnings("deprecation")
+    public void updateInventory(Player p) {
+        p.updateInventory();
+    }
+    
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onAnvilInteract(PlayerInteractEvent event) {
         if(!(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.ANVIL)) {
@@ -58,7 +63,7 @@ public class AnvilListener implements Listener {
         if(!(AnvilGUI.getInputSlots().contains(event.getSlot())) && event.getRawSlot() < 54) {
             event.setCancelled(true);
             Player p = (Player) event.getWhoClicked();
-            p.updateInventory();
+            updateInventory(p);
             Hero h = plugin.heroesPlugin.getCharacterManager().getHero(p);
             switch(event.getSlot()) {
 
@@ -361,7 +366,7 @@ public class AnvilListener implements Listener {
         } else {
             player.sendMessage(ChatColor.GRAY + "Repair Successful");
         }
-        player.updateInventory();
+        updateInventory(player);
     }
 
     private void improve(ItemStack improve, ItemStack mat, Inventory anvilGUI, Player player) {
@@ -588,6 +593,7 @@ public class AnvilListener implements Listener {
             else {
                 anvilGUI.clear(31);
             }
+            anvilGUI.setItem(22, cacheWrite);
             int exp = 0;
             switch (requiredImprove) {
             case IRON_INGOT:
@@ -609,7 +615,7 @@ public class AnvilListener implements Listener {
                 exp = 0;
             }   
             h.addExp(exp, h.getSecondClass(), h.getPlayer().getLocation());      
-            player.updateInventory();
+            updateInventory(player);
         }
     }
 
@@ -650,10 +656,10 @@ public class AnvilListener implements Listener {
             anvilGUI.setItem(34, new ItemStack(salvageable.getTo(),resultAmount));
         } else {
             player.sendMessage(ChatColor.GRAY + "This item was too wrecked to salvage and was destroyed!");
-            player.updateInventory();
+            updateInventory(player);
             return;
         }
-        player.updateInventory();
+        updateInventory(player);
         int exp = 0;
         switch (salvageable.getTo()) {
         case DIAMOND:

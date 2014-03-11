@@ -30,8 +30,12 @@ public class ArtificierListener implements Listener {
         this.plugin = toolHandlerPlugin;
         this.activeModChests = new HashMap<Location,Inventory>();
     }
+    
+    @SuppressWarnings("deprecation")
+    public void updateInventory(Player p) {
+        p.updateInventory();
+    }
 
-    @SuppressWarnings("deprecation")   //Not much we can do, Bukkit requires this
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void onInventoryInteract(InventoryClickEvent event) {
         Inventory inv = event.getInventory();
@@ -40,7 +44,7 @@ public class ArtificierListener implements Listener {
                 if(event.getRawSlot() < 54) {
                     event.setCancelled(true);
                     Player p = (Player) event.getWhoClicked();
-                    p.updateInventory();
+                    updateInventory(p);
                     switch(event.getSlot()) {
 
                     case 19: {  //Mod Installer Slot
@@ -146,7 +150,7 @@ public class ArtificierListener implements Listener {
                         break;
                     }
                     }
-                    p.updateInventory();    //Prevent nasty dupes
+                    updateInventory(p); //Prevent nasty dupes
                 }
 
                 return;
@@ -217,6 +221,7 @@ public class ArtificierListener implements Listener {
             modifier = 7D;
         }
         double multiply = modifier/7.0D;
+        //TODO: clear Essence of enchanting
         return ModUtil.addModSlot(item,multiply);
     }
 }
