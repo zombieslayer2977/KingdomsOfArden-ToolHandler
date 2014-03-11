@@ -54,12 +54,12 @@ public abstract class ScytheMod extends ItemMod {
 	public void executeOnSkillDamage(SkillDamageEvent event) {};
 	public void executeOnWeaponDamage(WeaponDamageEvent event) {};
 	
-	public final void tickSkillUse(SkillUseEvent event) {
+	public final void tickOnSkillUse(SkillUseEvent event) {
 	    executeOnSkillUse(event);
 	    this.pEMan.addPotionEffectStacking(this.applySelfOnSkillUse, event.getPlayer(), false);
 	}
 	
-	public final void tickSkillDamage(SkillDamageEvent event) {
+	public final void tickOnSkillDamage(SkillDamageEvent event) {
         executeOnSkillDamage(event);
         this.pEMan.addPotionEffectStacking(this.applySelfOnDamage, event.getDamager().getEntity(), false);
         if(event.getEntity() instanceof LivingEntity) {
@@ -68,7 +68,7 @@ public abstract class ScytheMod extends ItemMod {
 
     }
 	
-	public final void tickWeaponDamage(WeaponDamageEvent event) {
+	public final void tickOnWeaponDamage(WeaponDamageEvent event) {
         executeOnWeaponDamage(event);
         this.pEMan.addPotionEffectStacking(this.applySelfOnDamage, event.getDamager().getEntity(), false);
         if(event.getEntity() instanceof LivingEntity) {

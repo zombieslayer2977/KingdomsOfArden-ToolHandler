@@ -48,7 +48,7 @@ public class ModListener implements Listener {
 					WeaponMod mod = plugin.getModManager().getWeaponMod(id);
 					if(mod != null) {
 						try {
-							mod.tickMod(event);
+							mod.tickOnWeaponDamage(event);
 						} catch (Exception e) {
 							System.out.println("Error in Weapon Mod " + mod.getName());
 							e.printStackTrace();
@@ -77,7 +77,7 @@ public class ModListener implements Listener {
                     ToolMod mod = plugin.getModManager().getToolMod(id);
                     if(mod != null) {
                         try {
-                            mod.tickModWeaponDamage(event);
+                            mod.tickOnWeaponDamage(event);
                         } catch (Exception e) {
                             System.out.println("Error in Tool Mod " + mod.getName());
                             e.printStackTrace();
@@ -96,7 +96,7 @@ public class ModListener implements Listener {
                     ScytheMod mod = plugin.getModManager().getScytheMod(id);
                     if(mod != null) {
                         try {
-                            mod.tickWeaponDamage(event);
+                            mod.tickOnWeaponDamage(event);
                         } catch (Exception e) {
                             System.out.println("Error in Scythe Mod " + mod.getName());
                             e.printStackTrace();
@@ -145,7 +145,7 @@ public class ModListener implements Listener {
 			for(UUID id : mods) {
 				ArmorMod mod = modManager.getArmorMod(id);
 				if(mod != null) {
-					mod.executeOnArmorDamage(event);
+					mod.tickOnArmorDamage(event);
 				}
 			}		
 		}
@@ -155,7 +155,7 @@ public class ModListener implements Listener {
             for(UUID id : mods) {
                 ArmorMod mod = modManager.getArmorMod(id);
                 if(mod != null) {
-                    mod.executeOnArmorDamage(event);
+                    mod.tickOnArmorDamage(event);
                 }
             }   
 		}
@@ -165,7 +165,7 @@ public class ModListener implements Listener {
             for(UUID id : mods) {
                 ArmorMod mod = modManager.getArmorMod(id);
                 if(mod != null) {
-                    mod.executeOnArmorDamage(event);
+                    mod.tickOnArmorDamage(event);
                 }
             }   
 		}
@@ -175,7 +175,7 @@ public class ModListener implements Listener {
             for(UUID id : mods) {
                 ArmorMod mod = modManager.getArmorMod(id);
                 if(mod != null) {
-                    mod.executeOnArmorDamage(event);
+                    mod.tickOnArmorDamage(event);
                 }
             }   	
 		}
@@ -207,7 +207,7 @@ public class ModListener implements Listener {
                     ToolMod mod = plugin.getModManager().getToolMod(id);
                     if(mod != null) {
                         try {
-                            mod.tickModBlockBreak(event);
+                            mod.tickOnBlockBreak(event);
                         } catch (Exception e) {
                             System.out.println("Error in Tool Mod " + mod.getName());
                             e.printStackTrace();
@@ -237,7 +237,7 @@ public class ModListener implements Listener {
                     ScytheMod mod = plugin.getModManager().getScytheMod(id);
                     if(mod != null) {
                         try {
-                            mod.tickSkillUse(event);
+                            mod.tickOnSkillUse(event);
                         } catch (Exception e) {
                             System.out.println("Error in Scythe Mod " + mod.getName());
                             e.printStackTrace();
@@ -268,7 +268,7 @@ public class ModListener implements Listener {
                     ScytheMod mod = plugin.getModManager().getScytheMod(id);
                     if(mod != null) {
                         try {
-                            mod.tickSkillDamage(event);
+                            mod.tickOnSkillDamage(event);
                         } catch (Exception e) {
                             System.out.println("Error in Scythe Mod " + mod.getName());
                             e.printStackTrace();

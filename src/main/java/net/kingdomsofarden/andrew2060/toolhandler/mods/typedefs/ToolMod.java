@@ -106,13 +106,13 @@ public abstract class ToolMod extends ItemMod {
         this.decimateChance = decimateChance;
     }
 
-    public void tickModWeaponDamage(WeaponDamageEvent event) {
+    public void tickOnWeaponDamage(WeaponDamageEvent event) {
         executeOnWeaponDamage(event);
         pEMan.addPotionEffectStacking(applyTargetOnDamage, (LivingEntity) event.getEntity(), false);
         pEMan.addPotionEffectStacking(applySelfOnDamage, event.getDamager().getEntity(), false);
     }
     
-    public void tickModBlockBreak(BlockBreakEvent event) {
+    public void tickOnBlockBreak(BlockBreakEvent event) {
         executeOnBlockBreak(event);
         pEMan.addPotionEffectStacking(applySelfOnBlockBreak, (LivingEntity) event.getPlayer(), false);
     }

@@ -8,6 +8,7 @@ import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedArmorInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.ItemMod;
 import net.kingdomsofarden.andrew2060.toolhandler.potions.PotionEffectManager;
 
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -21,6 +22,8 @@ public abstract class ArmorMod extends ItemMod {
     private int weight;
     private boolean requiresSlot;
     private LinkedList<PotionEffect> effectsOnTick;
+    private LinkedList<PotionEffect> applySelfOnDamage;
+    private LinkedList<PotionEffect> applyAttackerOnDamage;
     private Double magicResist;
     private Double healingBonus;
     private Double protBonus;
@@ -33,6 +36,9 @@ public abstract class ArmorMod extends ItemMod {
         this.weight = weight;
         this.requiresSlot = requiresSlot;
         this.effectsOnTick = new LinkedList<PotionEffect>();
+        this.applySelfOnDamage = new LinkedList<PotionEffect>();
+        this.applyAttackerOnDamage = new LinkedList<PotionEffect>();
+
         this.magicResist = null;
         this.healingBonus = null;
         this.protBonus = null;
@@ -87,5 +93,11 @@ public abstract class ArmorMod extends ItemMod {
     }
     public void setProtBonus(Double protBonus) {
         this.protBonus = protBonus;
+    }
+    
+    public void tickOnArmorDamage(WeaponDamageEvent event) {
+        executeOnArmorDamage(event);
+        pEMan.addPotionEffectStacking(applyAttackerOnDamage, event.getDamager().getEntity(), false);
+        pEMan.addPotionEffectStacking(applySelfOnDamage, (LivingEntity) event.getEntity(), false);
     }
 }
