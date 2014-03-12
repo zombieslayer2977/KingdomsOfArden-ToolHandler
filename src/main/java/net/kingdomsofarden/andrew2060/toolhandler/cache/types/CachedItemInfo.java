@@ -31,7 +31,7 @@ public abstract class CachedItemInfo {
     @Override
     public abstract String toString();
 
-    public final ItemStack forceWrite() {
+    public ItemStack forceWrite() {
         if(this.invalidated) {
             this.item = plugin.getCacheManager().getCachedInfo(this.item).forceWrite();
             return this.item;

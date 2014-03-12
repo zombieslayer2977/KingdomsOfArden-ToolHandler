@@ -12,6 +12,7 @@ import net.kingdomsofarden.andrew2060.toolhandler.mods.ItemMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ArmorMod;
 import net.kingdomsofarden.andrew2060.toolhandler.util.FormattingUtil;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
+import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil;
 
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -221,5 +222,17 @@ public class CachedArmorInfo extends CachedItemInfo {
         return new CachedArmorInfo(is,quality,coll.toArray(new UUID[coll.size()]));
     }
 
+    public ItemStack forceWrite() {
+        if(this.invalidated) {
+            this.item = plugin.getCacheManager().getCachedInfo(this.item).forceWrite();
+            return this.item;
+        }
+        ItemStack write = NbtUtil.writeKnockbackResist(this.item, knockBackResist);
+        if(write != this.item) {
+            this.invalidated = true;
+            this.item = write;
+        }
+        return super.forceWrite(); 
+    }
 
 }
