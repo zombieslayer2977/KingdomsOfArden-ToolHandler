@@ -11,12 +11,14 @@ import net.kingdomsofarden.andrew2060.toolhandler.thirdparty.comphoenix.Attribut
 import net.kingdomsofarden.andrew2060.toolhandler.thirdparty.comphoenix.Attributes.AttributeType;
 
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 
 
 public class NbtUtil {
 
     public static ItemStack writeAttributes(ItemStack item, CachedItemInfo data) {
+        String itemName = item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : null;
         String cachedData = data.toString();
         AttributeStorage storage = AttributeStorage.newTarget(item, ToolHandlerPlugin.identifier);
         storage.setData(cachedData);
@@ -37,6 +39,12 @@ public class NbtUtil {
             break;
         }
         
+        }
+        
+        if(itemName != null) {
+            ItemMeta meta = written.getItemMeta();
+            meta.setDisplayName(itemName);
+            written.setItemMeta(meta);
         }
         
         return written;

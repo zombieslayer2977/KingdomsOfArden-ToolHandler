@@ -93,7 +93,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
         //Initialize Listeners
         this.qualityListener = new DurabilityChangeListener(this);
 
-        this.craftingListener = new CraftingListener();
+        this.craftingListener = new CraftingListener(this);
         this.craftingShiftClickListener = new ShiftClickListener(this);
 
         this.chainmailListener = new ChainMailListener();

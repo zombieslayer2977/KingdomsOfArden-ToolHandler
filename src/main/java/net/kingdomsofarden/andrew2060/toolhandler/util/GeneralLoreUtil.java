@@ -29,7 +29,7 @@ public class GeneralLoreUtil {
         templateLoreMagicTool.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         templateLoreMagicTool.add(1,ChatColor.GRAY + "Improvement Quality: Basic");
 		templateLoreMagicTool.add(2,ChatColor.GRAY + "Damage Boost Rating: 0.00%");
-		templateLoreMagicTool.add(3,ChatColor.GRAY + "Mana Restoration: 0 Mana/Hit");
+		templateLoreMagicTool.add(3,ChatColor.GRAY + "Mana Restoration: 0%");
 		templateLoreMagicTool.add(4,ChatColor.GRAY + "Spell Leech: 0.00%");
 		templateLoreMagicTool.add(5,ChatColor.WHITE + "========Modifications========");
 		templateLoreMagicTool.add(6,ChatColor.DARK_GRAY + "[Empty Slot]");
@@ -94,29 +94,29 @@ public class GeneralLoreUtil {
 		populateWeapon(defaultLoreWeapon);
 		return defaultLoreWeapon;
 	}
-	public static void populateLoreDefaults(ItemStack item) {
+	public static boolean populateLoreDefaults(ItemStack item) {
 		Material mat = item.getType();
 		switch(mat) {
 			case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD:	case WOOD_SWORD: case BOW: {
 				ItemMeta meta = item.getItemMeta();
 				meta.setLore(getWeaponDefault(item));
 				item.setItemMeta(meta);
-				return;
+				return true;
 			}
 			case DIAMOND_PICKAXE: case DIAMOND_AXE: case DIAMOND_HOE: case DIAMOND_SPADE: case IRON_PICKAXE: case IRON_AXE: case IRON_HOE: case IRON_SPADE: case GOLD_PICKAXE: case GOLD_AXE: case GOLD_HOE: case GOLD_SPADE: case STONE_PICKAXE: case STONE_AXE: case STONE_HOE: case STONE_SPADE: case WOOD_PICKAXE: case WOOD_AXE: case WOOD_HOE: case WOOD_SPADE: {
 				ItemMeta meta = item.getItemMeta();
 				meta.setLore(getToolDefault(item));
 				item.setItemMeta(meta);
-				return;
+				return true;
 			}
 			case DIAMOND_HELMET: case DIAMOND_CHESTPLATE: case DIAMOND_LEGGINGS: case DIAMOND_BOOTS: case IRON_HELMET: case IRON_CHESTPLATE: case IRON_LEGGINGS: case IRON_BOOTS: case GOLD_HELMET: case GOLD_CHESTPLATE: case GOLD_LEGGINGS: case GOLD_BOOTS: case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: case LEATHER_HELMET: case LEATHER_CHESTPLATE: case LEATHER_LEGGINGS: case LEATHER_BOOTS: {
 				ItemMeta meta = item.getItemMeta();
 				meta.setLore(getArmorDefault(item));
 				item.setItemMeta(meta);
-				return;
+				return true;
 			}
 			default: {
-				return;
+				return false;
 			}
 		}
 	}

@@ -3,6 +3,7 @@ package net.kingdomsofarden.andrew2060.toolhandler.listeners.crafting;
 import java.util.Objects;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedItemInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.util.GeneralLoreUtil;
 
 import org.bukkit.Bukkit;
@@ -77,40 +78,44 @@ public class ShiftClickListener implements Listener{
 
                     // We're only interested in filled slots that are different
                     if (hasSameItem(compareItem, post) && (hasSameItem(compareItem, pre) || pre == null)) {
-                        GeneralLoreUtil.populateLoreDefaults(post);
-                        switch(post.getType()) {
-                        case DIAMOND_HOE: {
-                            ItemMeta meta = post.getItemMeta();
-                            meta.setDisplayName("Diamond Scythe");
-                            post.setItemMeta(meta);
-                            break;
-                        }
-                        case IRON_HOE: {
-                            ItemMeta meta = post.getItemMeta();
-                            meta.setDisplayName("Iron Scythe");
-                            post.setItemMeta(meta);
-                            break;
-                        }
-                        case GOLD_HOE: {
-                            ItemMeta meta = post.getItemMeta();
-                            meta.setDisplayName("Gold Scythe");
-                            post.setItemMeta(meta);
-                            break;
-                        }
-                        case STONE_HOE: {
-                            ItemMeta meta = post.getItemMeta();
-                            meta.setDisplayName("Stone Scythe");
-                            post.setItemMeta(meta);
-                            break;
-                        }
-                        case WOOD_HOE: {
-                            ItemMeta meta = post.getItemMeta();
-                            meta.setDisplayName("Wood Scythe");
-                            post.setItemMeta(meta);
-                            break;
-                        }
-                        default:
-                            return;
+                        if(GeneralLoreUtil.populateLoreDefaults(post)) {
+                            switch(post.getType()) {
+                            case DIAMOND_HOE: {
+                                ItemMeta meta = post.getItemMeta();
+                                meta.setDisplayName("Diamond Scythe");
+                                post.setItemMeta(meta);
+                                break;
+                            }
+                            case IRON_HOE: {
+                                ItemMeta meta = post.getItemMeta();
+                                meta.setDisplayName("Iron Scythe");
+                                post.setItemMeta(meta);
+                                break;
+                            }
+                            case GOLD_HOE: {
+                                ItemMeta meta = post.getItemMeta();
+                                meta.setDisplayName("Gold Scythe");
+                                post.setItemMeta(meta);
+                                break;
+                            }
+                            case STONE_HOE: {
+                                ItemMeta meta = post.getItemMeta();
+                                meta.setDisplayName("Stone Scythe");
+                                post.setItemMeta(meta);
+                                break;
+                            }
+                            case WOOD_HOE: {
+                                ItemMeta meta = post.getItemMeta();
+                                meta.setDisplayName("Wood Scythe");
+                                post.setItemMeta(meta);
+                                break;
+                            }
+                            default:
+                                return;
+                            }
+                            CachedItemInfo cached = plugin.getCacheManager().getCachedInfo(post);
+                            post = cached.forceWrite();
+                            postInv[i] = post;
                         }
                     }
                 }

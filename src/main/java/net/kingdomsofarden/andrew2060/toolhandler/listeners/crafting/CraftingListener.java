@@ -1,5 +1,7 @@
 package net.kingdomsofarden.andrew2060.toolhandler.listeners.crafting;
 
+import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedItemInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.util.GeneralLoreUtil;
 
 import org.bukkit.ChatColor;
@@ -14,6 +16,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class CraftingListener implements Listener {
+    private ToolHandlerPlugin plugin;
+    public CraftingListener(ToolHandlerPlugin plugin) {
+        this.plugin = plugin;
+    }
     @EventHandler(priority=EventPriority.MONITOR,ignoreCancelled = true) 
     public void onItemPreCraft(PrepareItemCraftEvent event) {
         if(event.isRepair()) {
@@ -21,43 +27,46 @@ public class CraftingListener implements Listener {
         } else {
             ItemStack result = event.getInventory().getResult();
             Material type = result.getType();
-            GeneralLoreUtil.populateLoreDefaults(result);
-            switch(type) {
-                case DIAMOND_HOE: {
-                    ItemMeta meta = result.getItemMeta();
-                    meta.setDisplayName("Diamond Scythe");
-                    result.setItemMeta(meta);
-                    break;
+            if(GeneralLoreUtil.populateLoreDefaults(result)) {
+                switch(type) {
+                    case DIAMOND_HOE: {
+                        ItemMeta meta = result.getItemMeta();
+                        meta.setDisplayName(ChatColor.RESET + "Diamond Scythe");
+                        result.setItemMeta(meta);
+                        break;
+                    }
+                    case IRON_HOE: {
+                        ItemMeta meta = result.getItemMeta();
+                        meta.setDisplayName(ChatColor.RESET + "Iron Scythe");
+                        result.setItemMeta(meta);
+                        break;
+                    }
+                    case GOLD_HOE: {
+                        ItemMeta meta = result.getItemMeta();
+                        meta.setDisplayName(ChatColor.RESET + "Gold Scythe");
+                        result.setItemMeta(meta);
+                        break;
+                    }
+                    case STONE_HOE: {
+                        ItemMeta meta = result.getItemMeta();
+                        meta.setDisplayName(ChatColor.RESET + "Stone Scythe");
+                        result.setItemMeta(meta);
+                        break;
+                    }
+                    case WOOD_HOE: {
+                        ItemMeta meta = result.getItemMeta();
+                        meta.setDisplayName(ChatColor.RESET + "Wood Scythe");
+                        result.setItemMeta(meta);
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
                 }
-                case IRON_HOE: {
-                    ItemMeta meta = result.getItemMeta();
-                    meta.setDisplayName("Iron Scythe");
-                    result.setItemMeta(meta);
-                    break;
-                }
-                case GOLD_HOE: {
-                    ItemMeta meta = result.getItemMeta();
-                    meta.setDisplayName("Gold Scythe");
-                    result.setItemMeta(meta);
-                    break;
-                }
-                case STONE_HOE: {
-                    ItemMeta meta = result.getItemMeta();
-                    meta.setDisplayName("Stone Scythe");
-                    result.setItemMeta(meta);
-                    break;
-                }
-                case WOOD_HOE: {
-                    ItemMeta meta = result.getItemMeta();
-                    meta.setDisplayName("Wood Scythe");
-                    result.setItemMeta(meta);
-                    break;
-                }
-                default: {
-                    break;
-                }
+                CachedItemInfo cached = plugin.getCacheManager().getCachedInfo(result);
+                result = cached.forceWrite();
+                event.getInventory().setResult(result);
             }
-            event.getInventory().setResult(result);
         }            
     }
 	@EventHandler(priority=EventPriority.MONITOR) 
