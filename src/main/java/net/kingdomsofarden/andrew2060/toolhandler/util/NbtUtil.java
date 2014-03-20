@@ -3,6 +3,7 @@ package net.kingdomsofarden.andrew2060.toolhandler.util;
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedArmorInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedItemInfo;
+import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedScytheInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedToolInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.thirdparty.comphoenix.AttributeStorage;
@@ -35,6 +36,9 @@ public class NbtUtil {
         case DIAMOND_AXE: case DIAMOND_PICKAXE: case DIAMOND_SPADE: case IRON_AXE: case IRON_PICKAXE: case IRON_SPADE: case GOLD_AXE: case GOLD_PICKAXE: case GOLD_SPADE: case STONE_AXE: case STONE_PICKAXE: case STONE_SPADE: case WOOD_AXE: case WOOD_PICKAXE: case WOOD_SPADE: {
             ToolLoreUtil.write((CachedToolInfo)data,written);
         }
+        case DIAMOND_HOE: case IRON_HOE: case GOLD_HOE: case STONE_HOE: case WOOD_HOE: {
+            ScytheLoreUtil.write((CachedScytheInfo)data, written);
+        }
         default: {
             break;
         }
@@ -51,9 +55,17 @@ public class NbtUtil {
     }
 
     public static ItemStack writeKnockbackResist(ItemStack item, double resist) {
+        String itemName = item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : null;
+
         Attributes attrib = new Attributes(item);
         attrib.add(Attribute.newBuilder().name("ToolHandler_KnockbackResist").type(AttributeType.GENERIC_KNOCKBACK_RESISTANCE).amount(resist).build());
-        return attrib.getStack();
+        ItemStack written = attrib.getStack();
+        if(itemName != null) {
+            ItemMeta meta = written.getItemMeta();
+            meta.setDisplayName(itemName);
+            written.setItemMeta(meta);
+        }
+        return written;
     }
     
     public static String getAttributes(ItemStack item) {
