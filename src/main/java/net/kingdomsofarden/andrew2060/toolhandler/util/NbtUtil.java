@@ -24,6 +24,7 @@ public class NbtUtil {
         AttributeStorage storage = AttributeStorage.newTarget(item, ToolHandlerPlugin.identifier);
         storage.setData(cachedData);
         ItemStack written = storage.getTarget();
+        System.out.println("Wrote data: " + cachedData);
         switch(item.getType()) {
         
         case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
