@@ -143,10 +143,21 @@ public class CachedWeaponInfo extends CachedItemInfo {
         for(int i = 0; i < this.mods.length; i++) {
             if(this.mods[i] == EmptyModSlot.baseId || this.mods[i] == EmptyModSlot.bonusId) {
                 this.mods[i] = mod.modUUID;
-                return this.forceWrite();
+                break;
             }
         }
-        return null;
+        this.bonusDamage = 0.00;
+        this.lifeSteal = 0.00;
+        this.critChance = 0.00;
+        for(UUID id : this.mods) {
+            WeaponMod foundMod = plugin.getModManager().getWeaponMod(id);
+            if(foundMod != null) {
+                this.bonusDamage += foundMod.getBonusDamage();
+                this.lifeSteal += foundMod.getLifeSteal();
+                this.critChance += foundMod.getCritChance();
+            }
+        }
+        return this.forceWrite();
     }
 
     /**

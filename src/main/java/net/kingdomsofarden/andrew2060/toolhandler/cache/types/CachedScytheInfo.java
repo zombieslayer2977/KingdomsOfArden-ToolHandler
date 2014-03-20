@@ -151,10 +151,21 @@ public class CachedScytheInfo extends CachedItemInfo {
         for(int i = 0; i < this.mods.length; i++) {
             if(this.mods[i].equals(EmptyModSlot.baseId) || this.mods[i].equals(EmptyModSlot.bonusId)) {
                 this.mods[i] = mod.modUUID;
-                this.forceWrite();
+                break;
             }
         }
-        return item;
+        this.damageBoost = 0.00;
+        this.manaRestoration = 0.00;
+        this.spellLeech = 0.00;
+        for(UUID id : mods) {
+            ScytheMod foundMod = plugin.getModManager().getScytheMod(id);
+            if(foundMod != null) {
+                damageBoost += foundMod.getDamageBoost();
+                manaRestoration += foundMod.getManaRestoration();
+                spellLeech += foundMod.getSpellLeech();
+            }
+        }
+        return this.forceWrite();
     }
 
     @Override

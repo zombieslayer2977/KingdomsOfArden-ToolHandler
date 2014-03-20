@@ -165,10 +165,21 @@ public class CachedToolInfo extends CachedItemInfo {
         for(int i = 0; i < this.mods.length; i++) {
             if(this.mods[i].equals(EmptyModSlot.baseId) || this.mods[i].equals(EmptyModSlot.bonusId)) {
                 this.mods[i] = mod.modUUID;
-                this.forceWrite();
+                break;
             }
         }
-        return item;
+        this.trueDamage = 0.00;
+        this.bashChance = 0.00;
+        this.decimateChance = 0.00;
+        for(UUID id : this.mods) {
+            ToolMod foundMod = plugin.getModManager().getToolMod(id);
+            if(foundMod != null) {
+                trueDamage += foundMod.getTrueDamage();
+                bashChance += foundMod.getBashChance();
+                decimateChance += foundMod.getDecimateChance();
+            }
+        }
+        return this.forceWrite();
     }
     public UUID[] getMods() {
         if(this.invalidated) {

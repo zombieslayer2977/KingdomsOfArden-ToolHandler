@@ -168,10 +168,32 @@ public class CachedArmorInfo extends CachedItemInfo {
         for(int i = 0; i < this.mods.length; i++) {
             if(this.mods[i].equals(EmptyModSlot.baseId) || this.mods[i].equals(EmptyModSlot.bonusId)) {
                 this.mods[i] = mod.modUUID;
-                return this.forceWrite();
+                break;
             }
         }
-        return this.item;
+        this.magicResist = 0.00;
+        this.knockBackResist = 0.00;
+        this.protBonus = 0.00;
+        for(UUID id : mods) {
+            ArmorMod foundMod = plugin.getModManager().getArmorMod(id);
+            if(foundMod != null) {
+                magicResist += foundMod.getMagicResist();
+                knockBackResist += foundMod.getKnockbackResist();
+                protBonus += foundMod.getProtBonus();
+            }
+        }
+        switch(item.getType()) { //All chainmail has +10% base magic resist
+        
+        case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: {
+            magicResist += 10;
+            break;
+        }
+        default: {
+            break;
+        }
+        
+        }
+        return this.forceWrite();
     }
     
     
