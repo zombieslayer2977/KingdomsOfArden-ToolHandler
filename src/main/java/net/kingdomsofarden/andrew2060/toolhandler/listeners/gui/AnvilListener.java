@@ -576,14 +576,14 @@ public class AnvilListener implements Listener {
                 break;
             }
             case 3:
-                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.PROTECTION_ENVIRONMENTAL, quality);
+                ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.PROTECTION_ENVIRONMENTAL, quality);
                 break;
             case 4:
-                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.DIG_SPEED, quality);
+                ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.DIG_SPEED, quality);
                 break;
             case 5: 
-                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.DIG_SPEED, quality);
-                ImprovementUtil.applyEnchantmentLevel(improve, Enchantment.DAMAGE_ALL, quality);
+                ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.DIG_SPEED, quality);
+                ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.DAMAGE_ALL, quality);
                 break;
             }
             player.sendMessage("Item Improvement Successful!");

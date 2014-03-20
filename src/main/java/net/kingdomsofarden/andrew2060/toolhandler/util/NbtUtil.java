@@ -45,13 +45,15 @@ public class NbtUtil {
         }
         
         }
-        
+        System.out.println("Written data premeta: " + getAttributes(written));
+
         if(itemName != null) {
             ItemMeta meta = written.getItemMeta();
             meta.setDisplayName(itemName);
             written.setItemMeta(meta);
         }
-        
+        System.out.println("Written data postmeta: " + getAttributes(written));
+
         return written;
     }
 
