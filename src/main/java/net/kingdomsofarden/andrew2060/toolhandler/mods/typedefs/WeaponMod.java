@@ -22,9 +22,9 @@ public abstract class WeaponMod extends ItemMod {
     private boolean requiresSlot;
     private LinkedList<PotionEffect> applyTargetOnDamage;
     private LinkedList<PotionEffect> applySelfOnDamage;
-    private Double bonusDamage;
-    private Double lifeSteal;
-    private Double critChance;
+    private double bonusDamage;
+    private double lifeSteal;
+    private double critChance;
 
     public WeaponMod(UUID modUUID, String name, int weight, boolean requiresSlot, String... desc) {
         super(modUUID);
@@ -35,9 +35,9 @@ public abstract class WeaponMod extends ItemMod {
         this.pEMan = ToolHandlerPlugin.instance.getPotionEffectHandler();
         this.applyTargetOnDamage = new LinkedList<PotionEffect>();
         this.applySelfOnDamage = new LinkedList<PotionEffect>();
-        this.bonusDamage = null;
-        this.lifeSteal = null;
-        this.critChance = null;
+        this.bonusDamage = 0.00;
+        this.lifeSteal = 0.00;
+        this.critChance = 0.00;
     }
     public ItemStack applyToWeapon(ItemStack weapon) {
         CachedWeaponInfo cachedWeapon = ToolHandlerPlugin.instance.getCacheManager().getCachedWeaponInfo(weapon);

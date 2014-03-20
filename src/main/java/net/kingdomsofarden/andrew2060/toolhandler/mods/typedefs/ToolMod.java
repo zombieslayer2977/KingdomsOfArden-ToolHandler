@@ -37,6 +37,9 @@ public abstract class ToolMod extends ItemMod {
         this.applyTargetOnDamage = new LinkedList<PotionEffect>();
         this.applySelfOnDamage = new LinkedList<PotionEffect>();
         this.applySelfOnBlockBreak = new LinkedList<PotionEffect>();
+        this.trueDamage = 0.00;
+        this.bashChance = 0.00;
+        this.decimateChance = 0.00;
 	}
 
 	public String getName() {

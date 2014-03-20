@@ -39,9 +39,9 @@ public abstract class ArmorMod extends ItemMod {
         this.applySelfOnDamage = new LinkedList<PotionEffect>();
         this.applyAttackerOnDamage = new LinkedList<PotionEffect>();
 
-        this.magicResist = null;
-        this.knockbackResist = null;
-        this.protBonus = null;
+        this.magicResist = 0.00;
+        this.knockbackResist = 0.00;
+        this.protBonus = 0.00;
     }
     public ItemStack applyToArmor(ItemStack armor) {
         CachedArmorInfo cachedArmor = ToolHandlerPlugin.instance.getCacheManager().getCachedArmorInfo(armor);

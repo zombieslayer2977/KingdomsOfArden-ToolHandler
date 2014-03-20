@@ -40,6 +40,9 @@ public abstract class ScytheMod extends ItemMod {
         this.applySelfOnDamage = new LinkedList<PotionEffect>();
         this.applyTargetOnDamage = new LinkedList<PotionEffect>();
         this.applySelfOnSkillUse = new LinkedList<PotionEffect>();
+        this.damageBoost = 0.00;
+        this.manaRestoration = 0;
+        this.spellLeech = 0.00;
 	}
 	public String getName() {
 		return name;
