@@ -5,8 +5,8 @@ import java.text.DecimalFormat;
 import org.bukkit.ChatColor;
 
 public class FormattingUtil {
-    public static DecimalFormat modDescriptorFormat = new DecimalFormat("+###.00;-###.00");
-    public static DecimalFormat loreDescriptorFormat = new DecimalFormat("###.00");
+    public static DecimalFormat modDescriptorFormat = new DecimalFormat("+##0.00;-##0.00");
+    public static DecimalFormat loreDescriptorFormat = new DecimalFormat("##0.00");
 	public static String getWeaponToolQualityFormat(double quality) {
 		if(quality > 0 && quality <= 20) {
 			return ChatColor.RED + "Sharpened (Tier 1)";
