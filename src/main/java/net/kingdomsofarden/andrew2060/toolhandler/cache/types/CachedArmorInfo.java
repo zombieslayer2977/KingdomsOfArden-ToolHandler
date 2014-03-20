@@ -12,7 +12,6 @@ import net.kingdomsofarden.andrew2060.toolhandler.mods.ItemMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ArmorMod;
 import net.kingdomsofarden.andrew2060.toolhandler.util.FormattingUtil;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
-import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil;
 
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +22,6 @@ public class CachedArmorInfo extends CachedItemInfo {
     private double magicResist;
     private double knockBackResist;
     private double protBonus;
-    private ItemStack item;
     private UUID[] mods;
     private DecimalFormat dF;
     
