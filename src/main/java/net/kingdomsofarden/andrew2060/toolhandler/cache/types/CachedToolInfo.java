@@ -24,7 +24,6 @@ public class CachedToolInfo extends CachedItemInfo {
     private double trueDamage;
     private double bashChance;
     private double decimateChance;
-    private ItemStack item;
     private UUID[] mods;
     private DecimalFormat dF;    
 
