@@ -51,7 +51,7 @@ public class SerializationUtil {
         ItemMeta meta = item.getItemMeta();
         if(!meta.hasLore()) {
             GeneralLoreUtil.populateLoreDefaults(item);
-            return "0.00:0.00:0.00:0.00:" + EmptyModSlot.baseId.toString() + ":" + EmptyModSlot.baseId.toString();
+            return "0.00:" + EmptyModSlot.baseId.toString() + ":" + EmptyModSlot.baseId.toString();
         }
         List<String> lore = meta.getLore();
 
@@ -61,7 +61,7 @@ public class SerializationUtil {
         double decimateChance = 0.00D;
 
         List<String> modifications = new LinkedList<String>();
-        
+
         //Once this is true, assumes all lore past is modification lore
         boolean reachedmodifications = false;
         for(String line : lore) {
@@ -164,12 +164,6 @@ public class SerializationUtil {
         DecimalFormat dF = new DecimalFormat("##.##");
         StringBuilder dataBuilder = new StringBuilder();
         dataBuilder.append(dF.format(improvementQuality));
-        dataBuilder.append(":");
-        dataBuilder.append(dF.format(trueDamage));
-        dataBuilder.append(":");
-        dataBuilder.append(dF.format(bashChance));
-        dataBuilder.append(":");
-        dataBuilder.append(dF.format(decimateChance));
         for(UUID modID : mods) {
             dataBuilder.append(":");
             dataBuilder.append(modID.toString());
@@ -188,7 +182,7 @@ public class SerializationUtil {
         ItemMeta meta = item.getItemMeta();
         if(!meta.hasLore()) {
             GeneralLoreUtil.populateLoreDefaults(item);
-            return "0.00:0.00:0.00:0.00:" + EmptyModSlot.baseId.toString() + ":" + EmptyModSlot.baseId.toString();
+            return "0.00:" + EmptyModSlot.baseId.toString() + ":" + EmptyModSlot.baseId.toString();
         }
         List<String> lore = meta.getLore();
 
@@ -198,7 +192,7 @@ public class SerializationUtil {
         double spellVamp = 0.00D;
 
         List<String> modifications = new LinkedList<String>();
-        
+
         //Once this is true, assumes all lore past is modification lore
         boolean reachedmodifications = false;
         for(String line : lore) {
@@ -301,12 +295,6 @@ public class SerializationUtil {
         DecimalFormat dF = new DecimalFormat("##.##");
         StringBuilder dataBuilder = new StringBuilder();
         dataBuilder.append(dF.format(improvementQuality));
-        dataBuilder.append(":");
-        dataBuilder.append(dF.format(damageBoost));
-        dataBuilder.append(":");
-        dataBuilder.append(dF.format(manaRestore));
-        dataBuilder.append(":");
-        dataBuilder.append(dF.format(spellVamp));
         for(UUID modID : mods) {
             dataBuilder.append(":");
             dataBuilder.append(modID.toString());
@@ -325,7 +313,7 @@ public class SerializationUtil {
         ItemMeta meta = item.getItemMeta();
         if(!meta.hasLore()) {
             GeneralLoreUtil.populateLoreDefaults(item);
-            return "0.00:0.00:0.00:0.00:" + EmptyModSlot.baseId.toString() + ":" + EmptyModSlot.baseId.toString();
+            return "0.00:" + EmptyModSlot.baseId.toString() + ":" + EmptyModSlot.baseId.toString();
         }
         List<String> lore = meta.getLore();
 
@@ -334,7 +322,7 @@ public class SerializationUtil {
         double knockbackResist = 0.00D;
         double protBonus = 0.00D;
         switch(item.getType()) { //All chainmail has +10% base magic resist
-        
+
         case CHAINMAIL_HELMET: case CHAINMAIL_CHESTPLATE: case CHAINMAIL_LEGGINGS: case CHAINMAIL_BOOTS: {
             magicResist += 10;
             break;
@@ -342,10 +330,10 @@ public class SerializationUtil {
         default: {
             break;
         }
-        
+
         }
         List<String> modifications = new LinkedList<String>();
-        
+
         //Once this is true, assumes all lore past is modification lore
         boolean reachedmodifications = false;
         for(String line : lore) {
@@ -448,12 +436,6 @@ public class SerializationUtil {
         DecimalFormat dF = new DecimalFormat("##.##");
         StringBuilder dataBuilder = new StringBuilder();
         dataBuilder.append(dF.format(improvementQuality));
-        dataBuilder.append(":");
-        dataBuilder.append(dF.format(magicResist));
-        dataBuilder.append(":");
-        dataBuilder.append(dF.format(knockbackResist));
-        dataBuilder.append(":");
-        dataBuilder.append(dF.format(protBonus));
         for(UUID modID : mods) {
             dataBuilder.append(":");
             dataBuilder.append(modID.toString());
@@ -472,7 +454,7 @@ public class SerializationUtil {
         ItemMeta meta = item.getItemMeta();
         if(!meta.hasLore()) {
             GeneralLoreUtil.populateLoreDefaults(item);
-            return "0.00:0.00:0.00:0.00:" + EmptyModSlot.baseId.toString() + ":" + EmptyModSlot.baseId.toString();
+            return "0.00:" + EmptyModSlot.baseId.toString() + ":" + EmptyModSlot.baseId.toString();
         }
         List<String> lore = meta.getLore();
 
@@ -582,12 +564,6 @@ public class SerializationUtil {
         DecimalFormat dF = new DecimalFormat("##.##");
         StringBuilder dataBuilder = new StringBuilder();
         dataBuilder.append(dF.format(improvementQuality));
-        dataBuilder.append(":");
-        dataBuilder.append(dF.format(bonusDmg));
-        dataBuilder.append(":");
-        dataBuilder.append(dF.format(lifeSteal));
-        dataBuilder.append(":");
-        dataBuilder.append(dF.format(critChance));
         for(UUID modID : mods) {
             dataBuilder.append(":");
             dataBuilder.append(modID.toString());
