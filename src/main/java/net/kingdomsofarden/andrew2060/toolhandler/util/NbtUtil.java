@@ -69,13 +69,13 @@ public class NbtUtil {
     public static String getAttributes(ItemStack item) {
         AttributeStorage storage = AttributeStorage.newTarget(item, ToolHandlerPlugin.identifier);
         String cachedDeserialized = storage.getData();
-        String[] parsed = cachedDeserialized.split("|||");
-        String uuidRepresentation = parsed[0];
+        String[] parsed = cachedDeserialized == null ? null : cachedDeserialized.split("|||");
+        String uuidRepresentation = cachedDeserialized == null ? null : parsed[0];
         String data = null;
         try {
-            UUID id = UUID.fromString(uuidRepresentation);
-            if(id.equals(ToolHandlerPlugin.identifier)) {
-                data = parsed[1];
+            UUID id = cachedDeserialized == null ? null : UUID.fromString(uuidRepresentation);
+            if((!(id == null)) && id.equals(ToolHandlerPlugin.identifier)) {
+                data = cachedDeserialized == null ? null : parsed[1];
             } else {
                 data = SerializationUtil.deserializeFromLore(item);
             }
