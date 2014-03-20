@@ -263,7 +263,7 @@ public class ModTickListener implements Listener {
 			case GOLD_HOE:
 			case STONE_HOE:
 			case WOOD_HOE: {
-			    UUID[] modIDs = plugin.getCacheManager().getCachedToolInfo(i).getMods();
+			    UUID[] modIDs = plugin.getCacheManager().getCachedScytheInfo(i).getMods();
                 for(UUID id : modIDs) {
                     ScytheMod mod = plugin.getModManager().getScytheMod(id);
                     if(mod != null) {

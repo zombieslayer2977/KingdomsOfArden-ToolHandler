@@ -15,6 +15,8 @@ import com.herocraftonline.heroes.api.events.SkillUseEvent;
 import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 
 public abstract class ScytheMod extends ItemMod {
+    
+    
 	private String[] desc;
 	private String name;
 	private int weight;
@@ -23,7 +25,9 @@ public abstract class ScytheMod extends ItemMod {
     private LinkedList<PotionEffect> applySelfOnDamage;
     private LinkedList<PotionEffect> applyTargetOnDamage;
     private LinkedList<PotionEffect> applySelfOnSkillUse;
-    
+    private double damageBoost;
+    private int manaRestoration;
+    private double spellLeech;
     
     
 	public ScytheMod(UUID modUUID, String name, int weight, boolean requiresSlot, String... desc) {
@@ -75,7 +79,25 @@ public abstract class ScytheMod extends ItemMod {
             this.pEMan.addPotionEffectStacking(this.applyTargetOnDamage, (LivingEntity) event.getEntity(), false);
         }
     }
-	
+    public double getDamageBoost() {
+        return damageBoost;
+    }
+    public void setDamageBoost(double damageBoost) {
+        this.damageBoost = damageBoost;
+    }
+    public int getManaRestoration() {
+        return manaRestoration;
+    }
+    public void setManaRestoration(int manaRestoration) {
+        this.manaRestoration = manaRestoration;
+    }
+    public double getSpellLeech() {
+        return spellLeech;
+    }
+    public void setSpellLeech(double spellLeech) {
+        this.spellLeech = spellLeech;
+    }
+	 
 	
 	
 }
