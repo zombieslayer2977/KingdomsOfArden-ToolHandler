@@ -245,16 +245,17 @@ public class CachedArmorInfo extends CachedItemInfo {
         return new CachedArmorInfo(is,quality,coll.toArray(new UUID[coll.size()]));
     }
 
+    @Override
     public ItemStack forceWrite() {
         if(this.invalidated) {
             this.item = plugin.getCacheManager().getCachedInfo(this.item).forceWrite();
             return this.item;
         }
-        ItemStack write = NbtUtil.writeKnockbackResist(this.item, knockBackResist);
-        if(write != this.item) {
-            this.invalidated = true;
-            this.item = write;
-        }
+        //ItemStack write = NbtUtil.writeKnockbackResist(this.item, knockBackResist);
+        //if(write != this.item) {
+        //    this.invalidated = true;
+        //    this.item = write;
+        //}
         return super.forceWrite(); 
     }
 
