@@ -55,16 +55,9 @@ public class NbtUtil {
     }
 
     public static ItemStack writeKnockbackResist(ItemStack item, double resist) {
-        String itemName = item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : null;
-
         Attributes attrib = new Attributes(item);
         attrib.add(Attribute.newBuilder().name("ToolHandler_KnockbackResist").type(AttributeType.GENERIC_KNOCKBACK_RESISTANCE).amount(resist).build());
         ItemStack written = attrib.getStack();
-        if(itemName != null) {
-            ItemMeta meta = written.getItemMeta();
-            meta.setDisplayName(itemName);
-            written.setItemMeta(meta);
-        }
         return written;
     }
     
