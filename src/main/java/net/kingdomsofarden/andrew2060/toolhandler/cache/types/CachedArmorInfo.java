@@ -18,7 +18,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 public class CachedArmorInfo extends CachedItemInfo {
-    private ToolHandlerPlugin plugin;
     private double quality;
     private String qualityFormat;
     private double magicResist;
