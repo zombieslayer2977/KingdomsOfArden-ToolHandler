@@ -175,7 +175,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
 
         //Mechanics Listeners
         Bukkit.getPluginManager().registerEvents(this.noDamageTickListener, this);
-        Bukkit.getPluginManager().registerEvents(new RegenManaListener(heroesPlugin.getCharacterManager()), this);
+        Bukkit.getPluginManager().registerEvents(new RegenManaListener(), this);
         
     }
     @Override
