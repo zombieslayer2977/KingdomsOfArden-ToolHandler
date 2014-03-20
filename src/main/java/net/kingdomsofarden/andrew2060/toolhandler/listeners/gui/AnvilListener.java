@@ -558,6 +558,7 @@ public class AnvilListener implements Listener {
         }
         CachedItemInfo cached = plugin.getCacheManager().getCachedInfo(improve);
         double quality = cached.getQuality();
+        System.out.println("Retrieved quality: " + quality);
         if(quality >= threshold && threshold != 100) {
             player.sendMessage(ChatColor.GRAY + "You lack sufficient blacksmithing experience to improve this item further!");
             return;

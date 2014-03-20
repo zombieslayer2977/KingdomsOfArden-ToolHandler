@@ -23,7 +23,6 @@ public class CachedScytheInfo extends CachedItemInfo {
     private double damageBoost;
     private double manaRestoration;
     private double spellLeech;
-    private ItemStack item;
     private UUID[] mods;
     private DecimalFormat dF;
 

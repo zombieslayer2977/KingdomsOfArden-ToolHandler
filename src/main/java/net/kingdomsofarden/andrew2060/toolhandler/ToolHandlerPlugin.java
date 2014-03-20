@@ -79,7 +79,7 @@ public class ToolHandlerPlugin extends JavaPlugin{
     public static String versionIdentifier = ChatColor.AQUA + "" + ChatColor.BLUE + "" + ChatColor.RESET + "";
     //Plugin identifier for nbt storage (change whenever an update is needed)
     public static final UUID identifier = UUID.fromString("4871b300-a1cf-11e3-a5e2-0800200c9a66");
-
+    public static final UUID version = UUID.fromString("d08df4f0-b085-11e3-a5e2-0800200c9a66");
 
 
     public void onEnable() {

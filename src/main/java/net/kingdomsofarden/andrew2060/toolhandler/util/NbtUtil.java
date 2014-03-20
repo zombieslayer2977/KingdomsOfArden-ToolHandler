@@ -1,5 +1,7 @@
 package net.kingdomsofarden.andrew2060.toolhandler.util;
 
+import java.util.UUID;
+
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedArmorInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedItemInfo;
@@ -21,8 +23,9 @@ public class NbtUtil {
     public static ItemStack writeAttributes(ItemStack item, CachedItemInfo data) {
         String itemName = item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : null;
         String cachedData = data.toString();
+        
         AttributeStorage storage = AttributeStorage.newTarget(item, ToolHandlerPlugin.identifier);
-        storage.setData(cachedData);
+        storage.setData(ToolHandlerPlugin.version.toString() + "|||" + cachedData);
         ItemStack written = storage.getTarget();
         System.out.println("Wrote data: " + cachedData);
         switch(item.getType()) {
@@ -48,15 +51,11 @@ public class NbtUtil {
         }
         
         }
-        System.out.println("Written data premeta: " + getAttributes(written));
-
         if(itemName != null) {
             ItemMeta meta = written.getItemMeta();
             meta.setDisplayName(itemName);
             written.setItemMeta(meta);
         }
-        System.out.println("Written data postmeta: " + getAttributes(written));
-
         return written;
     }
 
@@ -69,7 +68,20 @@ public class NbtUtil {
     
     public static String getAttributes(ItemStack item) {
         AttributeStorage storage = AttributeStorage.newTarget(item, ToolHandlerPlugin.identifier);
-        String data = storage.getData();
+        String cachedDeserialized = storage.getData();
+        String[] parsed = cachedDeserialized.split("|||");
+        String uuidRepresentation = parsed[0];
+        String data = null;
+        try {
+            UUID id = UUID.fromString(uuidRepresentation);
+            if(id.equals(ToolHandlerPlugin.identifier)) {
+                data = parsed[1];
+            } else {
+                data = SerializationUtil.deserializeFromLore(item);
+            }
+        } catch (Exception e) {
+            data = null;
+        }
         //Plugin tag is not present - rebuild   
         if(data == null) {
             data = SerializationUtil.deserializeFromLore(item);
