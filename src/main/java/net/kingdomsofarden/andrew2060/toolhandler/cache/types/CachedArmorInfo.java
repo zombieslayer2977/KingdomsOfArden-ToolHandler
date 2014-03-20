@@ -73,6 +73,7 @@ public class CachedArmorInfo extends CachedItemInfo {
         this.quality = quality;
         String newFormat = FormattingUtil.getArmorQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
+            this.qualityFormat = newFormat;
             this.item = this.forceWrite();
         } 
         return item;
@@ -112,6 +113,7 @@ public class CachedArmorInfo extends CachedItemInfo {
         }
         String newFormat = FormattingUtil.getArmorQualityFormat(quality);
         if(newFormat.equals(this.qualityFormat)) {
+            this.qualityFormat = newFormat;
             return this.forceWrite();
         } else {
             return item;

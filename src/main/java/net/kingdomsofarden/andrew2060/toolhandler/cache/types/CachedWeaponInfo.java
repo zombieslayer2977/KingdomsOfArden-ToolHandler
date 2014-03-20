@@ -55,6 +55,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
         this.quality = quality;
         String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
+            this.qualityFormat = newFormat;
             this.forceWrite();
         }
         return item;
@@ -91,6 +92,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
         }
         String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
+            this.qualityFormat = newFormat;
             this.forceWrite();
         }
         return item;

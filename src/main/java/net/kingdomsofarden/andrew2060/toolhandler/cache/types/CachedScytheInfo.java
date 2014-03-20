@@ -68,6 +68,7 @@ public class CachedScytheInfo extends CachedItemInfo {
         this.quality = quality;
         String newFormat = FormattingUtil.getScytheQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
+            this.qualityFormat = newFormat;
             this.forceWrite();
         }
         return this.item;
@@ -109,6 +110,7 @@ public class CachedScytheInfo extends CachedItemInfo {
         }
         String newFormat = FormattingUtil.getScytheQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
+            this.qualityFormat = newFormat;
             this.forceWrite();
         }
         return item;

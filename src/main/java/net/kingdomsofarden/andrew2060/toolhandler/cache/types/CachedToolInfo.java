@@ -68,6 +68,7 @@ public class CachedToolInfo extends CachedItemInfo {
         this.quality = quality;
         String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
+            this.qualityFormat = newFormat;
             this.forceWrite();
         }
         return this.item;
@@ -109,6 +110,7 @@ public class CachedToolInfo extends CachedItemInfo {
         }
         String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
+            this.qualityFormat = newFormat;
             this.forceWrite();
         }
         return item;
