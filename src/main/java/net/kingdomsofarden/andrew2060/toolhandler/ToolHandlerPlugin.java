@@ -20,7 +20,6 @@ import net.kingdomsofarden.andrew2060.toolhandler.listeners.fire.FireEffectListe
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.gui.AnvilListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.gui.ArtificierListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.mechanics.DamageTickResetListener;
-import net.kingdomsofarden.andrew2060.toolhandler.listeners.mechanics.RegenManaListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.mods.ArmorModListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.mods.ModTickListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.mods.WeaponModListener;
@@ -175,7 +174,6 @@ public class ToolHandlerPlugin extends JavaPlugin{
 
         //Mechanics Listeners
         Bukkit.getPluginManager().registerEvents(this.noDamageTickListener, this);
-        Bukkit.getPluginManager().registerEvents(new RegenManaListener(), this);
         
     }
     @Override
