@@ -1,4 +1,4 @@
-package net.kingdomsofarden.andrew2060.toolhandler.listeners.lore;
+package net.kingdomsofarden.andrew2060.toolhandler.listeners.mods;
 
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.CacheManager;
@@ -13,10 +13,10 @@ import com.herocraftonline.heroes.api.events.SkillDamageEvent;
 import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 import com.herocraftonline.heroes.characters.Hero;
 
-public class ArmorLoreListener implements Listener {
+public class ArmorModListener implements Listener {
     
     private ToolHandlerPlugin plugin;
-    public ArmorLoreListener(ToolHandlerPlugin plugin) {
+    public ArmorModListener(ToolHandlerPlugin plugin) {
         this.plugin = plugin;
     }
     

@@ -21,10 +21,10 @@ import com.herocraftonline.heroes.api.events.SkillUseEvent;
 import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 import com.herocraftonline.heroes.characters.Hero;
 
-public class ModListener implements Listener {
+public class ModTickListener implements Listener {
 	private ToolHandlerPlugin plugin;
 
-	public ModListener(ToolHandlerPlugin plugin) {
+	public ModTickListener(ToolHandlerPlugin plugin) {
 		this.plugin = plugin;
 	}
 	

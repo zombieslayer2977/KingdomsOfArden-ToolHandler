@@ -1,4 +1,4 @@
-package net.kingdomsofarden.andrew2060.toolhandler.listeners.lore;
+package net.kingdomsofarden.andrew2060.toolhandler.listeners.mods;
 
 import java.util.Random;
 
@@ -18,10 +18,10 @@ import com.herocraftonline.heroes.api.events.HeroRegainHealthEvent;
 import com.herocraftonline.heroes.api.events.WeaponDamageEvent;
 import com.herocraftonline.heroes.characters.Hero;
 
-public class WeaponLoreListener implements Listener {
+public class WeaponModListener implements Listener {
     
     ToolHandlerPlugin plugin;
-    public WeaponLoreListener(ToolHandlerPlugin plugin) {
+    public WeaponModListener(ToolHandlerPlugin plugin) {
         this.plugin = plugin;
     }
     
@@ -46,9 +46,9 @@ public class WeaponLoreListener implements Listener {
 		bonusDamage += 1;
 		event.setDamage(event.getDamage() * bonusDamage);
 	}
-	//Life Steal Handler
+	//Crit and Life Steal Handler
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onWeaponDamageLSAndCrit(WeaponDamageEvent event) {
+	public void onWeaponDamageCritAndLS(WeaponDamageEvent event) {
 		if(!(event.getDamager() instanceof Hero)) {
 			return;
 		}

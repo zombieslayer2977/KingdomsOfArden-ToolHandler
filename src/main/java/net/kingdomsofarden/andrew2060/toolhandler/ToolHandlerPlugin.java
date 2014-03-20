@@ -19,11 +19,11 @@ import net.kingdomsofarden.andrew2060.toolhandler.listeners.effects.HealingEffec
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.fire.FireEffectListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.gui.AnvilListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.gui.ArtificierListener;
-import net.kingdomsofarden.andrew2060.toolhandler.listeners.lore.ArmorLoreListener;
-import net.kingdomsofarden.andrew2060.toolhandler.listeners.lore.WeaponLoreListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.mechanics.DamageTickResetListener;
 import net.kingdomsofarden.andrew2060.toolhandler.listeners.mechanics.RegenManaListener;
-import net.kingdomsofarden.andrew2060.toolhandler.listeners.mods.ModListener;
+import net.kingdomsofarden.andrew2060.toolhandler.listeners.mods.ArmorModListener;
+import net.kingdomsofarden.andrew2060.toolhandler.listeners.mods.ModTickListener;
+import net.kingdomsofarden.andrew2060.toolhandler.listeners.mods.WeaponModListener;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.ModManager;
 import net.kingdomsofarden.andrew2060.toolhandler.potions.PotionEffectManager;
 import net.kingdomsofarden.andrew2060.toolhandler.tasks.ArmorPassiveTask;
@@ -54,10 +54,10 @@ public class ToolHandlerPlugin extends JavaPlugin{
     private ShiftClickListener craftingShiftClickListener;
     private ChainMailListener chainmailListener;
 
-    private ArmorLoreListener armorLoreListener;
-    private WeaponLoreListener weapLoreListener;
+    private ArmorModListener armorLoreListener;
+    private WeaponModListener weapLoreListener;
 
-    private ModListener modListener;
+    private ModTickListener modListener;
 
     private ArtificierListener artificierListener;
     private AnvilListener anvilListener;
@@ -99,10 +99,10 @@ public class ToolHandlerPlugin extends JavaPlugin{
 
         this.chainmailListener = new ChainMailListener();
 
-        this.armorLoreListener = new ArmorLoreListener(this);
-        this.weapLoreListener = new WeaponLoreListener(this);
+        this.armorLoreListener = new ArmorModListener(this);
+        this.weapLoreListener = new WeaponModListener(this);
 
-        this.modListener = new ModListener(this);
+        this.modListener = new ModTickListener(this);
 
         this.artificierListener = new ArtificierListener(this);
         this.anvilListener = new AnvilListener(this);
