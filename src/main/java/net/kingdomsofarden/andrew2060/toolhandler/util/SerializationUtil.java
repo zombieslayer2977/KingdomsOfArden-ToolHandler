@@ -513,7 +513,7 @@ public class SerializationUtil {
         List<String> loreUpdated = new ArrayList<String>();
         loreUpdated.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         loreUpdated.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getWeaponToolQualityFormat(improvementQuality));
-        loreUpdated.add(2,ChatColor.GRAY + "Bonus Damage: " + FormattingUtil.getAttribute(bonusDmg));
+        loreUpdated.add(2,ChatColor.GRAY + "Bonus Damage: " + FormattingUtil.getAttribute(bonusDmg) + "%");
         loreUpdated.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttribute(lifeSteal) + "%");
         loreUpdated.add(4,ChatColor.GRAY + "Critical Strike Chance: " + FormattingUtil.getAttribute(critChance) + "%");
         loreUpdated.add(5,ChatColor.WHITE + "========Modifications========");
@@ -525,19 +525,19 @@ public class SerializationUtil {
             } else {
                 loreUpdated.add(ChatColor.GOLD + mod.getName());
             }
-            if(mod.getBonusDamage() != null && mod.getBonusDamage() > Double.valueOf(0.00)) {
+            if(mod.getBonusDamage() != null && mod.getBonusDamage() != Double.valueOf(0.00)) {
                 loreUpdated.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getBonusDamage()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getBonusDamage())
                         + ChatColor.GRAY + "% Damage");
             }
-            if(mod.getLifeSteal() != null && mod.getLifeSteal() > Double.valueOf(0.00)) {
+            if(mod.getLifeSteal() != null && mod.getLifeSteal() != Double.valueOf(0.00)) {
                 loreUpdated.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getLifeSteal()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getLifeSteal())
                         + ChatColor.GRAY + "% Life Steal");
             }
-            if(mod.getCritChance() != null && mod.getCritChance() > Double.valueOf(0.00)) {
+            if(mod.getCritChance() != null && mod.getCritChance() != Double.valueOf(0.00)) {
                 loreUpdated.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getCritChance()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getCritChance())
