@@ -49,7 +49,7 @@ public class FormattingUtil {
         } else if (quality > 80) {
             return ChatColor.DARK_GREEN + "Legendary (Tier 5)";
         } else {
-            return ChatColor.GRAY + "Basic (0)";
+            return ChatColor.GRAY + "Basic (Tier 0)";
         }
     }
 	public static String getAttributeColor(double attribute) {
