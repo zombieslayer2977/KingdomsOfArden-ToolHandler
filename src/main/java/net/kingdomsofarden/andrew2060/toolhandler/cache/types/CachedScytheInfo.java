@@ -142,7 +142,7 @@ public class CachedScytheInfo extends CachedItemInfo {
             return this.item;
         }
         this.mods = Arrays.copyOf(this.mods, this.mods.length + 1);
-        this.mods[this.mods.length] = EmptyModSlot.bonusId;
+        this.mods[this.mods.length-1] = EmptyModSlot.bonusId;
         return forceWrite();
     }
 

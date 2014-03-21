@@ -176,7 +176,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
      */
     public ItemStack addModSlot() {
         this.mods = Arrays.copyOf(this.mods, this.mods.length + 1);
-        this.mods[this.mods.length] = EmptyModSlot.bonusId;
+        this.mods[this.mods.length-1] = EmptyModSlot.bonusId;
         return this.forceWrite();
     }
 
