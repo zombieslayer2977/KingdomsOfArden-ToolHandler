@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class CachedToolInfo extends CachedItemInfo {
 
-    private ToolHandlerPlugin plugin;
     private double quality;
     private String qualityFormat;
     private double trueDamage;
