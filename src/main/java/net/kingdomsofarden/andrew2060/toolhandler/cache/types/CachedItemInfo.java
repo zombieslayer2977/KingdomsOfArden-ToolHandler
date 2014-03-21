@@ -46,6 +46,7 @@ public abstract class CachedItemInfo {
         if(retValue != item) {
             this.item = retValue;
             this.invalidated = true;
+            System.out.println("Invalidated");
         }
         return this.item;
     }

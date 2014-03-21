@@ -48,10 +48,17 @@ public class CachedWeaponInfo extends CachedItemInfo {
     }
 
     public double getQuality() {
+        if(this.invalidated) { 
+            return plugin.getCacheManager().getCachedWeaponInfo(this.item).getQuality();
+        }
         return quality;
     }
 
     public ItemStack setQuality(double quality) {
+        if(this.invalidated) { 
+            this.item = plugin.getCacheManager().getCachedWeaponInfo(this.item).setQuality(quality);
+            return this.item;
+        }
         System.out.println("Setting quality " + quality);
         this.quality = quality;
         System.out.println(this.quality);
@@ -65,7 +72,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
 
     public final ItemStack reduceQuality() { 
         if(this.invalidated) { 
-            this.item = plugin.getCacheManager().getCachedToolInfo(this.item).reduceQuality();
+            this.item = plugin.getCacheManager().getCachedWeaponInfo(this.item).reduceQuality();
             return this.item;
         }
         int unbreakinglevel = item.getEnchantmentLevel(Enchantment.DURABILITY)+1;
