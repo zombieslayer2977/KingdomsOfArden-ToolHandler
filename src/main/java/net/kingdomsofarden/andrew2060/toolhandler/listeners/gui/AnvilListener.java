@@ -570,9 +570,11 @@ public class AnvilListener implements Listener {
             player.sendMessage(ChatColor.GRAY + "This item cannot be improved to a higher quality.");
             return;
         } else {
-            quality = quality + 4.00;
+            quality += 4.00;
+            System.out.println("Modified quality: " + quality);
             if(quality > threshold) {
                 quality = threshold;
+                System.out.println("Quality higher than permissible: " + threshold);
             }
             ItemStack cacheWrite = cached.setQuality(quality);
             switch(t) {
