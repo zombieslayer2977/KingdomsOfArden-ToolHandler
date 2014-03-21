@@ -40,6 +40,9 @@ public class CachedToolInfo extends CachedItemInfo {
         this.decimateChance = 0.00;
         this.mods = mods;
         for(UUID id : this.mods) {
+            if(id == null) {
+                continue;
+            }
             ToolMod mod = plugin.getModManager().getToolMod(id);
             if(mod != null) {
                 trueDamage += mod.getTrueDamage();

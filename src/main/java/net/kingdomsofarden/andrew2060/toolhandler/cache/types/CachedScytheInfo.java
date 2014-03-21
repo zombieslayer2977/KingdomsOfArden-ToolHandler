@@ -35,6 +35,9 @@ public class CachedScytheInfo extends CachedItemInfo {
         this.spellLeech = 0.00;
         this.mods = mods;
         for(UUID id : mods) {
+            if(id == null) {
+                continue;
+            }
             ScytheMod mod = plugin.getModManager().getScytheMod(id);
             if(mod != null) {
                 damageBoost += mod.getDamageBoost();
