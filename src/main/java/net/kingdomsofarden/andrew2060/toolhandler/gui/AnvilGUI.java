@@ -50,7 +50,7 @@ public class AnvilGUI {
         //Create confirmation buttons
         ItemStack confirmButton = new ItemStack(Material.WOOL,1,(short) 5);
         ItemMeta confirmButtonMeta = confirmButton.getItemMeta();
-        confirmButtonMeta.setDisplayName("Confirm");
+        confirmButtonMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.GREEN + "Confirm");
         confirmButton.setItemMeta(confirmButtonMeta);
         for(int i : confirmButtons) {
             inv.setItem(i,confirmButton);
@@ -58,7 +58,7 @@ public class AnvilGUI {
         //Create Titling for Repairing
         ItemStack repairTitle = new ItemStack(Material.ANVIL);
         ItemMeta repairTitleMeta = repairTitle.getItemMeta();
-        repairTitleMeta.setDisplayName("Item Repair");
+        repairTitleMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.AQUA + "Item Repair");
         LinkedList<String> repairTitleLore = new LinkedList<String>();
         repairTitleLore.add(ChatColor.GRAY + "Repair Your Items Below");
         repairTitleLore.add(ChatColor.GRAY.toString() + ChatColor.ITALIC + "Increases the durability of your item");
@@ -72,7 +72,7 @@ public class AnvilGUI {
         //Create Titling for improving
         ItemStack improvingTitle = new ItemStack(Material.FIRE);
         ItemMeta improvingTitleMeta = improvingTitle.getItemMeta();
-        improvingTitleMeta.setDisplayName("Item Improvement");
+        improvingTitleMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.AQUA + "Item Improvement");
         LinkedList<String> improveTitleLore = new LinkedList<String>();
         improveTitleLore.add(ChatColor.GRAY + "Improve Your Items Below!");
         improveTitleLore.add(ChatColor.GRAY.toString() + ChatColor.ITALIC + "Increases the improvement quality of your item");
@@ -86,7 +86,7 @@ public class AnvilGUI {
         //Create Titling for Salvaging
         ItemStack salvagingTitle = new ItemStack(Material.GOLD_INGOT);
         ItemMeta salvagingTitleMeta = salvagingTitle.getItemMeta();
-        salvagingTitleMeta.setDisplayName("Item Salvage");
+        salvagingTitleMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.AQUA + "Item Salvage");
         LinkedList<String> salvageTitleLore = new LinkedList<String>();
         salvageTitleLore.add(ChatColor.GRAY + "Salvage Your Items Below!");
         salvageTitleLore.add(ChatColor.GRAY.toString() + ChatColor.ITALIC + "Salvage a gold tier or better item");

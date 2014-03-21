@@ -64,9 +64,9 @@ public class ArtificierGUI {
         //Populate Soul Gem Item Slots
         ItemStack soulGem = new ItemStack(Material.EMERALD);
         ItemMeta soulGemMeta = soulGem.getItemMeta();
-        soulGemMeta.setDisplayName("Soul Gem");
+        soulGemMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.BLUE + "Soul Gem");
         LinkedList<String> soulGemLore = new LinkedList<String>();
-        soulGemLore.add(ChatColor.GRAY + "Insert A Soul Gem in the Item Slot Below");
+        soulGemLore.add(ChatColor.GRAY + "Insert A Soul Gem in the slot Below");
         soulGemMeta.setLore(soulGemLore);
         soulGem.setItemMeta(soulGemMeta);
         for(int i : soulGemSlots) {
@@ -79,8 +79,8 @@ public class ArtificierGUI {
         ItemMeta greenMeta = greenWool.getItemMeta();
         ItemMeta redMeta = redWool.getItemMeta();
         ItemMeta whiteMeta = whiteWool.getItemMeta();
-        greenMeta.setDisplayName("Combine");
-        redMeta.setDisplayName("Cancel");
+        greenMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.GREEN + "Combine");
+        redMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.RED + "Cancel");
         whiteMeta.setDisplayName("");
         greenWool.setItemMeta(greenMeta);
         redWool.setItemMeta(redMeta);
@@ -97,9 +97,9 @@ public class ArtificierGUI {
         //Populate Essence of Enchanting Slots
         ItemStack expBottle = new ItemStack(Material.EXP_BOTTLE,64);
         ItemMeta expBottleMeta = expBottle.getItemMeta();
-        expBottleMeta.setDisplayName("Essence of Enchantment");
+        expBottleMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.BLUE + "Essence of Enchantment");
         LinkedList<String> expBottleLore = new LinkedList<String>();
-        expBottleLore.add(ChatColor.GRAY + "Insert a stack of Essence of Enchantment Bottles below");
+        expBottleLore.add(ChatColor.RESET + "" + ChatColor.BLUE + "Insert essence of enchantments below");
         expBottleMeta.setLore(expBottleLore);
         expBottle.setItemMeta(expBottleMeta);
         for(int i : expBottleSlots) {
@@ -108,9 +108,9 @@ public class ArtificierGUI {
         //Tools
         ItemStack tool = new ItemStack(Material.DIAMOND_PICKAXE);
         ItemMeta toolMeta = tool.getItemMeta();
-        toolMeta.setDisplayName("Tool/Armor Piece");
+        toolMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.BLUE + "Weapon/Tool/Armor Piece");
         LinkedList<String> toolLore = new LinkedList<String>();
-        toolLore.add(ChatColor.GRAY + "Insert a tool/armor piece below");
+        toolLore.add(ChatColor.GRAY + "Insert a weapon/tool/armor piece below");
         toolMeta.setLore(toolLore);
         tool.setItemMeta(toolMeta);
         for(int i : toolSlots) {
@@ -119,7 +119,7 @@ public class ArtificierGUI {
         //Mod Installer Sign
         ItemStack modSign = new ItemStack(Material.SIGN);
         ItemMeta modSignMeta = modSign.getItemMeta();
-        modSignMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.WHITE + "Mod Installer");
+        modSignMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.AQUA + "Mod Installer");
         LinkedList<String> modSignLore = new LinkedList<String>();
         modSignLore.add(ChatColor.GRAY + "Install new mods onto an item with empty mod slots here");
         modSignLore.add(ChatColor.GRAY + "by combining a soul gem.");
@@ -131,7 +131,7 @@ public class ArtificierGUI {
         //Mod Slot Sign
         ItemStack modSlotCreatorSign = new ItemStack(Material.SIGN);
         ItemMeta modSlotCreatorMeta = modSlotCreatorSign.getItemMeta();
-        modSlotCreatorMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.WHITE + "Mod Slot Installer");
+        modSlotCreatorMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.AQUA + "Mod Slot Installer");
         LinkedList<String> modSlotCreatorLore = new LinkedList<String>();
         modSlotCreatorLore.add(ChatColor.GRAY + "Add new mod slots to an item here!");
         modSlotCreatorLore.add(ChatColor.GRAY + "Note that the more mod slots a tool/armor piece has,");
@@ -142,11 +142,12 @@ public class ArtificierGUI {
         //Soul Gem Combiner Sign
         ItemStack soulGemCombinerSign = new ItemStack(Material.SIGN);
         ItemMeta soulGemCombinerMeta = soulGemCombinerSign.getItemMeta();
-        soulGemCombinerMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.WHITE + "Soul Gem Combiner");
+        soulGemCombinerMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.AQUA + "Soul Gem Combiner");
         LinkedList<String> soulGemCombinerLore = new LinkedList<String>();
         soulGemCombinerLore.add(ChatColor.GRAY + "Combine two soul gems of the same power level here");
         soulGemCombinerLore.add(ChatColor.GRAY + "to upgrade to the next tier.");
-        soulGemCombinerLore.add(ChatColor.GRAY + "The higher your enchanter level the more likely you are to succeed!");
+        soulGemCombinerLore.add(ChatColor.GRAY + "The higher your enchanter level!");
+        soulGemCombinerLore.add(ChatColor.GRAY + "the more likely you are to succeed!");
         soulGemCombinerMeta.setLore(soulGemCombinerLore);
         soulGemCombinerSign.setItemMeta(soulGemCombinerMeta);
         inv.setItem(gemCombinerSignSlot, soulGemCombinerSign);
