@@ -408,6 +408,7 @@ public class AnvilListener implements Listener {
         case IRON_AXE:
             t = 5;
             requiredImprove = Material.GOLD_INGOT;
+            break;
         case IRON_HELMET:
             t = 3;
             requiredImprove = Material.GOLD_INGOT;
@@ -453,6 +454,7 @@ public class AnvilListener implements Listener {
         case GOLD_AXE:
             t = 5;
             requiredImprove = Material.FLINT;
+            break;
         case GOLD_HELMET:
             t = 3;
             requiredImprove = Material.FLINT;
@@ -482,6 +484,7 @@ public class AnvilListener implements Listener {
         case STONE_AXE: 
             t = 5;
             requiredImprove = Material.LEATHER;
+            break;
         case LEATHER_HELMET:
             t = 3;
             requiredImprove = Material.WOOD;
@@ -511,6 +514,7 @@ public class AnvilListener implements Listener {
         case WOOD_AXE: 
             t = 5;
             requiredImprove = Material.WOOD;
+            break;
         case BOW:
             t = 2;
             requiredImprove = Material.FLINT;
