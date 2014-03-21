@@ -260,7 +260,7 @@ public class SerializationUtil {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getDamageBoost()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getDamageBoost())
-                        + ChatColor.GRAY + " Damage Boost Rating");
+                        + ChatColor.GRAY + "% Spell Damage");
             }
             if(mod.getManaRestoration() != Integer.valueOf(0)) {
                 lore.add(ChatColor.GRAY + "- " 

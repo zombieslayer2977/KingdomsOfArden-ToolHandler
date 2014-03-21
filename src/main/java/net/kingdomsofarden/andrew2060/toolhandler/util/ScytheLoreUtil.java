@@ -7,7 +7,7 @@ import java.util.UUID;
 import net.kingdomsofarden.andrew2060.toolhandler.ToolHandlerPlugin;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedScytheInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.EmptyModSlot;
-import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ToolMod;
+import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.ScytheMod;
 
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -23,8 +23,12 @@ public class ScytheLoreUtil {
         double spellLeech = 0;
         ToolHandlerPlugin plugin = ToolHandlerPlugin.instance;
         for(UUID id : data.getMods()) {
-            ToolMod mod = plugin.getModManager().getToolMod(id);
-            bonusDamage += mod.getTrueDamage();
+            ScytheMod mod = plugin.getModManager().getScytheMod(id);
+            if(mod != null) {
+                bonusDamage += mod.getDamageBoost();
+                manaRestore += mod.getManaRestoration();
+                spellLeech += mod.getSpellLeech();
+            }
         }
         lore.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         lore.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getWeaponToolQualityFormat(data.getQuality()));
@@ -36,7 +40,7 @@ public class ScytheLoreUtil {
         int addedBlankSlots = 0;
         int baseBlankSlots = 0;
         for(UUID id : data.getMods()) {
-            ToolMod mod = plugin.getModManager().getToolMod(id);
+            ScytheMod mod = plugin.getModManager().getScytheMod(id);
             if(mod == null) {
                 if(id.equals(EmptyModSlot.bonusId)) {
                     addedBlankSlots++;
@@ -52,23 +56,23 @@ public class ScytheLoreUtil {
             } else {
                 lore.add(ChatColor.GOLD + mod.getName());
             }
-            if(mod.getTrueDamage() != null && mod.getTrueDamage() > Double.valueOf(0.00)) {
+            if(mod.getDamageBoost() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
-                        + FormattingUtil.getAttributeColor(mod.getTrueDamage()) 
-                        + FormattingUtil.modDescriptorFormat.format(mod.getTrueDamage())
-                        + ChatColor.GRAY + " True Damage");
+                        + FormattingUtil.getAttributeColor(mod.getDamageBoost()) 
+                        + FormattingUtil.modDescriptorFormat.format(mod.getDamageBoost())
+                        + ChatColor.GRAY + "% Spell Damage");
             }
-            if(mod.getBashChance() != null && mod.getBashChance() > Double.valueOf(0.00)) {
+            if(mod.getManaRestoration() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
-                        + FormattingUtil.getAttributeColor(mod.getBashChance()) 
-                        + FormattingUtil.modDescriptorFormat.format(mod.getBashChance())
-                        + ChatColor.GRAY + "% Bash Attack Chance");
+                        + FormattingUtil.getAttributeColor(mod.getManaRestoration()) 
+                        + FormattingUtil.modDescriptorFormat.format(mod.getManaRestoration())
+                        + ChatColor.GRAY + "% Mana Restoration");
             }
-            if(mod.getDecimateChance() != null && mod.getDecimateChance() > Double.valueOf(0.00)) {
+            if(mod.getSpellLeech() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
-                        + FormattingUtil.getAttributeColor(mod.getDecimateChance()) 
-                        + FormattingUtil.modDescriptorFormat.format(mod.getDecimateChance())
-                        + ChatColor.GRAY + "% Decimating Attack Chance");
+                        + FormattingUtil.getAttributeColor(mod.getSpellLeech()) 
+                        + FormattingUtil.modDescriptorFormat.format(mod.getSpellLeech())
+                        + ChatColor.GRAY + "% Spell Leech");
             }
             for(String s : mod.getDescription()) {
                 lore.add(ChatColor.GRAY + "- " + s);

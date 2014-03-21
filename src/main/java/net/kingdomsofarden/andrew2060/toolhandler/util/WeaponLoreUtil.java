@@ -59,13 +59,13 @@ public class WeaponLoreUtil {
             } else {
                 lore.add(ChatColor.GOLD + mod.getName());
             }
-            if(mod.getBonusDamage() != null && mod.getBonusDamage() > Double.valueOf(0.00)) {
+            if(mod.getBonusDamage() != null && mod.getBonusDamage() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getBonusDamage()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getBonusDamage())
-                        + ChatColor.GRAY + " Damage");
+                        + ChatColor.GRAY + "% Damage");
             }
-            if(mod.getLifeSteal() != null && mod.getLifeSteal() > Double.valueOf(0.00)) {
+            if(mod.getLifeSteal() != null && mod.getLifeSteal() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getLifeSteal()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getLifeSteal())

@@ -68,19 +68,19 @@ public class ArmorLoreUtil {
             } else {
                 lore.add(ChatColor.GOLD + mod.getName());
             }
-            if(mod.getMagicResist() != null && mod.getMagicResist() > Double.valueOf(0.00)) {
+            if(mod.getMagicResist() != null && mod.getMagicResist() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getMagicResist()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getMagicResist())
                         + ChatColor.GRAY + "% Magic Resist");
             }
-            if(mod.getKnockbackResist() != null && mod.getKnockbackResist() > Double.valueOf(0.00)) {
+            if(mod.getKnockbackResist() != null && mod.getKnockbackResist() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getKnockbackResist()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getKnockbackResist())
                         + ChatColor.GRAY + "% Knockback Resist");
             }
-            if(mod.getProtBonus() != null && mod.getProtBonus() > Double.valueOf(0.00)) {
+            if(mod.getProtBonus() != null && mod.getProtBonus() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getProtBonus()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getProtBonus())

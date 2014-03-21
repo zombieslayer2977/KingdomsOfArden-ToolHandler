@@ -31,7 +31,7 @@ public class ToolLoreUtil {
         }
         lore.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         lore.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getWeaponToolQualityFormat(data.getQuality()));
-        lore.add(2,ChatColor.GRAY + "True Damage: " + FormattingUtil.getAttribute(trueDamage));
+        lore.add(2,ChatColor.GRAY + "True Damage: " + FormattingUtil.getAttribute(trueDamage) + "%");
         lore.add(3,ChatColor.GRAY + "Bash Attack Chance: " + FormattingUtil.getAttribute(bashChance) + "%");
         lore.add(4,ChatColor.GRAY + "Decimating Strike Chance: " + FormattingUtil.getAttribute(decimatingChance) + "%");
         lore.add(5,ChatColor.WHITE + "========Modifications========");
@@ -55,19 +55,19 @@ public class ToolLoreUtil {
             } else {
                 lore.add(ChatColor.GOLD + mod.getName());
             }
-            if(mod.getTrueDamage() != null && mod.getTrueDamage() > Double.valueOf(0.00)) {
+            if(mod.getTrueDamage() != null && mod.getTrueDamage() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getTrueDamage()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getTrueDamage())
-                        + ChatColor.GRAY + " True Damage");
+                        + ChatColor.GRAY + "% True Damage");
             }
-            if(mod.getBashChance() != null && mod.getBashChance() > Double.valueOf(0.00)) {
+            if(mod.getBashChance() != null && mod.getBashChance() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getBashChance()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getBashChance())
                         + ChatColor.GRAY + "% Bash Attack Chance");
             }
-            if(mod.getDecimateChance() != null && mod.getDecimateChance() > Double.valueOf(0.00)) {
+            if(mod.getDecimateChance() != null && mod.getDecimateChance() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getDecimateChance()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getDecimateChance())
