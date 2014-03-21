@@ -155,11 +155,16 @@ public class CachedScytheInfo extends CachedItemInfo {
         if(!(mod instanceof ScytheMod)) {
             throw new IllegalArgumentException("This is not a Scythe mod!");
         }
+        boolean replaced = false;
         for(int i = 0; i < this.mods.length; i++) {
             if(this.mods[i].equals(EmptyModSlot.baseId) || this.mods[i].equals(EmptyModSlot.bonusId)) {
                 this.mods[i] = mod.modUUID;
+                replaced = true;
                 break;
             }
+        }
+        if(!replaced) {
+            return null;
         }
         this.damageBoost = 0.00;
         this.manaRestoration = 0.00;

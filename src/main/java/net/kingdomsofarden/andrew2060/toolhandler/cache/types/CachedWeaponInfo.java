@@ -145,11 +145,16 @@ public class CachedWeaponInfo extends CachedItemInfo {
         if(!(mod instanceof WeaponMod)) {
             throw new IllegalArgumentException("This is not a weapon mod!");
         }
+        boolean replaced = false;
         for(int i = 0; i < this.mods.length; i++) {
             if(this.mods[i].equals(EmptyModSlot.baseId) || this.mods[i].equals(EmptyModSlot.bonusId)) {
                 this.mods[i] = mod.modUUID;
+                replaced = true;
                 break;
             }
+        }
+        if(!replaced) {
+            return null;
         }
         this.bonusDamage = 0.00;
         this.lifeSteal = 0.00;

@@ -566,7 +566,11 @@ public class AnvilListener implements Listener {
             player.sendMessage(ChatColor.GRAY + "This item cannot be improved to a higher quality.");
             return;
         } else {
-            ItemStack cacheWrite = cached.setQuality(quality + 4 > threshold ? threshold : quality + 4);
+            quality = quality + 4.00;
+            if(quality > threshold) {
+                quality = threshold;
+            }
+            ItemStack cacheWrite = cached.setQuality(quality);
             switch(t) {
             case 1: {
                 ImprovementUtil.applyEnchantmentLevel(cacheWrite, Enchantment.DAMAGE_ALL, quality);

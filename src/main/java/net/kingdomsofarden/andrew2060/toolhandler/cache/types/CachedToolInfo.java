@@ -168,11 +168,16 @@ public class CachedToolInfo extends CachedItemInfo {
         if(!(mod instanceof ToolMod)) {
             throw new IllegalArgumentException("This is not a tool mod!");
         }
+        boolean replaced = false;
         for(int i = 0; i < this.mods.length; i++) {
             if(this.mods[i].equals(EmptyModSlot.baseId) || this.mods[i].equals(EmptyModSlot.bonusId)) {
                 this.mods[i] = mod.modUUID;
+                replaced = true;
                 break;
             }
+        }
+        if(!replaced) {
+            return null;
         }
         this.trueDamage = 0.00;
         this.bashChance = 0.00;
