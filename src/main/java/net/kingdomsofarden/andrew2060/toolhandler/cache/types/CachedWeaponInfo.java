@@ -54,6 +54,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
     public ItemStack setQuality(double quality) {
         System.out.println("Setting quality " + quality);
         this.quality = quality;
+        System.out.println(this.quality);
         String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
             this.qualityFormat = newFormat;
@@ -147,11 +148,10 @@ public class CachedWeaponInfo extends CachedItemInfo {
             throw new IllegalArgumentException("This is not a weapon mod!");
         }
         boolean replaced = false;
-        for(int i = 0; i < this.mods.length; i++) {
+        for(int i = 0; i < this.mods.length && !replaced; i++) {
             if(this.mods[i].equals(EmptyModSlot.baseId) || this.mods[i].equals(EmptyModSlot.bonusId)) {
                 this.mods[i] = mod.modUUID;
                 replaced = true;
-                break;
             }
         }
         if(!replaced) {
@@ -195,6 +195,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(dF.format(quality));
+        System.out.println("Writing out quality " + quality + "Formatted: " + dF.format(quality));
         for(UUID id : mods) {
             sb.append(":");
             sb.append(id.toString());
