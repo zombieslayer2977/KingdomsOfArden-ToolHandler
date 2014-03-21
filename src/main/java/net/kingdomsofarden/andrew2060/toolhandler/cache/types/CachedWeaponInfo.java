@@ -64,6 +64,10 @@ public class CachedWeaponInfo extends CachedItemInfo {
     }
 
     public final ItemStack reduceQuality() { 
+        if(this.invalidated) { 
+            this.item = plugin.getCacheManager().getCachedToolInfo(this.item).reduceQuality();
+            return this.item;
+        }
         int unbreakinglevel = item.getEnchantmentLevel(Enchantment.DURABILITY)+1;
         switch(ImprovementUtil.getItemType(item)) {
         case DIAMOND: 
@@ -195,7 +199,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(dF.format(quality));
-        System.out.println("Writing out quality " + quality + "Formatted: " + dF.format(quality));
+        System.out.println("Writing out quality " + quality + " Formatted: " + dF.format(quality));
         for(UUID id : mods) {
             sb.append(":");
             sb.append(id.toString());

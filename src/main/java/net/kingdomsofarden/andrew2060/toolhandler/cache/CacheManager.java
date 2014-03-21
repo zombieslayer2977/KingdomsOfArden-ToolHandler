@@ -107,7 +107,7 @@ public class CacheManager {
             switch(removal.getCause()) {
 
             case EXPIRED: {
-                removal.getValue().forceWrite();
+                removal.getValue().forceWrite(false);
                 return;
             }
             default: {

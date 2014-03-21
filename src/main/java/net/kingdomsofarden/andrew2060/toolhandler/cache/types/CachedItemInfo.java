@@ -30,11 +30,17 @@ public abstract class CachedItemInfo {
 
     @Override
     public abstract String toString();
-
     public ItemStack forceWrite() {
+        return forceWrite(true);
+    }
+    public ItemStack forceWrite(boolean updateInvalidated) {
         if(this.invalidated) {
-            this.item = plugin.getCacheManager().getCachedInfo(this.item).forceWrite();
-            return this.item;
+            if(updateInvalidated) {
+                this.item = plugin.getCacheManager().getCachedInfo(this.item).forceWrite();
+                return this.item;
+            } else {
+                return null;
+            }
         }
         ItemStack retValue = NbtUtil.writeAttributes(item, this);
         if(retValue != item) {
