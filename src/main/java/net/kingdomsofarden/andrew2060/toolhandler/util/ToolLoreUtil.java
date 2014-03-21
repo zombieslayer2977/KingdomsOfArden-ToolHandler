@@ -25,9 +25,11 @@ public class ToolLoreUtil {
         ToolHandlerPlugin plugin = ToolHandlerPlugin.instance;
         for(UUID id : data.getMods()) {
             ToolMod mod = plugin.getModManager().getToolMod(id);
-            trueDamage += mod.getTrueDamage();
-            bashChance += mod.getBashChance();
-            decimatingChance += mod.getDecimateChance();
+            if(mod != null) {
+                trueDamage += mod.getTrueDamage();
+                bashChance += mod.getBashChance();
+                decimatingChance += mod.getDecimateChance();
+            }
         }
         lore.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         lore.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getWeaponToolQualityFormat(data.getQuality()));

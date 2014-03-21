@@ -45,7 +45,7 @@ public class ArmorLoreUtil {
         lore.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         lore.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getArmorQualityFormat(data.getQuality()));
         lore.add(2,ChatColor.GRAY + "Magical Resistance Rating: " + FormattingUtil.getAttribute(magicResist) + "%");
-        lore.add(3,ChatColor.GRAY + "Knockback Resistance Rating: " + FormattingUtil.getAttribute(kbResist*100) + "%");
+        lore.add(3,ChatColor.GRAY + "Knockback Resistance Rating: " + FormattingUtil.getAttribute(kbResist) + "%");
         lore.add(4,ChatColor.GRAY + "Additional Protection: " + FormattingUtil.getAttribute(protBonus) + "%");
         lore.add(5,ChatColor.WHITE + "========Modifications========");
         int usedSlots = 0;

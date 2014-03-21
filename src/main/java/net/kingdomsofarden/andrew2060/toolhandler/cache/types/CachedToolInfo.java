@@ -98,6 +98,9 @@ public class CachedToolInfo extends CachedItemInfo {
         case STONE: 
             quality -= 0.5/unbreakinglevel;
             break;
+        case WOOD:
+            quality -= 0.5/unbreakinglevel;
+            break;
         case BOW:
             quality -= 0.5/unbreakinglevel;
             break;
