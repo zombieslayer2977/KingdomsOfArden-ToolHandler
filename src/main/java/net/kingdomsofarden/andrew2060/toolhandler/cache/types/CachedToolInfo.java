@@ -26,7 +26,6 @@ public class CachedToolInfo extends CachedItemInfo {
     private UUID[] mods;
     private DecimalFormat dF;    
 
-
     public CachedToolInfo(ItemStack item, double quality) {
         this(item, quality, new UUID[] {EmptyModSlot.baseId, EmptyModSlot.baseId});
     }
@@ -229,6 +228,9 @@ public class CachedToolInfo extends CachedItemInfo {
     }
     public static CachedToolInfo getDefault(ItemStack is) {
         return new CachedToolInfo(is,0);
+    }
+    public ItemStack getItem() {
+        return this.item;
     }
 
 }

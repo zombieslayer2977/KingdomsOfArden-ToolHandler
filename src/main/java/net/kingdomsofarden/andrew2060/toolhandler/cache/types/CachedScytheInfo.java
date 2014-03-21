@@ -209,33 +209,37 @@ public class CachedScytheInfo extends CachedItemInfo {
 
     public UUID[] getMods() {
         if(this.invalidated) {
-            return plugin.getCacheManager().getCachedToolInfo(this.item).getMods();
+            return plugin.getCacheManager().getCachedScytheInfo(this.item).getMods();
         }
         return this.mods;
     }
 
     public double getDamageBoost() {
+        if(this.invalidated) {
+            return plugin.getCacheManager().getCachedScytheInfo(this.item).getDamageBoost();
+        }
         return damageBoost;
     }
 
-    public void setDamageBoost(double damageBoost) {
-        this.damageBoost = damageBoost;
-    }
-
     public double getManaRestoration() {
+        if(this.invalidated) {
+            return plugin.getCacheManager().getCachedScytheInfo(this.item).getManaRestoration();
+        }
         return manaRestoration;
     }
 
-    public void setManaRestoration(double manaRestoration) {
-        this.manaRestoration = manaRestoration;
-    }
-
     public double getSpellLeech() {
+        if(this.invalidated) {
+            return plugin.getCacheManager().getCachedScytheInfo(this.item).getSpellLeech();
+        }
         return spellLeech;
     }
 
-    public void setSpellLeech(double spellLeech) {
-        this.spellLeech = spellLeech;
+    public ItemStack getItem() {
+        if(this.invalidated) {
+            return plugin.getCacheManager().getCachedScytheInfo(this.item).getItem();
+        }
+        return this.item;
     }
 
 

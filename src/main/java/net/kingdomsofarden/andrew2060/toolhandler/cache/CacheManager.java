@@ -120,20 +120,36 @@ public class CacheManager {
     }
 
     public CachedWeaponInfo getCachedWeaponInfo(ItemStack is) {
-        return weaponCache.getUnchecked(is);
+        CachedWeaponInfo cached = weaponCache.getUnchecked(is);
+        while(cached.isInvalidated()) {
+            cached = weaponCache.getUnchecked(cached.getItem());
+        }
+        return cached;
     }
 
     public CachedArmorInfo getCachedArmorInfo(ItemStack is) {
-        return armorCache.getUnchecked(is);
+        CachedArmorInfo cached = armorCache.getUnchecked(is);
+        while(cached.isInvalidated()) {
+            cached = armorCache.getUnchecked(cached.getItem());
+        }
+        return cached;
     }
 
 
     public CachedToolInfo getCachedToolInfo(ItemStack is) {
-        return toolCache.getUnchecked(is);
+        CachedToolInfo cached = toolCache.getUnchecked(is);
+        while(cached.isInvalidated()) {
+            cached = toolCache.getUnchecked(cached.getItem());
+        }
+        return cached;
     }
     
     public CachedScytheInfo getCachedScytheInfo(ItemStack is) {
-        return scytheCache.getUnchecked(is);
+        CachedScytheInfo cached = scytheCache.getUnchecked(is);
+        while(cached.isInvalidated()) {
+            cached = scytheCache.getUnchecked(cached.getItem());
+        }
+        return cached;
     }
 
     public CachedItemInfo getCachedInfo(ItemStack item) {
