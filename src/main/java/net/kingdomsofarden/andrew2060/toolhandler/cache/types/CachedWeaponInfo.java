@@ -52,6 +52,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
     }
 
     public ItemStack setQuality(double quality) {
+        System.out.println("Setting quality " + quality);
         this.quality = quality;
         String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(qualityFormat)) {
