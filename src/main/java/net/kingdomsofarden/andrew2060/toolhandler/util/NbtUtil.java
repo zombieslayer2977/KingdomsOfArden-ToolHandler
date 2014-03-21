@@ -30,6 +30,7 @@ public class NbtUtil {
         switch(item.getType()) {
         
         case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
+            System.out.println(data.toString());
             WeaponLoreUtil.write((CachedWeaponInfo)data, written);
             break;
         }
