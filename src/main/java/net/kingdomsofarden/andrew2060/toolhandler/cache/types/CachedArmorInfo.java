@@ -166,11 +166,10 @@ public class CachedArmorInfo extends CachedItemInfo {
             throw new IllegalArgumentException("This is not a armor mod!");
         }
         boolean replaced = false;
-        for(int i = 0; i < this.mods.length; i++) {
+        for(int i = 0; i < this.mods.length && !replaced; i++) {
             if(this.mods[i].equals(EmptyModSlot.baseId) || this.mods[i].equals(EmptyModSlot.bonusId)) {
                 this.mods[i] = mod.modUUID;
                 replaced = true;
-                break;
             }
         }
         if(!replaced) {
