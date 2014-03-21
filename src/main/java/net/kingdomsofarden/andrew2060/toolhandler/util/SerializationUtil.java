@@ -125,19 +125,19 @@ public class SerializationUtil {
             } else {
                 loreUpdated.add(ChatColor.GOLD + mod.getName());
             }
-            if(mod.getTrueDamage() != null && mod.getTrueDamage() > Double.valueOf(0.00)) {
+            if(mod.getTrueDamage() != null && mod.getTrueDamage() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getTrueDamage()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getTrueDamage())
                         + ChatColor.GRAY + " True Damage");
             }
-            if(mod.getBashChance() != null && mod.getBashChance() > Double.valueOf(0.00)) {
+            if(mod.getBashChance() != null && mod.getBashChance() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getBashChance()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getBashChance())
                         + ChatColor.GRAY + "% Bash Attack Chance");
             }
-            if(mod.getDecimateChance() != null && mod.getDecimateChance() > Double.valueOf(0.00)) {
+            if(mod.getDecimateChance() != null && mod.getDecimateChance() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getDecimateChance()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getDecimateChance())
@@ -250,29 +250,29 @@ public class SerializationUtil {
         loreUpdated.add(5,ChatColor.WHITE + "========Modifications========");
         int usedSlots = 0;
         for(UUID modID :  mods) {
-            ToolMod mod = modMan.getToolMod(modID);
+            ScytheMod mod = modMan.getScytheMod(modID);
             if(usedSlots > 1 || !mod.isSlotRequired()) {
                 loreUpdated.add(ChatColor.MAGIC + "" + ChatColor.RESET + "" + ChatColor.GOLD + mod.getName());
             } else {
                 loreUpdated.add(ChatColor.GOLD + mod.getName());
             }
-            if(mod.getTrueDamage() != null && mod.getTrueDamage() > Double.valueOf(0.00)) {
+            if( mod.getDamageBoost() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
-                        + FormattingUtil.getAttributeColor(mod.getTrueDamage()) 
-                        + FormattingUtil.modDescriptorFormat.format(mod.getTrueDamage())
-                        + ChatColor.GRAY + " True Damage");
+                        + FormattingUtil.getAttributeColor(mod.getDamageBoost()) 
+                        + FormattingUtil.modDescriptorFormat.format(mod.getDamageBoost())
+                        + ChatColor.GRAY + " Damage Boost Rating");
             }
-            if(mod.getBashChance() != null && mod.getBashChance() > Double.valueOf(0.00)) {
+            if(mod.getManaRestoration() != Integer.valueOf(0)) {
                 lore.add(ChatColor.GRAY + "- " 
-                        + FormattingUtil.getAttributeColor(mod.getBashChance()) 
-                        + FormattingUtil.modDescriptorFormat.format(mod.getBashChance())
-                        + ChatColor.GRAY + "% Bash Attack Chance");
+                        + FormattingUtil.getAttributeColor(mod.getManaRestoration()) 
+                        + FormattingUtil.modDescriptorFormat.format(mod.getManaRestoration())
+                        + ChatColor.GRAY + "% Mana Restoration");
             }
-            if(mod.getDecimateChance() != null && mod.getDecimateChance() > Double.valueOf(0.00)) {
+            if (mod.getSpellLeech() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
-                        + FormattingUtil.getAttributeColor(mod.getDecimateChance()) 
-                        + FormattingUtil.modDescriptorFormat.format(mod.getDecimateChance())
-                        + ChatColor.GRAY + "% Decimating Attack Chance");
+                        + FormattingUtil.getAttributeColor(mod.getSpellLeech()) 
+                        + FormattingUtil.modDescriptorFormat.format(mod.getSpellLeech())
+                        + ChatColor.GRAY + "% Spell Leech");
             }
             for(String s : mod.getDescription()) {
                 lore.add(ChatColor.GRAY + "- " + s);
@@ -385,7 +385,7 @@ public class SerializationUtil {
         List<String> loreUpdated = new ArrayList<String>();
         loreUpdated.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         loreUpdated.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getArmorQualityFormat(improvementQuality));
-        loreUpdated.add(2,ChatColor.GRAY + "Magic Resistance Rating: " + FormattingUtil.getAttribute(magicResist) + "%");
+        loreUpdated.add(2,ChatColor.GRAY + "Magical Resistance Rating: " + FormattingUtil.getAttribute(magicResist) + "%");
         loreUpdated.add(3,ChatColor.GRAY + "Knockback Resistance: " + FormattingUtil.getAttribute(knockbackResist) + "%");
         loreUpdated.add(4,ChatColor.GRAY + "Additional Protection: " + FormattingUtil.getAttribute(protBonus) + "%");
         loreUpdated.add(5,ChatColor.WHITE + "========Modifications========");
@@ -397,19 +397,19 @@ public class SerializationUtil {
             } else {
                 loreUpdated.add(ChatColor.GOLD + mod.getName());
             }
-            if(mod.getMagicResist() != null && mod.getMagicResist() > Double.valueOf(0.00)) {
+            if(mod.getMagicResist() != null && mod.getMagicResist() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getMagicResist()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getMagicResist())
                         + ChatColor.GRAY + "% Magic Resist");
             }
-            if(mod.getKnockbackResist() != null && mod.getKnockbackResist() > Double.valueOf(0.00)) {
+            if(mod.getKnockbackResist() != null && mod.getKnockbackResist() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getKnockbackResist()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getKnockbackResist())
                         + ChatColor.GRAY + "% Knockback Resist");
             }
-            if(mod.getProtBonus() != null && mod.getProtBonus() > Double.valueOf(0.00)) {
+            if(mod.getProtBonus() != null && mod.getProtBonus() != Double.valueOf(0.00)) {
                 lore.add(ChatColor.GRAY + "- " 
                         + FormattingUtil.getAttributeColor(mod.getProtBonus()) 
                         + FormattingUtil.modDescriptorFormat.format(mod.getProtBonus())
