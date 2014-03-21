@@ -51,7 +51,7 @@ public class CachedWeaponInfo extends CachedItemInfo {
         if(this.invalidated) { 
             return plugin.getCacheManager().getCachedWeaponInfo(this.item).getQuality();
         }
-        return quality;
+        return this.quality;
     }
 
     public ItemStack setQuality(double quality) {
@@ -61,13 +61,12 @@ public class CachedWeaponInfo extends CachedItemInfo {
         }
         System.out.println("Setting quality " + quality);
         this.quality = quality;
-        System.out.println(this.quality);
         String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
-        if(!newFormat.equalsIgnoreCase(qualityFormat)) {
+        if(!newFormat.equalsIgnoreCase(this.qualityFormat)) {
             this.qualityFormat = newFormat;
             this.forceWrite();
         }
-        return item;
+        return this.item;
     }
 
     public final ItemStack reduceQuality() { 
@@ -115,20 +114,33 @@ public class CachedWeaponInfo extends CachedItemInfo {
     }
 
     public double getBonusDamage() {
+        if(this.invalidated) { 
+            return plugin.getCacheManager().getCachedWeaponInfo(this.item).getBonusDamage();
+        }
         return bonusDamage;
     }
 
 
     public double getLifeSteal() {
-        return lifeSteal;
+        if(this.invalidated) { 
+            return plugin.getCacheManager().getCachedWeaponInfo(this.item).getLifeSteal();
+        }
+        return this.lifeSteal;
     }
 
     public double getCritChance() {
-        return critChance;
+        if(this.invalidated) { 
+            return plugin.getCacheManager().getCachedWeaponInfo(this.item).getCritChance();
+        }
+        return this.critChance;
     }
 
     public ItemStack getItem() {
-        return item;
+        if(this.invalidated) { 
+            this.item = plugin.getCacheManager().getCachedWeaponInfo(this.item).getItem();
+            return this.item;
+        }
+        return this.item;
     }
 
     public static CachedWeaponInfo fromString(ItemStack is, String parseable) {
@@ -146,6 +158,9 @@ public class CachedWeaponInfo extends CachedItemInfo {
     }
 
     public UUID[] getMods() {
+        if(this.invalidated) { 
+            return plugin.getCacheManager().getCachedWeaponInfo(this.item).getMods();
+        }
         return mods;
     }
 
@@ -155,6 +170,10 @@ public class CachedWeaponInfo extends CachedItemInfo {
      * @return the ItemStack with the inserted mod (may be different if it was not a nms ItemStack), null if no space
      */
     public ItemStack addMod(ItemMod mod) {
+        if(this.invalidated) { 
+            this.item = plugin.getCacheManager().getCachedWeaponInfo(this.item).addMod(mod);
+            return this.item;
+        }
         if(!(mod instanceof WeaponMod)) {
             throw new IllegalArgumentException("This is not a weapon mod!");
         }
@@ -187,12 +206,19 @@ public class CachedWeaponInfo extends CachedItemInfo {
      * @return the ItemStack with the inserted mod (may be different if it was not a nms ItemStack)
      */
     public ItemStack addModSlot() {
+        if(this.invalidated) { 
+            this.item = plugin.getCacheManager().getCachedWeaponInfo(this.item).addModSlot();
+            return this.item;
+        }
         this.mods = Arrays.copyOf(this.mods, this.mods.length + 1);
         this.mods[this.mods.length-1] = EmptyModSlot.bonusId;
         return this.forceWrite();
     }
 
     public int getNumBonusSlots() {
+        if(this.invalidated) { 
+            return plugin.getCacheManager().getCachedWeaponInfo(this.item).getNumBonusSlots();
+        }
         int bonusSlots = 0;
         for(int i = 0; i < this.mods.length; i++) {
             if(this.mods[i].equals(EmptyModSlot.bonusId)) {
@@ -204,6 +230,9 @@ public class CachedWeaponInfo extends CachedItemInfo {
 
     @Override
     public String toString() {
+        if(this.invalidated) { 
+            return plugin.getCacheManager().getCachedWeaponInfo(this.item).toString();
+        }
         StringBuilder sb = new StringBuilder();
         sb.append(dF.format(quality));
         System.out.println("Writing out quality " + quality + " Formatted: " + dF.format(quality));
