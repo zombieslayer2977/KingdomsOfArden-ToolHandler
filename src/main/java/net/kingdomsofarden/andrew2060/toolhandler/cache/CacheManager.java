@@ -10,145 +10,136 @@ import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedScytheInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedToolInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.cache.types.CachedWeaponInfo;
 import net.kingdomsofarden.andrew2060.toolhandler.util.NbtUtil;
-
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.RemovalListener;
-import com.google.common.cache.RemovalNotification;
+import net.minecraft.util.com.google.common.cache.CacheBuilder;
+import net.minecraft.util.com.google.common.cache.CacheLoader;
+import net.minecraft.util.com.google.common.cache.LoadingCache;
+import net.minecraft.util.com.google.common.cache.RemovalListener;
+import net.minecraft.util.com.google.common.cache.RemovalNotification;
 
 public class CacheManager {
-    private Cache<ItemStack,CachedWeaponInfo> weaponCache;
-    private Cache<ItemStack,CachedArmorInfo> armorCache;
-    private Cache<ItemStack, CachedToolInfo> toolCache;
-    private Cache<ItemStack, CachedScytheInfo> scytheCache;
+    private LoadingCache<CacheKey, CachedWeaponInfo> weaponCache;
+    private LoadingCache<CacheKey, CachedArmorInfo> armorCache;
+    private LoadingCache<CacheKey, CachedToolInfo> toolCache;
+    private LoadingCache<CacheKey, CachedScytheInfo> scytheCache;
 
     public CacheManager() {
         weaponCache = CacheBuilder.newBuilder()
-                .concurrencyLevel(1)
-                .weakKeys()
-                .expireAfterAccess(3,TimeUnit.MINUTES)
+                .expireAfterAccess(10,TimeUnit.MINUTES)
                 .removalListener(new CacheItemRemovalListener())
-                .build(new CacheLoader<ItemStack, CachedWeaponInfo>() {
+                .build(new CacheLoader<CacheKey, CachedWeaponInfo>() {
 
                     @Override
-                    public CachedWeaponInfo load(ItemStack is) {
-                        String parseable = NbtUtil.getAttributes(is);
+                    public CachedWeaponInfo load(CacheKey is) {
+                        String parseable = NbtUtil.getAttributes(is.getItem());
                         if(parseable == null) {
                             //This should never be called, it is merely here as a just in case
-                            return CachedWeaponInfo.getDefault(is);
+                            return CachedWeaponInfo.getDefault(is.getItem());
                         } else {
-                            return CachedWeaponInfo.fromString(is, parseable);
+                            return CachedWeaponInfo.fromString(is.getItem(), parseable);
                         }
                     }
 
                 });
         armorCache = CacheBuilder.newBuilder()
-                .concurrencyLevel(1)
-                .weakKeys()
-                .expireAfterAccess(3,TimeUnit.MINUTES)
+                .expireAfterAccess(10,TimeUnit.MINUTES)
                 .removalListener(new CacheItemRemovalListener())
-                .build(new CacheLoader<ItemStack, CachedArmorInfo>() {
+                .build(new CacheLoader<CacheKey, CachedArmorInfo>() {
 
                     @Override
-                    public CachedArmorInfo load(ItemStack is) {
-                        String parseable = NbtUtil.getAttributes(is);
+                    public CachedArmorInfo load(CacheKey is) {
+                        String parseable = NbtUtil.getAttributes(is.getItem());
                         if(parseable == null) {
                             //This should never be called, it is merely here as a just in case
-                            return CachedArmorInfo.getDefault(is);
+                            return CachedArmorInfo.getDefault(is.getItem());
                         } else {
-                            return CachedArmorInfo.fromString(is, parseable);
+                            return CachedArmorInfo.fromString(is.getItem(), parseable);
                         }
                     }
 
                 });
         toolCache = CacheBuilder.newBuilder()
-                .concurrencyLevel(1)
-                .weakKeys()
-                .expireAfterAccess(3,TimeUnit.MINUTES)
+                .expireAfterAccess(10,TimeUnit.MINUTES)
                 .removalListener(new CacheItemRemovalListener())
-                .build(new CacheLoader<ItemStack, CachedToolInfo>() {
+                .build(new CacheLoader<CacheKey, CachedToolInfo>() {
 
                     @Override
-                    public CachedToolInfo load(ItemStack is) {
-                        String parseable = NbtUtil.getAttributes(is);
+                    public CachedToolInfo load(CacheKey is) {
+                        String parseable = NbtUtil.getAttributes(is.getItem());
                         if(parseable == null) {
-                            return CachedToolInfo.getDefault(is);
+                            return CachedToolInfo.getDefault(is.getItem());
                         } else {
-                            return CachedToolInfo.fromString(is, parseable);
+                            return CachedToolInfo.fromString(is.getItem(), parseable);
                         }
                     }
 
                 });
         scytheCache = CacheBuilder.newBuilder()
                 .concurrencyLevel(1)
-                .weakKeys()
-                .expireAfterAccess(3,TimeUnit.MINUTES)
+                .expireAfterAccess(10,TimeUnit.MINUTES)
                 .removalListener(new CacheItemRemovalListener())
-                .build(new CacheLoader<ItemStack, CachedScytheInfo>() {
+                .build(new CacheLoader<CacheKey, CachedScytheInfo>() {
 
                     @Override
-                    public CachedScytheInfo load(ItemStack is) {
-                        String parseable = NbtUtil.getAttributes(is);
+                    public CachedScytheInfo load(CacheKey is) {
+                        String parseable = NbtUtil.getAttributes(is.getItem());
                         if(parseable == null) {
-                            return CachedScytheInfo.getDefault(is);
+                            return CachedScytheInfo.getDefault(is.getItem());
                         } else {
-                            return CachedScytheInfo.fromString(is, parseable);
+                            return CachedScytheInfo.fromString(is.getItem(), parseable);
                         }
                     }
 
                 });
     }
 
-    public class CacheItemRemovalListener implements RemovalListener<ItemStack,CachedItemInfo> {
+    public class CacheItemRemovalListener implements RemovalListener<CacheKey,CachedItemInfo> {
 
         @Override
-        public void onRemoval(RemovalNotification<ItemStack, CachedItemInfo> removal) {
-            switch(removal.getCause()) {
-
-            case EXPIRED: {
-                removal.getValue().forceWrite(false);
-                return;
-            }
-            default: {
-                return;
-            }
-
-            }
+        public void onRemoval(RemovalNotification<CacheKey, CachedItemInfo> removal) {
+            removal.getValue().forceWrite(false);
         }
 
     }
 
     public CachedWeaponInfo getCachedWeaponInfo(ItemStack is) {
-        CachedWeaponInfo cached = weaponCache.getUnchecked(is);
+        short durability = is.getDurability();
+        is.setDurability((short) 0);
+        CachedWeaponInfo cached = weaponCache.getUnchecked(new CacheKey(is));
         while(cached.isInvalidated()) {
-            cached = weaponCache.getUnchecked(cached.getItem());
+            cached = getCachedWeaponInfo(cached.getItem());
         }
+        is.setDurability(durability);
         return cached;
     }
 
     public CachedArmorInfo getCachedArmorInfo(ItemStack is) {
-        CachedArmorInfo cached = armorCache.getUnchecked(is);
-        while(cached.isInvalidated()) {
-            cached = armorCache.getUnchecked(cached.getItem());
+        short durability = is.getDurability();
+        CachedArmorInfo cached = armorCache.getUnchecked(new CacheKey(is));
+        if(cached.isInvalidated()) {
+            cached = getCachedArmorInfo(cached.getItem());
         }
+        is.setDurability(durability);
         return cached;
     }
 
 
     public CachedToolInfo getCachedToolInfo(ItemStack is) {
-        CachedToolInfo cached = toolCache.getUnchecked(is);
-        while(cached.isInvalidated()) {
-            cached = toolCache.getUnchecked(cached.getItem());
+        short durability = is.getDurability();
+        CachedToolInfo cached = toolCache.getUnchecked(new CacheKey(is));
+        if(cached.isInvalidated()) {
+            cached = getCachedToolInfo(cached.getItem());
         }
+        is.setDurability(durability);
         return cached;
     }
-    
+
     public CachedScytheInfo getCachedScytheInfo(ItemStack is) {
-        CachedScytheInfo cached = scytheCache.getUnchecked(is);
-        while(cached.isInvalidated()) {
-            cached = scytheCache.getUnchecked(cached.getItem());
+        short durability = is.getDurability();
+        CachedScytheInfo cached = scytheCache.getUnchecked(new CacheKey(is));
+        if(cached.isInvalidated()) {
+            cached = getCachedScytheInfo(cached.getItem());
         }
+        is.setDurability(durability);
         return cached;
     }
 
@@ -175,6 +166,27 @@ public class CacheManager {
         }
     }
 
+    private class CacheKey {
+        private final ItemStack item;
+        public CacheKey(ItemStack item) {
+            this.item = item;
+        }
+        public ItemStack getItem() {
+            return item;
+        }
 
+        @Override
+        public int hashCode() {
+            return this.item.hashCode();
+        }
 
+        @Override
+        public boolean equals(Object cmp) {
+            CacheKey obj = (CacheKey)cmp;
+            if (this.item == obj.getItem()) {
+                return true;
+            }
+            return this.item.equals(obj.getItem());
+        }
+    }
 }
