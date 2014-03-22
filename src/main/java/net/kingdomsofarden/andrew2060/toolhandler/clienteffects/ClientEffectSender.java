@@ -38,9 +38,9 @@ public class ClientEffectSender {
         }
     }
     
-    public static void strikeLightningNonGlobal(Location loc) {
+    public static void strikeLightningNonGlobal(Location loc, int radius) {
         LightningStrike strike = loc.getWorld().spigot().strikeLightningEffect(loc, true);
-        for(Entity e : strike.getNearbyEntities(100, 64, 100)) {
+        for(Entity e : strike.getNearbyEntities(radius, radius, radius)) {
             if(e instanceof Player) {
                 PacketPlayOutNamedSoundEffect packet = new PacketPlayOutNamedSoundEffect("ambient.weather.thunder", loc.getX() + 0.5,loc.getY() + 0.5,loc.getZ(), 3.0f, 1.0f);
                 ((CraftPlayer)e).getHandle().playerConnection.sendPacket(packet);
