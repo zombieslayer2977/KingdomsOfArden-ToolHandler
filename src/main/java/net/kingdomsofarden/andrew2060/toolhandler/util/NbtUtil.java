@@ -30,7 +30,6 @@ public class NbtUtil {
         switch(item.getType()) {
         
         case DIAMOND_SWORD: case IRON_SWORD: case GOLD_SWORD: case STONE_SWORD: case WOOD_SWORD: case BOW: {
-            System.out.println(data.toString());
             WeaponLoreUtil.write((CachedWeaponInfo)data, written);
             break;
         }
@@ -69,17 +68,18 @@ public class NbtUtil {
     public static String getAttributes(ItemStack item) {
         AttributeStorage storage = AttributeStorage.newTarget(item, ToolHandlerPlugin.identifier);
         String cachedDeserialized = storage.getData();
-        String[] parsed = cachedDeserialized == null ? null : cachedDeserialized.split("|||");
+        String[] parsed = cachedDeserialized == null ? null : cachedDeserialized.split("\\|\\|\\|");
         String uuidRepresentation = cachedDeserialized == null ? null : parsed[0];
         String data = null;
         try {
             UUID id = cachedDeserialized == null ? null : UUID.fromString(uuidRepresentation);
-            if((!(id == null)) && id.equals(ToolHandlerPlugin.identifier)) {
+            if((!(id == null)) && id.equals(ToolHandlerPlugin.version)) {
                 data = cachedDeserialized == null ? null : parsed[1];
             } else {
                 data = SerializationUtil.deserializeFromLore(item);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             data = null;
         }
         //Plugin tag is not present - rebuild   
