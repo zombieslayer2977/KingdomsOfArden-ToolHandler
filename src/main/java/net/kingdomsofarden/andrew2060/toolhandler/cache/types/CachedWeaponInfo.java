@@ -12,6 +12,7 @@ import net.kingdomsofarden.andrew2060.toolhandler.mods.ItemMod;
 import net.kingdomsofarden.andrew2060.toolhandler.mods.typedefs.WeaponMod;
 import net.kingdomsofarden.andrew2060.toolhandler.util.FormattingUtil;
 import net.kingdomsofarden.andrew2060.toolhandler.util.ImprovementUtil;
+
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
@@ -59,14 +60,12 @@ public class CachedWeaponInfo extends CachedItemInfo {
             this.item = plugin.getCacheManager().getCachedWeaponInfo(this.item).setQuality(quality);
             return this.item;
         }
-        System.out.println("Setting quality " + quality);
         this.quality = quality;
         String newFormat = FormattingUtil.getWeaponToolQualityFormat(quality);
         if(!newFormat.equalsIgnoreCase(this.qualityFormat)) {
             this.qualityFormat = newFormat;
-            this.forceWrite();
         }
-        return this.item;
+        return this.forceWrite();
     }
 
     public final ItemStack reduceQuality() { 
@@ -235,7 +234,6 @@ public class CachedWeaponInfo extends CachedItemInfo {
         }
         StringBuilder sb = new StringBuilder();
         sb.append(dF.format(quality));
-        System.out.println("Writing out quality " + quality + " Formatted: " + dF.format(quality));
         for(UUID id : mods) {
             sb.append(":");
             sb.append(id.toString());

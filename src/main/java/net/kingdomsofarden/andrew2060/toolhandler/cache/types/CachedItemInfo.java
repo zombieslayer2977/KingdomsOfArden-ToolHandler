@@ -35,18 +35,13 @@ public abstract class CachedItemInfo {
     }
     public ItemStack forceWrite(boolean updateInvalidated) {
         if(this.invalidated) {
-            if(updateInvalidated) {
-                this.item = plugin.getCacheManager().getCachedInfo(this.item).forceWrite();
-                return this.item;
-            } else {
-                return null;
-            }
+            this.item = plugin.getCacheManager().getCachedInfo(this.item).forceWrite();
+            return this.item;
         }
         ItemStack retValue = NbtUtil.writeAttributes(item, this);
         if(retValue != item) {
             this.item = retValue;
             this.invalidated = true;
-            System.out.println("Invalidated");
         }
         return this.item;
     }
