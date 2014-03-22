@@ -55,7 +55,21 @@
 		<dependency>
 			<groupId>com.herocraftonline.heroes</groupId>
 			<artifactId>Heroes</artifactId>
-			<version>1.5.5</version>
+			<version>1.5.5.1-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>bukkit</artifactId>
+					<groupId>org.bukkit</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>HeroChat</artifactId>
+					<groupId>com.dthielke.herochat</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>scrollingmenusign</artifactId>
+					<groupId>me.desht</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
@@ -74,13 +88,11 @@
 	<distributionManagement>
 		<repository>
 			<id>koa-repo</id>
-			<name>Internal Releases</name>
-			<url>http://ci.kingdomsofarden.net/nexus/content/repositories/releases/</url>
+			<url>http://ci.kingdomsofarden.net/nexus/content/repositories/releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>koa-repo</id>
-			<name>Internal Releases</name>
-			<url>http://ci.kingdomsofarden.net/nexus/content/repositories/snapshots/</url>
+			<url>http://ci.kingdomsofarden.net/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
