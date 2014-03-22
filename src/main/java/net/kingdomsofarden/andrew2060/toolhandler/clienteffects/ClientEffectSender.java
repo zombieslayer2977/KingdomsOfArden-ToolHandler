@@ -1,10 +1,13 @@
 package net.kingdomsofarden.andrew2060.toolhandler.clienteffects;
 
+import net.minecraft.server.v1_7_R1.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
 
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LightningStrike;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -32,6 +35,16 @@ public class ClientEffectSender {
         } else {
             ((CraftPlayer)player).getHandle().playerConnection.sendPacket(clientEffectPacket);
 
+        }
+    }
+    
+    public static void strikeLightningNonGlobal(Location loc) {
+        LightningStrike strike = loc.getWorld().spigot().strikeLightningEffect(loc, true);
+        for(Entity e : strike.getNearbyEntities(100, 64, 100)) {
+            if(e instanceof Player) {
+                PacketPlayOutNamedSoundEffect packet = new PacketPlayOutNamedSoundEffect("ambient.weather.thunder", loc.getX() + 0.5,loc.getY() + 0.5,loc.getZ(), 3.0f, 1.0f);
+                ((CraftPlayer)e).getHandle().playerConnection.sendPacket(packet);
+            }
         }
     }
     
