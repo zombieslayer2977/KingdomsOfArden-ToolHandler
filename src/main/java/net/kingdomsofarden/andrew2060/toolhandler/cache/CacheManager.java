@@ -188,17 +188,7 @@ public class CacheManager {
         @Override
         public boolean equals(Object cmp) {
             CacheKey obj = (CacheKey)cmp;
-            UUID cmpId = NbtUtil.getItemId(obj.getItem());
-            if(this.itemId == null) {
-                if(cmpId != null) {
-                    return false;
-                }
-            } else {
-                if(cmpId == null) {
-                    return false;
-                }
-            }
-            return this.item.equals(obj.getItem()) && this.itemId == null ? true : this.itemId.equals(cmpId);
+            return this.item.equals(obj.getItem());
         }
     }
 }
