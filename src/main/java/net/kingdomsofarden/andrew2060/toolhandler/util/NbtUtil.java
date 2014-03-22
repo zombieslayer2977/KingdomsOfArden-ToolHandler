@@ -19,11 +19,17 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 
 public class NbtUtil {
+    
+    private static UUID itemTracker = UUID.fromString("93b69e80-b191-11e3-a5e2-0800200c9a66");
 
-    public static ItemStack writeAttributes(ItemStack item, CachedItemInfo data) {
+    public static ItemStack writeAttributes(ItemStack write, CachedItemInfo data) {
+        ItemStack item = write;
         String itemName = item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : null;
-        String cachedData = data.toString();
-        
+        UUID id = getItemId(item);
+        if(id == null) {
+            item = setItemId(UUID.randomUUID(),item);
+        }
+        String cachedData = data.toString(); 
         AttributeStorage storage = AttributeStorage.newTarget(item, ToolHandlerPlugin.identifier);
         storage.setData(ToolHandlerPlugin.version.toString() + "|||" + cachedData);
         ItemStack written = storage.getTarget();
@@ -91,6 +97,18 @@ public class NbtUtil {
         }
         return data;
     }
-
+    
+    public static UUID getItemId(ItemStack item) {
+        AttributeStorage storage = AttributeStorage.newTarget(item, itemTracker);
+        String data = storage.getData();
+        return data == null ? null : UUID.fromString(data);
+    }
+    
+    public static ItemStack setItemId(UUID id, ItemStack item) {
+        AttributeStorage storage = AttributeStorage.newTarget(item, itemTracker);
+        storage.setData(id.toString());
+        return storage.getTarget();
+    }
+    
 }
 

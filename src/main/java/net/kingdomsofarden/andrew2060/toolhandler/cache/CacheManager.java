@@ -1,5 +1,6 @@
 package net.kingdomsofarden.andrew2060.toolhandler.cache;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.inventory.ItemStack;
@@ -168,8 +169,12 @@ public class CacheManager {
 
     private class CacheKey {
         private final ItemStack item;
+        private final int hash;
+        private final UUID itemId;
         public CacheKey(ItemStack item) {
             this.item = item;
+            this.itemId = NbtUtil.getItemId(this.item);
+            this.hash = itemId == null ? 0 : itemId.hashCode();
         }
         public ItemStack getItem() {
             return item;
@@ -177,16 +182,23 @@ public class CacheManager {
 
         @Override
         public int hashCode() {
-            return this.item.hashCode();
+            return this.hash;
         }
 
         @Override
         public boolean equals(Object cmp) {
             CacheKey obj = (CacheKey)cmp;
-            if (this.item == obj.getItem()) {
-                return true;
+            UUID cmpId = NbtUtil.getItemId(obj.getItem());
+            if(this.itemId == null) {
+                if(cmpId != null) {
+                    return false;
+                }
+            } else {
+                if(cmpId == null) {
+                    return false;
+                }
             }
-            return this.item.equals(obj.getItem());
+            return this.item.equals(obj.getItem()) && this.itemId == null ? true : this.itemId.equals(cmpId);
         }
     }
 }
