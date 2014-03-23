@@ -33,7 +33,7 @@ public class WeaponLoreUtil {
         }
         lore.add(0,ToolHandlerPlugin.versionIdentifier + ChatColor.WHITE + "=======Item Statistics=======");
         lore.add(1,ChatColor.GRAY + "Improvement Quality: " + FormattingUtil.getWeaponToolQualityFormat(cachedData.getQuality()));
-        lore.add(2,ChatColor.GRAY + "Bonus Damage: " + FormattingUtil.getAttribute(damage));
+        lore.add(2,ChatColor.GRAY + "Bonus Damage: " + FormattingUtil.getAttribute(damage) + "%");
         lore.add(3,ChatColor.GRAY + "Life Steal: " + FormattingUtil.getAttribute(lifeSteal) + "%");
         lore.add(4,ChatColor.GRAY + "Critical Strike Chance: " + FormattingUtil.getAttribute(critChance) + "%");
         lore.add(5,ChatColor.WHITE + "========Modifications========");
